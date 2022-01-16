@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Scale, Value, Systems</title><link>/posts/systems-scale-value/</link><pubDate>Sat, 13 Nov 2021 00:00:00 +0530</pubDate><guid>/posts/systems-scale-value/</guid><description>&lt;p>Creating things is a delicate endeavour, fraught with peril. People struggle
 forward through crazy marketplace and environmental complexities just to get
 from one day to the other.&lt;/p>
-&lt;p>Yet I can&amp;rsquo;t shake off the feeling that we make it harder for ourselves that
+&lt;p>Yet I can&amp;rsquo;t shake off the feeling that we make it harder for ourselves than
 it should be. I&amp;rsquo;ve been trying to work out why. There&amp;rsquo;s a lot to unpack. This
 post is a start at thinking about it in public. My thinking is coloured by
-working in the tech startup scene for these last few years.&lt;/p>
-&lt;p>Content warning: Patience required. There is a point, but I&amp;rsquo;m going there
-through Story, Metaphor, Model, and Example.&lt;/p>
+working in the tech startup scene for these last few years, and rooted in
+a small mistake my parents made bringing me up.&lt;/p>
+&lt;p>Content warning: Patience required. I&amp;rsquo;m ambling to a sort-of point, through
+Story, Metaphor, Model, and Example. You&amp;rsquo;re invited to noodle over things too.&lt;/p>
 &lt;!-- raw HTML omitted -->
 &lt;ul>
 &lt;li>&lt;a href="#story-damaging-the-children">Story: Damaging the children&lt;/a>&lt;/li>
@@ -15,16 +16,18 @@ through Story, Metaphor, Model, and Example.&lt;/p>
 &lt;li>&lt;a href="#example-what-s-cooler-than-10-bn-100-bn-dot">Example: What&amp;rsquo;s cooler than 10 Bn? 100 Bn.&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#tying-it-together-dot-trying-it-together">Tying it together. Trying it together?&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#food-for-thought">Food for thought&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#acknowledgments">Acknowledgments&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted --></description><content>&lt;p>Creating things is a delicate endeavour, fraught with peril. People struggle
 forward through crazy marketplace and environmental complexities just to get
 from one day to the other.&lt;/p>
-&lt;p>Yet I can&amp;rsquo;t shake off the feeling that we make it harder for ourselves that
+&lt;p>Yet I can&amp;rsquo;t shake off the feeling that we make it harder for ourselves than
 it should be. I&amp;rsquo;ve been trying to work out why. There&amp;rsquo;s a lot to unpack. This
 post is a start at thinking about it in public. My thinking is coloured by
-working in the tech startup scene for these last few years.&lt;/p>
-&lt;p>Content warning: Patience required. There is a point, but I&amp;rsquo;m going there
-through Story, Metaphor, Model, and Example.&lt;/p>
+working in the tech startup scene for these last few years, and rooted in
+a small mistake my parents made bringing me up.&lt;/p>
+&lt;p>Content warning: Patience required. I&amp;rsquo;m ambling to a sort-of point, through
+Story, Metaphor, Model, and Example. You&amp;rsquo;re invited to noodle over things too.&lt;/p>
 &lt;!-- raw HTML omitted -->
 &lt;ul>
 &lt;li>&lt;a href="#story-damaging-the-children">Story: Damaging the children&lt;/a>&lt;/li>
@@ -33,6 +36,7 @@ through Story, Metaphor, Model, and Example.&lt;/p>
 &lt;li>&lt;a href="#example-what-s-cooler-than-10-bn-100-bn-dot">Example: What&amp;rsquo;s cooler than 10 Bn? 100 Bn.&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#tying-it-together-dot-trying-it-together">Tying it together. Trying it together?&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#food-for-thought">Food for thought&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#acknowledgments">Acknowledgments&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted -->
 &lt;hr>
@@ -113,28 +117,18 @@ capable of thinking &lt;strong>and&lt;/strong> of creating?&lt;/p>
 &lt;p>When suddenly confronted with an alive, organic whole wrought of systems
 harmonised of systems, we can be forgiven for getting lost in a single detail
 amidst infinite splendour. Like Arthur Dent trying to comprehend the copy of
-Earth suspended before him, and finally finding succour in a cup of tea in his
-own home. &amp;ldquo;Amazed and lost&amp;rdquo; is quite unlike &amp;ldquo;lost in a maze&amp;rdquo;. The systems-builder,
-meanwhile, looks on with kind empathy for our sudden loss of tongue. Silently
-joyous about what was realized through them. Slartibartfast.&lt;/p>
+Earth suspended before him, and finally finding succour in a familiar cup of
+tea in his own replicated home. &amp;ldquo;Amazed and lost&amp;rdquo; is quite unlike &amp;ldquo;lost in a
+maze&amp;rdquo;. The systems-builder, meanwhile, looks on with kind empathy for our
+sudden loss of tongue. Silently joyous about what was realized through them.
+Slartibartfast.&lt;/p>
 &lt;p>A Vogon&amp;rsquo;s employer and A Slartibartfast&amp;rsquo;s employer both produce and perpetuate
 grand structures, intricately patterned, with unfathomable puzzles and games
 of life that could keep us occupied forever, and perhaps even drive us to
 insanity. Yet one is a simulacrum of the other.&lt;/p>
-&lt;p>Unfortunately, anybody can build a bureaucracy.&lt;/p>
-&lt;p>And build it fast. Actually, you don&amp;rsquo;t even need to &amp;ldquo;build&amp;rdquo; one, you just have
-to do nothing and let it manifest itself. Easy-peasy.&lt;/p>
-&lt;p>If you suddenly find yourself in possession of gobs of money, and honestly not
-that much of experience, you may very quickly also find yourself in possession
-of small armies of people. The pressure to &amp;ldquo;grow&amp;rdquo; will be immense. So will be
-the weight of responsibility. You may feel trapped. You may imagine your only
-recourse is to open wide and swallow as much as you can as fast as you can,
-and hope that enforcing your will from the captain&amp;rsquo;s helm will somehow work
-out in the end. Resist the urge, if you can. But if you succumb, don&amp;rsquo;t be a
-Vogon. Be a Slartibartfast.&lt;/p>
 &lt;p>Lets just say that if I were fated to go stark raving mad, and I had to choose
-between these opposite archetypes, I&amp;rsquo;d rather lose my mind working for Slartibartfast.
-And if you find yourself under a Vogon&amp;hellip;&lt;/p>
+between these opposite archetypes, I&amp;rsquo;d rather lose my mind working for a
+Slartibartfast. And if you find yourself under a Vogon&amp;hellip;&lt;/p>
 &lt;p>Do Panic.&lt;/p>
 &lt;h2 id="model-a-picture-is-worth-a-1-000-points">Model: A picture is worth a 1,000 % points&lt;/h2>
 &lt;p>&lt;em>Scale&lt;/em> is where it&amp;rsquo;s at, these days. It so obviously &lt;em>right&lt;/em> to &lt;em>want&lt;/em> to
@@ -148,10 +142,10 @@ mean business here, okay?&lt;/p>
 &lt;p>But we&amp;rsquo;re in a spot of trouble, aren&amp;rsquo;t we? The word &lt;em>fucked&lt;/em> comes to mind.&lt;/p>
 &lt;p>&amp;ldquo;Systems&amp;rdquo;, &amp;ldquo;complexity&amp;rdquo;, and &amp;ldquo;perspective&amp;rdquo; feel like dirty epithets in polite
 (board)rooms (or indeed, most rooms). And heaven forfend if you&amp;rsquo;re an engineer
-given to worrying about such stuff.
-(Engineers can actually verify their Enterprise F-word Factor real quick. Use
-those words in your next executive meeting, and closely watch superior eyes.
-If they light up, count your lucky stars.)&lt;/p>
+given to worrying about such stuff. (Engineers can actually verify their
+Enterprise F-word Factor real quick. Use those words in your next executive
+meeting, and closely watch superior eyes. If they light up, count your lucky
+stars.)&lt;/p>
 &lt;p>Yet people know deep down, that such things really exist, that they matter,
 that we are part of the equation. But even if everyone cares, where is the
 time or incentive to ferret out their presence in our organisations, much less
@@ -164,10 +158,10 @@ gut-feels, and I bet, also as hard numbers in terms of &lt;strong>net resources 
 &lt;strong>to convert net inputs into net outputs&lt;/strong>. Such a &lt;em>lens of net effect&lt;/em> would
 abstract over systems thinking mechanics of flows, feedback loops, buffers,
 controls, and relationships.&lt;/p>
-&lt;p>The following picture is not meant to capture system dynamics, but to convey net
-effects of system dynamics, and to serve as contrast material to compare current
-trajectories.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text"> INPUTS RESOURCES OUTPUTS
+&lt;p>The following picture is not meant to capture system dynamics, but to think
+about net effects of system dynamics&amp;hellip; a sort of contrast material to compare
+one&amp;rsquo;s current trajectory.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text"> NET INPUTS NET RESOURCES CONSUMED NET OUTPUTS
 +----------------------+ +----------------------+ +----------------------+
 | . | | | | . |
 | . | | | | . |
@@ -239,15 +233,18 @@ create ways to thrive in complex worlds. Organisations that invest deeply in
 systems-oriented people have a shot at greatness at scale. Those that don&amp;rsquo;t,
 risk unchecked destruction of value for self and ecosystem. It&amp;rsquo;s a muscle to
 build. It takes persistent work. You need the stomach for it.&lt;/p>
-&lt;p>You are at risk of building a bureaucracy.&lt;/p>
-&lt;p>And build it fast. If you&amp;rsquo;re a founder hustlin' your hot tech startup, and
-suddenly find yourself in possession of gobs of money, and honestly not much
-leadership experience, you may very quickly also find yourself in possession of
-small armies of people. The pressure to &amp;ldquo;grow&amp;rdquo; will be immense. So will be
-the weight of responsibility. You may feel trapped, your only recourse being
-to open wide and swallow as much as you can as fast as you can. You will make
-the cardinal mistake of adding more people to your already late launch. And
-when it&amp;rsquo;s all threatening to go sideways, you will discover your inner Stalin.&lt;/p>
+&lt;p>Unfortunately, you will likely build a bureaucracy.&lt;/p>
+&lt;p>And build it fast. Actually, you don&amp;rsquo;t even need to &amp;ldquo;build&amp;rdquo; one, you just have
+to do nothing and let it manifest itself. Easy-peasy.&lt;/p>
+&lt;p>Suppose you suddenly learn that you are now a founder hustlin' a red-hot tech
+startup, and suddenly find yourself in possession of gobs of money, and honestly
+not much leadership experience, you may very quickly also find yourself in
+possession of small armies of people. The pressure to &amp;ldquo;grow&amp;rdquo; will be immense.
+So will be the weight of responsibility. You may feel trapped, your only recourse
+being to open wide and swallow as much as you can as fast as you can. You will
+make the cardinal mistake of adding more people to your already late launch.
+And when it&amp;rsquo;s all threatening to go sideways, you will discover your inner
+Great Dictator.&lt;/p>
 &lt;p>It will be tempting. You feel the hurt, but you also feel the power. You tell
 yourself it will somehow all work out in the end. That growth will forgive all
 sins. It won&amp;rsquo;t. Resist the urge to command and control. Resist becoming a Vogon.
@@ -306,7 +303,10 @@ set/reset its goals.&lt;/p>
 &lt;li>&lt;a href="https://en.wikipedia.org/wiki/The%5FOffice">The Office&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://en.wikipedia.org/wiki/Blackadder">Blackadder&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://en.wikipedia.org/wiki/A%5FBit%5Fof%5FFry%5F%26%5FLaurie">A Bit of Fry and Laurie&lt;/a>&lt;/li>
-&lt;/ul></content></item><item><title>In the beginning, was the domain name</title><link>/posts/hello-world/</link><pubDate>Wed, 10 Nov 2021 00:00:00 +0530</pubDate><guid>/posts/hello-world/</guid><description>&lt;p>How this blog came to be is a minor miracle. Long story short, I conned myself
+&lt;li>&lt;a href="https://en.wikipedia.org/wiki/The%5FGreat%5FDictator">The Great Dictator&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="acknowledgments">Acknowledgments&lt;/h2>
+&lt;p>Thanks to Julia for writing feedback.&lt;/p></content></item><item><title>In the beginning, was the domain name</title><link>/posts/hello-world/</link><pubDate>Wed, 10 Nov 2021 00:00:00 +0530</pubDate><guid>/posts/hello-world/</guid><description>&lt;p>How this blog came to be is a minor miracle. Long story short, I conned myself
 into believing nobody will find &lt;em>and&lt;/em> read it. But you&amp;rsquo;re here, aren&amp;rsquo;t you?
 And you&amp;rsquo;re reading this. Aren&amp;rsquo;t You?&lt;/p>
 &lt;p>Confucamus.&lt;/p>
