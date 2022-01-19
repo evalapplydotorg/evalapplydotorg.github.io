@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>bias on eval/apply</title><link>/tags/bias/</link><description>Recent content in bias on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 19 Jan 2022 01:55:37 +0530</lastBuildDate><atom:link href="/tags/bias/index.xml" rel="self" type="application/rss+xml"/><item><title>Technical Debt is really Software Debt. And it's a AAA-rated CDO.</title><link>/posts/software-debt/</link><pubDate>Wed, 19 Jan 2022 01:55:37 +0530</pubDate><guid>/posts/software-debt/</guid><description>&lt;p>I&amp;rsquo;ve long struggled with the &lt;em>Technical Debt&lt;/em> metaphor. It was immediately
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>bias on eval/apply</title><link>/tags/bias/</link><description>Recent content in bias on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 19 Jan 2022 10:26:02 +0530</lastBuildDate><atom:link href="/tags/bias/index.xml" rel="self" type="application/rss+xml"/><item><title>Technical Debt is really Software Debt. And it's a AAA-rated CDO.</title><link>/posts/software-debt/</link><pubDate>Wed, 19 Jan 2022 10:26:02 +0530</pubDate><guid>/posts/software-debt/</guid><description>&lt;p>I&amp;rsquo;ve long struggled with the &lt;em>Technical Debt&lt;/em> metaphor. It was immediately
 useful when I first heard it. I still think it is useful, albeit as a starting
 point. The more I worked with software, the more infuriatingly incomplete it
 started to feel.&lt;/p>
@@ -194,8 +194,12 @@ change in their operating environment.&lt;/p>
 server balances more concurrent load. The OS gets security patches. The
 clients want to do more so everything accrues more features. On and on,
 mutating forever, exhibiting accretion, sedimentation, erosion, and tectonic
-uphevals.&lt;/p>
-&lt;p>[Add picture of software sedimentation&amp;hellip; clojure.]&lt;/p>
+upheavals.&lt;/p>
+&lt;figure class="left" >
+&lt;img src="clojure-codebase-introduction-retention-code.png" />
+&lt;figcaption class="center" >Figure 1: Clojure codebase--Introduction and retention of code. Rich Hickey. 2020. A History of Clojure.&lt;/figcaption>
+&lt;/figure>
+&lt;p>See also: &lt;a href="https://erikbern.com/2016/12/05/the-half-life-of-code.html">The half-life of code &amp;amp; the Ship of Theseus&lt;/a>&lt;/p>
 &lt;h3 id="software-debt-is-networked-dot">Software debt is &lt;em>networked&lt;/em>.&lt;/h3>
 &lt;p>Because software itself is networked, even inside applications. There are call
 graphs, object hierarchies, and effects-at-a-distance. These often interact
