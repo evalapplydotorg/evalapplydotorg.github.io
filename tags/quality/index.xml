@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>quality on eval/apply</title><link>/tags/quality/</link><description>Recent content in quality on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 02 Feb 2022 14:06:54 +0530</lastBuildDate><atom:link href="/tags/quality/index.xml" rel="self" type="application/rss+xml"/><item><title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title><link>/posts/how-to-not-die-by-a-thousand-cuts/</link><pubDate>Wed, 02 Feb 2022 14:06:54 +0530</pubDate><guid>/posts/how-to-not-die-by-a-thousand-cuts/</guid><description>&lt;p>First off, what even is Quality?&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>quality on eval/apply</title><link>/tags/quality/</link><description>Recent content in quality on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 03 Feb 2022 15:20:41 +0530</lastBuildDate><atom:link href="/tags/quality/index.xml" rel="self" type="application/rss+xml"/><item><title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title><link>/posts/how-to-not-die-by-a-thousand-cuts/</link><pubDate>Thu, 03 Feb 2022 15:20:41 +0530</pubDate><guid>/posts/how-to-not-die-by-a-thousand-cuts/</guid><description>&lt;p>First off, what even is Quality?&lt;/p>
 &lt;p>All things emerge, change, and die. I think &lt;em>Quality&lt;/em> is the experience of the
 process. The idea of &lt;em>Good Quality&lt;/em> essentially boils down to performing the
 process with grace, and leaving the place better than we found it.&lt;/p>
@@ -234,7 +234,7 @@ is a fickle beast).&lt;/p>
 &lt;em>not&lt;/em> &amp;ldquo;Quality Assurance&amp;rdquo;.&lt;/li>
 &lt;li>Ostensibly make all teams responsible for their &amp;ldquo;QA&amp;rdquo;, which really means
 make the least experienced people do it day-to-day.&lt;/li>
-&lt;li>Create a culture where it&amp;rsquo;s normal to say things like thi):
+&lt;li>Create a culture where it&amp;rsquo;s normal to say things like this):
 &lt;ul>
 &lt;li>&amp;ldquo;Hey I&amp;rsquo;m adding this to the sprint. It&amp;rsquo;s a small thing, so let&amp;rsquo;s not slip
 our deadline.&amp;rdquo;&lt;/li>
