@@ -1,4 +1,54 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eval/apply for fun and … fun on eval/apply</title><link>/</link><description>Recent content in eval/apply for fun and … fun on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Feb 2022 12:30:43 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>don' hurry, don' stop (sad version, ft. mel an' choly)</title><link>/posts/dont-hurry-dont-stop-sad-version/</link><pubDate>Sun, 06 Feb 2022 12:30:43 +0530</pubDate><guid>/posts/dont-hurry-dont-stop-sad-version/</guid><description>&lt;p>This is how I struggle from time to time. It is not pretty. These days it&amp;rsquo;s
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eval/apply for fun and … fun on eval/apply</title><link>/</link><description>Recent content in eval/apply for fun and … fun on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 10 Feb 2022 22:10:43 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Poor man's Reader App with Pandoc and Bash</title><link>/posts/reader-app-pandoc-bash/</link><pubDate>Thu, 10 Feb 2022 22:10:43 +0530</pubDate><guid>/posts/reader-app-pandoc-bash/</guid><description>&lt;p>Throwback, June 27, 2020.&lt;/p>
+&lt;p>Every so often, I want to avoid opening a website in a browser, for &amp;hellip; reasons.&lt;/p>
+&lt;p>Curl alone presents too much html. I want to try and read stuff.&lt;/p>
+&lt;p>Today, I was playing with Igor Chubin&amp;rsquo;s &lt;strong>awesome&lt;/strong> terminal services (wttr.in,
+cht.sh etc.), and it hit me:&lt;/p>
+&lt;p>&amp;ldquo;WAIT, there&amp;rsquo;s pandoc, what if I just &amp;hellip; &amp;quot;&lt;/p></description><content>&lt;p>Throwback, June 27, 2020.&lt;/p>
+&lt;p>Every so often, I want to avoid opening a website in a browser, for &amp;hellip; reasons.&lt;/p>
+&lt;p>Curl alone presents too much html. I want to try and read stuff.&lt;/p>
+&lt;p>Today, I was playing with Igor Chubin&amp;rsquo;s &lt;strong>awesome&lt;/strong> terminal services (wttr.in,
+cht.sh etc.), and it hit me:&lt;/p>
+&lt;p>&amp;ldquo;WAIT, there&amp;rsquo;s pandoc, what if I just &amp;hellip; &amp;quot;&lt;/p>
+&lt;hr>
+&lt;p>&amp;hellip;
+&amp;hellip;
+&amp;hellip; and an hour later&amp;hellip; a terrible idea manifested itself.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">www_to_md&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pandoc --wrap&lt;span style="color:#f92672">=&lt;/span>none -f html -t markdown &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+drop_noise&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># remove pesky divs&lt;/span>
+grep -v -E &lt;span style="color:#e6db74">&amp;#34;(&amp;lt;div|&amp;lt;/div).*[&amp;gt;]?|*.&amp;gt;&amp;#34;&lt;/span> |
+&lt;span style="color:#75715e"># squeeze multiple blank lines into one&lt;/span>
+cat -s
+&lt;span style="color:#f92672">}&lt;/span>
+cache_site&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local sitecache&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1:?&lt;span style="color:#e6db74">&amp;#39;Fail. Path to create cache.&amp;#39;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local mdfilename&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>2&lt;span style="color:#66d9ef">:-&lt;/span>&lt;span style="color:#e6db74">&amp;#39;this.md&amp;#39;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local evict_cache_qmark&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>3&lt;span style="color:#66d9ef">:-&lt;/span>no&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+mkdir -p &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitecache&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> -f &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitecache&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>mdfilename&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>evict_cache_qmark&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#34;no&amp;#34;&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>
+&lt;span style="color:#66d9ef">then&lt;/span> tee
+&lt;span style="color:#66d9ef">else&lt;/span> tee &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitecache&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>mdfilename&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+panwww&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local siteurl&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local evict_cache_qmark&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>2&lt;span style="color:#66d9ef">:-&lt;/span>no&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local sitename&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>siteurl/http*:&lt;span style="color:#ae81ff">\/\/&lt;/span>/www.&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local sitecache&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/tmp/panwwwcache/&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitename&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local mdfilename&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;this.md&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> -f &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitecache&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>mdfilename&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>evict_cache_qmark&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#34;no&amp;#34;&lt;/span> &lt;span style="color:#f92672">]]&lt;/span>
+&lt;span style="color:#66d9ef">then&lt;/span> local cmd&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;cat &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitecache&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>mdfilename&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> local cmd&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;www_to_md &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>siteurl&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">fi&lt;/span>
+$cmd | drop_noise | cache_site &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>sitecache&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>mdfilename&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>evict_cache_qmark&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>so that &amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">panwww &lt;span style="color:#e6db74">&amp;#34;https://www.recurse.com/&amp;#34;&lt;/span> | less &lt;span style="color:#75715e"># fetches site the first time&lt;/span>
+panwww &lt;span style="color:#e6db74">&amp;#34;https://www.recurse.com/&amp;#34;&lt;/span> | less &lt;span style="color:#75715e"># looks up &amp;#34;cache&amp;#34;&lt;/span>
+panwww &lt;span style="color:#e6db74">&amp;#34;https://www.recurse.com/&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;refetch&amp;#34;&lt;/span> | less
+&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>don' hurry, don' stop (sad version, ft. mel an' choly)</title><link>/posts/dont-hurry-dont-stop-sad-version/</link><pubDate>Sun, 06 Feb 2022 12:30:43 +0530</pubDate><guid>/posts/dont-hurry-dont-stop-sad-version/</guid><description>&lt;p>This is how I struggle from time to time. It is not pretty. These days it&amp;rsquo;s
 been a lot more. Thankfully, it is not a constant. Instead of reading this,
 you should want to listen to Alain de Botton.&lt;/p>
 &lt;ul>
