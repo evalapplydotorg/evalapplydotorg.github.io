@@ -1,4 +1,147 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>systems on eval/apply</title><link>/tags/systems/</link><description>Recent content in systems on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 03 Feb 2022 15:20:41 +0530</lastBuildDate><atom:link href="/tags/systems/index.xml" rel="self" type="application/rss+xml"/><item><title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title><link>/posts/how-to-not-die-by-a-thousand-cuts/</link><pubDate>Thu, 03 Feb 2022 15:20:41 +0530</pubDate><guid>/posts/how-to-not-die-by-a-thousand-cuts/</guid><description>&lt;p>First off, what even is Quality?&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>systems on eval/apply</title><link>/tags/systems/</link><description>Recent content in systems on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 11 Feb 2022 15:28:36 +0530</lastBuildDate><atom:link href="/tags/systems/index.xml" rel="self" type="application/rss+xml"/><item><title>people > culture > values > strategy > technology</title><link>/posts/people-culture-values-strategy-technology/</link><pubDate>Fri, 11 Feb 2022 15:28:36 +0530</pubDate><guid>/posts/people-culture-values-strategy-technology/</guid><description>&lt;p>The premise:&lt;/p>
+&lt;p>-&amp;gt; People create culture.&lt;/p>
+&lt;p>-&amp;gt; Culture shapes values.&lt;/p>
+&lt;p>-&amp;gt; Values inform strategy.&lt;/p>
+&lt;p>-&amp;gt; Technology is Strategy actualised.&lt;/p></description><content>&lt;p>The premise:&lt;/p>
+&lt;p>-&amp;gt; People create culture.&lt;/p>
+&lt;p>-&amp;gt; Culture shapes values.&lt;/p>
+&lt;p>-&amp;gt; Values inform strategy.&lt;/p>
+&lt;p>-&amp;gt; Technology is Strategy actualised.&lt;/p>
+&lt;hr>
+&lt;p>The implication:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Worst-case&lt;/th>
+&lt;th>Best-case&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&amp;gt; Destructive technology results&lt;/td>
+&lt;td>&amp;gt; Constructive technology results&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;gt; from violent strategy&lt;/td>
+&lt;td>&amp;gt; from enlightened strategy&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;gt; borne of pathological values&lt;/td>
+&lt;td>&amp;gt; borne of generative values&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;gt; normalized by vile culture&lt;/td>
+&lt;td>&amp;gt; normalized by alive culture&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;gt; catalysed by fear-based &lt;em>leadership&lt;/em> (verb-form)&lt;/td>
+&lt;td>&amp;gt; catalysed by trust-based &lt;em>leadership&lt;/em> (verb-form)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;gt; enabled by hapless bystanders&lt;/td>
+&lt;td>&amp;gt; co-created by highly engaged participants&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Unfortunately widespread, easily achieved.&lt;/td>
+&lt;td>Fortunately achievable, though high-effort.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Hallmark of negative performance.&lt;/td>
+&lt;td>Hallmark of elite performance.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Wouldn&amp;rsquo;t it be nice if the &amp;ldquo;Best case&amp;rdquo; happened most of the time?&lt;/p>
+&lt;p>Wouldn&amp;rsquo;t you like to be the sort of leader who makes it happen? A person of
+whom people genuinely say &amp;ldquo;&lt;em>I did some of the best work of my life because of
+their leadership.&lt;/em>&amp;rdquo;? I&amp;rsquo;ve had one or two of those in my life so far. Enough to
+&lt;em>believe&lt;/em>.&lt;/p>
+&lt;p>Here&amp;rsquo;s the thing, though.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>It requires a lot of self-work, but you can&amp;rsquo;t go it alone.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>There are no roads, but there are landmarks, GPSes, and gyroscopes.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>There are no formulas, but there are stories, clues, and feedback loops.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>There are few such leaders, but there are many followers, and leadership is
+teachable. Anyone going on this quest will discover the surprising array of
+people who want to rally around to help them succeed. I know I would!&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>There are many places to look. Here&amp;rsquo;s just one such bag full of some pretty
+good clues.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;em>Westrum&amp;rsquo;s typology of organizational culture&lt;/em> (table below), as &lt;a href="https://cloud.google.com/architecture/devops/devops-culture-westrum-organizational-culture">presented here&lt;/a>
+in context of Google&amp;rsquo;s DORA research, but which is generally applicable to any
+team within any organisation, as well as to any org of any size in any industry.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Dr. Ron Westrum in conversation with Gene Kim at the &lt;em>Idealcast&lt;/em>, for aural
+accompaniment during the day&amp;rsquo;s perambulations:&lt;/p>
+&lt;ul>
+&lt;li>Part 1: &lt;a href="https://itrevolution.podbean.com/e/the-sociology-and-typologies-of-organizations-and-technical-maestros-with-dr-ron-westrum/">The Sociology and Typologies of Organizations, and Technical Maestros&lt;/a>&lt;/li>
+&lt;li>Part 2: &lt;a href="https://itrevolution.podbean.com/e/patterns-of-generative-cultures-how-they-can-be-destroyed-and-the-importance-of-trust-with-dr-ron-westrum/">Patterns of Generative Cultures: How They Can Be Destroyed and the Importance of Trust&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Pathological&lt;/th>
+&lt;th>Bureaucratic&lt;/th>
+&lt;th>Generative&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Power oriented&lt;/td>
+&lt;td>Rule oriented&lt;/td>
+&lt;td>Performance oriented&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Low cooperation&lt;/td>
+&lt;td>Modest cooperation&lt;/td>
+&lt;td>High cooperation&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Messengers &amp;ldquo;shot&amp;rdquo;&lt;/td>
+&lt;td>Messengers neglected&lt;/td>
+&lt;td>Messengers trained&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Responsibilities shirked&lt;/td>
+&lt;td>Narrow responsibilities&lt;/td>
+&lt;td>Risks are shared&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Bridging discouraged&lt;/td>
+&lt;td>Bridging tolerated&lt;/td>
+&lt;td>Bridging encouraged&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Failure leads to scapegoating&lt;/td>
+&lt;td>Failure leads to justice&lt;/td>
+&lt;td>Failure leads to inquiry&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Novelty crushed&lt;/td>
+&lt;td>Novelty leads to problems&lt;/td>
+&lt;td>Novelty implemented&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Table: &lt;em>&lt;strong>The Westrum organizational typology model: How organizations process
+information&lt;/strong> (Source: Ron Westrum, &amp;ldquo;&lt;a href="https://qualitysafety.bmj.com/content/13/suppl%5F2/ii22.short">A typology of organisation culture&lt;/a>),&amp;quot;&lt;/em>
+&lt;em>BMJ Quality &amp;amp; Safety 13, no. 2 (2004), &amp;lt;10.1136/qshc.2003.009522&amp;gt;.)&lt;/em>&lt;/p>
+&lt;p>Happy generative acculturing! _\\//&lt;/p>
+&lt;p>(And if you&amp;rsquo;re on quest to build a generative software organization, and you
+wish for some &lt;em>eval/apply&lt;/em> assistance, hit me up&amp;hellip; &lt;em>adi&lt;/em> at this domain!)&lt;/p></content></item><item><title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title><link>/posts/how-to-not-die-by-a-thousand-cuts/</link><pubDate>Thu, 03 Feb 2022 15:20:41 +0530</pubDate><guid>/posts/how-to-not-die-by-a-thousand-cuts/</guid><description>&lt;p>First off, what even is Quality?&lt;/p>
 &lt;p>All things emerge, change, and die. I think &lt;em>Quality&lt;/em> is the experience of the
 process. The idea of &lt;em>Good Quality&lt;/em> essentially boils down to performing the
 process with grace, and leaving the place better than we found it.&lt;/p>
