@@ -1,4 +1,518 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eval/apply for fun and … fun on eval/apply</title><link>/</link><description>Recent content in eval/apply for fun and … fun on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Feb 2022 15:36:52 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>What makes Functional Programs and Systems "Functional"?</title><link>/posts/what-makes-functional-programming-systems-functional/</link><pubDate>Tue, 22 Feb 2022 15:36:52 +0530</pubDate><guid>/posts/what-makes-functional-programming-systems-functional/</guid><description>&lt;p>In which we ponder the Functional Nature of Life, The Universe, and Everything.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eval/apply for fun and … fun on eval/apply</title><link>/</link><description>Recent content in eval/apply for fun and … fun on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 23 Feb 2022 02:01:45 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Wed, 23 Feb 2022 02:01:45 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>Doing so teaches an object lesson about the essence of modular, composable,
+functional architecture. And things start to really heat up when it dawns on
+us, how a good set of standard parts can be used to express totally different
+ideas &lt;em>just by composing them in different ways&lt;/em>.&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;ldquo;Designing is &lt;em>fundamentally&lt;/em> about taking things apart. It&amp;rsquo;s about taking
+things apart &lt;em>in such a way&lt;/em> that they can be put back together. i.e.
+Separating into things that can be composed.&amp;rdquo;&lt;/p>
+&lt;ul>
+&lt;li>Rich Hickey, &amp;ldquo;&lt;a href="https://www.youtube.com/watch?v=QCwqnjxqfmY">Design, Composition, and Performance&lt;/a>&amp;rdquo;, 2013&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> | tr A-Z a-z | sort | uniq -c | sort -rn | sed 10q
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Douglas McIlroy, &lt;a href="https://dl.acm.org/doi/10.1145/5948.315654">Communications of the ACM&lt;/a>, 1986&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#the-pipeline-that-douglas-built">The Pipeline that Douglas Built&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#take-apart-semantics-idioms-functions">Take Apart! Semantics/Idioms -&amp;gt; Functions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#play-semantics-functions-ooh-what-if-i-dot-dot-dot">Play! Semantics -&amp;gt; Functions -&amp;gt; &amp;ldquo;Ooh, what if I&amp;hellip;&amp;quot;&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#compose-again-semantics-functions-play-grand-new-pipeline">Compose Again! Semantics -&amp;gt; Functions -&amp;gt; Play -&amp;gt; Grand New Pipeline&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#addendum-remarkable-aspects-of-doug-s-o-dot-g-dot-pipeline">Addendum: Remarkable aspects of Doug&amp;rsquo;s O.G. pipeline&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;p>Previously: &lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/">Shell ain&amp;rsquo;t a bad place to FP: part 0/N&lt;/a>&lt;/p></description><content>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>Doing so teaches an object lesson about the essence of modular, composable,
+functional architecture. And things start to really heat up when it dawns on
+us, how a good set of standard parts can be used to express totally different
+ideas &lt;em>just by composing them in different ways&lt;/em>.&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;ldquo;Designing is &lt;em>fundamentally&lt;/em> about taking things apart. It&amp;rsquo;s about taking
+things apart &lt;em>in such a way&lt;/em> that they can be put back together. i.e.
+Separating into things that can be composed.&amp;rdquo;&lt;/p>
+&lt;ul>
+&lt;li>Rich Hickey, &amp;ldquo;&lt;a href="https://www.youtube.com/watch?v=QCwqnjxqfmY">Design, Composition, and Performance&lt;/a>&amp;rdquo;, 2013&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> | tr A-Z a-z | sort | uniq -c | sort -rn | sed 10q
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Douglas McIlroy, &lt;a href="https://dl.acm.org/doi/10.1145/5948.315654">Communications of the ACM&lt;/a>, 1986&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#the-pipeline-that-douglas-built">The Pipeline that Douglas Built&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#take-apart-semantics-idioms-functions">Take Apart! Semantics/Idioms -&amp;gt; Functions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#play-semantics-functions-ooh-what-if-i-dot-dot-dot">Play! Semantics -&amp;gt; Functions -&amp;gt; &amp;ldquo;Ooh, what if I&amp;hellip;&amp;quot;&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#compose-again-semantics-functions-play-grand-new-pipeline">Compose Again! Semantics -&amp;gt; Functions -&amp;gt; Play -&amp;gt; Grand New Pipeline&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#addendum-remarkable-aspects-of-doug-s-o-dot-g-dot-pipeline">Addendum: Remarkable aspects of Doug&amp;rsquo;s O.G. pipeline&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;p>Previously: &lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/">Shell ain&amp;rsquo;t a bad place to FP: part 0/N&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h2 id="the-pipeline-that-douglas-built">The Pipeline that Douglas Built&lt;/h2>
+&lt;p>Douglas McIlroy famously (infamously?) wrote the following in reply to a
+problem posed by Jon Bentley for his column &lt;em>&amp;ldquo;Programming pearls: a literate
+program&amp;rdquo;&lt;/em> (&lt;em>Communications of the ACM&lt;/em> magazine, June 1986, Vol. 29, No. 6).&lt;/p>
+&lt;p>I first heard of it some years ago in &lt;a href="https://leancrew.com/all-this/2011/12/more-shell-less-egg/">More Shell Less Egg&lt;/a>, and saw it again
+in the book &lt;a href="https://www.oreilly.com/library/view/classic-shell-scripting/0596005954/">Classic Shell Scripting&lt;/a> (which taught me much of my shell-fu).
+The original was not online then. Now I see the ACM has kindly &lt;a href="https://dl.acm.org/doi/10.1145/5948.315654">published it&lt;/a>
+along with the rest of their archives!&lt;/p>
+&lt;p>Here it is, lightly paraphrased:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#75715e"># Problem statement (word frequency):&lt;/span>
+&lt;span style="color:#75715e">#&lt;/span>
+&lt;span style="color:#75715e"># - Read a file of text&lt;/span>
+&lt;span style="color:#75715e"># - Determine the n most frequently-used words&lt;/span>
+&lt;span style="color:#75715e"># - Print out a sorted list of all the words, along with their frequencies&lt;/span>
+&lt;span style="color:#75715e"># Douglas McIlroy&amp;#39;s answer&lt;/span>
+&lt;span style="color:#75715e"># 1. Transliterate complement (-c) of words into newlines,&lt;/span>
+&lt;span style="color:#75715e"># squeezing out (-s) duplicates&lt;/span>
+tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> |
+&lt;span style="color:#75715e"># 2. Transliterate uppercase to lowercase&lt;/span>
+tr A-Z a-z |
+&lt;span style="color:#75715e"># 3. Sort to bring identical words together&lt;/span>
+sort |
+&lt;span style="color:#75715e"># 4. Replace each run of duplicate words with&lt;/span>
+&lt;span style="color:#75715e"># a single representative, and include a count&lt;/span>
+uniq -c |
+&lt;span style="color:#75715e"># 5. Sort reverse (-r), numeric (-n)&lt;/span>
+sort -rn |
+&lt;span style="color:#75715e"># 6. Pass through stream editor; quit after printing the&lt;/span>
+&lt;span style="color:#75715e"># the first 10 lines received&lt;/span>
+sed 10q
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here I am, punching the Bash manual page through it&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">man bash |
+tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> | tr A-Z a-z |
+sort | uniq -c | sort -rn |
+sed 10q
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;hellip; and here are the top 10 words by frequency.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">4200 the
+1822 is
+1251 to
+1221 a
+1147 of
+869 if
+805 and
+570 shell
+570 in
+563 command
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;ldquo;&lt;em>Coolcoolcoolcool nodoubt nodoubt&amp;hellip; So, uh&amp;hellip; that&amp;rsquo;s it?&lt;/em>&amp;rdquo;&lt;/p>
+&lt;h2 id="take-apart-semantics-idioms-functions">Take Apart! Semantics/Idioms -&amp;gt; Functions&lt;/h2>
+&lt;p>It&amp;rsquo;s worth observing that the &lt;em>same&lt;/em> tools composed in &lt;em>different&lt;/em> ways express
+&lt;em>totally different&lt;/em> concepts. &lt;code>sort&lt;/code> just sorts. &lt;code>uniq&lt;/code> just returns uniques.
+&lt;em>But&lt;/em> &lt;code>sort | uniq&lt;/code> is an idiom for &lt;em>set of things&lt;/em>. Whereas &lt;code>sort | uniq -c | sort -rn&lt;/code> is an idiom for &lt;em>frequency distribution&lt;/em>.&lt;/p>
+&lt;p>Now&amp;hellip;&lt;/p>
+&lt;p>What if we use Bash functions to name the idioms we see in McIlroy&amp;rsquo;s pipeline?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">flatten_paragraphs&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># English-only for easy explanation, but can be more general&lt;/span>
+tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+tokenise_lowercase&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># Transliterate uppercase to lowercase&lt;/span>
+tr A-Z a-z
+&lt;span style="color:#f92672">}&lt;/span>
+frequencies&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># Produce frequency distribution of input&lt;/span>
+sort | uniq -c | sort -rn
+&lt;span style="color:#f92672">}&lt;/span>
+take_n&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># Given a number n, return those many lines of input&lt;/span>
+&lt;span style="color:#75715e"># or 10 lines by default, if n is not specified.&lt;/span>
+sed &lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>10&lt;span style="color:#e6db74">}&lt;/span>q
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And what if we update the pipeline with &lt;em>function calls&lt;/em> like this?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">man bash |
+flatten_paragraphs |
+tokenise_lowercase |
+frequencies |
+take_n &lt;span style="color:#ae81ff">10&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yes, we get the same result!&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">4200 the
+1822 is
+1251 to
+1221 a
+1147 of
+869 if
+805 and
+570 shell
+570 in
+563 command
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yes, yes, &lt;em>&lt;strong>YES&lt;/strong>&lt;/em>! Functions + pipes = mind blown!&lt;/p>
+&lt;h2 id="play-semantics-functions-ooh-what-if-i-dot-dot-dot">Play! Semantics -&amp;gt; Functions -&amp;gt; &amp;ldquo;Ooh, what if I&amp;hellip;&amp;rdquo;&lt;/h2>
+&lt;p>Now that we lifted out a couple of text processing functions, we can try to
+make &lt;em>more&lt;/em> text processing functions. Here are some examples.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">sort_dictionary&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+sort -b -d -k2
+&lt;span style="color:#f92672">}&lt;/span>
+sort_rhyme&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+rev | sort -b -d | rev
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e"># eliminate stop-words&lt;/span>
+drop_stopwords&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local stopwords&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>&lt;span style="color:#e6db74">&amp;#34;the,is,to,a,of,if,and,in,or,be,by,not,with,for,when,it&amp;#34;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>
+local grep_pattern&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>tr , &lt;span style="color:#e6db74">&amp;#39;\|&amp;#39;&lt;/span> &lt;span style="color:#f92672">&amp;lt;&amp;lt;&amp;lt;&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>stopwords&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>
+grep -v -E &lt;span style="color:#e6db74">${&lt;/span>grep_pattern&lt;span style="color:#e6db74">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e"># n-grams&lt;/span>
+butlast_n&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># utility for picking appropriate collection of n-grams&lt;/span>
+head -n -&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>0&lt;span style="color:#e6db74">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+bigram&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># we need intermediate state, but we can make it stream,&lt;/span>
+&lt;span style="color:#75715e"># instead of accumulating in temp files&lt;/span>
+mkfifo bigram_buffer
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>tail +2 &amp;gt; bigram_buffer&lt;span style="color:#f92672">)&lt;/span> |
+paste - bigram_buffer |
+&lt;span style="color:#75715e"># take all but the last entry as it is not a bigram&lt;/span>
+butlast_n &lt;span style="color:#ae81ff">1&lt;/span>
+rm bigram_buffer
+&lt;span style="color:#f92672">}&lt;/span>
+trigram&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># we need intermediate state, but we can make it stream,&lt;/span>
+&lt;span style="color:#75715e"># instead of accumulating in temp files&lt;/span>
+mkfifo trigram_buffer_one trigram_buffer_two
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>tail +2 &amp;gt; trigram_buffer_one&lt;span style="color:#f92672">)&lt;/span> |
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>tail +3 &amp;gt; trigram_buffer_two&lt;span style="color:#f92672">)&lt;/span> |
+paste - trigram_buffer_one trigram_buffer_two |
+&lt;span style="color:#75715e"># take all but the last 2 entries as they are not trigrams&lt;/span>
+butlast_n &lt;span style="color:#ae81ff">2&lt;/span>
+rm trigram_buffer_one trigram_buffer_two
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Clearly there is a lot to explore about functions and pipelines and other
+techniques in this code. We will do deep dives in upcoming posts. For now
+just know that Bash functions&amp;hellip;&lt;/p>
+&lt;ul>
+&lt;li>name a group of shell statements,&lt;/li>
+&lt;li>can be composed with pipes&lt;/li>
+&lt;li>thus intermix with regular shell tools, and&lt;/li>
+&lt;li>can help create domain-specific abstractions out of domain-agnostic ones.&lt;/li>
+&lt;/ul>
+&lt;p>But before we go there, indulge me and my &lt;em>Oh, and One More Thing (TM)&lt;/em> &amp;hellip;&lt;/p>
+&lt;h2 id="compose-again-semantics-functions-play-grand-new-pipeline">Compose Again! Semantics -&amp;gt; Functions -&amp;gt; Play -&amp;gt; Grand New Pipeline&lt;/h2>
+&lt;p>What&amp;rsquo;s the point of making a text processing library of functions if we don&amp;rsquo;t
+process any text?&lt;/p>
+&lt;p>Well&amp;hellip;&lt;/p>
+&lt;ul>
+&lt;li>Start a new shell session.&lt;/li>
+&lt;li>Copy-paste all the Bash functions above into it.&lt;/li>
+&lt;li>Then copy-paste this pipeline and&lt;/li>
+&lt;li>Hit Enter!&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#75715e"># I assume you have Bash version 4+.&lt;/span>
+man bash |
+&lt;span style="color:#75715e"># pre-process&lt;/span>
+flatten_paragraphs |
+tokenise_lowercase |
+drop_stopwords |
+&lt;span style="color:#75715e"># cache raw pre-processed data, if we need to re-analyse later&lt;/span>
+tee /tmp/bash_manpage_raw_tokens.txt |
+&lt;span style="color:#75715e"># cache various views or compressions of the raw data&lt;/span>
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>sort_dictionary | uniq &amp;gt; /tmp/bash_manpage_sorted_as_dictionary.txt&lt;span style="color:#f92672">)&lt;/span> |
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>sort_rhyme | uniq &amp;gt; /tmp/bash_manpage_sorted_as_rhyme.txt&lt;span style="color:#f92672">)&lt;/span> |
+&lt;span style="color:#75715e"># accumulate various analyses of the OG raw data&lt;/span>
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>frequencies &amp;gt; /tmp/bash_manpage_token_freqs.txt&lt;span style="color:#f92672">)&lt;/span> |
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>bigram | frequencies &amp;gt; /tmp/bash_manpage_bigram_freqs.txt&lt;span style="color:#f92672">)&lt;/span> |
+tee &amp;gt;&lt;span style="color:#f92672">(&lt;/span>trigram | frequencies &amp;gt; /tmp/bash_manpage_trigram_freqs.txt&lt;span style="color:#f92672">)&lt;/span> |
+take_n
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And why not experiment?!&lt;/p>
+&lt;p>Reorder it! Remove parts of it! Change parts of it! Give it 10 GiB of input!&lt;/p>
+&lt;p>Play and learn!!!&lt;/p>
+&lt;p>(#protip: The shell can auto-complete functions. Type &lt;em>flat&lt;/em> and hit &lt;em>TAB&lt;/em>,
+and you should get a completion for &lt;em>flatten_paragraphs&lt;/em>.)&lt;/p>
+&lt;h2 id="addendum-remarkable-aspects-of-doug-s-o-dot-g-dot-pipeline">Addendum: Remarkable aspects of Doug&amp;rsquo;s O.G. pipeline&lt;/h2>
+&lt;p>The UNIX tools philosophy is clearly at work. &lt;code>sort&lt;/code> just sorts, &lt;code>uniq&lt;/code> just
+returns uniques, pipes connect parts. Ho hum.&lt;/p>
+&lt;p>The things I &lt;em>do&lt;/em> find remarkable are:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Now the year is 2022, i.e. McIlroy wrote the program about 4 &lt;em>decades&lt;/em> ago.
+It continues to edify, meaning the ideas it contains have a timeless quality.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>It also works as-is&lt;/em>, on my cheap Thinkpad running a GNU Linux (Ubuntu),
+even though the original code was written for a UNIX that might live only
+in a museum today (or maybe in your bank). Odds look good that come 2036, it
+will continue to still work as-is on mainstream boxen.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>It is plain text, and so eminently portable. (I slapped it into the org-mode
+file of this blog post, evaluated it via org-babel, and captured the results
+inline. How? Because Emacs org-babel can simply &amp;ldquo;shell out&amp;rdquo;; i.e. make a
+standard request to a standard shell to evaluate the program and have the
+shell process return any result in a standard way.)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>I bet it runs &lt;em>way&lt;/em> faster now because my box is a supercomputer v/s the
+UNIX boxen of that era.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Pipes remove the burden of explicit state handling. Oh, also, Douglas McIlroy
+invented UNIX pipes.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The entire composition is itself a function.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>map&lt;/code> (tokenise), &lt;code>filter&lt;/code> (uniquify), &lt;code>reduce&lt;/code> (frequency distribution),
+and early termination (&lt;code>take&lt;/code> first 10) are &lt;em>automatic&lt;/em>, needing no special
+machinery.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>It is an abstract computation that is independent of data source/sink. We
+can hook into any I/O combination of sockets, or fifo pipes, or files on
+disk without modifying the pipeline code&amp;mdash;much like Clojure transducers
+or monadic I/O in Haskell land.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>Most importantly&lt;/em>, a rank amateur like me could figure out each part &lt;em>and&lt;/em>
+the whole in one sitting. It is eminently doable because:&lt;/p>
+&lt;ul>
+&lt;li>each sub part is understandable in isolation &lt;em>and&lt;/em>&lt;/li>
+&lt;li>the whole is amenable to incremental as well as large-scale adaptation,&lt;/li>
+&lt;li>in playful, interactive, low-risk ways.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>I was clueless then and had to dig through manpages and flail about at the
+command line. It took me a while to grok the function of each tool and how
+it is applied to the text processing problem.&lt;/p>
+&lt;p>If you haven&amp;rsquo;t already, I&amp;rsquo;d say bear that small cost, because it teaches a
+priceless lesson in modular, composable, functional architecture.&lt;/p>
+&lt;p>Plus, why not step up one&amp;rsquo;s shell-fu?&lt;/p>
+&lt;hr>
+&lt;p>Next up: Part 2/N: Deep-dive into bash functions and function design techniques&lt;/p>
+&lt;ul>
+&lt;li>Using functions to craft one’s own Bytes-sized UNIX tools&lt;/li>
+&lt;li>Using them interactively like regular UNIX tools&lt;/li>
+&lt;li>maybe more&amp;hellip;&lt;/li>
+&lt;/ul>
+&lt;p>The ol' noodle is noodlin' over it. Stay tooned!&lt;/p></content></item><item><title>Shell ain't a bad place to FP: part 0/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</link><pubDate>Wed, 23 Feb 2022 01:55:11 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</guid><description>&lt;p>Or, &lt;em>&lt;strong>Supremely Functional Bash Programming&lt;/strong>, an exploration in N parts&amp;hellip;&lt;/em>&lt;/p>
+&lt;p>Once upon a time, while fiddling with a log processing shell pipeline, it hit me
+that the UNIX Way is a Surprisingly Functional Way, and so Functional Programming
+(FP) and Bash must be a natural fit. They fit. The world was never the same again.&lt;/p>
+&lt;p>Now I believe it so much, that I will go on a limb and assert that it is
+highly inappropriate to write imperative-style Bash when we can just as easily
+write &lt;em>supremely&lt;/em> functional Bash. Why? Because it makes for supremely &lt;em>better&lt;/em>
+Bash (more reusable, more composable, more scalable, more enjoyable).&lt;/p>
+&lt;p>Yes, I truly believe.&lt;/p>
+&lt;p>Yes, I&amp;rsquo;m sane.&lt;/p>
+&lt;p>No? Well OK, humour me&amp;hellip;&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#obligatory-mea-culpa">Obligatory mea culpa&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#an-outline-of-the-n-parts">An outline of the &amp;ldquo;N&amp;rdquo; parts&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#prelude-seeing-the-unix-tools-philosophy-as-a-functional-design-philosophy">Prelude: Seeing the UNIX tools philosophy as a functional design philosophy&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#screw-that-show-me-your-code">&amp;ldquo;Screw that, show me your code&amp;rdquo;&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted --></description><content>&lt;p>Or, &lt;em>&lt;strong>Supremely Functional Bash Programming&lt;/strong>, an exploration in N parts&amp;hellip;&lt;/em>&lt;/p>
+&lt;p>Once upon a time, while fiddling with a log processing shell pipeline, it hit me
+that the UNIX Way is a Surprisingly Functional Way, and so Functional Programming
+(FP) and Bash must be a natural fit. They fit. The world was never the same again.&lt;/p>
+&lt;p>Now I believe it so much, that I will go on a limb and assert that it is
+highly inappropriate to write imperative-style Bash when we can just as easily
+write &lt;em>supremely&lt;/em> functional Bash. Why? Because it makes for supremely &lt;em>better&lt;/em>
+Bash (more reusable, more composable, more scalable, more enjoyable).&lt;/p>
+&lt;p>Yes, I truly believe.&lt;/p>
+&lt;p>Yes, I&amp;rsquo;m sane.&lt;/p>
+&lt;p>No? Well OK, humour me&amp;hellip;&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#obligatory-mea-culpa">Obligatory mea culpa&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#an-outline-of-the-n-parts">An outline of the &amp;ldquo;N&amp;rdquo; parts&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#prelude-seeing-the-unix-tools-philosophy-as-a-functional-design-philosophy">Prelude: Seeing the UNIX tools philosophy as a functional design philosophy&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#screw-that-show-me-your-code">&amp;ldquo;Screw that, show me your code&amp;rdquo;&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;hr>
+&lt;h2 id="obligatory-mea-culpa">Obligatory mea culpa&lt;/h2>
+&lt;p>Because I&amp;rsquo;m am going to lazy-stream this in N parts. Because my original post
+was growing to &amp;ldquo;never gonna ship&amp;rdquo; size. But &lt;em>&lt;strong>not&lt;/strong>&lt;/em> because &amp;ldquo;Bash ain&amp;rsquo;t a &lt;em>real&lt;/em>
+programming language&amp;rdquo;. (Besides, in our post-reality world, we get to make
+our own reality.)&lt;/p>
+&lt;h3 id="nothing-here-will-be-novel-dot">Nothing here will be novel.&lt;/h3>
+&lt;ul>
+&lt;li>&lt;em>&lt;strong>I&amp;rsquo;ve not invented anything that follows.&lt;/strong>&lt;/em> There are too many influences to
+enumerate fully. I&amp;rsquo;ll provide references as I go along.&lt;/li>
+&lt;li>&lt;em>&lt;strong>I expect to revise&lt;/strong>&lt;/em>, correct, add to this series as I learn more over time.&lt;/li>
+&lt;li>&lt;em>&lt;strong>Code in the post assumes Bash 4+&lt;/strong>&lt;/em>, because that&amp;rsquo;s what I&amp;rsquo;ve been using
+over the last 8-odd years.&lt;/li>
+&lt;/ul>
+&lt;h3 id="your-mileage-may-vary-dot">Your Mileage May Vary.&lt;/h3>
+&lt;ul>
+&lt;li>&lt;em>&lt;strong>The Bash code will be both message and medium.&lt;/strong>&lt;/em> but I will describe
+general FP thinking, and Bash sure isn&amp;rsquo;t the only medium. Please replicate
+solutions in your favourite language (in a UNIX-like way)!&lt;/li>
+&lt;li>&lt;em>&lt;strong>I won&amp;rsquo;t go crazy with Bash-isms&lt;/strong>&lt;/em>, so the ideas and most of the code should
+generalise to most UNIXy shells. That said, I haven&amp;rsquo;t used other shells to
+make equally confident claims about FP in them.&lt;/li>
+&lt;/ul>
+&lt;h3 id="fp-suffuses-my-very-being-dot-m">&lt;strong>FP &lt;a href="http://evalapply.org/posts/what-makes-functional-programming-systems-functional/">suffuses my very being&lt;/a>.&lt;/strong> \m/&lt;/h3>
+&lt;ul>
+&lt;li>And I&amp;rsquo;m fairly confident the FP ideas will translate broadly, because I use
+them all the time; in my code (Clojure, APL, Ruby, JS, Python, SML&amp;hellip;), in
+my designs for logging systems, infra-as-code systems, CI/CD systems, as
+well as designing human/communication workflows for teams.&lt;/li>
+&lt;li>But it&amp;rsquo;s possible I&amp;rsquo;ve lived my life all wrong.&lt;/li>
+&lt;/ul>
+&lt;h2 id="an-outline-of-the-n-parts">An outline of the &amp;ldquo;N&amp;rdquo; parts&lt;/h2>
+&lt;p>This (zeroth) post is about why the UNIX Way is the way of functional-style
+design &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. &lt;em>&lt;code>N&lt;/code>&lt;/em> more posts are brewing, with examples and techniques.
+Likely one per topic:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>A &lt;em>rad&lt;/em> example from 1986 to motivate the rest of the series.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Deep-dive into bash functions and function design techniques&lt;/p>
+&lt;ul>
+&lt;li>Using functions to craft one&amp;rsquo;s own Bytes-sized UNIX tools&lt;/li>
+&lt;li>Using them interactively like regular UNIX tools&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Pipelining all the things&lt;/p>
+&lt;ul>
+&lt;li>How we automatically get map / filter / reduce / early termination&lt;/li>
+&lt;li>Automatic streaming (regular pipes, tee, named pipes etc&amp;hellip;)&lt;/li>
+&lt;li>Ways to do pipeline-friendly domain design, and to translate that into
+pipeline-friendly functions.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Avoiding manual state management with intelligent use of:&lt;/p>
+&lt;ul>
+&lt;li>Variables, scopes, program invariants&lt;/li>
+&lt;li>Command substitution&lt;/li>
+&lt;li>Process substitution&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Declarative programming&lt;/p>
+&lt;ul>
+&lt;li>Templating with heredocs and herestrings&lt;/li>
+&lt;li>Trickshots with things like &lt;code>seq&lt;/code>, &lt;code>paste&lt;/code> etc.&lt;/li>
+&lt;li>Reasonable uses of pattern matching&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Environment isolation in detail&lt;/p>
+&lt;ul>
+&lt;li>Lists and sub-shells&lt;/li>
+&lt;li>in Pipelines&lt;/li>
+&lt;li>Session portability&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Designing idempotent / restart-friendly solutions&lt;/p>
+&lt;ul>
+&lt;li>Because things can and will fail.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Maybe parallelism&lt;/p>
+&lt;ul>
+&lt;li>Mainly because I haven&amp;rsquo;t &lt;em>had to&lt;/em> &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> write parallel Bash, but it will
+be fun to mess with.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Maybe sundry topics like associative arrays (Bash-only), job control,
+namespacing, metaprogramming, flame-bait like &amp;ldquo;pipes are monads&amp;rdquo; etc.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="prelude-seeing-the-unix-tools-philosophy-as-a-functional-design-philosophy">Prelude: Seeing the UNIX tools philosophy as a functional design philosophy&lt;/h2>
+&lt;p>The many remarkable aspects of UNIX Nature were discovered over half a century
+worth of versions, revisions, disasters, and reincarnations. While many avatars
+of UNICES and UNIX-likes have come and gone, the UNIX Way (articulated by the
+1990s) has thrived through the ravages of time. Here it is, embodied in the
+form of the UNIX Tools Philosophy.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;em>&lt;strong>Most importantly, do one thing&lt;/strong>&lt;/em>, and do it well (just like a function).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Consume and emit &lt;em>&lt;strong>plain data&lt;/strong>&lt;/em> (just like a function).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>&lt;strong>Output the same data format as is received at input&lt;/strong>&lt;/em> (formerly only plain
+lines of text, but now also structured literal data like JSON, EDN etc.)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>&lt;strong>Don&amp;rsquo;t be chatty&lt;/strong>&lt;/em> (i.e. avoid side-effects, again, just like a function).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Be line-oriented, which design choice turns out to be &lt;em>&lt;strong>naturally streaming&lt;/strong>&lt;/em>,
+with &lt;em>&lt;strong>automatic support for map/filter/reduce&lt;/strong>&lt;/em>, which we will use a lot.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Favour &lt;em>&lt;strong>universal composition&lt;/strong>&lt;/em> via standard interfaces like file descriptors,
+standard IN/OUT/ERROR, line-orientation, and UNIX pipes (quite monadic, an
+argument for much later).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Be as &lt;em>&lt;strong>general-purpose&lt;/strong>&lt;/em> as possible for wide reusability, in any context.
+This pushes tools away from imposing internal structure on input data, as
+also from maintaining persistent or shared internal state.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Ideally have sane behaviour like environment isolation, idempotence, etc.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Last but not least, when out-of-the-box solutions are not good enough, it
+encourages us to detour to building our own tools. And these can be simple
+Bash functions, usable interactively at the command line, just like full
+standalone programs!&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Of course, practice can diverge from the ideal, but not by too much (many tools
+have to work with stateful objects like files and sockets, some may rely on
+lock-files, some should be idempotent but aren&amp;rsquo;t, others may grow to do more
+than one thing and do everything badly etc.). Besides, not even Haskellers
+escape this reality, so there.&lt;/p>
+&lt;p>It stands that the UNIX Way strongly encourages us to create laser-focused,
+composable, purely functional, data-flow oriented programs that we can remix
+at will into surprisingly powerful solutions with surprisingly little ceremony.&lt;/p>
+&lt;p>This &lt;em>Way&lt;/em> has proven to be very useful at scales several orders of magnitude
+apart; from in-program 1-liner functions, to 1 kilobyte tools, to operating
+systems, to planet-wide distributed systems. This unreasonable effectiveness
+is why UNIX People have long valued these values.&lt;/p>
+&lt;h2 id="screw-that-show-me-your-code">&amp;ldquo;Screw that, show me your code&amp;rdquo;&lt;/h2>
+&lt;p>Sorry! I feel ya&amp;hellip; no code, no dice. Here is some of my FP-style Bash.
+I plan to crib liberally from these to illustrate the posts-to-come.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;a href="https://github.com/adityaathalye/bash-toolkit">bash-toolkit&lt;/a>&lt;/strong>:
+a &amp;ldquo;Swiss Army Toolkit&amp;rdquo; of functions I&amp;rsquo;ve been accumulating over the years.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;a href="https://github.com/adityaathalye/oxo">oxo&lt;/a>&lt;/strong>:
+a retro-style noughts and crosses game in Bash (and it speaks!).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Next up: &lt;strong>&lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/">Shell ain&amp;rsquo;t a bad place to FP: part 1/N&lt;/a>&lt;/strong>
+in which we take apart Douglas McIlroy&amp;rsquo;s famous pipeline from 1986, to
+motivate the rest of the series. &amp;ldquo;Take apart&amp;rdquo; in the sense of &amp;ldquo;Design is
+about taking things apart.&amp;rdquo;. A most respectful sense.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>May the Source be with us.&lt;/p>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>Recently I went on for a bit in general about &lt;a href="https://www.evalapply.org/posts/what-makes-functional-programming-systems-functional/">what does it even mean to be &amp;ldquo;functional&amp;rdquo;?&lt;/a> Read that if it pleases you, because it informs my approach to &lt;em>Supremely Functional&lt;/em> Bash programming.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2" role="doc-endnote">
+&lt;p>There was the one time I could have, at a $DAYJOB, but I was quite green, and had deadline, and it was a one time log analysis thing, and I a large EC2 box to waste, which I hogged for half a day, and came away stunned that my crappy shell pipeline chewed through ~600 GiB (gzipped) without crashing anything.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/section></content></item><item><title>What makes Functional Programs and Systems "Functional"?</title><link>/posts/what-makes-functional-programming-systems-functional/</link><pubDate>Tue, 22 Feb 2022 15:36:52 +0530</pubDate><guid>/posts/what-makes-functional-programming-systems-functional/</guid><description>&lt;p>In which we ponder the Functional Nature of Life, The Universe, and Everything.
 Please feel free to follow through the weeds, or jump straight to the bottom
 for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)&lt;/p>
 &lt;p>Disclaimer: I live in the Land of Lisp, meditate in the Church of Alonzo, and
