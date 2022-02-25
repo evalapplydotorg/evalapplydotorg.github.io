@@ -1,4 +1,201 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eval/apply for fun and … fun on eval/apply</title><link>/</link><description>Recent content in eval/apply for fun and … fun on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 23 Feb 2022 02:01:45 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Wed, 23 Feb 2022 02:01:45 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eval/apply for fun and … fun on eval/apply</title><link>/</link><description>Recent content in eval/apply for fun and … fun on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 25 Feb 2022 15:09:01 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Dismal Arithmetic in Dyalog APL and Clojure</title><link>/posts/dismal-arithmetic-dyalog-apl-clojure/</link><pubDate>Fri, 25 Feb 2022 15:09:01 +0530</pubDate><guid>/posts/dismal-arithmetic-dyalog-apl-clojure/</guid><description>&lt;p>Throwback: Jan 2018.&lt;/p>
+&lt;p>I learned of something called &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em>. As the linked paper describes it:&lt;/p>
+&lt;blockquote>
+&lt;p>Dismal arithmetic is just like the arithmetic you learned in school, only
+simpler: there are no carries, when you add digits you just take the largest,
+and when you multiply digits you take the smallest. This paper studies basic
+number theory in this world, including analogues of the primes, number of
+divisors, sum of divisors, and the partition function.&lt;/p>
+&lt;/blockquote>
+&lt;p>I thought it might be fun to implement it in APL for kicks, but I wrote it in
+Clojure first, because I wasn&amp;rsquo;t sure of my APL-fu. And I&amp;rsquo;m glad I wrote the
+Dyalog APL version because I learned something about trains, and also because
+I stumbled on the idea of &amp;ldquo;inverse of a function&amp;rdquo; which melted my mind a bit.&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#examples-of-dismal-addition-and-multiplication">Examples of Dismal Addition and Multiplication&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#dismal-arithmetic-in-clojure">Dismal Arithmetic in Clojure&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#dismal-arithmetic-in-dyalog-apl">Dismal Arithmetic in Dyalog APL&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#addendum-the-of-inverse">Addendum: The ⍣ of inverse&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted --></description><content>&lt;p>Throwback: Jan 2018.&lt;/p>
+&lt;p>I learned of something called &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em>. As the linked paper describes it:&lt;/p>
+&lt;blockquote>
+&lt;p>Dismal arithmetic is just like the arithmetic you learned in school, only
+simpler: there are no carries, when you add digits you just take the largest,
+and when you multiply digits you take the smallest. This paper studies basic
+number theory in this world, including analogues of the primes, number of
+divisors, sum of divisors, and the partition function.&lt;/p>
+&lt;/blockquote>
+&lt;p>I thought it might be fun to implement it in APL for kicks, but I wrote it in
+Clojure first, because I wasn&amp;rsquo;t sure of my APL-fu. And I&amp;rsquo;m glad I wrote the
+Dyalog APL version because I learned something about trains, and also because
+I stumbled on the idea of &amp;ldquo;inverse of a function&amp;rdquo; which melted my mind a bit.&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#examples-of-dismal-addition-and-multiplication">Examples of Dismal Addition and Multiplication&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#dismal-arithmetic-in-clojure">Dismal Arithmetic in Clojure&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#dismal-arithmetic-in-dyalog-apl">Dismal Arithmetic in Dyalog APL&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#addendum-the-of-inverse">Addendum: The ⍣ of inverse&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;hr>
+&lt;h2 id="examples-of-dismal-addition-and-multiplication">Examples of Dismal Addition and Multiplication&lt;/h2>
+&lt;p>OK, so first, a disclaimer. The code doesn&amp;rsquo;t explore all of the paper, just
+addition, multiplication along with commutative, associative, distributive
+properties thereof, because that&amp;rsquo;s all the Mathematics I understand :) I had
+fun struggling through the paper anyway mainly because of the funny name.
+(More papers should have more wryness and less dryness.)&lt;/p>
+&lt;p>Anyway, the rules of the game are:&lt;/p>
+&lt;ul>
+&lt;li>arithmetic as in school, except that&lt;/li>
+&lt;li>there there are no carries,&lt;/li>
+&lt;li>when you add digits you just take the largest,&lt;/li>
+&lt;li>and when you multiply digits you take the smallest&lt;/li>
+&lt;/ul>
+&lt;p>Dismal addition: 169 + 248 = 269, because&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text"> 1 6 9
++ 2 4 8
+-------
+2 6 9
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Dismal Multiplication: 169 * 248 = 12468, because&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text"> 1 6 9
+x 2 4 8
+---------
+1 6 8
+1 4 4
+1 2 2
+---------
+1 2 4 6 8
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The tasks:&lt;/p>
+&lt;ul>
+&lt;li>Write function for dismal addition
+&lt;ul>
+&lt;li>Takes two positive integer returns dismal sum&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Write function for dismal multiplication
+&lt;ul>
+&lt;li>Takes two positive integer returns dismal multiplication&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="dismal-arithmetic-in-clojure">Dismal Arithmetic in Clojure&lt;/h2>
+&lt;p>Here I explored the basic properties of addition and multiplication. Yeah,
+sorry got to slog through some encoding/decoding prerequisites first.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>dismal-arithmetic)
+(&lt;span style="color:#66d9ef">defn &lt;/span>n-&amp;gt;digits
+&lt;span style="color:#e6db74">&amp;#34;Really dismal :sobbing:
+&lt;/span>&lt;span style="color:#e6db74"> Will turn the number 12345 into the sequence (1 2 3 4 5).&amp;#34;&lt;/span>
+[n]
+(&lt;span style="color:#66d9ef">loop &lt;/span>[n n
+xs (&lt;span style="color:#a6e22e">list&lt;/span>)]
+(&lt;span style="color:#66d9ef">if &lt;/span>(&amp;lt; n &lt;span style="color:#ae81ff">10&lt;/span>) &lt;span style="color:#75715e">; ensure we split 10 also, into 1 and 0&lt;/span>
+(conj xs (-&amp;gt; n Math/floor Math/round))
+(&lt;span style="color:#a6e22e">recur&lt;/span> (/ n &lt;span style="color:#ae81ff">10&lt;/span>)
+(conj xs
+(-&amp;gt; n (rem &lt;span style="color:#ae81ff">10&lt;/span>) Math/floor Math/round))))))
+&lt;span style="color:#75715e">;; Check...&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>_(map n-&amp;gt;digits [&lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">100&lt;/span> &lt;span style="color:#ae81ff">10&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>])
+(&lt;span style="color:#66d9ef">defn &lt;/span>digits-&amp;gt;n
+&lt;span style="color:#e6db74">&amp;#34;Will turn the sequence (1 2 3 4 5) into the number 12345.&amp;#34;&lt;/span>
+[dxs]
+(reduce (&lt;span style="color:#66d9ef">fn &lt;/span>[r dx] (+ (* r &lt;span style="color:#ae81ff">10&lt;/span>) dx))
+dxs))
+(&lt;span style="color:#66d9ef">defn &lt;/span>dismal-add
+&lt;span style="color:#e6db74">&amp;#34;x and y can have any number of digits&amp;#34;&lt;/span>
+[x y]
+(&lt;span style="color:#66d9ef">let &lt;/span>[nxs (&lt;span style="color:#a6e22e">n-&amp;gt;digits&lt;/span> x)
+nys (&lt;span style="color:#a6e22e">n-&amp;gt;digits&lt;/span> y)
+cxs (count nxs)
+cys (count nys)
+dxys (&lt;span style="color:#a6e22e">Math/abs&lt;/span> (- cxs cys))
+dzs (repeat dxys &lt;span style="color:#ae81ff">0&lt;/span>)
+[nxs nys] (&lt;span style="color:#66d9ef">if &lt;/span>(&amp;gt; cxs cys)
+[nxs (concat dzs nys)]
+[(concat dzs nxs) nys])]
+(&lt;span style="color:#a6e22e">-&amp;gt;&amp;gt;&lt;/span> nys
+(map max nxs)
+digits-&amp;gt;n)))
+(&lt;span style="color:#66d9ef">defn &lt;/span>dismal-mul
+&lt;span style="color:#e6db74">&amp;#34;Like politics and war, multiplication is just addition
+&lt;/span>&lt;span style="color:#e6db74"> by other means. No?&amp;#34;&lt;/span>
+[x y]
+(&lt;span style="color:#66d9ef">let &lt;/span>[nxs (&lt;span style="color:#a6e22e">n-&amp;gt;digits&lt;/span> x)
+nys (&lt;span style="color:#a6e22e">n-&amp;gt;digits&lt;/span> y)
+diagonal-summable
+(reduce (&lt;span style="color:#66d9ef">fn &lt;/span>[rs y]
+(conj rs (map &lt;span style="color:#f92672">#&lt;/span>(min y %) nys)))
+[]
+nxs)
+transpose-matrix (&lt;span style="color:#66d9ef">fn &lt;/span>[matrix]
+(into []
+(apply map vector matrix)))
+summable-matrix (&lt;span style="color:#a6e22e">transpose-matrix&lt;/span> diagonal-summable)
+summables (reverse (map digits-&amp;gt;n summable-matrix))
+summables (&lt;span style="color:#a6e22e">map-indexed&lt;/span> (&lt;span style="color:#66d9ef">fn &lt;/span>[idx x]
+(* x (&lt;span style="color:#a6e22e">Math/round&lt;/span> (&lt;span style="color:#a6e22e">Math/pow&lt;/span> &lt;span style="color:#ae81ff">10&lt;/span> idx))))
+summables)]
+(reduce dismal-add summables)))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; Given test cases:&lt;/span>
+(= (&lt;span style="color:#a6e22e">dismal-add&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>)
+&lt;span style="color:#ae81ff">269&lt;/span>)
+(= (&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>)
+&lt;span style="color:#ae81ff">12468&lt;/span>)
+&lt;span style="color:#75715e">;; Other numbers:&lt;/span>
+(&lt;span style="color:#a6e22e">dismal-add&lt;/span> &lt;span style="color:#ae81ff">123&lt;/span> &lt;span style="color:#ae81ff">45678&lt;/span>)
+(&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">123&lt;/span> &lt;span style="color:#ae81ff">45678&lt;/span>)
+&lt;span style="color:#75715e">;; Associative?&lt;/span>
+(= (&lt;span style="color:#a6e22e">dismal-add&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> (&lt;span style="color:#a6e22e">dismal-add&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">100&lt;/span>))
+(&lt;span style="color:#a6e22e">dismal-add&lt;/span> (&lt;span style="color:#a6e22e">dismal-add&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>) &lt;span style="color:#ae81ff">100&lt;/span>))
+(= (&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> (&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">100&lt;/span>))
+(&lt;span style="color:#a6e22e">dismal-mul&lt;/span> (&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>) &lt;span style="color:#ae81ff">100&lt;/span>))
+&lt;span style="color:#75715e">;; Commutative?&lt;/span>
+(= (reduce dismal-add [&lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">12345&lt;/span>])
+(reduce dismal-add [&lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">12345&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span>])
+(reduce dismal-add [&lt;span style="color:#ae81ff">12345&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>]))
+(= (reduce dismal-mul [&lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">12345&lt;/span>])
+(reduce dismal-mul [&lt;span style="color:#ae81ff">248&lt;/span> &lt;span style="color:#ae81ff">12345&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span>])
+(reduce dismal-mul [&lt;span style="color:#ae81ff">12345&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>]))
+&lt;span style="color:#75715e">;; Distributive?&lt;/span>
+(= (&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">100&lt;/span>
+(&lt;span style="color:#a6e22e">dismal-add&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>))
+(&lt;span style="color:#a6e22e">dismal-add&lt;/span> (&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">100&lt;/span> &lt;span style="color:#ae81ff">169&lt;/span>)
+(&lt;span style="color:#a6e22e">dismal-mul&lt;/span> &lt;span style="color:#ae81ff">100&lt;/span> &lt;span style="color:#ae81ff">248&lt;/span>)))
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dismal-arithmetic-in-dyalog-apl">Dismal Arithmetic in Dyalog APL&lt;/h2>
+&lt;p>Here, I managed to implement addition, discovered how to write &amp;ldquo;inverse of a
+function&amp;rdquo; and my mind melted.&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-dyalog" data-lang="dyalog"> da ← 10⊥(⌈/10⊥⍣¯1⊢)
+da 169 248
+269
+&lt;/code>&lt;/pre>&lt;p>Yes, that&amp;rsquo;s the entire solution to dismal addition. &lt;code>⍣¯1&lt;/code> is APL for &amp;ldquo;inverse&amp;rdquo;.
+Here is the solution explained in parts. I first did it with dfns, because my
+brain is stuck inside Lisp / traditional functional programming style.&lt;/p>
+&lt;p>Apart from built-in support for numeric encoding/decoding, notice the automatic
+zero-padding.&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-dyalog" data-lang="dyalog"> {10(⊤⍣¯1)⍵}∘{⌈/⍵}∘{10(⊥⍣¯1)⍵}⊢ 100000 10000 1000 100 10 1
+111111
+{10(⊤⍣¯1)⍵}∘{⌈/⍵}∘{10(⊥⍣¯1)⍵}⊢ 1 10 100 1000 10000 100000
+111111
+da ← 10⊥(⌈/10⊥⍣¯1⊢)
+da 1 10 100 1000 10000 100000
+111111
+&lt;/code>&lt;/pre>&lt;p>&lt;em>However&lt;/em>, there is something deeply unsatisfying about using dfns in APL, when
+you know trains exist.&lt;/p>
+&lt;p>So I muddled about and managed to express the whole idea as a single unit, viz.
+this lovely little expression &lt;code>10⊥(⌈/10⊥⍣¯1⊢)&lt;/code> which says &amp;ldquo;Dismal Arithmetic&amp;rdquo;
+in fewer characters than the name &lt;em>and is also&lt;/em> a working partial implementation.
+Here is how it breaks down in my FP-addled brain:&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-dyalog" data-lang="dyalog">decode ← 10(⊥⍣¯1)⊢
+reducemax ← ⌈/
+encode ← 10(⊤⍣¯1)⊢
+encode reducemax decode 169 248
+269
+&lt;/code>&lt;/pre>&lt;h2 id="addendum-the-of-inverse">Addendum: The ⍣ of inverse&lt;/h2>
+&lt;p>Aaaron Hsu helped me understand what was going on, and wrote about
+&amp;ldquo;&lt;a href="https://www.sacrideo.us/decoding-inverses/">Decoding Inverses&lt;/a>&amp;rdquo; at his blog.&lt;/p></content></item><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Wed, 23 Feb 2022 02:01:45 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
 &lt;p>Doing so teaches an object lesson about the essence of modular, composable,
 functional architecture. And things start to really heat up when it dawns on
 us, how a good set of standard parts can be used to express totally different

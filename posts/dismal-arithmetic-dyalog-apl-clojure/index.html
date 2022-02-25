@@ -1,0 +1,351 @@
+<!doctype html><html lang=en>
+<head>
+<title>Dismal Arithmetic in Dyalog APL and Clojure :: eval/apply</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Throwback: Jan 2018.
+I learned of something called Dismal Arithmetic. As the linked paper describes it:
+ Dismal arithmetic is just like the arithmetic you learned in school, only simpler: there are no carries, when you add digits you just take the largest, and when you multiply digits you take the smallest. This paper studies basic number theory in this world, including analogues of the primes, number of divisors, sum of divisors, and the partition function.
+ I thought it might be fun to implement it in APL for kicks, but I wrote it in Clojure first, because I wasn&amp;rsquo;t sure of my APL-fu. And I&amp;rsquo;m glad I wrote the Dyalog APL version because I learned something about trains, and also because I stumbled on the idea of &amp;ldquo;inverse of a function&amp;rdquo; which melted my mind a bit.
+ Examples of Dismal Addition and Multiplication Dismal Arithmetic in Clojure Dismal Arithmetic in Dyalog APL Addendum: The ⍣ of inverse  ">
+<meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+<meta name=robots content="noodp">
+<link rel=canonical href=/posts/dismal-arithmetic-dyalog-apl-clojure/>
+<link rel=stylesheet href=/assets/style.css>
+<link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content="[Adi]">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dismal Arithmetic in Dyalog APL and Clojure">
+<meta property="og:description" content="Throwback: Jan 2018.
+I learned of something called Dismal Arithmetic. As the linked paper describes it:
+ Dismal arithmetic is just like the arithmetic you learned in school, only simpler: there are no carries, when you add digits you just take the largest, and when you multiply digits you take the smallest. This paper studies basic number theory in this world, including analogues of the primes, number of divisors, sum of divisors, and the partition function.
+ I thought it might be fun to implement it in APL for kicks, but I wrote it in Clojure first, because I wasn&amp;rsquo;t sure of my APL-fu. And I&amp;rsquo;m glad I wrote the Dyalog APL version because I learned something about trains, and also because I stumbled on the idea of &amp;ldquo;inverse of a function&amp;rdquo; which melted my mind a bit.
+ Examples of Dismal Addition and Multiplication Dismal Arithmetic in Clojure Dismal Arithmetic in Dyalog APL Addendum: The ⍣ of inverse  ">
+<meta property="og:url" content="/posts/dismal-arithmetic-dyalog-apl-clojure/">
+<meta property="og:site_name" content="eval/apply">
+<meta property="og:image" content="/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-02-25 15:09:01 +0530 IST">
+</head>
+<body class=orange>
+<div class="container center">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+eval/apply
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/posts/hello-world>how it began</a></li>
+<li><a href=/posts>how it's going</a></li>
+<ul class=menu__sub-inner>
+<li class=menu__sub-inner-more-trigger>Show more ▾</li>
+<ul class="menu__sub-inner-more hidden">
+<li><a href=index.xml>occasional RSS feed</a></li>
+<li><a href=#footer>occasional newsletter</a></li>
+<li><a href=https://github.com/adityaathalye>who did this?</a></li>
+</ul>
+</ul>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/posts/hello-world>how it began</a></li>
+<li><a href=/posts>how it's going</a></li>
+<li><a href=index.xml>occasional RSS feed</a></li>
+<li><a href=#footer>occasional newsletter</a></li>
+<li><a href=https://github.com/adityaathalye>who did this?</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=/posts/dismal-arithmetic-dyalog-apl-clojure/>Dismal Arithmetic in Dyalog APL and Clojure</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-25
+[Updated on: 2022-02-25]
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<div class=post-content><div>
+<p>Throwback: Jan 2018.</p>
+<p>I learned of something called <em><a href=https://arxiv.org/abs/1107.1130>Dismal Arithmetic</a></em>. As the linked paper describes it:</p>
+<blockquote>
+<p>Dismal arithmetic is just like the arithmetic you learned in school, only
+simpler: there are no carries, when you add digits you just take the largest,
+and when you multiply digits you take the smallest. This paper studies basic
+number theory in this world, including analogues of the primes, number of
+divisors, sum of divisors, and the partition function.</p>
+</blockquote>
+<p>I thought it might be fun to implement it in APL for kicks, but I wrote it in
+Clojure first, because I wasn&rsquo;t sure of my APL-fu. And I&rsquo;m glad I wrote the
+Dyalog APL version because I learned something about trains, and also because
+I stumbled on the idea of &ldquo;inverse of a function&rdquo; which melted my mind a bit.</p>
+<ul>
+<li><a href=#examples-of-dismal-addition-and-multiplication>Examples of Dismal Addition and Multiplication</a></li>
+<li><a href=#dismal-arithmetic-in-clojure>Dismal Arithmetic in Clojure</a></li>
+<li><a href=#dismal-arithmetic-in-dyalog-apl>Dismal Arithmetic in Dyalog APL</a></li>
+<li><a href=#addendum-the-of-inverse>Addendum: The ⍣ of inverse</a></li>
+</ul>
+<hr>
+<h2 id=examples-of-dismal-addition-and-multiplication>Examples of Dismal Addition and Multiplication<a href=#examples-of-dismal-addition-and-multiplication class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>OK, so first, a disclaimer. The code doesn&rsquo;t explore all of the paper, just
+addition, multiplication along with commutative, associative, distributive
+properties thereof, because that&rsquo;s all the Mathematics I understand :) I had
+fun struggling through the paper anyway mainly because of the funny name.
+(More papers should have more wryness and less dryness.)</p>
+<p>Anyway, the rules of the game are:</p>
+<ul>
+<li>arithmetic as in school, except that</li>
+<li>there there are no carries,</li>
+<li>when you add digits you just take the largest,</li>
+<li>and when you multiply digits you take the smallest</li>
+</ul>
+<p>Dismal addition: 169 + 248 = 269, because&mldr;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>  1 6 9
++ 2 4 8
+-------
+  2 6 9
+</code></pre></div><p>Dismal Multiplication: 169 * 248 = 12468, because&mldr;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>   1 6 9
+ x 2 4 8
+---------
+   1 6 8
+  1 4 4
+1 2 2
+---------
+1 2 4 6 8
+</code></pre></div><p>The tasks:</p>
+<ul>
+<li>Write function for dismal addition
+<ul>
+<li>Takes two positive integer returns dismal sum</li>
+</ul>
+</li>
+<li>Write function for dismal multiplication
+<ul>
+<li>Takes two positive integer returns dismal multiplication</li>
+</ul>
+</li>
+</ul>
+<h2 id=dismal-arithmetic-in-clojure>Dismal Arithmetic in Clojure<a href=#dismal-arithmetic-in-clojure class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Here I explored the basic properties of addition and multiplication. Yeah,
+sorry got to slog through some encoding/decoding prerequisites first.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-clojure data-lang=clojure>(<span style=color:#66d9ef>ns </span>dismal-arithmetic)
+
+(<span style=color:#66d9ef>defn </span>n-&gt;digits
+  <span style=color:#e6db74>&#34;Really dismal :sobbing:
+</span><span style=color:#e6db74>   Will turn the number 12345 into the sequence (1 2 3 4 5).&#34;</span>
+  [n]
+  (<span style=color:#66d9ef>loop </span>[n n
+         xs (<span style=color:#a6e22e>list</span>)]
+    (<span style=color:#66d9ef>if </span>(&lt; n <span style=color:#ae81ff>10</span>) <span style=color:#75715e>; ensure we split 10 also, into 1 and 0</span>
+      (conj xs (-&gt; n Math/floor Math/round))
+      (<span style=color:#a6e22e>recur</span> (/ n <span style=color:#ae81ff>10</span>)
+             (conj xs
+                   (-&gt; n (rem <span style=color:#ae81ff>10</span>) Math/floor Math/round))))))
+
+<span style=color:#75715e>;; Check...</span>
+<span style=color:#f92672>#</span>_(map n-&gt;digits [<span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span> <span style=color:#ae81ff>100</span> <span style=color:#ae81ff>10</span> <span style=color:#ae81ff>1</span> <span style=color:#ae81ff>0</span>])
+
+
+(<span style=color:#66d9ef>defn </span>digits-&gt;n
+  <span style=color:#e6db74>&#34;Will turn the sequence (1 2 3 4 5) into the number 12345.&#34;</span>
+  [dxs]
+  (reduce (<span style=color:#66d9ef>fn </span>[r dx] (+ (* r <span style=color:#ae81ff>10</span>) dx))
+          dxs))
+
+
+(<span style=color:#66d9ef>defn </span>dismal-add
+  <span style=color:#e6db74>&#34;x and y can have any number of digits&#34;</span>
+  [x y]
+  (<span style=color:#66d9ef>let </span>[nxs (<span style=color:#a6e22e>n-&gt;digits</span> x)
+        nys (<span style=color:#a6e22e>n-&gt;digits</span> y)
+        cxs (count nxs)
+        cys (count nys)
+        dxys (<span style=color:#a6e22e>Math/abs</span> (- cxs cys))
+        dzs (repeat dxys <span style=color:#ae81ff>0</span>)
+        [nxs nys] (<span style=color:#66d9ef>if </span>(&gt; cxs cys)
+                    [nxs            (concat dzs nys)]
+                    [(concat dzs nxs) nys])]
+    (<span style=color:#a6e22e>-&gt;&gt;</span> nys
+         (map max nxs)
+         digits-&gt;n)))
+
+
+(<span style=color:#66d9ef>defn </span>dismal-mul
+  <span style=color:#e6db74>&#34;Like politics and war, multiplication is just addition
+</span><span style=color:#e6db74>   by other means. No?&#34;</span>
+  [x y]
+  (<span style=color:#66d9ef>let </span>[nxs (<span style=color:#a6e22e>n-&gt;digits</span> x)
+        nys (<span style=color:#a6e22e>n-&gt;digits</span> y)
+        diagonal-summable
+        (reduce (<span style=color:#66d9ef>fn </span>[rs y]
+                  (conj rs (map <span style=color:#f92672>#</span>(min y %) nys)))
+                []
+                nxs)
+        transpose-matrix (<span style=color:#66d9ef>fn </span>[matrix]
+                           (into []
+                                 (apply map vector matrix)))
+        summable-matrix (<span style=color:#a6e22e>transpose-matrix</span> diagonal-summable)
+        summables (reverse (map digits-&gt;n summable-matrix))
+        summables (<span style=color:#a6e22e>map-indexed</span> (<span style=color:#66d9ef>fn </span>[idx x]
+                                 (* x (<span style=color:#a6e22e>Math/round</span> (<span style=color:#a6e22e>Math/pow</span> <span style=color:#ae81ff>10</span> idx))))
+                               summables)]
+    (reduce dismal-add summables)))
+
+
+(<span style=color:#a6e22e>comment</span>
+  <span style=color:#75715e>;; Given test cases:</span>
+  (= (<span style=color:#a6e22e>dismal-add</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>)
+     <span style=color:#ae81ff>269</span>)
+
+  (= (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>)
+     <span style=color:#ae81ff>12468</span>)
+
+  <span style=color:#75715e>;; Other numbers:</span>
+  (<span style=color:#a6e22e>dismal-add</span> <span style=color:#ae81ff>123</span> <span style=color:#ae81ff>45678</span>)
+  (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>123</span> <span style=color:#ae81ff>45678</span>)
+
+
+  <span style=color:#75715e>;; Associative?</span>
+
+  (= (<span style=color:#a6e22e>dismal-add</span> <span style=color:#ae81ff>169</span> (<span style=color:#a6e22e>dismal-add</span> <span style=color:#ae81ff>248</span> <span style=color:#ae81ff>100</span>))
+     (<span style=color:#a6e22e>dismal-add</span> (<span style=color:#a6e22e>dismal-add</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>) <span style=color:#ae81ff>100</span>))
+
+  (= (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>169</span> (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>248</span> <span style=color:#ae81ff>100</span>))
+     (<span style=color:#a6e22e>dismal-mul</span> (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>) <span style=color:#ae81ff>100</span>))
+
+
+  <span style=color:#75715e>;; Commutative?</span>
+
+  (= (reduce dismal-add [<span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span> <span style=color:#ae81ff>12345</span>])
+     (reduce dismal-add [<span style=color:#ae81ff>248</span> <span style=color:#ae81ff>12345</span> <span style=color:#ae81ff>169</span>])
+     (reduce dismal-add [<span style=color:#ae81ff>12345</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>]))
+
+  (= (reduce dismal-mul [<span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span> <span style=color:#ae81ff>12345</span>])
+     (reduce dismal-mul [<span style=color:#ae81ff>248</span> <span style=color:#ae81ff>12345</span> <span style=color:#ae81ff>169</span>])
+     (reduce dismal-mul [<span style=color:#ae81ff>12345</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>]))
+
+
+  <span style=color:#75715e>;; Distributive?</span>
+
+  (= (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>100</span>
+                 (<span style=color:#a6e22e>dismal-add</span> <span style=color:#ae81ff>169</span> <span style=color:#ae81ff>248</span>))
+
+     (<span style=color:#a6e22e>dismal-add</span> (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>100</span> <span style=color:#ae81ff>169</span>)
+                 (<span style=color:#a6e22e>dismal-mul</span> <span style=color:#ae81ff>100</span> <span style=color:#ae81ff>248</span>)))
+  )
+</code></pre></div><h2 id=dismal-arithmetic-in-dyalog-apl>Dismal Arithmetic in Dyalog APL<a href=#dismal-arithmetic-in-dyalog-apl class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Here, I managed to implement addition, discovered how to write &ldquo;inverse of a
+function&rdquo; and my mind melted.</p>
+<pre tabindex=0><code class=language-dyalog data-lang=dyalog>      da ← 10⊥(⌈/10⊥⍣¯1⊢)
+      da 169 248
+269
+</code></pre><p>Yes, that&rsquo;s the entire solution to dismal addition. <code>⍣¯1</code> is APL for &ldquo;inverse&rdquo;.
+Here is the solution explained in parts. I first did it with dfns, because my
+brain is stuck inside Lisp / traditional functional programming style.</p>
+<p>Apart from built-in support for numeric encoding/decoding, notice the automatic
+zero-padding.</p>
+<pre tabindex=0><code class=language-dyalog data-lang=dyalog>      {10(⊤⍣¯1)⍵}∘{⌈/⍵}∘{10(⊥⍣¯1)⍵}⊢ 100000 10000 1000 100 10 1
+111111
+
+      {10(⊤⍣¯1)⍵}∘{⌈/⍵}∘{10(⊥⍣¯1)⍵}⊢ 1 10 100 1000 10000 100000
+111111
+
+      da ← 10⊥(⌈/10⊥⍣¯1⊢)
+
+      da 1 10 100 1000 10000 100000
+111111
+</code></pre><p><em>However</em>, there is something deeply unsatisfying about using dfns in APL, when
+you know trains exist.</p>
+<p>So I muddled about and managed to express the whole idea as a single unit, viz.
+this lovely little expression <code>10⊥(⌈/10⊥⍣¯1⊢)</code> which says &ldquo;Dismal Arithmetic&rdquo;
+in fewer characters than the name <em>and is also</em> a working partial implementation.
+Here is how it breaks down in my FP-addled brain:</p>
+<pre tabindex=0><code class=language-dyalog data-lang=dyalog>decode ← 10(⊥⍣¯1)⊢
+
+reducemax ← ⌈/
+
+encode ← 10(⊤⍣¯1)⊢
+
+encode reducemax decode 169 248
+269
+</code></pre><h2 id=addendum-the-of-inverse>Addendum: The ⍣ of inverse<a href=#addendum-the-of-inverse class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Aaaron Hsu helped me understand what was going on, and wrote about
+&ldquo;<a href=https://www.sacrideo.us/decoding-inverses/>Decoding Inverses</a>&rdquo; at his blog.</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button next">
+<a href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>
+<span class=button__text>Shell ain't a bad place to FP: part 1/N</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer id=footer>
+<div align=center>
+<div>
+<form action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+<label for=bd-email>:: Occasional newsletter ::</label>
+<p><input type=email name=email id=bd-email>
+<input type=submit value=Subscribe>
+</p>
+<div>
+<p>
+(powered by <a href=https://buttondown.email target=_blank>Buttondown</a>)
+</p>
+</div>
+</form>
+</div>
+<p>
+<hr>
+</p>
+<div class=footer__inner>
+<div class=copyright>
+<span>
+Write to <i>weblog (at) evalapply (dot) org</i>.
+Made with
+<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
+<a href=https://orgmode.org/>org-mode</a>,
+<a href=https://ox-hugo.scripter.co/>ox-hugo</a>,
+<a href=http://gohugo.io>Hugo</a>, and
+<a href=https://github.com/panr/hugo-theme-terminal>terminal</a>.
+© 2022
+<a href=https://evalapply.org target=_blank>Aditya Athalye</a>,
+except where otherwise noted.
+</span>
+</div>
+</div>
+<p>
+<hr>
+</p>
+<div>
+<script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+</div>
+</div>
+</footer>
+<script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+</div>
+</body>
+</html>

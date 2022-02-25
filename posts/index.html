@@ -63,6 +63,41 @@ eval/apply
 <div class=posts>
 <div class="post on-list">
 <h1 class=post-title>
+<a href=/posts/dismal-arithmetic-dyalog-apl-clojure/>Dismal Arithmetic in Dyalog APL and Clojure</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-25
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<div class=post-content>
+<p>Throwback: Jan 2018.</p>
+<p>I learned of something called <em><a href=https://arxiv.org/abs/1107.1130>Dismal Arithmetic</a></em>. As the linked paper describes it:</p>
+<blockquote>
+<p>Dismal arithmetic is just like the arithmetic you learned in school, only
+simpler: there are no carries, when you add digits you just take the largest,
+and when you multiply digits you take the smallest. This paper studies basic
+number theory in this world, including analogues of the primes, number of
+divisors, sum of divisors, and the partition function.</p>
+</blockquote>
+<p>I thought it might be fun to implement it in APL for kicks, but I wrote it in
+Clojure first, because I wasn&rsquo;t sure of my APL-fu. And I&rsquo;m glad I wrote the
+Dyalog APL version because I learned something about trains, and also because
+I stumbled on the idea of &ldquo;inverse of a function&rdquo; which melted my mind a bit.</p>
+<ul>
+<li><a href=#examples-of-dismal-addition-and-multiplication>Examples of Dismal Addition and Multiplication</a></li>
+<li><a href=#dismal-arithmetic-in-clojure>Dismal Arithmetic in Clojure</a></li>
+<li><a href=#dismal-arithmetic-in-dyalog-apl>Dismal Arithmetic in Dyalog APL</a></li>
+<li><a href=#addendum-the-of-inverse>Addendum: The ⍣ of inverse</a></li>
+</ul>
+</div>
+<div>
+<a class="read-more button" href=/posts/dismal-arithmetic-dyalog-apl-clojure/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
 <a href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Shell ain&rsquo;t a bad place to FP: part 1/N</a>
 </h1>
 <div class=post-meta>
