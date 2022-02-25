@@ -1,12 +1,12 @@
 <!doctype html><html lang=en>
 <head>
-<title>Tags :: eval/apply</title>
+<title>apl :: eval/apply</title>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=description content>
 <meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
 <meta name=robots content="noodp">
-<link rel=canonical href=/tags/>
+<link rel=canonical href=/tags/apl/>
 <link rel=stylesheet href=/assets/style.css>
 <link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
 <link rel="shortcut icon" href=/favicon.ico>
@@ -15,14 +15,14 @@
 <meta name=twitter:creator content>
 <meta property="og:locale" content="en">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Tags">
+<meta property="og:title" content="apl">
 <meta property="og:description" content>
-<meta property="og:url" content="/tags/">
+<meta property="og:url" content="/tags/apl/">
 <meta property="og:site_name" content="eval/apply">
 <meta property="og:image" content="/favicon.ico">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
-<link href=/tags/index.xml rel=alternate type=application/rss+xml title=eval/apply>
+<link href=/tags/apl/index.xml rel=alternate type=application/rss+xml title=eval/apply>
 </head>
 <body class=orange>
 <div class="container center">
@@ -60,76 +60,51 @@ eval/apply
 </nav>
 </header>
 <div class=content>
-<div class=terms>
-<h1>Tags</h1>
+<div class=posts>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=/posts/dismal-arithmetic-dyalog-apl-clojure/>Dismal Arithmetic in Dyalog APL and Clojure</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-25
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/clojure/>clojure</a>&nbsp;
+#<a href=/tags/apl/>apl</a>&nbsp;
+#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
+</span>
+<div class=post-content>
+<p>Throwback: Jan 2018.</p>
+<p>I learned of something called <em><a href=https://arxiv.org/abs/1107.1130>Dismal Arithmetic</a></em>. As the linked paper describes it:</p>
+<blockquote>
+<p>Dismal arithmetic is just like the arithmetic you learned in school, only
+simpler: there are no carries, when you add digits you just take the largest,
+and when you multiply digits you take the smallest. This paper studies basic
+number theory in this world, including analogues of the primes, number of
+divisors, sum of divisors, and the partition function.</p>
+</blockquote>
+<p>I thought it might be fun to implement it in APL for kicks, but I wrote it in
+Clojure first, because I wasn&rsquo;t sure of my APL-fu. And I&rsquo;m glad I wrote the
+Dyalog APL version because I learned something about trains, and also because
+I stumbled on the idea of &ldquo;inverse of a function&rdquo; which melted my mind a bit.</p>
 <ul>
-<li>
-<a class=terms-title href=/tags/apl/>apl (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/architecture/>architecture (3)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/bash/>bash (3)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/bias/>bias (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/clojure/>clojure (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/complexity/>complexity (2)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/culture/>culture (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/functional-programming/>functional-programming (5)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/hello-world/>hello-world (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/howto/>howto (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/mentalhealth/>mentalhealth (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/meta/>meta (3)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/organisation-design/>organisation-design (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/quality/>quality (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/random/>random (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/risk/>risk (2)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/scale/>scale (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/speaking/>speaking (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/systems/>systems (5)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/unix/>unix (3)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/whyto/>whyto (1)</a>
-</li>
-<li>
-<a class=terms-title href=/tags/writing/>writing (1)</a>
-</li>
+<li><a href=#examples-of-dismal-addition-and-multiplication>Examples of Dismal Addition and Multiplication</a></li>
+<li><a href=#dismal-arithmetic-in-clojure>Dismal Arithmetic in Clojure</a></li>
+<li><a href=#dismal-arithmetic-in-dyalog-apl>Dismal Arithmetic in Dyalog APL</a></li>
+<li><a href=#addendum-the-of-inverse>Addendum: The ⍣ of inverse</a></li>
 </ul>
+</div>
+<div>
+<a class="read-more button" href=/posts/dismal-arithmetic-dyalog-apl-clojure/>Read more →</a>
+</div>
+</div>
+<div class=pagination>
+<div class=pagination__buttons>
+</div>
+</div>
 </div>
 </div>
 <footer class=footer id=footer>
