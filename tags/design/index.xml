@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>design on eval/apply</title><link>/tags/design/</link><description>Recent content in design on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 09 Mar 2022 04:24:48 +0530</lastBuildDate><atom:link href="/tags/design/index.xml" rel="self" type="application/rss+xml"/><item><title>shite: static sites from shell: part 1/2</title><link>/posts/shite-the-static-sites-from-shell-part-1/</link><pubDate>Wed, 09 Mar 2022 04:24:48 +0530</pubDate><guid>/posts/shite-the-static-sites-from-shell-part-1/</guid><description>&lt;p>This primer is for people like me, who long dreamed of lovingly hand-crafting
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>design on eval/apply</title><link>/tags/design/</link><description>Recent content in design on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Mar 2022 01:29:08 +0530</lastBuildDate><atom:link href="/tags/design/index.xml" rel="self" type="application/rss+xml"/><item><title>shite: static sites from shell: part 1/2</title><link>/posts/shite-the-static-sites-from-shell-part-1/</link><pubDate>Tue, 08 Mar 2022 01:29:08 +0530</pubDate><guid>/posts/shite-the-static-sites-from-shell-part-1/</guid><description>&lt;p>This primer is for people like me, who long dreamed of lovingly hand-crafting
 our own home on the Internet. We would make it ultramodern yet ultralight,
 simple yet beautiful. Something &lt;em>not&lt;/em> WordPress because that&amp;rsquo;s so last century.
 (Seriously, just go to WordPress.)&lt;/p>
@@ -213,8 +213,8 @@ described below.&lt;/p>
 after reading half a book. You may do it differently. The important thing is
 to construct a &lt;em>good enough model&lt;/em> to help us think.&lt;/p>
 &lt;div class="collapsable-code">
-&lt;input id="562187394" type="checkbox" checked />
-&lt;label for="562187394">
+&lt;input id="938741265" type="checkbox" checked />
+&lt;label for="938741265">
 &lt;span class="collapsable-code__language">html&lt;/span>
 &lt;span class="collapsable-code__title">Anatomy of the markup&lt;/span>
 &lt;span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide">&lt;/span>

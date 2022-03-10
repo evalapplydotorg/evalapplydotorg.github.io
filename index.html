@@ -97,11 +97,66 @@ And if it strikes your fancy, write to me at <em>weblog (at) evalapply (dot) org
 <div class=posts>
 <div class="post on-list">
 <h1 class=post-title>
+<a href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Shell ain&rsquo;t a bad place to FP: part 1/N</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-03-11
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/bash/>bash</a>&nbsp;
+#<a href=/tags/unix/>unix</a>&nbsp;
+#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
+#<a href=/tags/architecture/>architecture</a>&nbsp;
+</span>
+<div class=post-content>
+<p>Or, <em><strong>the one in which we &ldquo;take apart&rdquo; Douglas McIlroy&rsquo;s pipeline from 1986.</strong></em></p>
+<p>Doing so teaches an object lesson about the essence of modular, composable,
+functional architecture. And things start to really heat up when it dawns on
+us, how a good set of standard parts can be used to express totally different
+ideas <em>just by composing them in different ways</em>.</p>
+<p>(Edit 2022-03-10: speaking of lessons, how about the one in the appendix?!)</p>
+<blockquote>
+<p>&ldquo;Designing is <em>fundamentally</em> about taking things apart. It&rsquo;s about taking
+things apart <em>in such a way</em> that they can be put back together. i.e.
+Separating into things that can be composed.&rdquo;</p>
+<ul>
+<li>Rich Hickey, &ldquo;<a href="https://www.youtube.com/watch?v=QCwqnjxqfmY">Design, Composition, and Performance</a>&rdquo;, 2013</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>tr -cs A-Za-z <span style=color:#e6db74>&#39;\n&#39;</span> | tr A-Z a-z | sort | uniq -c | sort -rn | sed 10q
+</code></pre></div><ul>
+<li>Douglas McIlroy, <a href=https://dl.acm.org/doi/10.1145/5948.315654>Communications of the ACM</a>, 1986</li>
+</ul>
+</blockquote>
+<ul>
+<li><a href=#the-pipeline-that-douglas-built>The Pipeline that Douglas Built</a></li>
+<li><a href=#take-apart-semantics-idioms-functions>Take Apart! Semantics/Idioms -> Functions</a></li>
+<li><a href=#play-semantics-functions-ooh-what-if-i-dot-dot-dot>Play! Semantics -> Functions -> &ldquo;Ooh, what if I&mldr;"</a></li>
+<li><a href=#compose-again-semantics-functions-play-grand-new-pipeline>Compose Again! Semantics -> Functions -> Play -> Grand New Pipeline</a></li>
+<li><a href=#addendum-remarkable-aspects-of-doug-s-o-dot-g-dot-pipeline>Addendum: Remarkable aspects of Doug&rsquo;s O.G. pipeline</a></li>
+<li><a href=#appendix-an-unexpected-masterclass>Appendix: an unexpected masterclass!</a>
+<ul>
+<li><a href=#the-danger-lurking-in-the-pipes>The danger lurking in the pipes</a></li>
+<li><a href=#backstory>Backstory</a></li>
+<li><a href=#postscript>Postscript</a></li>
+</ul>
+</li>
+</ul>
+<p>Previously: <a href=https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/>Shell ain&rsquo;t a bad place to FP: part 0/N</a></p>
+</div>
+<div>
+<a class="read-more button" href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
 <a href=/posts/shite-the-static-sites-from-shell-part-1/>shite: static sites from shell: part 1/2</a>
 </h1>
 <div class=post-meta>
 <span class=post-date>
-2022-03-09
+2022-03-08
 </span>
 <span class=post-author>:: [Adi]</span>
 </div>
@@ -163,53 +218,6 @@ I stumbled on the idea of &ldquo;inverse of a function&rdquo; which melted my mi
 </div>
 <div>
 <a class="read-more button" href=/posts/dismal-arithmetic-dyalog-apl-clojure/>Read more →</a>
-</div>
-</div>
-<div class="post on-list">
-<h1 class=post-title>
-<a href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Shell ain&rsquo;t a bad place to FP: part 1/N</a>
-</h1>
-<div class=post-meta>
-<span class=post-date>
-2022-02-23
-</span>
-<span class=post-author>:: [Adi]</span>
-</div>
-<span class=post-tags>
-#<a href=/tags/bash/>bash</a>&nbsp;
-#<a href=/tags/unix/>unix</a>&nbsp;
-#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
-#<a href=/tags/architecture/>architecture</a>&nbsp;
-</span>
-<div class=post-content>
-<p>Or, <em><strong>the one in which we &ldquo;take apart&rdquo; Douglas McIlroy&rsquo;s pipeline from 1986.</strong></em></p>
-<p>Doing so teaches an object lesson about the essence of modular, composable,
-functional architecture. And things start to really heat up when it dawns on
-us, how a good set of standard parts can be used to express totally different
-ideas <em>just by composing them in different ways</em>.</p>
-<blockquote>
-<p>&ldquo;Designing is <em>fundamentally</em> about taking things apart. It&rsquo;s about taking
-things apart <em>in such a way</em> that they can be put back together. i.e.
-Separating into things that can be composed.&rdquo;</p>
-<ul>
-<li>Rich Hickey, &ldquo;<a href="https://www.youtube.com/watch?v=QCwqnjxqfmY">Design, Composition, and Performance</a>&rdquo;, 2013</li>
-</ul>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>tr -cs A-Za-z <span style=color:#e6db74>&#39;\n&#39;</span> | tr A-Z a-z | sort | uniq -c | sort -rn | sed 10q
-</code></pre></div><ul>
-<li>Douglas McIlroy, <a href=https://dl.acm.org/doi/10.1145/5948.315654>Communications of the ACM</a>, 1986</li>
-</ul>
-</blockquote>
-<ul>
-<li><a href=#the-pipeline-that-douglas-built>The Pipeline that Douglas Built</a></li>
-<li><a href=#take-apart-semantics-idioms-functions>Take Apart! Semantics/Idioms -> Functions</a></li>
-<li><a href=#play-semantics-functions-ooh-what-if-i-dot-dot-dot>Play! Semantics -> Functions -> &ldquo;Ooh, what if I&mldr;"</a></li>
-<li><a href=#compose-again-semantics-functions-play-grand-new-pipeline>Compose Again! Semantics -> Functions -> Play -> Grand New Pipeline</a></li>
-<li><a href=#addendum-remarkable-aspects-of-doug-s-o-dot-g-dot-pipeline>Addendum: Remarkable aspects of Doug&rsquo;s O.G. pipeline</a></li>
-</ul>
-<p>Previously: <a href=https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/>Shell ain&rsquo;t a bad place to FP: part 0/N</a></p>
-</div>
-<div>
-<a class="read-more button" href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Read more →</a>
 </div>
 </div>
 <div class="post on-list">
