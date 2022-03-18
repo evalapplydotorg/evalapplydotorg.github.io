@@ -1,4 +1,661 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>functional-programming on eval/apply</title><link>/tags/functional-programming/</link><description>Recent content in functional-programming on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 11 Mar 2022 00:08:52 +0530</lastBuildDate><atom:link href="/tags/functional-programming/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Fri, 11 Mar 2022 00:08:52 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>functional-programming on eval/apply</title><link>/tags/functional-programming/</link><description>Recent content in functional-programming on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 18 Mar 2022 15:06:46 +0530</lastBuildDate><atom:link href="/tags/functional-programming/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 18 Mar 2022 15:06:46 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+or at least bears witness to another. Over the years, many gentlenerds have
+taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
+&lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
+&lt;p>The brainwave here is to (mis)use the feature set of Clojure and its standard
+library to cook up as many ways to encode FizzBuzz as one can muster (or steal).
+If all goes well, this post will receive many updates. If it goes &lt;em>really&lt;/em>
+well, all sorts of bad ideas and clever foot-guns will be discovered and used.&lt;/p></description><content>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+or at least bears witness to another. Over the years, many gentlenerds have
+taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
+&lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
+&lt;p>The brainwave here is to (mis)use the feature set of Clojure and its standard
+library to cook up as many ways to encode FizzBuzz as one can muster (or steal).
+If all goes well, this post will receive many updates. If it goes &lt;em>really&lt;/em>
+well, all sorts of bad ideas and clever foot-guns will be discovered and used.&lt;/p>
+&lt;p>Not to be indelicate, but I will state the problem before proceeding.&lt;/p>
+&lt;blockquote>
+&lt;p>Fizz buzz is a group word game for children to teach them about division.
+Players take turns to count incrementally, replacing any number divisible by
+three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five with the word &amp;ldquo;buzz&amp;rdquo;.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://en.wikipedia.org/wiki/Fizz%5Fbuzz">https://en.wikipedia.org/wiki/Fizz%5Fbuzz&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>Needless to say, they mean natural numbers when they say &amp;ldquo;numbers&amp;rdquo;.&lt;/p>
+&lt;p>Phew that was rough on the ego. Let us compose ourselves for a minute.&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>OK, onward.&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#usage-guide">Usage guide&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique">Le FizzBuzz Classique&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique-est-mort-%C3%A0-clojure-dot-d%C3%A9sol%C3%A9">Le FizzBuzz Classique est mort à Clojure. Désolé :(&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique-remedied">Le FizzBuzz Classique, remedied&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique-dissected">Le FizzBuzz Classique, dissected&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique-doseq-d">Le FizzBuzz Classique, doseq&amp;rsquo;d&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique-doall-d">Le FizzBuzz Classique, doall&amp;rsquo;d&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#little-functions-are-good">Little functions are good!&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#map-reduce-for-fizzbuzz">map reduce for FizzBuzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#domain-driven-design-fizzbuzz">Domain Driven Design FizzBuzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#actually-domain-driven-fizzbuzz">Actually Domain Driven FizzBuzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#fizzbuzz-by-construction">FizzBuzz by construction&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#interlude-all-the-fizz-buzzes-so-far">Interlude: all the fizz-buzzes so far&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;hr>
+&lt;h2 id="usage-guide">Usage guide&lt;/h2>
+&lt;p>Reading the code:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Find the &lt;code>check-all-fizz-buzzers&lt;/code> function below, for usage examples.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>We use functions only from Clojure&amp;rsquo;s standard library (clojure.core).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Lookup unfamiliar functions at &lt;a href="https://clojuredocs.org/quickref">https://clojuredocs.org/quickref&lt;/a>, helpfully
+illustrated with community-contributed examples.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Running the code:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>If you don&amp;rsquo;t already have &lt;a href="https://clojure.org/guides/getting%5Fstarted">Clojure installed&lt;/a>,
+you can run the code online at &lt;a href="https://tryclojure.org/">https://tryclojure.org/&lt;/a> (fully client-side,
+but minimalist), or at &lt;a href="https://repl.it/languages/clojure">https://repl.it/languages/clojure&lt;/a> (feature-rich
+web-based IDE, but requires signup).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Preferably, copy over code as you go along. Try it out bit by bit.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>If you are in a hurry, find the &amp;ldquo;Interlude&amp;rdquo; section and copy over all the
+code from there.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Finally, run &lt;code>(check-all-fizz-buzzers)&lt;/code> to see if it all works as expected.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Complaining about the code:&lt;/p>
+&lt;ul>
+&lt;li>If I&amp;rsquo;ve written any bugs (possible) or made egregious remarks (very possible),
+please write to &lt;em>weblog&lt;/em> at this website. I&amp;rsquo;ll fix the bugs.&lt;/li>
+&lt;/ul>
+&lt;p>Right, then. Shall we begin?&lt;/p>
+&lt;h2 id="le-fizzbuzz-classique">Le FizzBuzz Classique&lt;/h2>
+&lt;p>In the beginning, one might trawl the Clojure standard library for familiar,
+safe-looking words and accidentally discover &lt;code>for&lt;/code>&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>.
+Python or Javascript gentlenerds may say &lt;em>&amp;ldquo;Ooh, List Comprehension. Nice!&amp;quot;&lt;/em>,
+and bang out &lt;em>Le FizzBuzz Classique&lt;/em>. Java or C# gentlenerds may struggle a
+lot more, because Clojure has no &lt;code>Class&lt;/code>. We are sorry for this disappointment.
+Please follow the Python for now.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>fizz-buzz-classic
+[num-xs]
+(for [n num-xs]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(zero? (rem n &lt;span style="color:#ae81ff">15&lt;/span>)) (println &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>)
+(zero? (rem n &lt;span style="color:#ae81ff">3&lt;/span>)) (println &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>)
+(zero? (rem n &lt;span style="color:#ae81ff">5&lt;/span>)) (println &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>)
+&lt;span style="color:#e6db74">:else&lt;/span> (println n))))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then you will evaluate it &lt;em>in&lt;/em> the &amp;ldquo;REPL&amp;rdquo;, et voilà! Something
+très familiar!&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">user=&amp;gt; (&lt;span style="color:#a6e22e">fizz-buzz-classic&lt;/span> (list &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>))
+&lt;span style="color:#ae81ff">1&lt;/span>
+Fizz
+Buzz
+FizzBuzz
+&lt;span style="color:#ae81ff">16&lt;/span>
+(&lt;span style="color:#a6e22e">nil&lt;/span> nil nil nil nil)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>(Except for that pesky last line full of nils. But like, whatever. It worked.).&lt;/p>
+&lt;h2 id="le-fizzbuzz-classique-est-mort-à-clojure-dot-désolé">Le FizzBuzz Classique est mort à Clojure. Désolé :(&lt;/h2>
+&lt;p>Sadly, the spurious nils are the least of your woes. You just fell prey to
+something called &amp;ldquo;Laziness&amp;rdquo;, and the code is dead on arrival, but you don&amp;rsquo;t
+know it yet because evaluating &lt;em>in&lt;/em> the &amp;ldquo;REPL&amp;rdquo; obscures this fact.&lt;/p>
+&lt;p>Welcome to Functional Programming (FP) with lazy sequences, which is &lt;em>awesome&lt;/em>,
+but which is also one of the double edges of Clojure that will cut you if you
+come here with set ideas about How Things Ought To Work.&lt;/p>
+&lt;p>Saying it in French (however broken) felt gentler, somehow.&lt;/p>
+&lt;p>At this point, you might accuse me of setting you up with this strawman &lt;code>for&lt;/code>.
+In response, I might simply wait for your production to blow up. Unknowing
+mixing of laziness and side effects reliably trips up all programmers new to
+Clojure &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>Luckily we can avoid going down that rabbit hole &lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup> entirely, because
+there is a more pressing problem that makes &lt;em>Le FizzBuzz Classique&lt;/em> look
+severely defective to this Clojurist&amp;rsquo;s FP-addled brain. Fixing that makes the
+point of lazy sequences moot, as a nice bonus.&lt;/p>
+&lt;h2 id="le-fizzbuzz-classique-remedied">Le FizzBuzz Classique, remedied&lt;/h2>
+&lt;p>Behold this cleaned up version.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>lazybuzz
+[num-xs]
+(for [n num-xs]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(zero? (rem n &lt;span style="color:#ae81ff">15&lt;/span>)) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(zero? (rem n &lt;span style="color:#ae81ff">3&lt;/span>)) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(zero? (rem n &lt;span style="color:#ae81ff">5&lt;/span>)) &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">:else&lt;/span> n)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yes, &lt;code>println&lt;/code> is no more, and&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">user=&amp;gt; (&lt;span style="color:#a6e22e">lazybuzz&lt;/span> (list &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>))
+(&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Compare the shape of the collection of nils seen classically, with what we see
+now. They are both sequences with the same number of items, &lt;em>but&lt;/em> the new one
+contains useful values (insert :trollface: :).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">user=&amp;gt; (&lt;span style="color:#a6e22e">fizz-buzz-classic&lt;/span> (list &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">19&lt;/span>))
+&lt;span style="color:#ae81ff">1&lt;/span>
+Fizz
+Buzz
+FizzBuzz
+&lt;span style="color:#ae81ff">19&lt;/span>
+(&lt;span style="color:#a6e22e">nil&lt;/span> nil nil nil nil) &lt;span style="color:#75715e">; 5 prints, 5 nils&lt;/span>
+user=&amp;gt; (&lt;span style="color:#a6e22e">lazybuzz&lt;/span> (list &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">19&lt;/span>))
+(&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">19&lt;/span>) &lt;span style="color:#75715e">; no prints, 1 value containing 5 values&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Well, that&amp;rsquo;s because all expressions in Clojure return a value. &lt;code>println&lt;/code>
+creates a side effect of printing and has a return value of &lt;code>nil&lt;/code>. Thus for
+each item in the input range, the &amp;ldquo;impure&amp;rdquo; classic version prints to the REPL,
+collects the return value of each println (nil), and returns that collection.&lt;/p>
+&lt;p>The &amp;ldquo;purified&amp;rdquo; fizz-buzz simply calculates a result for each branch and the
+&lt;code>for&lt;/code> returns the accumulated result. And now the results are printed inside
+parentheses, which is, like, sure whatever. At least it &lt;em>looks&lt;/em> like it&amp;rsquo;s
+doing the right calculations &lt;em>and&lt;/em> the pesky nils are gone, so we can move on?&lt;/p>
+&lt;p>Not so fast.&lt;/p>
+&lt;h2 id="le-fizzbuzz-classique-dissected">Le FizzBuzz Classique, dissected&lt;/h2>
+&lt;p>To FizzBuzz creatively in Clojure, we must examine &lt;em>and avoid&lt;/em> the defects of
+the classic version, which are as follows.&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>Broken behaviour&lt;/strong>: &lt;code>println&lt;/code> alters the state of the world and thus
+injects non-determinism into an otherwise purely functional calculation.
+This is anathema &lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup> to Clojurists (and FP practitioners at large).&lt;/li>
+&lt;li>&lt;strong>Broken API contract&lt;/strong>: We get back a useless collection nils, instead of the
+result of a calculation that we can use further. We prefer to always write
+functions that return useful values.&lt;/li>
+&lt;li>&lt;strong>Broken time model&lt;/strong>: Effects want to happen &amp;ldquo;now&amp;rdquo; (here, printing to
+some output device), while lazy computations want to happen &amp;ldquo;maybe never&amp;rdquo;
+(here, a definition that maps the domain of a collection of countless
+numbers to the domain of FizzBuzz). Effects and laziness can be made to
+pair well, &lt;em>but only when&lt;/em> we define them separately from the get go, and
+have some third way of joining them together safely when needed. For now,
+you could do worse than lasering this into your brain: &amp;ldquo;Never mix (side)
+effects and laziness.&amp;rdquo;.&lt;/li>
+&lt;li>&lt;strong>Broken aesthetic&lt;/strong>: We like our functions to do one job, and do it well.
+Printing things is a &lt;em>second&lt;/em> job, and as Messers Hal and Gerry like to
+say in SICP &lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>, &amp;ldquo;That&amp;rsquo;s George&amp;rsquo;s problem.&amp;rdquo;.&lt;/li>
+&lt;/ol>
+&lt;p>Henceforth, all functions shall be pure calculations, and we will rely on
+our metaphorical George &amp;ldquo;the REPL&amp;rdquo; Ableman to handle all our print jobs.&lt;/p>
+&lt;p>As an added benefit, writing pure functions makes laziness such a good friend,
+that we don&amp;rsquo;t even need to acknowledge its presence.&lt;/p>
+&lt;p>Yet another benefit is that we won&amp;rsquo;t have to burn hundreds of words to apologise
+for broken code &lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>See? Such passion. I wasn&amp;rsquo;t joking when I said &amp;ldquo;looks severely defective to me&amp;rdquo; &lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h2 id="le-fizzbuzz-classique-doseq-d">Le FizzBuzz Classique, doseq&amp;rsquo;d&lt;/h2>
+&lt;p>Maybe you still aren&amp;rsquo;t convinced. &lt;code>println&lt;/code> is such a global standard. &lt;em>Easy&lt;/em> &lt;sup id="fnref:8">&lt;a href="#fn:8" class="footnote-ref" role="doc-noteref">8&lt;/a>&lt;/sup>.
+So you might dig into the standard library more and come up with &lt;code>doseq&lt;/code> to
+eliminate laziness&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>doseq-fizz-buzz
+[num-xs]
+(doseq [n num-xs]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(zero? (rem n &lt;span style="color:#ae81ff">15&lt;/span>)) (println &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>)
+(zero? (rem n &lt;span style="color:#ae81ff">3&lt;/span>)) (println &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>)
+(zero? (rem n &lt;span style="color:#ae81ff">5&lt;/span>)) (println &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>)
+&lt;span style="color:#e6db74">:else&lt;/span> (println n))))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And declare victory&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">user=&amp;gt; (&lt;span style="color:#a6e22e">doseq-fizz-buzz&lt;/span> (list &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">19&lt;/span>))
+&lt;span style="color:#ae81ff">1&lt;/span>
+Fizz
+Buzz
+FizzBuzz
+&lt;span style="color:#ae81ff">19&lt;/span>
+nil &lt;span style="color:#75715e">; maybe we can live with just one nil?&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>But the code is still fatally broken for the other reasons, and now &lt;em>it is
+also worse&lt;/em>, because this implementation cannot say &amp;ldquo;here are &lt;em>all&lt;/em> the
+fizzbuzzes&amp;rdquo;. Only a lazy definition can say this &lt;em>and&lt;/em> allow you to carry on
+computing. Besides, &lt;code>doseq&lt;/code> is meant for cases when we &lt;em>want to cause&lt;/em> side
+effects. And the functional Clojurist almost never &lt;em>wants&lt;/em> to.&lt;/p>
+&lt;p>Remember the children&amp;rsquo;s game definition of FizzBuzz? It is beautiful because
+it &lt;em>does not&lt;/em> say &amp;ldquo;FizzBuzz only for the first K numbers&amp;rdquo;. Now if you go
+DuckDuck search the standard coding interview version of the question, what
+do you find? &amp;ldquo;Write a program that prints the numbers from 1 to 100
+such that&amp;hellip;&amp;rdquo;.&lt;/p>
+&lt;p>Boo.&lt;/p>
+&lt;h2 id="le-fizzbuzz-classique-doall-d">Le FizzBuzz Classique, doall&amp;rsquo;d&lt;/h2>
+&lt;p>As a famous TV detective would say; &amp;ldquo;Oh, just one other thing.&amp;rdquo;. Here are ways
+to break your programs. And if you are feeling suitably adventurous, to also
+test the stability of your employment.&lt;/p>
+&lt;p>The following invocation of &lt;code>lazybuzz&lt;/code> in your &lt;code>-main&lt;/code> would not be fine,
+assuming you wanted to do something useful with it. But would also not
+precipitate anything terrible.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>-main
+&lt;span style="color:#e6db74">&amp;#34;The entry point to your microservice.&amp;#34;&lt;/span>
+[&lt;span style="color:#f92672">&amp;amp;&lt;/span> args]
+&lt;span style="color:#75715e">;; Do things ...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m about to do...&amp;#34;&lt;/span>)
+&lt;span style="color:#75715e">;; No block, no foul.&lt;/span>
+(&lt;span style="color:#a6e22e">lazybuzz&lt;/span> (&lt;span style="color:#a6e22e">range&lt;/span>))
+&lt;span style="color:#75715e">;; Sure, why not ...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m done!&amp;#34;&lt;/span>))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here is a good way to break your software &lt;!-- raw HTML omitted -->and&lt;!-- raw HTML omitted --> print FizzBuzzes to the console
+indefinitely (or at least as long as your computer can make new numbers).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>-main
+&lt;span style="color:#e6db74">&amp;#34;The entry point to your microservice.&amp;#34;&lt;/span>
+[&lt;span style="color:#f92672">&amp;amp;&lt;/span> args]
+&lt;span style="color:#75715e">;; Do things ...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m about to do...&amp;#34;&lt;/span>)
+&lt;span style="color:#75715e">;; Spin wheels until the numbers run out.&lt;/span>
+(&lt;span style="color:#a6e22e">doseq-fizz-buzz&lt;/span> (&lt;span style="color:#a6e22e">range&lt;/span>))
+&lt;span style="color:#75715e">;; Maybe never ...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m done!&amp;#34;&lt;/span>))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As a funner party trick, if you make a computer (VM) with a bad output device
+(or redirect program output to /dev/full), then you can crash or hang your
+program. If you discover it crashes, feel free to daemonise it and make an
+infinitely restarting JVM process that does nothing but burn CPU cycles.
+Take that, cryptominers!&lt;/p>
+&lt;p>To be fair, you can also break programs with lazy evaluation, with the added
+benefit of doing it silently. But at least you are forced to say &lt;code>doall&lt;/code>,
+which might make you feel at least a tiny bit guilty.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>-main
+&lt;span style="color:#e6db74">&amp;#34;The entry point to your microservice.&amp;#34;&lt;/span>
+[&lt;span style="color:#f92672">&amp;amp;&lt;/span> args]
+&lt;span style="color:#75715e">;; Do things...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m about to do...&amp;#34;&lt;/span>)
+&lt;span style="color:#75715e">;; Spin wheels silently, until OOM or no more numbers,&lt;/span>
+&lt;span style="color:#75715e">;; whichever happens first.&lt;/span>
+(doall (&lt;span style="color:#a6e22e">lazybuzz&lt;/span> (&lt;span style="color:#a6e22e">range&lt;/span>)))
+&lt;span style="color:#75715e">;; Maybe not ...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m done!&amp;#34;&lt;/span>))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>To see if you can get &lt;em>fired&lt;/em> by solving fizzbuzz (now that&amp;rsquo;s a concept,
+innit?), you can ship to production &lt;sup id="fnref:9">&lt;a href="#fn:9" class="footnote-ref" role="doc-noteref">9&lt;/a>&lt;/sup> the&amp;hellip;&lt;/p>
+&lt;ul>
+&lt;li>doseq version, to fill up your log files with fizzbuzz. They will fill
+up really fast. Faster than logrotate.&lt;/li>
+&lt;li>doall lazybuzz version, to confuse the daylights out of everyone, at
+least until your process dies with OOM.&lt;/li>
+&lt;li>badly daemonised verison, to enjoy repeated restart cycles through crashes
+from number overflows and/or OOMs.&lt;/li>
+&lt;li>Or something actually dangerous&amp;hellip;&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>-main
+&lt;span style="color:#e6db74">&amp;#34;The entry point to your microservice.&amp;#34;&lt;/span>
+[&lt;span style="color:#f92672">&amp;amp;&lt;/span> args]
+&lt;span style="color:#75715e">;; Do things...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m about to do...&amp;#34;&lt;/span>)
+&lt;span style="color:#75715e">;; Your /thought/ you were going to /do/ something useful here.&lt;/span>
+(&lt;span style="color:#a6e22e">fizz-buzz-classic&lt;/span> (&lt;span style="color:#a6e22e">range&lt;/span>))
+&lt;span style="color:#75715e">;; You now falsely believe you did something useful ...&lt;/span>
+(println &lt;span style="color:#e6db74">&amp;#34;I&amp;#39;m done!&amp;#34;&lt;/span>))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I assure you, experienced Clojurists are no longer grinning at the tomfoolery.
+Many of us have shipped &lt;sup id="fnref:10">&lt;a href="#fn:10" class="footnote-ref" role="doc-noteref">10&lt;/a>&lt;/sup> (or &lt;em>almost&lt;/em> shipped) this category of
+bugs to prod. Not fun.&lt;/p>
+&lt;p>OK, now I consider &lt;em>Le Cheval Classique&lt;/em> suitably flogged postmortem, and
+yourself suitably &lt;em>Caveat Emptor&lt;/em>-ed.&lt;/p>
+&lt;p>Now we will FizzBuzz joyously.&lt;/p>
+&lt;h2 id="little-functions-are-good">Little functions are good!&lt;/h2>
+&lt;p>Once we remove the &lt;em>ick&lt;/em> of &lt;code>println&lt;/code> from our code, we can see further room
+for improvement. &lt;code>(zero? (rem n divisor))&lt;/code> is not only a common pattern,
+it is actually a distinct &lt;em>idea&lt;/em>, viz. &amp;ldquo;Is &lt;code>n&lt;/code> &lt;em>divisible&lt;/em> by &lt;code>divisor&lt;/code>?&amp;rdquo;.&lt;/p>
+&lt;p>We can name it locally, with &lt;code>let&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>letbuzz
+[num-xs]
+(for [n num-xs]
+(&lt;span style="color:#66d9ef">let &lt;/span>[divisible? (&lt;span style="color:#66d9ef">fn &lt;/span>[n1 n2] (rem n1 n2))] &lt;span style="color:#75715e">; locally-bound lambda&lt;/span>
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">:else&lt;/span> n))))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>However&lt;/em>, this definition of divisibility is generally applicable to numbers,
+so it makes sense to define a top-level global concept.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>divisible?
+&lt;span style="color:#e6db74">&amp;#34;True when the remainder of n1/n2 is zero. e.g. (divisible? 4 2) =&amp;gt; true&amp;#34;&lt;/span>
+(&lt;span style="color:#66d9ef">fn &lt;/span>[n1 n2] (rem n1 n2)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yep, &lt;code>defn&lt;/code> is just &lt;code>def&lt;/code> + &lt;code>fn&lt;/code> under the hood, and we can conveniently
+write the same thing as follows.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>divisible?
+&lt;span style="color:#e6db74">&amp;#34;True when the remainder of n1/n2 is zero. e.g. (divisible? 4 2) =&amp;gt; true&amp;#34;&lt;/span>
+[n1 n2]
+(zero? (rem n1 n2)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can also use &lt;code>comp&lt;/code> to define divisibility more succinctly.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>divisible?
+&lt;span style="color:#e6db74">&amp;#34;True when the remainder of n1/n2 is zero. e.g. (divisible? 4 2) =&amp;gt; true&amp;#34;&lt;/span>
+(comp zero? rem))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Since the various implementations of &lt;code>divisible?&lt;/code> are all pure functions,
+they are drop-in replacements for each other (&amp;ldquo;referentially transparent&amp;rdquo;).
+Use whichever version you like best.&lt;/p>
+&lt;p>It may seem silly to write such tiny functions, but we earn a lot of firepower
+by lifting out named domain concepts, &lt;em>especially&lt;/em> the simple ones, because
+we can &lt;em>compose&lt;/em> them flexibly to express other domain concepts as needed.&lt;/p>
+&lt;h2 id="map-reduce-for-fizzbuzz">map reduce for FizzBuzz&lt;/h2>
+&lt;p>Here&amp;rsquo;s a doozy. By putting FizzBuzz &lt;em>logic&lt;/em> inside &lt;code>for&lt;/code>, we have in fact
+deeply intertwined &lt;sup id="fnref:11">&lt;a href="#fn:11" class="footnote-ref" role="doc-noteref">11&lt;/a>&lt;/sup> two very distinct computations; viz. sequence
+generation, and choice-making.&lt;/p>
+&lt;p>Suppose we lifted out the decision logic into its own function?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>basic-buzz
+[n]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">:else&lt;/span> n))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; Unsurprisingly...&lt;/span>
+(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>) =&amp;gt; &lt;span style="color:#ae81ff">1&lt;/span>
+(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>) =&amp;gt; &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span>) =&amp;gt; &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>) =&amp;gt; &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we can bring back &lt;code>for&lt;/code> this way&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>all-fizz-buzzes
+(for [n (&lt;span style="color:#a6e22e">range&lt;/span>)]
+(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> n)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>But our new choice opens up the design space, because we can directly say
+&amp;ldquo;this is just a mapping of the domain of numbers to the domain of FizzBuzz&amp;rdquo;.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>all-fizz-buzzes
+(map basic-buzz (&lt;span style="color:#a6e22e">range&lt;/span>)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now since &lt;code>map&lt;/code> is conceptually just a special case of &lt;code>reduce&lt;/code>, we could write
+the following. &lt;em>However&lt;/em> in Clojure, &lt;code>map&lt;/code> is lazy but &lt;code>reduce&lt;/code> is eager, and
+we only use &lt;em>reduce&lt;/em> when we want to force a final calculation.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>just-some-fizz-buzzes
+(reduce (&lt;span style="color:#66d9ef">fn &lt;/span>[result n]
+(conj result
+(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> n)))
+[]
+&lt;span style="color:#75715e">;; the classic programmer&amp;#39;s problem statement&lt;/span>
+(range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">101&lt;/span>)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once again, we earned more compositional power by lifting out another small
+concept. Let&amp;rsquo;s do some more of that.&lt;/p>
+&lt;h2 id="domain-driven-design-fizzbuzz">Domain Driven Design FizzBuzz&lt;/h2>
+&lt;p>We can further define concepts specific to the business domain of FizzBuzz.
+This opens up our design space even more.&lt;/p>
+&lt;p>Before that I&amp;rsquo;ll make one small tweak to help us express ourselves better.
+I&amp;rsquo;ll rearrange the argument list of &lt;code>divisible?&lt;/code> so that the &amp;ldquo;more constant&amp;rdquo;
+argument is placed first, and successively more variable argument(s) are
+placed successively. Also rely on &amp;ldquo;truthiness&amp;rdquo; in Clojure to imply yes/no.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>divisible?
+&lt;span style="color:#e6db74">&amp;#34;Given a number &amp;#39;n&amp;#39;, return the given word (truthy) when it is divisible
+&lt;/span>&lt;span style="color:#e6db74"> by the divisor, or nil otherwise (falsey).&amp;#34;&lt;/span>
+[divisor the-word n]
+(when (zero? (rem n divisor))
+the-word))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizzes?
+&lt;span style="color:#e6db74">&amp;#34;Is a given number divisible by 3?&amp;#34;&lt;/span>
+(partial divisible? &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>))
+(&lt;span style="color:#66d9ef">def &lt;/span>buzzes?
+&lt;span style="color:#e6db74">&amp;#34;Is a given number divisible by 5?&amp;#34;&lt;/span>
+(partial divisible? &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizzbuzzes?
+&lt;span style="color:#e6db74">&amp;#34;Is a given number divisible by 3 and 5?&amp;#34;&lt;/span>
+(partial divisible? &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we can rewrite &lt;code>basic-buzz&lt;/code> using &lt;code>or&lt;/code>, which short-circuits, and
+returns the first &lt;em>truthy&lt;/em> value it encounters. You will see this construct
+in real-world Clojure code.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>or-buzz
+&lt;span style="color:#e6db74">&amp;#34;Just like conditional matching, but exploit short-circuit behaviour of &amp;#39;or&amp;#39;.
+&lt;/span>&lt;span style="color:#e6db74"> Sadly, order of conditionals still matters.&amp;#34;&lt;/span>
+[n]
+(or (&lt;span style="color:#a6e22e">fizzbuzzes?&lt;/span> n)
+(&lt;span style="color:#a6e22e">buzzes?&lt;/span> n)
+(&lt;span style="color:#a6e22e">fizzes?&lt;/span> n)
+n))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We argued that we are essentially expressing a choice, and that we can even
+do it with &lt;code>juxt&lt;/code>, because once we grok &lt;code>juxt&lt;/code>, we want to use it &lt;em>everywhere&lt;/em>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>juxt-buzz
+&lt;span style="color:#e6db74">&amp;#34;juxt for fun:
+&lt;/span>&lt;span style="color:#e6db74"> e.g. ((juxt f g h) 42) -&amp;gt; [(f 42) (g 42) (h 42)]
+&lt;/span>&lt;span style="color:#e6db74"> cf. https://clojuredocs.org/clojure.core/juxt
+&lt;/span>&lt;span style="color:#e6db74"> Sadly, order of conditional checks still matters, which combined with
+&lt;/span>&lt;span style="color:#e6db74"> the nil-punning that&amp;#39;s going on here is too subtle for production use.&amp;#34;&lt;/span>
+[n]
+(some identity ((&lt;span style="color:#a6e22e">juxt&lt;/span> fizzbuzzes? buzzes? fizzes? identity)
+n)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yeah, that&amp;rsquo;s a head-scratcher. Best leave it back at home.&lt;/p>
+&lt;h2 id="actually-domain-driven-fizzbuzz">Actually Domain Driven FizzBuzz&lt;/h2>
+&lt;p>You might protest that well actually the clever little functions, in fact,
+express the domain of the &lt;em>solution&lt;/em> (the business of calculating FizzBuzz),
+not the domain of the &lt;em>problem&lt;/em> (arithmetic representation of FizzBuzz).&lt;/p>
+&lt;p>And even though I flunked maths a lot, I would concur. So here goes nothing&amp;hellip;&lt;/p>
+&lt;p>15 is the highest common factor. Suppose we cook up an encoding scheme based
+on remainders of 15, and write it down as a lookup table? We can then find
+&lt;code>(rem n 15)&lt;/code>, and look up the answer to FizzBuzz in the table.&lt;/p>
+&lt;p>Why do a lookup table? Well, what is the simplest possible function? A literal
+hard-coded lookup table!&lt;/p>
+&lt;p>In Clojure, we can use hash-maps to write down look-up tables.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">&lt;span style="color:#75715e">;; A table of remainders of 15, in a hash-map.&lt;/span>
+{&lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">6&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">12&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">10&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And here is a very fun and useful fact. Clojure hash-maps are not just inert
+data. They also behave as functions of their keys. We can literally call
+&lt;code>({:a 42} :a)&lt;/code> and get back 42. Noice!&lt;/p>
+&lt;p>So suppose we define a global lookup table?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>rem15-&amp;gt;fizz-buzz
+{&lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">6&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">12&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">10&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>})
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(&lt;span style="color:#a6e22e">rem15-&amp;gt;fizz-buzz&lt;/span> (rem &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>)) =&amp;gt; &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">rem15-&amp;gt;fizz-buzz&lt;/span> (rem &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>)) =&amp;gt; &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">rem15-&amp;gt;fizz-buzz&lt;/span> (rem &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>)) =&amp;gt; &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">rem15-&amp;gt;fizz-buzz&lt;/span> (rem &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>)) =&amp;gt; nil
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>See the &lt;code>nil&lt;/code> returned for &amp;ldquo;no result found&amp;rdquo;? If you were paying attention
+to the nil punning &lt;sup id="fnref:12">&lt;a href="#fn:12" class="footnote-ref" role="doc-noteref">12&lt;/a>&lt;/sup>, and the short-circuiting &lt;code>or&lt;/code>, you might get
+the following idea. And you would not be wrong.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>or-rem15-buzz
+[n]
+(or (&lt;span style="color:#a6e22e">rem15-&amp;gt;fizz-buzz&lt;/span> (rem n &lt;span style="color:#ae81ff">15&lt;/span>))
+n))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>But we can be more right by using the &lt;code>get&lt;/code> function, which is designed for
+use with hash-maps, and which allows us to conveniently specify a fallback
+value for the &amp;ldquo;not found&amp;rdquo; case.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>get-rem15-buzz
+[n]
+(get rem15-&amp;gt;fizz-buzz
+(rem n &lt;span style="color:#ae81ff">15&lt;/span>)
+n))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Not to press the point, but they are referentially transparent.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(= (map or-rem15-buzz (range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>))
+(map get-rem15-buzz (range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may have also astutely noted that, in both the implementations above,
+the order of calculation ceases to matter. Now we are doing maths.&lt;/p>
+&lt;h2 id="fizzbuzz-by-construction">FizzBuzz by construction&lt;/h2>
+&lt;p>Closely related to remainder lookup tables, we can make the observation that
+FizzBuzz is cyclical in modulo 3, 5, and 15. So we can directly define the
+&lt;em>idea&lt;/em> of FizzBuzz in those terms.&lt;/p>
+&lt;p>This FizzBuzz is correctly ordered &lt;em>by definition&lt;/em>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>mod-cycle-buzz
+&lt;span style="color:#e6db74">&amp;#34;We can declare a lazy sequence of FizzBuzz as modulo 3, 5, 15.
+&lt;/span>&lt;span style="color:#e6db74"> The sequence is ordered by definition.&amp;#34;&lt;/span>
+(&lt;span style="color:#66d9ef">let &lt;/span>[n identity
+f (constantly &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>)
+b (constantly &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>)
+fb (constantly &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>)]
+(cycle [n n f
+n b f
+n n f
+b n f
+n n fb])))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now, Clojure&amp;rsquo;s &lt;code>map&lt;/code> is not only lazy, it can also apply a function of &lt;code>n&lt;/code>
+arguments over &lt;code>n&lt;/code> collections until any one of the collections is exhausted.
+So we can&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>all-fizz-buzzes
+(map (&lt;span style="color:#66d9ef">fn &lt;/span>[f n] (&lt;span style="color:#a6e22e">f&lt;/span> n))
+mod-cycle-buzz &lt;span style="color:#75715e">; countless modulo pattern&lt;/span>
+(&lt;span style="color:#a6e22e">range&lt;/span>))) &lt;span style="color:#75715e">; countless sequence of numbers&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we think in terms of the prime factors 3 and 5, along with modulo cycles,
+it may inspire a generalised version of fizzbuzz, like so.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>any-mod-cycle-buzz
+&lt;span style="color:#e6db74">&amp;#34;Given a number and a sequence of words mapping to prime factors,
+&lt;/span>&lt;span style="color:#e6db74"> either return the corresponding word-version for the number position,
+&lt;/span>&lt;span style="color:#e6db74"> or the number itself, if no prime factor exists.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> Basically, the set of words should map to set of prime factors.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> We also don&amp;#39;t make any assumptions about order of words here. It is up
+&lt;/span>&lt;span style="color:#e6db74"> to the caller to choose whatever sequence they please.&amp;#34;&lt;/span>
+[num &lt;span style="color:#f92672">&amp;amp;&lt;/span> words]
+(or (&lt;span style="color:#a6e22e">not-empty&lt;/span> (reduce str words))
+num))
+(map any-mod-cycle-buzz
+(range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>)
+(cycle [nil nil &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>])
+(cycle [nil nil nil nil &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>]))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And last but not least, this interpretation allows us to express the arithmetic
+&lt;em>identity&lt;/em> of the whole category of FizzBuzzes, which is, just the number
+sequence itself. (As in, the identity of + is 0 and that of * is 1).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(map any-mod-cycle-buzz
+(range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>But then again, I&amp;rsquo;ve flunked maths too often to be confident about any of this.
+Please complain to me if I&amp;rsquo;m wrong.&lt;/p>
+&lt;h2 id="interlude-all-the-fizz-buzzes-so-far">Interlude: all the fizz-buzzes so far&lt;/h2>
+&lt;p>I&amp;rsquo;ll drop this mini &lt;em>pièce de résistance&lt;/em> (for now), and pause for a breather.
+I&amp;rsquo;ve copied down all the fizz-buzz variants (minus doc strings for brevity).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>all.them.fizz.buzzers)
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz map) &lt;span style="color:#75715e">; now, what `map` can do fizz-buzz can too&lt;/span>
+&lt;span style="color:#75715e">;; Le FizzBuzz Classique Functional&lt;/span>
+(&lt;span style="color:#66d9ef">defn &lt;/span>basic-buzz
+[n]
+(&lt;span style="color:#66d9ef">let &lt;/span>[divisible? (comp zero? rem)]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">:else&lt;/span> n)))
+&lt;span style="color:#75715e">;; Branching logic FizzBuzzes&lt;/span>
+(&lt;span style="color:#66d9ef">defn &lt;/span>divisible?
+[divisor the-word n]
+(when (zero? (rem n divisor))
+the-word))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizzes? (partial divisible? &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>))
+(&lt;span style="color:#66d9ef">def &lt;/span>buzzes? (partial divisible? &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizzbuzzes? (partial divisible? &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>))
+(&lt;span style="color:#66d9ef">defn &lt;/span>or-buzz
+[n]
+(or (&lt;span style="color:#a6e22e">fizzbuzzes?&lt;/span> n)
+(&lt;span style="color:#a6e22e">buzzes?&lt;/span> n)
+(&lt;span style="color:#a6e22e">fizzes?&lt;/span> n)
+n))
+(&lt;span style="color:#66d9ef">defn &lt;/span>juxt-buzz
+[n]
+(some identity
+((&lt;span style="color:#a6e22e">juxt&lt;/span> fizzbuzzes? buzzes? fizzes? identity)
+n)))
+&lt;span style="color:#75715e">;; More mathematical FizzBuzzes&lt;/span>
+(&lt;span style="color:#66d9ef">def &lt;/span>rem15-&amp;gt;fizz-buzz
+{&lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">6&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">12&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#ae81ff">10&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>})
+(&lt;span style="color:#66d9ef">defn &lt;/span>or-rem15-buzz
+[n]
+(or (&lt;span style="color:#a6e22e">rem15-&amp;gt;fizz-buzz&lt;/span> (rem n &lt;span style="color:#ae81ff">15&lt;/span>))
+n))
+(&lt;span style="color:#66d9ef">defn &lt;/span>get-rem15-buzz
+[n]
+(get rem15-&amp;gt;fizz-buzz
+(rem n &lt;span style="color:#ae81ff">15&lt;/span>)
+n))
+(&lt;span style="color:#66d9ef">def &lt;/span>mod-cycle-buzz
+(&lt;span style="color:#66d9ef">let &lt;/span>[n identity
+f (constantly &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>)
+b (constantly &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>)
+fb (constantly &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>)]
+(cycle [n n f
+n b f
+n n f
+b n f
+n n fb])))
+(&lt;span style="color:#66d9ef">defn &lt;/span>any-mod-cycle-buzz
+[num &lt;span style="color:#f92672">&amp;amp;&lt;/span> words]
+(or (&lt;span style="color:#a6e22e">not-empty&lt;/span> (reduce str words))
+num))
+&lt;span style="color:#75715e">;; Inspect and check the fizz-buzzes&lt;/span>
+(&lt;span style="color:#66d9ef">defn &lt;/span>call-all-fizz-buzzers
+[range-of-buzzees]
+[(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> basic-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> or-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> juxt-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> or-rem15-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> get-rem15-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> (&lt;span style="color:#66d9ef">fn &lt;/span>[f n] (&lt;span style="color:#a6e22e">f&lt;/span> n))
+mod-cycle-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> any-mod-cycle-buzz
+range-of-buzzees
+(cycle [nil nil &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>])
+(cycle [nil nil nil nil &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>]))])
+(&lt;span style="color:#66d9ef">defn &lt;/span>check-all-fizz-buzzers
+&lt;span style="color:#e6db74">&amp;#34;Return true if all known fizz-buzzers produce equal results
+&lt;/span>&lt;span style="color:#e6db74"> for the programmer&amp;#39;s FizzBuzz for numbers 1 to 100&amp;#34;&lt;/span>
+[]
+(apply = (&lt;span style="color:#a6e22e">call-all-fizz-buzzers&lt;/span> (range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">101&lt;/span>))))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And lest we forget, let us flog the dead horse one last time.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>severely-broken-buzz
+&lt;span style="color:#e6db74">&amp;#34;Please don&amp;#39;t do this in Clojure.&amp;#34;&lt;/span>
+[n]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) (println &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>)
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) (println &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>)
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) (println &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>)
+&lt;span style="color:#e6db74">:else&lt;/span> (println n)))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The mind is abuzz drafting moaaaar variants&amp;hellip; Stay tuned!&lt;/p>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>Official and community-curated Clojure API docs &lt;a href="https://clojure.org/api/api">https://clojure.org/api/api&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2" role="doc-endnote">
+&lt;p>Official guide: &lt;a href="https://clojure.org/guides/repl/introduction">Programming at the REPL&lt;/a>. The REPL is an &lt;em>eager&lt;/em> beast. Lazy sequences want to never be fully realised, if possible. But, a REPL is typically designed to fully evaluate everything it gets. This is why we didn&amp;rsquo;t feel the bite of mixing printing with lazy sequence generation. If we had this in our code somewhere, nothing would print, and any caller would get back just a useless collection of nils.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3" role="doc-endnote">
+&lt;p>Laziness is a form of deferred computation. Clojure has &amp;ldquo;lazy sequences&amp;rdquo;. &lt;code>for&lt;/code> generates a lazy sequence. Several essay-length answers await your eager perusal. Rich Hickey&amp;rsquo;s notes from back in the day: &lt;a href="https://clojure.org/reference/lazy">Making Clojure Lazier&lt;/a>. Ramsharan G.J. muses &lt;em>&amp;quot;&lt;a href="https://www.youtube.com/watch?v=XCYTvZtTetI">Lazy Seqs - Why are they so lazy?&lt;/a>&amp;quot;&lt;/em> (&lt;a href="https://speakerdeck.com/sharangj/lazy-sequences-why-are-they-so-lazy">slides&lt;/a>). Oitihjya Sen muses &lt;a href="https://otee.dev/2022/01/17/lazy-clojure.html">Who Moved My Cheese: Laziness in Clojure&lt;/a>. Debashish Ghose has some thoughts on &lt;a href="https://debasishg.blogspot.com/2010/05/laziness-in-clojure-some-thoughts.html">Laziness in Clojure&lt;/a>.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4" role="doc-endnote">
+&lt;p>Watch Rafal Dittwald refactor some Javascript in &lt;a href="https://www.youtube.com/watch?v=vK1DazRK%5Fa0">Solving Problems the Clojure Way&lt;/a>. Basically, we like to &lt;em>prevent&lt;/em> side effecting code as much as humanely possible. When we can&amp;rsquo;t, we do &lt;a href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell">Functional Core Imperative Shell&lt;/a>.&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5" role="doc-endnote">
+&lt;p>The &lt;a href="https://mitpress.mit.edu/sites/default/files/sicp/index.html">full SICP textbook&lt;/a> is available free, online. The &lt;a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video-lectures/">video lecture series&lt;/a> from 1986. Further DuckDuck searches will yield various tours of SICP in Clojure. Still further into the deep end, there is now &lt;a href="https://github.com/sicmutils">SICMUtils&lt;/a> in Clojure, built around the Structure and Interpretation of Classical Mechanics.&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:6" role="doc-endnote">
+&lt;p>To anyone writing Clojure tutorials, please for the love of lambda, &lt;em>&lt;strong>do not&lt;/strong>&lt;/em> use &lt;code>println&lt;/code> to &amp;ldquo;show&amp;rdquo; people results. You may think you are being kind by using a familiar way to &amp;ldquo;show&amp;rdquo; results, but it is far better to rip the bandage off right from the get go. Double down on teaching good REPL habits and quality FP thinking instead.&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:7" role="doc-endnote">
+&lt;p>Incidentally, the Classic implementation is also sensitive to the ordering of conditions, which is also a defect from a FP point of view, because there is no good reason to write an imperative control-flow-y interpretation of what could be a purely mathematical definition of FizzBuzz.&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:8" role="doc-endnote">
+&lt;p>Well, maybe Rich can convince you otherwise: &lt;a href="https://www.infoq.com/presentations/Simple-Made-Easy/">Simple Made Easy&lt;/a>.&amp;#160;&lt;a href="#fnref:8" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:9" role="doc-endnote">
+&lt;p>I mean, don&amp;rsquo;t be actively malicious, of course. However, such a &lt;em>category&lt;/em> of error can happen. And if &amp;ldquo;they&amp;rdquo; git-blame-fire you, then I&amp;rsquo;d say celebrate. You inadvertently self-evicted from a place that will destroy your soul with bad systems and bad management.&amp;#160;&lt;a href="#fnref:9" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:10" role="doc-endnote">
+&lt;p>One fine day, one of our Clojure services at $FormerEmployer, started to run out of heap space after a fresh deployment. Our service graphs looked like this &lt;code>_/|_/|_/|_&lt;/code>. The sawtooth of heap death. It wasn&amp;rsquo;t super critical, and everybody was busy shipping features. So naturally we did some napkin math and rolled out a Jenkins job that triggered a rolling restart every six hours. Eventually, someone found the time to go debug the crashes. We had &lt;em>memoized&lt;/em> a function that returned an anonymous function (a lambda or &lt;em>thunk&lt;/em>), when we meant to memoize the return value from evaluating said lambda. Clojure creates a &lt;em>new&lt;/em> object every time we ask it to make a lambda. So &lt;a href="https://clojuredocs.org/clojure.core/memoize">memoize&lt;/a> saw new return values every time the original &amp;ldquo;thunkified&amp;rdquo; function was called, dutifully cached them all, and held onto them, thus preventing JVM garbage collector from cleaning them out. The story is relevant here because &lt;em>thunking&lt;/em> (making functions return partially evaluated fuctions) is a form of delayed or &amp;ldquo;lazy&amp;rdquo; evaluation. Also because nobody was fired. Everyone learned a good lesson and had a good laugh. In fact, we continued to use the rolling restart job in at least one other case where the memory leak was very slow, the service was very fault tolerant, and the service owner was really pressed for time with other always-higher priorities in that hyper-growth phase of the company. Slow leak tolerance is very much justified when used carefully. In fact, the friend who owned that service recently told me the periodic restart method worked so well, that they almost forgot about it for several years until they did a whole data center migration, at which point the service crashed for the first time in years, because someone forgot to also switch on the restart job. More good laughs were had and the documentation and automation were improved. You may now like to read &lt;a href="https://devblogs.microsoft.com/oldnewthing/20180228-00/?p=98125">&lt;em>&amp;ldquo;An amusing story about a practical use of the null garbage collector&amp;rdquo;&lt;/em>&lt;/a>.&amp;#160;&lt;a href="#fnref:10" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:11" role="doc-endnote">
+&lt;p>&amp;ldquo;&lt;a href="https://www.merriam-webster.com/dictionary/complect">Complect-ed&lt;/a>&amp;rdquo;, if you speak Clojurish.&amp;#160;&lt;a href="#fnref:11" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:12" role="doc-endnote">
+&lt;p>Eric Normand on &lt;em>&lt;a href="https://ericnormand.me/podcast/what-is-nil-punning">&amp;ldquo;What is Nil Punning?&amp;quot;&lt;/a>&lt;/em>.&amp;#160;&lt;a href="#fnref:12" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/section></content></item><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Fri, 11 Mar 2022 00:08:52 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
 &lt;p>Doing so teaches an object lesson about the essence of modular, composable,
 functional architecture. And things start to really heat up when it dawns on
 us, how a good set of standard parts can be used to express totally different
