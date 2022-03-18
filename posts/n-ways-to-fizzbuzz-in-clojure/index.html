@@ -28,7 +28,7 @@ The brainwave here is to (mis)use the feature set of Clojure and its standard li
 <meta property="og:image" content="/favicon.ico">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
-<meta property="article:published_time" content="2022-03-18 15:06:46 +0530 IST">
+<meta property="article:published_time" content="2022-03-18 18:56:29 +0530 IST">
 </head>
 <body class=orange>
 <div class="container center">
@@ -117,6 +117,7 @@ three with the word &ldquo;fizz&rdquo;, and any number divisible by five with th
 <li><a href=#actually-domain-driven-fizzbuzz>Actually Domain Driven FizzBuzz</a></li>
 <li><a href=#fizzbuzz-by-construction>FizzBuzz by construction</a></li>
 <li><a href=#interlude-all-the-fizz-buzzes-so-far>Interlude: all the fizz-buzzes so far</a></li>
+<li><a href=#peano-fizzbuzz>Peano FizzBuzz</a></li>
 </ul>
 <hr>
 <h2 id=usage-guide>Usage guide<a href=#usage-guide class=hanchor arialabel=Anchor>&#8983;</a> </h2>
@@ -723,6 +724,65 @@ I&rsquo;ve copied down all the fizz-buzz variants (minus doc strings for brevity
     (<span style=color:#a6e22e>divisible?</span> n <span style=color:#ae81ff>5</span>) (println <span style=color:#e6db74>&#34;Buzz&#34;</span>)
     <span style=color:#e6db74>:else</span> (println n)))
 </code></pre></div><p>The mind is abuzz drafting moaaaar variants&mldr; Stay tuned!</p>
+<h2 id=peano-fizzbuzz>Peano FizzBuzz<a href=#peano-fizzbuzz class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Since we are computing with natural numbers, we can express FizzBuzz in terms
+of the &ldquo;Successor&rdquo; operation of Peano arithmetic.</p>
+<p>However, we have to modify our number system a bit to make it work right.
+We define a PeanoBuzz number to be a pair of a natural number and its FizzBuzz
+counterpart. The <em>PeanoBuzz</em> number system starts at <code>[0 0]</code>.</p>
+<p>We can enjoy the fruits of compositionality that we planted earlier.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-clojure data-lang=clojure>(<span style=color:#66d9ef>ns </span>all.them.fizz.buzzers)
+
+(<span style=color:#66d9ef>def </span>rem15-&gt;fizz-buzz
+  {<span style=color:#ae81ff>0</span>  <span style=color:#e6db74>&#34;FizzBuzz&#34;</span>
+   <span style=color:#ae81ff>3</span>  <span style=color:#e6db74>&#34;Fizz&#34;</span>
+   <span style=color:#ae81ff>6</span>  <span style=color:#e6db74>&#34;Fizz&#34;</span>
+   <span style=color:#ae81ff>9</span>  <span style=color:#e6db74>&#34;Fizz&#34;</span>
+   <span style=color:#ae81ff>12</span> <span style=color:#e6db74>&#34;Fizz&#34;</span>
+   <span style=color:#ae81ff>5</span>  <span style=color:#e6db74>&#34;Buzz&#34;</span>
+   <span style=color:#ae81ff>10</span> <span style=color:#e6db74>&#34;Buzz&#34;</span>})
+
+(<span style=color:#66d9ef>defn </span>get-rem15-buzz
+  [n]
+  (get rem15-&gt;fizz-buzz
+       (rem n <span style=color:#ae81ff>15</span>)
+       n))
+
+(<span style=color:#66d9ef>def </span>S
+  <span style=color:#e6db74>&#34;The PeanoBuzz number system starting at [0 0] is closed under
+</span><span style=color:#e6db74>  this definition of Successor.&#34;</span>
+  (comp (<span style=color:#a6e22e>juxt</span> identity get-rem15-buzz)
+        inc
+        first))
+
+(<span style=color:#66d9ef>def </span>all-peano-buzzes
+  (iterate S [<span style=color:#ae81ff>0</span> <span style=color:#ae81ff>0</span>]))
+
+(<span style=color:#a6e22e>comment</span>
+  (= (take <span style=color:#ae81ff>16</span> all-peano-buzzes)
+     [[<span style=color:#ae81ff>0</span> <span style=color:#ae81ff>0</span>] [<span style=color:#ae81ff>1</span> <span style=color:#ae81ff>1</span>] [<span style=color:#ae81ff>2</span> <span style=color:#ae81ff>2</span>]
+      [<span style=color:#ae81ff>3</span> <span style=color:#e6db74>&#34;Fizz&#34;</span>] [<span style=color:#ae81ff>4</span> <span style=color:#ae81ff>4</span>]
+      [<span style=color:#ae81ff>5</span> <span style=color:#e6db74>&#34;Buzz&#34;</span>]
+      [<span style=color:#ae81ff>6</span> <span style=color:#e6db74>&#34;Fizz&#34;</span>] [<span style=color:#ae81ff>7</span> <span style=color:#ae81ff>7</span>] [<span style=color:#ae81ff>8</span> <span style=color:#ae81ff>8</span>]
+      [<span style=color:#ae81ff>9</span> <span style=color:#e6db74>&#34;Fizz&#34;</span>]
+      [<span style=color:#ae81ff>10</span> <span style=color:#e6db74>&#34;Buzz&#34;</span>] [<span style=color:#ae81ff>11</span> <span style=color:#ae81ff>11</span>]
+      [<span style=color:#ae81ff>12</span> <span style=color:#e6db74>&#34;Fizz&#34;</span>] [<span style=color:#ae81ff>13</span> <span style=color:#ae81ff>13</span>] [<span style=color:#ae81ff>14</span> <span style=color:#ae81ff>14</span>]
+      [<span style=color:#ae81ff>15</span> <span style=color:#e6db74>&#34;FizzBuzz&#34;</span>]]))
+</code></pre></div><p>Since we have a <code>S</code> that closes over the <em>PeanoBuzz</em> number system, I wonder
+if we can satisfy all the <a href=https://en.wikipedia.org/wiki/Peano%5Faxioms>Peano Axioms</a>? Probably another blog post :)</p>
+<p>Incidentally, we can trivially map the domain of PeanoBuzz back into the
+domain of FizzBuzz.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-clojure data-lang=clojure>(<span style=color:#66d9ef>ns </span>all.them.fizz.buzzers)
+
+(= (<span style=color:#a6e22e>fizz-buzz</span> basic-buzz
+              (range <span style=color:#ae81ff>1</span> <span style=color:#ae81ff>101</span>))
+   (<span style=color:#a6e22e>fizz-buzz</span> second
+              (take <span style=color:#ae81ff>100</span> (rest all-peano-buzzes))))
+</code></pre></div><p>We are already half way to Lambda Calculus / Church Numerals. But going there
+will side-track our FizzBuzz expedition way too much. So I&rsquo;ll leave the Church
+Numerals version as an exercise to the reader <sup id=fnref:13><a href=#fn:13 class=footnote-ref role=doc-noteref>13</a></sup>. Try to make it
+so that that we can define an <code>all-church-nums-buzz</code> and slot it into the
+<code>fizz-buzz</code> checks we already have.</p>
 <section class=footnotes role=doc-endnotes>
 <hr>
 <ol>
@@ -761,6 +821,9 @@ I&rsquo;ve copied down all the fizz-buzz variants (minus doc strings for brevity
 </li>
 <li id=fn:12 role=doc-endnote>
 <p>Eric Normand on <em><a href=https://ericnormand.me/podcast/what-is-nil-punning>&ldquo;What is Nil Punning?"</a></em>.&#160;<a href=#fnref:12 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+<li id=fn:13 role=doc-endnote>
+<p>For reference, <a href=https://github.com/adityaathalye/sicp/blob/master/ex2-06-church-numerals.scm>my attempt</a> at implementing <a href=https://en.wikipedia.org/wiki/Church%5Fencoding>Church Numerals</a> in SICP.&#160;<a href=#fnref:13 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>
