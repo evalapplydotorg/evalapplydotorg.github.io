@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>clojure on eval/apply</title><link>/tags/clojure/</link><description>Recent content in clojure on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 18 Mar 2022 20:35:44 +0530</lastBuildDate><atom:link href="/tags/clojure/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 18 Mar 2022 20:35:44 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>clojure on eval/apply</title><link>/tags/clojure/</link><description>Recent content in clojure on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 18 Mar 2022 23:02:23 +0530</lastBuildDate><atom:link href="/tags/clojure/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 18 Mar 2022 23:02:23 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -22,7 +22,7 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;li>&lt;a href="https://en.wikipedia.org/wiki/Fizz%5Fbuzz">https://en.wikipedia.org/wiki/Fizz%5Fbuzz&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/blockquote>
-&lt;p>Needless to say, they mean natural numbers when they say &amp;ldquo;numbers&amp;rdquo;.&lt;/p>
+&lt;p>Needless to say, they mean natural numbers starting at 1 when they say &amp;ldquo;numbers&amp;rdquo;.&lt;/p>
 &lt;p>Phew that was rough on the ego. Let us compose ourselves for a minute.&lt;/p>
 &lt;p>&amp;hellip;&lt;/p>
 &lt;p>OK, onward.&lt;/p>
@@ -43,6 +43,7 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;li>&lt;a href="#interlude-all-the-fizz-buzzes-so-far">Interlude: all the fizz-buzzes so far&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#peano-fizzbuzz">Peano FizzBuzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#acknowledgments">Acknowledgments&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted -->
 &lt;hr>
@@ -300,7 +301,7 @@ it is actually a distinct &lt;em>idea&lt;/em>, viz. &amp;ldquo;Is &lt;code>n&lt;
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>letbuzz
 [num-xs]
 (for [n num-xs]
-(&lt;span style="color:#66d9ef">let &lt;/span>[divisible? (&lt;span style="color:#66d9ef">fn &lt;/span>[n1 n2] (rem n1 n2))] &lt;span style="color:#75715e">; locally-bound lambda&lt;/span>
+(&lt;span style="color:#66d9ef">let &lt;/span>[divisible? (&lt;span style="color:#66d9ef">fn &lt;/span>[n1 n2] (zero? (rem n1 n2)))] &lt;span style="color:#75715e">; locally-bound lambda&lt;/span>
 (&lt;span style="color:#a6e22e">cond&lt;/span>
 (&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
 (&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
@@ -310,7 +311,7 @@ it is actually a distinct &lt;em>idea&lt;/em>, viz. &amp;ldquo;Is &lt;code>n&lt;
 so it makes sense to define a top-level global concept.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>divisible?
 &lt;span style="color:#e6db74">&amp;#34;True when the remainder of n1/n2 is zero. e.g. (divisible? 4 2) =&amp;gt; true&amp;#34;&lt;/span>
-(&lt;span style="color:#66d9ef">fn &lt;/span>[n1 n2] (rem n1 n2)))
+(&lt;span style="color:#66d9ef">fn &lt;/span>[n1 n2] (zero? (rem n1 n2))))
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Yep, &lt;code>defn&lt;/code> is just &lt;code>def&lt;/code> + &lt;code>fn&lt;/code> under the hood, and we can conveniently
 write the same thing as follows.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>divisible?
@@ -350,12 +351,12 @@ generation, and choice-making.&lt;/p>
 )
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we can bring back &lt;code>for&lt;/code> this way&amp;hellip;&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>all-fizz-buzzes
-(for [n (&lt;span style="color:#a6e22e">range&lt;/span>)]
+(for [n (rest (&lt;span style="color:#a6e22e">range&lt;/span>))]
 (&lt;span style="color:#a6e22e">basic-buzz&lt;/span> n)))
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>But our new choice opens up the design space, because we can directly say
 &amp;ldquo;this is just a mapping of the domain of numbers to the domain of FizzBuzz&amp;rdquo;.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>all-fizz-buzzes
-(map basic-buzz (&lt;span style="color:#a6e22e">range&lt;/span>)))
+(map basic-buzz (rest (&lt;span style="color:#a6e22e">range&lt;/span>))))
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Now since &lt;code>map&lt;/code> is conceptually just a special case of &lt;code>reduce&lt;/code>, we could write
 the following. &lt;em>However&lt;/em> in Clojure, &lt;code>map&lt;/code> is lazy but &lt;code>reduce&lt;/code> is eager, and
 we only use &lt;em>reduce&lt;/em> when we want to force a final calculation.&lt;/p>
@@ -418,9 +419,9 @@ n)))
 express the domain of the &lt;em>solution&lt;/em> (the business of calculating FizzBuzz),
 not the domain of the &lt;em>problem&lt;/em> (arithmetic representation of FizzBuzz).&lt;/p>
 &lt;p>And even though I flunked maths a lot, I would concur. So here goes nothing&amp;hellip;&lt;/p>
-&lt;p>15 is the highest common factor. Suppose we cook up an encoding scheme based
-on remainders of 15, and write it down as a lookup table? We can then find
-&lt;code>(rem n 15)&lt;/code>, and look up the answer to FizzBuzz in the table.&lt;/p>
+&lt;p>15 is the least common multiple of the prime factors. Suppose we cook up an
+encoding scheme based on remainders of 15, and write it down as a lookup table?
+We can then find &lt;code>(rem n 15)&lt;/code>, and look up the answer to FizzBuzz in the table.&lt;/p>
 &lt;p>Why do a lookup table? Well, what is the simplest possible function? A literal
 hard-coded lookup table!&lt;/p>
 &lt;p>In Clojure, we can use hash-maps to write down look-up tables.&lt;/p>
@@ -493,7 +494,7 @@ So we can&amp;hellip;&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">def &lt;/span>all-fizz-buzzes
 (map (&lt;span style="color:#66d9ef">fn &lt;/span>[f n] (&lt;span style="color:#a6e22e">f&lt;/span> n))
 mod-cycle-buzz &lt;span style="color:#75715e">; countless modulo pattern&lt;/span>
-(&lt;span style="color:#a6e22e">range&lt;/span>))) &lt;span style="color:#75715e">; countless sequence of numbers&lt;/span>
+(rest (&lt;span style="color:#a6e22e">range&lt;/span>)))) &lt;span style="color:#75715e">; countless sequence of numbers&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>If we think in terms of the prime factors 3 and 5, along with modulo cycles,
 it may inspire a generalised version of fizzbuzz, like so.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>any-mod-cycle-buzz
@@ -686,6 +687,8 @@ Identiant, Fizzant, Buzzant, FizzBuzzant).&lt;/li>
 &lt;/ul>
 &lt;p>Outside of clojure.core, maaaaybe core.async fizzbuzz, but IDK, maybe that
 will be too high concept, and too contrived.&lt;/p>
+&lt;h2 id="acknowledgments">Acknowledgments&lt;/h2>
+&lt;p>Thanks to &lt;a href="https://twitter.com/rdivyanshu">rdivyanshu&lt;/a> for review and feedback.&lt;/p>
 &lt;section class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
