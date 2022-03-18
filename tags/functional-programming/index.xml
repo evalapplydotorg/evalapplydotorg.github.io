@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>functional-programming on eval/apply</title><link>/tags/functional-programming/</link><description>Recent content in functional-programming on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 18 Mar 2022 18:56:29 +0530</lastBuildDate><atom:link href="/tags/functional-programming/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 18 Mar 2022 18:56:29 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>functional-programming on eval/apply</title><link>/tags/functional-programming/</link><description>Recent content in functional-programming on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 18 Mar 2022 20:35:44 +0530</lastBuildDate><atom:link href="/tags/functional-programming/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 18 Mar 2022 20:35:44 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -42,6 +42,7 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;li>&lt;a href="#fizzbuzz-by-construction">FizzBuzz by construction&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#interlude-all-the-fizz-buzzes-so-far">Interlude: all the fizz-buzzes so far&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#peano-fizzbuzz">Peano FizzBuzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted -->
 &lt;hr>
@@ -332,6 +333,8 @@ deeply intertwined &lt;sup id="fnref:11">&lt;a href="#fn:11" class="footnote-re
 generation, and choice-making.&lt;/p>
 &lt;p>Suppose we lifted out the decision logic into its own function?&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>basic-buzz
+&lt;span style="color:#e6db74">&amp;#34;We can also trivially rewrite this with &amp;#39;condp&amp;#39;.
+&lt;/span>&lt;span style="color:#e6db74"> ref: https://clojuredocs.org/clojure.core/condp&amp;#34;&lt;/span>
 [n]
 (&lt;span style="color:#a6e22e">cond&lt;/span>
 (&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
@@ -669,6 +672,20 @@ will side-track our FizzBuzz expedition way too much. So I&amp;rsquo;ll leave th
 Numerals version as an exercise to the reader &lt;sup id="fnref:13">&lt;a href="#fn:13" class="footnote-ref" role="doc-noteref">13&lt;/a>&lt;/sup>. Try to make it
 so that that we can define an &lt;code>all-church-nums-buzz&lt;/code> and slot it into the
 &lt;code>fizz-buzz&lt;/code> checks we already have.&lt;/p>
+&lt;h2 id="buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/h2>
+&lt;p>Ideas on deck, to put self on the hook&amp;hellip;&lt;/p>
+&lt;ul>
+&lt;li>curried fizzbuzz (like Ring libraries),&lt;/li>
+&lt;li>dispatch-based fizzbuzz (multimethods, protocols),&lt;/li>
+&lt;li>concurrent fizzbuzz (with agents, but the code in my head is probably wrong),&lt;/li>
+&lt;li>parallel fizzbuzz, (just pmap, quite silly actually, but why not? It&amp;rsquo;s legit!)&lt;/li>
+&lt;li>transducing fizzbuzz, (should be able to transduce all the fizz-buzzes up
+to Peano FizzBuzz)&lt;/li>
+&lt;li>maaabe also re-do Rich&amp;rsquo;s ants sim with FizzBuzz ants (4 concurrent species &amp;mdash;
+Identiant, Fizzant, Buzzant, FizzBuzzant).&lt;/li>
+&lt;/ul>
+&lt;p>Outside of clojure.core, maaaaybe core.async fizzbuzz, but IDK, maybe that
+will be too high concept, and too contrived.&lt;/p>
 &lt;section class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
