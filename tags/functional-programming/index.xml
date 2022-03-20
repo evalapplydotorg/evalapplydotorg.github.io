@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>functional-programming on eval/apply</title><link>/tags/functional-programming/</link><description>Recent content in functional-programming on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 18 Mar 2022 23:02:23 +0530</lastBuildDate><atom:link href="/tags/functional-programming/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 18 Mar 2022 23:02:23 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>functional-programming on eval/apply</title><link>/tags/functional-programming/</link><description>Recent content in functional-programming on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 21 Mar 2022 00:17:37 +0530</lastBuildDate><atom:link href="/tags/functional-programming/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Mon, 21 Mar 2022 00:17:37 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -42,6 +42,7 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;li>&lt;a href="#fizzbuzz-by-construction">FizzBuzz by construction&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#interlude-all-the-fizz-buzzes-so-far">Interlude: all the fizz-buzzes so far&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#peano-fizzbuzz">Peano FizzBuzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#dispatch-buzz">Dispatch Buzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#acknowledgments">Acknowledgments&lt;/a>&lt;/li>
 &lt;/ul>
@@ -673,22 +674,126 @@ will side-track our FizzBuzz expedition way too much. So I&amp;rsquo;ll leave th
 Numerals version as an exercise to the reader &lt;sup id="fnref:13">&lt;a href="#fn:13" class="footnote-ref" role="doc-noteref">13&lt;/a>&lt;/sup>. Try to make it
 so that that we can define an &lt;code>all-church-nums-buzz&lt;/code> and slot it into the
 &lt;code>fizz-buzz&lt;/code> checks we already have.&lt;/p>
+&lt;h2 id="dispatch-buzz">Dispatch Buzz&lt;/h2>
+&lt;p>If you squint at the conditional FizzBuzzes, like &lt;code>basic-buzz&lt;/code>, &lt;code>or-buzz&lt;/code> etc.,
+you might re-see them as a &lt;em>dispatch&lt;/em> problem. And why would you be wrong?
+They, like any other if-else-y construct are truth tables hard-wired to
+&amp;ldquo;finalised&amp;rdquo; values or operations.&lt;/p>
+&lt;p>Naturally we will follow the consummate Clojurian&amp;rsquo;s primal instinct of needing
+to pry apart two things masquerading as one (&lt;em>&amp;ldquo;decomplecting&amp;rdquo;&lt;/em> &lt;sup id="fnref:14">&lt;a href="#fn:14" class="footnote-ref" role="doc-noteref">14&lt;/a>&lt;/sup>
+in Clojurish). But, &lt;em>what exactly&lt;/em> are we, ah, &lt;em>decomplecting&lt;/em>? Now that is
+a very interesting rabbit hole.&lt;/p>
+&lt;p>In this case we are &lt;em>&amp;ldquo;separating mechanism from policy&amp;rdquo;&lt;/em> &lt;sup id="fnref:15">&lt;a href="#fn:15" class="footnote-ref" role="doc-noteref">15&lt;/a>&lt;/sup>.
+Figuring out how to do this delivers a powerful, flexible method of program
+design into our eager hands.&lt;/p>
+&lt;p>This table shows &amp;ldquo;mechanism&amp;rdquo; and &amp;ldquo;policy&amp;rdquo; hard-wired together.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-org" data-lang="org">&amp;lt;&lt;span style="color:#e6db74">-- ------- MECHANISM -------- --&lt;/span>&amp;gt;|&amp;lt;&lt;span style="color:#e6db74">-- POLICY --&lt;/span>&amp;gt;
+&lt;span style="color:#e6db74">| n divisible? 3 | n divisible? 5 | Final value |&lt;/span>
+&lt;span style="color:#e6db74">|----------------+----------------+-------------|&lt;/span>
+&lt;span style="color:#e6db74">| true | true | FizzBuzz |&lt;/span>
+&lt;span style="color:#e6db74">| true | false | Fizz |&lt;/span>
+&lt;span style="color:#e6db74">| false | true | Buzz |&lt;/span>
+&lt;span style="color:#e6db74">| false | false | n |&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here is an attempt to pry the two apart.&lt;/p>
+&lt;p>&lt;em>&lt;strong>Mechanism&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>The &lt;em>&lt;strong>&amp;ldquo;mechanism&amp;rdquo;&lt;/strong>&lt;/em> here is &lt;em>any&lt;/em> function that translates a number (or more
+generally, &lt;em>any&lt;/em> thing) to the two inputs of a 2-value truth table. We can
+see it more clearly if we rewrite the input columns of the truth table like
+this. Here &lt;code>f&lt;/code> and &lt;code>g&lt;/code> are functions of &lt;code>a&lt;/code> to Boolean.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-org" data-lang="org">&lt;span style="color:#e6db74">| (f a) | (g a) |&lt;/span>
+&lt;span style="color:#e6db74">|-------+-------|&lt;/span>
+&lt;span style="color:#e6db74">| true | true |&lt;/span>
+&lt;span style="color:#e6db74">| true | false |&lt;/span>
+&lt;span style="color:#e6db74">| false | true |&lt;/span>
+&lt;span style="color:#e6db74">| false | false |&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can express this as a Clojure punction &amp;lsquo;coz (f a) (g a) is ((juxt f g) a).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>dispatch.buzz)
+(&lt;span style="color:#66d9ef">defn &lt;/span>mechanism
+&lt;span style="color:#e6db74">&amp;#34;Given two functions, presumably of anything -to-&amp;gt; Boolean, return
+&lt;/span>&lt;span style="color:#e6db74"> a function that can construct inputs of a 2-input truth table.&amp;#34;&lt;/span>
+[f? g?]
+(&lt;span style="color:#a6e22e">juxt&lt;/span> f? g?))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>See? Such abstract. Much general-purpose. Very decomplect. Wow.&lt;/p>
+&lt;p>&lt;em>&lt;strong>Policy&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>Here, we define &lt;em>&lt;strong>&amp;ldquo;policy&amp;rdquo;&lt;/strong>&lt;/em> as something having special context of FizzBuzz
+that consumes input rows of the truth table and emits corresponding output fields.&lt;/p>
+&lt;p>First, we specialise the abstract &lt;code>mechanism&lt;/code> to a FizzBuzz mechanism. You
+may smirk &lt;sup id="fnref:16">&lt;a href="#fn:16" class="footnote-ref" role="doc-noteref">16&lt;/a>&lt;/sup>, but just you wait. There is a (multi) method to the
+madness&amp;hellip;&lt;/p>
+&lt;p>Here is the table we started with, rewritten for our specialisation.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-org" data-lang="org">&lt;span style="color:#e6db74">| (fizzes? n) | (buzzes? n) | (mechanism fizzes? buzzes?) -&amp;gt; mfb |&lt;/span>
+&lt;span style="color:#e6db74">|-------------+-------------+------------------------------------|&lt;/span>
+&lt;span style="color:#e6db74">| true | true | (mfb n) =&amp;gt; &amp;#34;FizzBuzz&amp;#34; |&lt;/span>
+&lt;span style="color:#e6db74">| true | false | (mfb n) =&amp;gt; &amp;#34;Fizz&amp;#34; |&lt;/span>
+&lt;span style="color:#e6db74">| false | true | (mfb n) =&amp;gt; &amp;#34;Buzz&amp;#34; |&lt;/span>
+&lt;span style="color:#e6db74">| false | false | (mfb n) =&amp;gt; n |&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here is the intermediate step of the specialisation, viz. &lt;code>(mechanism f g) -&amp;gt; h&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>dispatch.buzz)
+(&lt;span style="color:#66d9ef">defn &lt;/span>divisible?
+[divisor n]
+(zero? (rem n divisor)))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizzes? (partial divisible? &lt;span style="color:#ae81ff">3&lt;/span>))
+(&lt;span style="color:#66d9ef">def &lt;/span>buzzes? (partial divisible? &lt;span style="color:#ae81ff">5&lt;/span>))
+&lt;span style="color:#75715e">;; If we take the abstract mechanism and give it functions&lt;/span>
+&lt;span style="color:#75715e">;; that test numbers for fizzery and buzzery, then we can&lt;/span>
+&lt;span style="color:#75715e">;; construct a version of the truth table that is /concretely/&lt;/span>
+&lt;span style="color:#75715e">;; specific to FizzBuzz.&lt;/span>
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(= (map (&lt;span style="color:#a6e22e">mechanism&lt;/span> fizzes? buzzes?)
+[&lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>])
+[[true true]
+[true false]
+[false true]
+[false false]])
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Finally, we hang it all together with Clojure&amp;rsquo;s multimethods &lt;sup id="fnref:17">&lt;a href="#fn:17" class="footnote-ref" role="doc-noteref">17&lt;/a>&lt;/sup>, like so.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>dispatch.buzz)
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz map)
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz-mechanism
+(&lt;span style="color:#a6e22e">mechanism&lt;/span> fizzes? buzzes?))
+(&lt;span style="color:#66d9ef">defmulti &lt;/span>dispatch-buzz
+&lt;span style="color:#e6db74">&amp;#34;It yields the third column of the truth table.&amp;#34;&lt;/span>
+fizz-buzz-mechanism)
+&lt;span style="color:#75715e">;; The /Policy/, fully realised.&lt;/span>
+&lt;span style="color:#75715e">;; ((mechanism fizzes? buzzes?) n) -&amp;gt; final results&lt;/span>
+(&lt;span style="color:#66d9ef">defmethod &lt;/span>dispatch-buzz [true true]
+[n]
+&lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>)
+(&lt;span style="color:#66d9ef">defmethod &lt;/span>dispatch-buzz [true false]
+[n]
+&lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>)
+(&lt;span style="color:#66d9ef">defmethod &lt;/span>dispatch-buzz [false true]
+[n]
+&lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>)
+(&lt;span style="color:#66d9ef">defmethod &lt;/span>dispatch-buzz &lt;span style="color:#e6db74">:default&lt;/span>
+[n]
+n)
+&lt;span style="color:#75715e">;; The /Policy/, applied.&lt;/span>
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(= (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> dispatch-buzz
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>])
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>])
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yes, &amp;lsquo;tis a wee FizzBuzz interpreter!&lt;/p>
+&lt;p>(Pirouettes off-stage, gracefully.)&lt;/p>
 &lt;h2 id="buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/h2>
 &lt;p>Ideas on deck, to put self on the hook&amp;hellip;&lt;/p>
 &lt;ul>
-&lt;li>curried fizzbuzz (like Ring libraries),&lt;/li>
-&lt;li>dispatch-based fizzbuzz (multimethods, protocols),&lt;/li>
-&lt;li>concurrent fizzbuzz (with agents, but the code in my head is probably wrong),&lt;/li>
-&lt;li>parallel fizzbuzz, (just pmap, quite silly actually, but why not? It&amp;rsquo;s legit!)&lt;/li>
-&lt;li>transducing fizzbuzz, (should be able to transduce all the fizz-buzzes up
-to Peano FizzBuzz)&lt;/li>
-&lt;li>maaabe also re-do Rich&amp;rsquo;s ants sim with FizzBuzz ants (4 concurrent species &amp;mdash;
-Identiant, Fizzant, Buzzant, FizzBuzzant).&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> curried fizzbuzz (like Ring libraries),&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> dispatch-based fizzbuzz (with multimethods),&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> OOP fizzbuzz (with protocols),&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> concurrent fizzbuzz (with agents, but the code in my head is
+probably totally wrong),&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> parallel fizzbuzz, (just pmap, quite silly actually, but why not? It&amp;rsquo;s legit!)&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> transducing fizzbuzz, (should be able to transduce all the fizz-buzzes
+up to Peano FizzBuzz)&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> maaabe also re-do Rich&amp;rsquo;s ants sim with FizzBuzz ants (4 species of, ah,
+ConcurrAnts &amp;mdash; IdentiAnt, FizzAnt, BuzzAnt, FizzBuzzAnt).&lt;/li>
 &lt;/ul>
 &lt;p>Outside of clojure.core, maaaaybe core.async fizzbuzz, but IDK, maybe that
 will be too high concept, and too contrived.&lt;/p>
 &lt;h2 id="acknowledgments">Acknowledgments&lt;/h2>
-&lt;p>Thanks to &lt;a href="https://twitter.com/rdivyanshu">rdivyanshu&lt;/a> for review and feedback.&lt;/p>
+&lt;p>Thanks to &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> for review and feedback.&lt;/p>
 &lt;section class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
@@ -723,13 +828,25 @@ will be too high concept, and too contrived.&lt;/p>
 &lt;p>One fine day, one of our Clojure services at $FormerEmployer, started to run out of heap space after a fresh deployment. Our service graphs looked like this &lt;code>_/|_/|_/|_&lt;/code>. The sawtooth of heap death. It wasn&amp;rsquo;t super critical, and everybody was busy shipping features. So naturally we did some napkin math and rolled out a Jenkins job that triggered a rolling restart every six hours. Eventually, someone found the time to go debug the crashes. We had &lt;em>memoized&lt;/em> a function that returned an anonymous function (a lambda or &lt;em>thunk&lt;/em>), when we meant to memoize the return value from evaluating said lambda. Clojure creates a &lt;em>new&lt;/em> object every time we ask it to make a lambda. So &lt;a href="https://clojuredocs.org/clojure.core/memoize">memoize&lt;/a> saw new return values every time the original &amp;ldquo;thunkified&amp;rdquo; function was called, dutifully cached them all, and held onto them, thus preventing JVM garbage collector from cleaning them out. The story is relevant here because &lt;em>thunking&lt;/em> (making functions return partially evaluated fuctions) is a form of delayed or &amp;ldquo;lazy&amp;rdquo; evaluation. Also because nobody was fired. Everyone learned a good lesson and had a good laugh. In fact, we continued to use the rolling restart job in at least one other case where the memory leak was very slow, the service was very fault tolerant, and the service owner was really pressed for time with other always-higher priorities in that hyper-growth phase of the company. Slow leak tolerance is very much justified when used carefully. In fact, the friend who owned that service recently told me the periodic restart method worked so well, that they almost forgot about it for several years until they did a whole data center migration, at which point the service crashed for the first time in years, because someone forgot to also switch on the restart job. More good laughs were had and the documentation and automation were improved. You may now like to read &lt;a href="https://devblogs.microsoft.com/oldnewthing/20180228-00/?p=98125">&lt;em>&amp;ldquo;An amusing story about a practical use of the null garbage collector&amp;rdquo;&lt;/em>&lt;/a>.&amp;#160;&lt;a href="#fnref:10" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:11" role="doc-endnote">
-&lt;p>&amp;ldquo;&lt;a href="https://www.merriam-webster.com/dictionary/complect">Complect-ed&lt;/a>&amp;rdquo;, if you speak Clojurish.&amp;#160;&lt;a href="#fnref:11" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>&amp;ldquo;&lt;a href="https://www.merriam-webster.com/dictionary/complect">Complect&lt;/a>&amp;quot;-ed, if you speak Clojurish. When a Thing is made of lots of Sub-Things that are braided together tightly, we say &amp;ldquo;This Thing is &lt;em>complected&lt;/em>.&amp;rdquo; in Clojurish. After we transform and reconstitute the Thing in terms of sub-things that are &lt;em>no longer&lt;/em> braided together, we smile inwardly and say &amp;ldquo;This Thing is now &lt;em>decomplected&lt;/em>&amp;rdquo;. Clojurish is basically a postmodern revival of the Latin roots of American English.&amp;#160;&lt;a href="#fnref:11" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:12" role="doc-endnote">
 &lt;p>Eric Normand on &lt;em>&lt;a href="https://ericnormand.me/podcast/what-is-nil-punning">&amp;ldquo;What is Nil Punning?&amp;quot;&lt;/a>&lt;/em>.&amp;#160;&lt;a href="#fnref:12" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:13" role="doc-endnote">
 &lt;p>For reference, &lt;a href="https://github.com/adityaathalye/sicp/blob/master/ex2-06-church-numerals.scm">my attempt&lt;/a> at implementing &lt;a href="https://en.wikipedia.org/wiki/Church%5Fencoding">Church Numerals&lt;/a> in SICP.&amp;#160;&lt;a href="#fnref:13" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:14" role="doc-endnote">
+&lt;p>See the footnote for &amp;ldquo;Complect&amp;rdquo;.&amp;#160;&lt;a href="#fnref:14" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:15" role="doc-endnote">
+&lt;p>Arne Brasseur on &lt;a href="https://www.lambdaisland.com/blog/2022-03-10-mechanism-vs-policy">Improve your code by separating mechanism from policy&lt;/a>. Don&amp;rsquo;t you just love it when Lots Of Thoughts are rattling around in your brain, and someone drops a sweet one-liner that instantly crystallises it all for you? Thanks &lt;a href="https://twitter.com/robstuttaford">@RobStuttaford&lt;/a> for bringing this back into my consciousness!&amp;#160;&lt;a href="#fnref:15" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:16" role="doc-endnote">
+&lt;p>I see you and that &lt;code>AbstractFactoryFactory&lt;/code> joke forming in your brain.&amp;#160;&lt;a href="#fnref:16" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:17" role="doc-endnote">
+&lt;p>See &lt;a href="https://clojure.org/reference/multimethods">Multimethods and Hierarchies&lt;/a> page at the official site, and the &lt;a href="https://clojuredocs.org/quickref#multifunctions">Multifunctions&lt;/a> section at ClojureDocs for examples. This stuff may break your brain for a bit, if you are very accustomed to Class-y OO programming. That&amp;rsquo;s absolutely fine. It &lt;em>is&lt;/em> fairly mind bending and takes some getting used to. Stay with it, play with concepts against the REPL. Translate or reduce as many patterns as you can to this kind of open-ended multiple dispatch.&amp;#160;&lt;a href="#fnref:17" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></content></item><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Fri, 11 Mar 2022 00:08:52 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
