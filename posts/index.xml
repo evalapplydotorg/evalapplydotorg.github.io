@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 21 Mar 2022 00:17:37 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Mon, 21 Mar 2022 00:17:37 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 03:50:31 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 03:50:31 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -29,12 +29,15 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;!-- raw HTML omitted -->
 &lt;ul>
 &lt;li>&lt;a href="#usage-guide">Usage guide&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#le-fizzbuzz-classique">Le FizzBuzz Classique&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#le-fizzbuzz-classique">Le FizzBuzz Classique&lt;/a>
+&lt;ul>
 &lt;li>&lt;a href="#le-fizzbuzz-classique-est-mort-%C3%A0-clojure-dot-d%C3%A9sol%C3%A9">Le FizzBuzz Classique est mort à Clojure. Désolé :(&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#le-fizzbuzz-classique-remedied">Le FizzBuzz Classique, remedied&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#le-fizzbuzz-classique-dissected">Le FizzBuzz Classique, dissected&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#le-fizzbuzz-classique-doseq-d">Le FizzBuzz Classique, doseq&amp;rsquo;d&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#le-fizzbuzz-classique-doall-d">Le FizzBuzz Classique, doall&amp;rsquo;d&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;li>&lt;a href="#little-functions-are-good">Little functions are good!&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#map-reduce-for-fizzbuzz">map reduce for FizzBuzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#domain-driven-design-fizzbuzz">Domain Driven Design FizzBuzz&lt;/a>&lt;/li>
@@ -43,6 +46,16 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;li>&lt;a href="#interlude-all-the-fizz-buzzes-so-far">Interlude: all the fizz-buzzes so far&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#peano-fizzbuzz">Peano FizzBuzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#dispatch-buzz">Dispatch Buzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#embarrassingly-parallel-fizzbuzz">Embarrassingly Parallel FizzBuzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#oop-buzz">OOP Buzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#non-destructive-fizzbuzz">Non-Destructive FizzBuzz&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#composite-data-buzz">Composite Data Buzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#clojure-spec-d-buzz">Clojure Spec&amp;rsquo;d Buzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#wicked-pprint-buzz">Wicked pprint Buzz&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#tagged-literal-buzz">Tagged Literal Buzz&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;li>&lt;a href="#buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#acknowledgments">Acknowledgments&lt;/a>&lt;/li>
 &lt;/ul>
@@ -112,7 +125,7 @@ FizzBuzz
 &lt;span style="color:#ae81ff">16&lt;/span>
 (&lt;span style="color:#a6e22e">nil&lt;/span> nil nil nil nil)
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>(Except for that pesky last line full of nils. But like, whatever. It worked.).&lt;/p>
-&lt;h2 id="le-fizzbuzz-classique-est-mort-à-clojure-dot-désolé">Le FizzBuzz Classique est mort à Clojure. Désolé :(&lt;/h2>
+&lt;h3 id="le-fizzbuzz-classique-est-mort-à-clojure-dot-désolé">Le FizzBuzz Classique est mort à Clojure. Désolé :(&lt;/h3>
 &lt;p>Sadly, the spurious nils are the least of your woes. You just fell prey to
 something called &amp;ldquo;Laziness&amp;rdquo;, and the code is dead on arrival, but you don&amp;rsquo;t
 know it yet because evaluating &lt;em>in&lt;/em> the &amp;ldquo;REPL&amp;rdquo; obscures this fact.&lt;/p>
@@ -128,7 +141,7 @@ Clojure &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-
 there is a more pressing problem that makes &lt;em>Le FizzBuzz Classique&lt;/em> look
 severely defective to this Clojurist&amp;rsquo;s FP-addled brain. Fixing that makes the
 point of lazy sequences moot, as a nice bonus.&lt;/p>
-&lt;h2 id="le-fizzbuzz-classique-remedied">Le FizzBuzz Classique, remedied&lt;/h2>
+&lt;h3 id="le-fizzbuzz-classique-remedied">Le FizzBuzz Classique, remedied&lt;/h3>
 &lt;p>Behold this cleaned up version.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">defn &lt;/span>lazybuzz
 [num-xs]
@@ -162,7 +175,7 @@ collects the return value of each println (nil), and returns that collection.&lt
 parentheses, which is, like, sure whatever. At least it &lt;em>looks&lt;/em> like it&amp;rsquo;s
 doing the right calculations &lt;em>and&lt;/em> the pesky nils are gone, so we can move on?&lt;/p>
 &lt;p>Not so fast.&lt;/p>
-&lt;h2 id="le-fizzbuzz-classique-dissected">Le FizzBuzz Classique, dissected&lt;/h2>
+&lt;h3 id="le-fizzbuzz-classique-dissected">Le FizzBuzz Classique, dissected&lt;/h3>
 &lt;p>To FizzBuzz creatively in Clojure, we must examine &lt;em>and avoid&lt;/em> the defects of
 the classic version, which are as follows.&lt;/p>
 &lt;ol>
@@ -191,7 +204,7 @@ that we don&amp;rsquo;t even need to acknowledge its presence.&lt;/p>
 &lt;p>Yet another benefit is that we won&amp;rsquo;t have to burn hundreds of words to apologise
 for broken code &lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>.&lt;/p>
 &lt;p>See? Such passion. I wasn&amp;rsquo;t joking when I said &amp;ldquo;looks severely defective to me&amp;rdquo; &lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup>.&lt;/p>
-&lt;h2 id="le-fizzbuzz-classique-doseq-d">Le FizzBuzz Classique, doseq&amp;rsquo;d&lt;/h2>
+&lt;h3 id="le-fizzbuzz-classique-doseq-d">Le FizzBuzz Classique, doseq&amp;rsquo;d&lt;/h3>
 &lt;p>Maybe you still aren&amp;rsquo;t convinced. &lt;code>println&lt;/code> is such a global standard. &lt;em>Easy&lt;/em> &lt;sup id="fnref:8">&lt;a href="#fn:8" class="footnote-ref" role="doc-noteref">8&lt;/a>&lt;/sup>.
 So you might dig into the standard library more and come up with &lt;code>doseq&lt;/code> to
 eliminate laziness&amp;hellip;&lt;/p>
@@ -222,7 +235,7 @@ DuckDuck search the standard coding interview version of the question, what
 do you find? &amp;ldquo;Write a program that prints the numbers from 1 to 100
 such that&amp;hellip;&amp;rdquo;.&lt;/p>
 &lt;p>Boo.&lt;/p>
-&lt;h2 id="le-fizzbuzz-classique-doall-d">Le FizzBuzz Classique, doall&amp;rsquo;d&lt;/h2>
+&lt;h3 id="le-fizzbuzz-classique-doall-d">Le FizzBuzz Classique, doall&amp;rsquo;d&lt;/h3>
 &lt;p>As a famous TV detective would say; &amp;ldquo;Oh, just one other thing.&amp;rdquo;. Here are ways
 to break your programs. And if you are feeling suitably adventurous, to also
 test the stability of your employment.&lt;/p>
@@ -776,15 +789,271 @@ n)
 )
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Yes, &amp;lsquo;tis a wee FizzBuzz interpreter!&lt;/p>
 &lt;p>(Pirouettes off-stage, gracefully.)&lt;/p>
+&lt;h2 id="embarrassingly-parallel-fizzbuzz">Embarrassingly Parallel FizzBuzz&lt;/h2>
+&lt;p>It turns out FizzBuzz is one of those so-called &lt;a href="https://en.wikipedia.org/wiki/Embarrassingly%5Fparallel">Embarrassingly Parallel&lt;/a> problems.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>all.them.fizz.buzzers)
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz map)
+&lt;span style="color:#75715e">;; Add 1 character for parallel map.&lt;/span>
+(&lt;span style="color:#66d9ef">def &lt;/span>embarrassingly-parallel-fizz-buzz pmap)
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(&lt;span style="color:#66d9ef">let &lt;/span>[range-of-buzzees (range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">101&lt;/span>)]
+(= (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> basic-buzz
+range-of-buzzees)
+(&lt;span style="color:#a6e22e">embarrassingly-parallel-fizz-buzz&lt;/span> basic-buzz
+range-of-buzzees)))
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I was almost too embarrassed to write this, but I&amp;rsquo;m glad good sense prevailed,
+because the trivial replacement of &lt;code>map&lt;/code> with &lt;code>pmap&lt;/code> teaches a lesson.&lt;/p>
+&lt;p>Parallelism is impossibly hard if we don&amp;rsquo;t have pure functions, immutability,
+and laziness. When we do, it reduces to merely hard but tractable. The
+proverbial single character code modification (in this case, literally so)
+gets a free ride on those other constructs.&lt;/p>
+&lt;p>We can see it in &lt;code>pmap&lt;/code>&amp;rsquo;s implementation. It is fairly straightforward. Fetch
+its source and stare at it for a bit; &lt;code>(clojure.repl/source pmap)&lt;/code>. You will
+be able to make sense of it with a bit of cross-referencing ClojureDocs.&lt;/p>
+&lt;p>If your favourite language has something similar (parallel version of a
+sequential function), and if you choose to compare implementations, I will
+be delighted to learn from your analysis!&lt;/p>
+&lt;h2 id="oop-buzz">OOP Buzz&lt;/h2>
+&lt;p>What is an Object in, say, Java? It is a combination of four distinct things:&lt;/p>
+&lt;ul>
+&lt;li>Name (Class name / Java type)&lt;/li>
+&lt;li>Structure (Class members, methods etc.)&lt;/li>
+&lt;li>Behaviour (effects caused by methods)&lt;/li>
+&lt;li>State (contained in the run-time instance of the Class)&lt;/li>
+&lt;/ul>
+&lt;p>In Clojure, &lt;em>all of these are separate&lt;/em> (&amp;ldquo;available a la carte&amp;rdquo;, in Clojurish),
+the consequences of which are hard to explain sans a motivating example.&lt;/p>
+&lt;p>Clojure&amp;rsquo;s approach to Polymorphism allow us to do things like this.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>oops.fizzbuzz)
+(&lt;span style="color:#66d9ef">def &lt;/span>divisible? (comp zero? rem))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz map)
+&lt;span style="color:#75715e">;; Like a Java Interface, but better.&lt;/span>
+(&lt;span style="color:#66d9ef">defprotocol &lt;/span>IFizzBuzz
+(&lt;span style="color:#a6e22e">proto-buzz&lt;/span> [this]))
+&lt;span style="color:#75715e">;; We can add new behaviour to existing types,&lt;/span>
+&lt;span style="color:#75715e">;; including /any/ Java built-in type.&lt;/span>
+(&lt;span style="color:#a6e22e">extend-protocol&lt;/span> IFizzBuzz
+java.lang.Number
+(&lt;span style="color:#a6e22e">proto-buzz&lt;/span> [this]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> this &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> this &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> this &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">:else&lt;/span> this)))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; Now we can do this&lt;/span>
+(= (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> proto-buzz
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>])
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>])
+&lt;span style="color:#75715e">;; And we can also do this&lt;/span>
+(= (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> proto-buzz
+[&lt;span style="color:#ae81ff">1.0&lt;/span> &lt;span style="color:#ae81ff">3.0&lt;/span> &lt;span style="color:#ae81ff">5.0&lt;/span> &lt;span style="color:#ae81ff">15.0&lt;/span> &lt;span style="color:#ae81ff">15.9&lt;/span>])
+[&lt;span style="color:#ae81ff">1.0&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">15.9&lt;/span>])
+&lt;span style="color:#75715e">;; WITHOUT breaking any existing Equality semantics.&lt;/span>
+&lt;span style="color:#75715e">;; (= 42 42) =&amp;gt; true (long and long)&lt;/span>
+&lt;span style="color:#75715e">;; (= 42 42.0) =&amp;gt; false (long and double)&lt;/span>
+&lt;span style="color:#75715e">;; (= 42.0 42.0) =&amp;gt; true (double and double)&lt;/span>
+&lt;span style="color:#75715e">;; Thus, this is false, as it should be.&lt;/span>
+(= (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> proto-buzz
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#ae81ff">16&lt;/span>])
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> proto-buzz
+[&lt;span style="color:#ae81ff">1.0&lt;/span> &lt;span style="color:#ae81ff">3.0&lt;/span> &lt;span style="color:#ae81ff">5.0&lt;/span> &lt;span style="color:#ae81ff">15.0&lt;/span> &lt;span style="color:#ae81ff">15.9&lt;/span>]))
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>In short, Clojure cleanly solves the &amp;ldquo;&lt;a href="https://en.wikipedia.org/wiki/Expression%5Fproblem">Expression Problem&lt;/a>&amp;rdquo;.&lt;/p>
+&lt;p>In long, you can&amp;hellip;&lt;/p>
+&lt;ul>
+&lt;li>Watch &lt;a href="https://www.youtube.com/watch?v=kQhOlWXXl2I">Clojure Protocols Explained&lt;/a>, by Sean Devlin.&lt;/li>
+&lt;li>Watch &lt;a href="https://www.infoq.com/presentations/Clojure-Expression-Problem/">Clojure&amp;rsquo;s Solutions to the Expression Problem&lt;/a>, by Chris Houser.&lt;/li>
+&lt;li>Listen to &lt;a href="https://www.infoq.com/interviews/hickey-clojure-protocols/">Rich Hickey on Protocols and Clojure 1.3&lt;/a>, by Rich Hickey.&lt;/li>
+&lt;li>Read &amp;ldquo;&lt;a href="https://gist.github.com/reborg/dc8b0c96c397a56668905e2767fd697f">Rich Already Answered That!&lt;/a>&amp;rdquo;, curated by reborg.
+&lt;em>&amp;ldquo;A list of commonly asked questions, design decisions, reasons why Clojure
+is the way it is as they were answered directly by Rich.&amp;quot;&lt;/em>&lt;/li>
+&lt;/ul>
+&lt;p>Lastly, not to put too fine a point on it, but Clojure is a &lt;em>far more capable&lt;/em>
+Object Oriented Programming System than say Java or Kotlin, a fact which I
+have personally profited from handsomely in the past &lt;sup id="fnref:18">&lt;a href="#fn:18" class="footnote-ref" role="doc-noteref">18&lt;/a>&lt;/sup>.&lt;/p>
+&lt;h2 id="non-destructive-fizzbuzz">Non-Destructive FizzBuzz&lt;/h2>
+&lt;p>&lt;code>proto-buzz&lt;/code> is a great motivating example of what I would like to call the
+&lt;em>&lt;strong>Non-Destructive&lt;/strong>&lt;/em> FizzBuzz.&lt;/p>
+&lt;p>All the FizzBuzz solutions seen previously, except PeanoBuzz, lose information.
+This is almost always bad because its impossible to reverse information loss.
+The inverse is also true. It is almost always good to &lt;em>augment&lt;/em> information.
+Prefer to enrich information and retain as much as resources permit (organised
+neatly, of course). Ask any lawyer or accountant or friendly neighbourhood
+Clojurian which alternative would set their hair on fire.&lt;/p>
+&lt;p>Here I play with some more ways to FizzBuzz non-destructively.&lt;/p>
+&lt;p>As I do, I meditate upon the extra super nice thing about &lt;code>proto-buzz&lt;/code>.
+Which is that we did &lt;em>not&lt;/em> have to invent a new number system or box numbers
+in some composite FizzBuzz data representation &lt;em>and&lt;/em> we lost no functionality
+&amp;mdash; numbers still behave exactly as we expect, with zero added overhead!&lt;/p>
+&lt;h3 id="composite-data-buzz">Composite Data Buzz&lt;/h3>
+&lt;p>PeanoBuzz was an example of writing FizzBuzz in terms of &amp;ldquo;composite&amp;rdquo; data.
+Abstractly, that idea is basically &amp;ldquo;attach some meta-data to my things&amp;rdquo;.&lt;/p>
+&lt;p>PeanoBuzz was a tuple &lt;code>[3 &amp;quot;Fizz&amp;quot;]&lt;/code>, but it could very well have been a custom
+map representation, say, &lt;code>{:n 3 :fizzbuzz &amp;quot;Fizz&amp;quot;}&lt;/code>.&lt;/p>
+&lt;p>We can do one better by using Clojure Records to attach full-blooded Java
+types to our numbers &lt;sup id="fnref:19">&lt;a href="#fn:19" class="footnote-ref" role="doc-noteref">19&lt;/a>&lt;/sup> &lt;em>and also&lt;/em> make &amp;ldquo;composite&amp;rdquo; data, because
+Records give us all the features of generic hash-maps for free.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>boxed.fizz.buzz)
+(&lt;span style="color:#66d9ef">def &lt;/span>divisible? (comp zero? rem))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz map)
+(&lt;span style="color:#66d9ef">defrecord &lt;/span>Fizz [n])
+(&lt;span style="color:#66d9ef">defrecord &lt;/span>Buzz [n])
+(&lt;span style="color:#66d9ef">defrecord &lt;/span>FizzBuzz [n])
+(&lt;span style="color:#66d9ef">defrecord &lt;/span>Identity [n])
+(&lt;span style="color:#66d9ef">defn &lt;/span>boxed-buzz
+[n]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) (&lt;span style="color:#a6e22e">-&amp;gt;FizzBuzz&lt;/span> n)
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) (&lt;span style="color:#a6e22e">-&amp;gt;Fizz&lt;/span> n)
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) (&lt;span style="color:#a6e22e">-&amp;gt;Buzz&lt;/span> n)
+&lt;span style="color:#e6db74">:else&lt;/span> (&lt;span style="color:#a6e22e">-&amp;gt;Identity&lt;/span> n)))
+(&lt;span style="color:#66d9ef">def &lt;/span>all-boxed-buzzes
+(map boxed-buzz
+(rest (&lt;span style="color:#a6e22e">range&lt;/span>))))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; Composite hash-map-like data!&lt;/span>
+(= (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> boxed-buzz
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>])
+[&lt;span style="color:#f92672">#&lt;/span>boxed.fizz.buzz.Identity{&lt;span style="color:#e6db74">:n&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>}
+&lt;span style="color:#f92672">#&lt;/span>boxed.fizz.buzz.Fizz{&lt;span style="color:#e6db74">:n&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>}
+&lt;span style="color:#f92672">#&lt;/span>boxed.fizz.buzz.Buzz{&lt;span style="color:#e6db74">:n&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span>}
+&lt;span style="color:#f92672">#&lt;/span>boxed.fizz.buzz.FizzBuzz{&lt;span style="color:#e6db74">:n&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>}]) &lt;span style="color:#75715e">; =&amp;gt; true&lt;/span>
+&lt;span style="color:#75715e">;; Which is nondestructive!&lt;/span>
+(= [&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>]
+(&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> (comp &lt;span style="color:#e6db74">:n&lt;/span> boxed-buzz)
+[&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>])) &lt;span style="color:#75715e">; =&amp;gt; true&lt;/span>
+&lt;span style="color:#75715e">;; And which has real Java types!&lt;/span>
+(= (map type (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> boxed-buzz [&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>]))
+[boxed.fizz.buzz.Identity
+boxed.fizz.buzz.Fizz
+boxed.fizz.buzz.Buzz
+boxed.fizz.buzz.FizzBuzz]) &lt;span style="color:#75715e">; =&amp;gt; true&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Further exercises for the dear reader!&lt;/p>
+&lt;ul>
+&lt;li>Re-implement PeanoBuzz using Clojure hash-maps!&lt;/li>
+&lt;li>Re-re-implement PeanoBuzz with Records!&lt;/li>
+&lt;li>&lt;em>Separately&lt;/em> write something that can return the classic string-or-number
+equivalent of your composite types! (Hint: use multimethods and/or protocols
+as appropriate).&lt;/li>
+&lt;/ul>
+&lt;p>Last but not least, ask yourself &amp;ldquo;But what about equality? And the rest of
+arithmetic?&amp;rdquo; while comparing these with &lt;code>proto-buzz&lt;/code>.&lt;/p>
+&lt;h3 id="clojure-spec-d-buzz">Clojure Spec&amp;rsquo;d Buzz&lt;/h3>
+&lt;p>Off-label use of &lt;a href="https://clojure.org/guides/spec">Clojure Spec&lt;/a>&amp;rsquo;s &lt;code>conform&lt;/code> as a parser can be very handy.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>conformer.buzz)
+(&lt;span style="color:#a6e22e">require&lt;/span> &lt;span style="color:#f92672">&amp;#39;&lt;/span>[clojure.spec.alpha &lt;span style="color:#e6db74">:as&lt;/span> s])
+(&lt;span style="color:#66d9ef">defn &lt;/span>divisible?
+[divisor n]
+(zero? (rem n divisor)))
+(&lt;span style="color:#66d9ef">def &lt;/span>fizzes? (partial divisible? &lt;span style="color:#ae81ff">3&lt;/span>))
+(&lt;span style="color:#66d9ef">def &lt;/span>buzzes? (partial divisible? &lt;span style="color:#ae81ff">5&lt;/span>))
+(&lt;span style="color:#a6e22e">s/def&lt;/span> &lt;span style="color:#e6db74">::number&lt;/span> number?)
+(&lt;span style="color:#a6e22e">s/def&lt;/span> &lt;span style="color:#e6db74">::fizzes&lt;/span> (&lt;span style="color:#a6e22e">s/and&lt;/span> &lt;span style="color:#e6db74">::number&lt;/span> fizzes?))
+(&lt;span style="color:#a6e22e">s/def&lt;/span> &lt;span style="color:#e6db74">::buzzes&lt;/span> (&lt;span style="color:#a6e22e">s/and&lt;/span> &lt;span style="color:#e6db74">::number&lt;/span> buzzes?))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; Now we can parse input data...&lt;/span>
+(&lt;span style="color:#a6e22e">s/conform&lt;/span> &lt;span style="color:#e6db74">::fizzes&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">; =&amp;gt; 3&lt;/span>
+(&lt;span style="color:#a6e22e">s/conform&lt;/span> &lt;span style="color:#e6db74">::buzzes&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#75715e">; =&amp;gt; 5&lt;/span>
+(&lt;span style="color:#a6e22e">s/conform&lt;/span> &lt;span style="color:#e6db74">::buzzes&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">; =&amp;gt; :clojure.spec.alpha/invalid&lt;/span>
+(&lt;span style="color:#a6e22e">s/conform&lt;/span> (&lt;span style="color:#a6e22e">s/and&lt;/span> &lt;span style="color:#e6db74">::fizzes&lt;/span> &lt;span style="color:#e6db74">::buzzes&lt;/span>) &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#75715e">; =&amp;gt; 15&lt;/span>
+&lt;span style="color:#75715e">;; And we can handle non-conforming data gracefully,&lt;/span>
+&lt;span style="color:#75715e">;; instead of panicking and throwing exceptions.&lt;/span>
+(&lt;span style="color:#a6e22e">s/conform&lt;/span> (&lt;span style="color:#a6e22e">s/or&lt;/span> &lt;span style="color:#e6db74">::fizzes&lt;/span> &lt;span style="color:#e6db74">::buzzes&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;lol&amp;#34;&lt;/span>) &lt;span style="color:#75715e">; :clojure.spec.alpha/invalid&lt;/span>
+)
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz-specs
+&lt;span style="color:#e6db74">&amp;#34;Set of FizzBuzz parsers.&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>{&lt;span style="color:#e6db74">::fizzes&lt;/span> &lt;span style="color:#e6db74">::buzzes&lt;/span> &lt;span style="color:#e6db74">::number&lt;/span>})
+(&lt;span style="color:#66d9ef">defn &lt;/span>spec-parse-buzz
+&lt;span style="color:#e6db74">&amp;#34;Conform the given input to the set of specs for fizz-buzz, and return
+&lt;/span>&lt;span style="color:#e6db74"> a pair of the input and a map of parsed values keyed by the parser name.&amp;#34;&lt;/span>
+[x]
+[x (zipmap fizz-buzz-specs
+(map &lt;span style="color:#f92672">#&lt;/span>(&lt;span style="color:#a6e22e">s/conform&lt;/span> % x) fizz-buzz-specs))])
+(&lt;span style="color:#66d9ef">def &lt;/span>all-spec-buzzes
+(map spec-parse-buzz
+(rest (&lt;span style="color:#a6e22e">range&lt;/span>))))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; And we can...&lt;/span>
+(take &lt;span style="color:#ae81ff">100&lt;/span> all-spec-buzzes)
+&lt;span style="color:#75715e">;; Which gives us enriched data, like this:&lt;/span>
+(= (into {} (map spec-parse-buzz [&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#e6db74">&amp;#34;lol&amp;#34;&lt;/span>]))
+{&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#f92672">#&lt;/span>&lt;span style="color:#e6db74">:conformer.buzz&lt;/span>{&lt;span style="color:#e6db74">:fizzes&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>,
+&lt;span style="color:#e6db74">:buzzes&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>,
+&lt;span style="color:#e6db74">:number&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>},
+&lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#f92672">#&lt;/span>&lt;span style="color:#e6db74">:conformer.buzz&lt;/span>{&lt;span style="color:#e6db74">:fizzes&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>,
+&lt;span style="color:#e6db74">:buzzes&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>,
+&lt;span style="color:#e6db74">:number&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>},
+&lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#f92672">#&lt;/span>&lt;span style="color:#e6db74">:conformer.buzz&lt;/span>{&lt;span style="color:#e6db74">:fizzes&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>,
+&lt;span style="color:#e6db74">:buzzes&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span>,
+&lt;span style="color:#e6db74">:number&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span>},
+&lt;span style="color:#ae81ff">15&lt;/span> &lt;span style="color:#f92672">#&lt;/span>&lt;span style="color:#e6db74">:conformer.buzz&lt;/span>{&lt;span style="color:#e6db74">:fizzes&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>,
+&lt;span style="color:#e6db74">:buzzes&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>,
+&lt;span style="color:#e6db74">:number&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>},
+&lt;span style="color:#e6db74">&amp;#34;lol&amp;#34;&lt;/span> &lt;span style="color:#f92672">#&lt;/span>&lt;span style="color:#e6db74">:conformer.buzz&lt;/span>{&lt;span style="color:#e6db74">:fizzes&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>,
+&lt;span style="color:#e6db74">:buzzes&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>,
+&lt;span style="color:#e6db74">:number&lt;/span> &lt;span style="color:#e6db74">:clojure.spec.alpha/invalid&lt;/span>}}) &lt;span style="color:#75715e">; =&amp;gt; true&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>However, like off-label use of anything, this &lt;code>conform&lt;/code>-as-parser trick too
+skirts the &amp;ldquo;can be a very bad idea&amp;rdquo; territory.&lt;/p>
+&lt;p>YMMV.&lt;/p>
+&lt;h3 id="wicked-pprint-buzz">Wicked pprint Buzz&lt;/h3>
+&lt;p>&lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> said to add this extra &lt;a href="https://github.com/clojure/clojure/blob/b1b88dd25373a86e41310a525a21b497799dbbf2/src/clj/clojure/pprint/dispatch.clj#L175">pprint dispatcher&lt;/a>,
+&lt;em>&amp;ldquo;and let no number escape fizzbuzzness when showing itself&amp;rdquo;&lt;/em>.&lt;/p>
+&lt;p>Why not?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>pprint.buzz)
+(&lt;span style="color:#a6e22e">require&lt;/span> &lt;span style="color:#f92672">&amp;#39;&lt;/span>[clojure.pprint &lt;span style="color:#e6db74">:as&lt;/span> pp])
+(&lt;span style="color:#66d9ef">defn &lt;/span>pprint-buzz
+[n]
+(&lt;span style="color:#66d9ef">let &lt;/span>[divisible? (comp zero? rem)
+prettyprint (comp prn
+(partial format &lt;span style="color:#e6db74">&amp;#34;%d doth %s&amp;#34;&lt;/span>))]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) (&lt;span style="color:#a6e22e">prettyprint&lt;/span> n &lt;span style="color:#e6db74">&amp;#34;FizzBuzzeth&amp;#34;&lt;/span>)
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) (&lt;span style="color:#a6e22e">prettyprint&lt;/span> n &lt;span style="color:#e6db74">&amp;#34;Fizzeth&amp;#34;&lt;/span>)
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) (&lt;span style="color:#a6e22e">prettyprint&lt;/span> n &lt;span style="color:#e6db74">&amp;#34;Buzzeth&amp;#34;&lt;/span>)
+&lt;span style="color:#e6db74">:else&lt;/span> (&lt;span style="color:#a6e22e">prettyprint&lt;/span> n &lt;span style="color:#e6db74">&amp;#34;not Fizzeth nor Buzzeth. Alas!&amp;#34;&lt;/span>))))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; lol&lt;/span>
+(&lt;span style="color:#f92672">#&lt;/span>&lt;span style="color:#e6db74">&amp;#39;pp/use-method&lt;/span> pp/simple-dispatch java.lang.Number pprint-buzz)
+&lt;span style="color:#75715e">;; nothing to see here... you will have to look at the REPL&lt;/span>
+(doseq [n [&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span> &lt;span style="color:#ae81ff">5&lt;/span> &lt;span style="color:#ae81ff">15&lt;/span>]]
+(&lt;span style="color:#a6e22e">pp/pprint&lt;/span> n)) &lt;span style="color:#75715e">;; lol lol lol lolllll&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>You, Sir, are truly a gentlenerd and a scholar.&lt;/p>
+&lt;p>Nondestructive, and hilarious to boot!&lt;/p>
+&lt;h3 id="tagged-literal-buzz">Tagged Literal Buzz&lt;/h3>
+&lt;p>Thinking aloud&amp;hellip;&lt;/p>
+&lt;p>Clojure has a concept of &amp;ldquo;tagged literals&amp;rdquo;; plaintext labels that we can
+&amp;ldquo;attach&amp;rdquo; to data &lt;em>without&lt;/em> changing the literal value of our data, &lt;em>and&lt;/em>
+transmit over wires along with the data.&lt;/p>
+&lt;p>Clojure provides built-in support for a small set of some fairly universal
+types of literals (instant, UUID etc.). And I have used fancier tagged
+literals, but only in context of other people&amp;rsquo;s libraries (&lt;a href="https://github.com/juxt/aero">juxt/aero&lt;/a>).&lt;/p>
+&lt;p>How to make this work, I wonder?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>tagged.buzz)
+&lt;span style="color:#75715e">;; We can do this, but how to work with it?&lt;/span>
+(&lt;span style="color:#a6e22e">set!&lt;/span> *default-data-reader-fn* tagged-literal)
+(&lt;span style="color:#66d9ef">def &lt;/span>tagged-buzz
+&lt;span style="color:#f92672">#&lt;/span>tagged.buzz/FizzBuzzSequence [&lt;span style="color:#f92672">#&lt;/span>tagged.buzz/Fizz &lt;span style="color:#ae81ff">3&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>tagged.buzz/Buzz &lt;span style="color:#ae81ff">5&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>tagged.buzz/FizzBuzz &lt;span style="color:#ae81ff">15&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>tagged.buzz/Number &lt;span style="color:#ae81ff">1&lt;/span>])
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Anyway, it&amp;rsquo;s way past 3 AM now.&lt;/p>
+&lt;p>Maybe tomorrow.&lt;/p>
+&lt;p>I mean, later today.&lt;/p>
 &lt;h2 id="buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/h2>
 &lt;p>Ideas on deck, to put self on the hook&amp;hellip;&lt;/p>
 &lt;ul>
 &lt;li>&lt;input disabled="" type="checkbox"> curried fizzbuzz (like Ring libraries),&lt;/li>
 &lt;li>&lt;input checked="" disabled="" type="checkbox"> dispatch-based fizzbuzz (with multimethods),&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> OOP fizzbuzz (with protocols),&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> OOP fizzbuzz (with protocols),&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> Nondestructive fizzbuzz (several!!!),&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> concurrent fizzbuzz (with agents, but the code in my head is
 probably totally wrong),&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> parallel fizzbuzz, (just pmap, quite silly actually, but why not? It&amp;rsquo;s legit!)&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> parallel fizzbuzz, (just pmap, quite silly actually, but why not? It&amp;rsquo;s legit!)&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> transducing fizzbuzz, (should be able to transduce all the fizz-buzzes
 up to Peano FizzBuzz)&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> maaabe also re-do Rich&amp;rsquo;s ants sim with FizzBuzz ants (4 species of, ah,
@@ -793,7 +1062,7 @@ ConcurrAnts &amp;mdash; IdentiAnt, FizzAnt, BuzzAnt, FizzBuzzAnt).&lt;/li>
 &lt;p>Outside of clojure.core, maaaaybe core.async fizzbuzz, but IDK, maybe that
 will be too high concept, and too contrived.&lt;/p>
 &lt;h2 id="acknowledgments">Acknowledgments&lt;/h2>
-&lt;p>Thanks to &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> for review and feedback.&lt;/p>
+&lt;p>Thanks to &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> for review and feedback and ideas.&lt;/p>
 &lt;section class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
@@ -847,6 +1116,12 @@ will be too high concept, and too contrived.&lt;/p>
 &lt;/li>
 &lt;li id="fn:17" role="doc-endnote">
 &lt;p>See &lt;a href="https://clojure.org/reference/multimethods">Multimethods and Hierarchies&lt;/a> page at the official site, and the &lt;a href="https://clojuredocs.org/quickref#multifunctions">Multifunctions&lt;/a> section at ClojureDocs for examples. This stuff may break your brain for a bit, if you are very accustomed to Class-y OO programming. That&amp;rsquo;s absolutely fine. It &lt;em>is&lt;/em> fairly mind bending and takes some getting used to. Stay with it, play with concepts against the REPL. Translate or reduce as many patterns as you can to this kind of open-ended multiple dispatch.&amp;#160;&lt;a href="#fnref:17" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:18" role="doc-endnote">
+&lt;p>You can watch me flail about live-demoing a UI test automation DSL I designed using Clojure. &lt;a href="https://www.youtube.com/watch?v=hwoLON80ZzA&amp;amp;t=170s">Video&lt;/a>, &lt;a href="https://github.com/adityaathalye/slideware/blob/master/designing%5Fobject%5Ffunctional%5Fsystem%5FIN-Clojure%5F2016.pdf">Slides&lt;/a>.&amp;#160;&lt;a href="#fnref:18" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:19" role="doc-endnote">
+&lt;p>Aside: This is actually double-boxing, because in Java, numbers are already boxed by design. So this approach may carry some performance penalty depending on your context. For example, see this DZone &amp;gt; Java Zone article: &lt;a href="https://dzone.com/articles/whats-wrong-with-java-boxed-numbers">What&amp;rsquo;s Wrong With Java Boxed Numbers?&lt;/a>&amp;#160;&lt;a href="#fnref:19" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></content></item><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Fri, 11 Mar 2022 00:08:52 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
@@ -1438,8 +1713,8 @@ described below.&lt;/p>
 after reading half a book. You may do it differently. The important thing is
 to construct a &lt;em>good enough model&lt;/em> to help us think.&lt;/p>
 &lt;div class="collapsable-code">
-&lt;input id="125483976" type="checkbox" checked />
-&lt;label for="125483976">
+&lt;input id="752431689" type="checkbox" checked />
+&lt;label for="752431689">
 &lt;span class="collapsable-code__language">html&lt;/span>
 &lt;span class="collapsable-code__title">Anatomy of the markup&lt;/span>
 &lt;span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide">&lt;/span>
