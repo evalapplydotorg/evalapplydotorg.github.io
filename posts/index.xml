@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 11:06:22 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 11:06:22 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 12:50:08 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 12:50:08 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -9,7 +9,9 @@ well, all sorts of bad ideas and clever foot-guns will be discovered and used.&l
 &lt;p>The creative constraint is this: any FizzBuzz, however terrible or hilarious,
 &lt;em>must also be useful&lt;/em>. It should have reason to exist and should reveal some
 real-world Clojure thinking.&lt;/p>
-&lt;p>So, no &lt;a href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">FizzBuzzEnterpriseEdition&lt;/a>. Sorry!&lt;/p></description><content>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+&lt;p>That means no &lt;a href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">FizzBuzzEnterpriseEdition&lt;/a>
+but also no Dylan Beattie&amp;rsquo;s brilliant &lt;a href="https://www.youtube.com/watch?v=6avJHaC3C2U&amp;amp;t=3350s">FizzBuzz in RockStar&lt;/a>.
+So sorry!&lt;/p></description><content>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -20,7 +22,9 @@ well, all sorts of bad ideas and clever foot-guns will be discovered and used.&l
 &lt;p>The creative constraint is this: any FizzBuzz, however terrible or hilarious,
 &lt;em>must also be useful&lt;/em>. It should have reason to exist and should reveal some
 real-world Clojure thinking.&lt;/p>
-&lt;p>So, no &lt;a href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">FizzBuzzEnterpriseEdition&lt;/a>. Sorry!&lt;/p>
+&lt;p>That means no &lt;a href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">FizzBuzzEnterpriseEdition&lt;/a>
+but also no Dylan Beattie&amp;rsquo;s brilliant &lt;a href="https://www.youtube.com/watch?v=6avJHaC3C2U&amp;amp;t=3350s">FizzBuzz in RockStar&lt;/a>.
+So sorry!&lt;/p>
 &lt;p>Not to be indelicate, but I will state the problem before proceeding.&lt;/p>
 &lt;blockquote>
 &lt;p>Fizz buzz is a group word game for children to teach them about division.
@@ -36,7 +40,13 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;p>OK, onward.&lt;/p>
 &lt;!-- raw HTML omitted -->
 &lt;ul>
-&lt;li>&lt;a href="#usage-guide">Usage guide&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#usage-guide">Usage guide&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#reading-the-code">Reading the code&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#running-the-code">Running the code&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#complaining-about-the-code">Complaining about the code&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;li>&lt;a href="#le-fizzbuzz-classique">Le FizzBuzz Classique&lt;/a>
 &lt;ul>
 &lt;li>&lt;a href="#le-fizzbuzz-classique-est-mort-%C3%A0-clojure-dot-d%C3%A9sol%C3%A9">Le FizzBuzz Classique est mort à Clojure. Désolé :(&lt;/a>&lt;/li>
@@ -70,7 +80,7 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;!-- raw HTML omitted -->
 &lt;hr>
 &lt;h2 id="usage-guide">Usage guide&lt;/h2>
-&lt;p>Reading the code:&lt;/p>
+&lt;h3 id="reading-the-code">Reading the code&lt;/h3>
 &lt;ul>
 &lt;li>
 &lt;p>Find the &lt;code>check-all-fizz-buzzers&lt;/code> function below, for usage examples.&lt;/p>
@@ -83,7 +93,7 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 illustrated with community-contributed examples.&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;p>Running the code:&lt;/p>
+&lt;h3 id="running-the-code">Running the code&lt;/h3>
 &lt;ul>
 &lt;li>
 &lt;p>If you don&amp;rsquo;t already have &lt;a href="https://clojure.org/guides/getting%5Fstarted">Clojure installed&lt;/a>,
@@ -102,10 +112,11 @@ code from there.&lt;/p>
 &lt;p>Finally, run &lt;code>(check-all-fizz-buzzers)&lt;/code> to see if it all works as expected.&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;p>Complaining about the code:&lt;/p>
+&lt;h3 id="complaining-about-the-code">Complaining about the code&lt;/h3>
 &lt;ul>
-&lt;li>If I&amp;rsquo;ve written any bugs (possible) or made egregious remarks (very possible),
-please write to &lt;em>weblog&lt;/em> at this website. I&amp;rsquo;ll fix the bugs.&lt;/li>
+&lt;li>If I&amp;rsquo;ve made bugs in the Code or the English (possible) or made egregious
+remarks (very possible), please write to &lt;em>weblog&lt;/em> at this website. I&amp;rsquo;ll
+fix the bugs.&lt;/li>
 &lt;/ul>
 &lt;p>Right, then. Shall we begin?&lt;/p>
 &lt;h2 id="le-fizzbuzz-classique">Le FizzBuzz Classique&lt;/h2>
@@ -868,7 +879,11 @@ java.lang.Number
 (&lt;span style="color:#a6e22e">fizz-buzz&lt;/span> proto-buzz
 [&lt;span style="color:#ae81ff">1.0&lt;/span> &lt;span style="color:#ae81ff">3.0&lt;/span> &lt;span style="color:#ae81ff">5.0&lt;/span> &lt;span style="color:#ae81ff">15.0&lt;/span> &lt;span style="color:#ae81ff">15.9&lt;/span>]))
 )
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>In short, Clojure cleanly solves the &amp;ldquo;&lt;a href="https://en.wikipedia.org/wiki/Expression%5Fproblem">Expression Problem&lt;/a>&amp;rdquo;.&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Not to put too fine a point on it, but Clojure is a &lt;em>far more capable&lt;/em>
+Object Oriented Programming System than say Java or Kotlin, a fact which I
+have personally profited from handsomely in the past &lt;sup id="fnref:18">&lt;a href="#fn:18" class="footnote-ref" role="doc-noteref">18&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>Why?&lt;/p>
+&lt;p>In short, Clojure cleanly solves the &amp;ldquo;&lt;a href="https://en.wikipedia.org/wiki/Expression%5Fproblem">Expression Problem&lt;/a>&amp;rdquo;.&lt;/p>
 &lt;p>In long, you can&amp;hellip;&lt;/p>
 &lt;ul>
 &lt;li>Watch &lt;a href="https://www.youtube.com/watch?v=kQhOlWXXl2I">Clojure Protocols Explained&lt;/a>, by Sean Devlin.&lt;/li>
@@ -877,10 +892,17 @@ java.lang.Number
 &lt;li>Read &amp;ldquo;&lt;a href="https://gist.github.com/reborg/dc8b0c96c397a56668905e2767fd697f">Rich Already Answered That!&lt;/a>&amp;rdquo;, curated by reborg.
 &lt;em>&amp;ldquo;A list of commonly asked questions, design decisions, reasons why Clojure
 is the way it is as they were answered directly by Rich.&amp;quot;&lt;/em>&lt;/li>
+&lt;li>Read the parable of &lt;a href="https://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html">The venerable master Qc Na and his student Anton&lt;/a>.
+This &lt;a href="https://news.ycombinator.com/item?id=14235020">HN thread&lt;/a> also has some interesting links (and diatribes).&lt;/li>
 &lt;/ul>
-&lt;p>Lastly, not to put too fine a point on it, but Clojure is a &lt;em>far more capable&lt;/em>
-Object Oriented Programming System than say Java or Kotlin, a fact which I
-have personally profited from handsomely in the past &lt;sup id="fnref:18">&lt;a href="#fn:18" class="footnote-ref" role="doc-noteref">18&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>In &lt;em>very&lt;/em> short&amp;hellip; Tweet this, look smart, get paid!&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;em>If you do Functional Programming right, you get Object Oriented Programming
+for free #Clojure. (And vice-versa e.g. #Erlang #Smalltalk #OCaml).&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>Yours Truly&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
 &lt;h2 id="non-destructive-fizzbuzz">Non-Destructive FizzBuzz&lt;/h2>
 &lt;p>&lt;code>proto-buzz&lt;/code> is a great motivating example of what I would like to call the
 &lt;em>&lt;strong>Non-Destructive&lt;/strong>&lt;/em> FizzBuzz.&lt;/p>
@@ -1721,8 +1743,8 @@ described below.&lt;/p>
 after reading half a book. You may do it differently. The important thing is
 to construct a &lt;em>good enough model&lt;/em> to help us think.&lt;/p>
 &lt;div class="collapsable-code">
-&lt;input id="815943762" type="checkbox" checked />
-&lt;label for="815943762">
+&lt;input id="784523916" type="checkbox" checked />
+&lt;label for="784523916">
 &lt;span class="collapsable-code__language">html&lt;/span>
 &lt;span class="collapsable-code__title">Anatomy of the markup&lt;/span>
 &lt;span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide">&lt;/span>
