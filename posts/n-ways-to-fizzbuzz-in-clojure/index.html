@@ -6,6 +6,8 @@
 <meta name=description content="FizzBuzz is everywhere. Every programmer passes through its rite of passage, or at least bears witness to another. Over the years, many gentlenerds have taken it upon themselves to discover ever new ways to incant those hoary symbols.
 I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.
 The brainwave here is to (mis)use the feature set of Clojure and its standard library to cook up as many ways to encode FizzBuzz as one can muster (or steal). If all goes well, this post will receive many updates. If it goes really well, all sorts of bad ideas and clever foot-guns will be discovered and used.
+The creative constraint is this: any FizzBuzz, however terrible or hilarious, must also be useful. It should have reason to exist and should reveal some real-world Clojure thinking.
+So, no FizzBuzzEnterpriseEdition. Sorry!
 ">
 <meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
 <meta name=robots content="noodp">
@@ -22,13 +24,15 @@ The brainwave here is to (mis)use the feature set of Clojure and its standard li
 <meta property="og:description" content="FizzBuzz is everywhere. Every programmer passes through its rite of passage, or at least bears witness to another. Over the years, many gentlenerds have taken it upon themselves to discover ever new ways to incant those hoary symbols.
 I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.
 The brainwave here is to (mis)use the feature set of Clojure and its standard library to cook up as many ways to encode FizzBuzz as one can muster (or steal). If all goes well, this post will receive many updates. If it goes really well, all sorts of bad ideas and clever foot-guns will be discovered and used.
+The creative constraint is this: any FizzBuzz, however terrible or hilarious, must also be useful. It should have reason to exist and should reveal some real-world Clojure thinking.
+So, no FizzBuzzEnterpriseEdition. Sorry!
 ">
 <meta property="og:url" content="/posts/n-ways-to-fizzbuzz-in-clojure/">
 <meta property="og:site_name" content="eval/apply">
 <meta property="og:image" content="/favicon.ico">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
-<meta property="article:published_time" content="2022-03-22 03:50:31 +0530 IST">
+<meta property="article:published_time" content="2022-03-22 11:06:22 +0530 IST">
 </head>
 <body class=orange>
 <div class="container center">
@@ -90,6 +94,10 @@ taken it upon themselves to discover ever new ways to incant those hoary symbols
 library to cook up as many ways to encode FizzBuzz as one can muster (or steal).
 If all goes well, this post will receive many updates. If it goes <em>really</em>
 well, all sorts of bad ideas and clever foot-guns will be discovered and used.</p>
+<p>The creative constraint is this: any FizzBuzz, however terrible or hilarious,
+<em>must also be useful</em>. It should have reason to exist and should reveal some
+real-world Clojure thinking.</p>
+<p>So, no <a href=https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition>FizzBuzzEnterpriseEdition</a>. Sorry!</p>
 <p>Not to be indelicate, but I will state the problem before proceeding.</p>
 <blockquote>
 <p>Fizz buzz is a group word game for children to teach them about division.

@@ -1,11 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>howto on eval/apply</title><link>/tags/howto/</link><description>Recent content in howto on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 03:50:31 +0530</lastBuildDate><atom:link href="/tags/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 03:50:31 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
-or at least bears witness to another. Over the years, many gentlenerds have
-taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
-&lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
-&lt;p>The brainwave here is to (mis)use the feature set of Clojure and its standard
-library to cook up as many ways to encode FizzBuzz as one can muster (or steal).
-If all goes well, this post will receive many updates. If it goes &lt;em>really&lt;/em>
-well, all sorts of bad ideas and clever foot-guns will be discovered and used.&lt;/p></description><content>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>howto on eval/apply</title><link>/tags/howto/</link><description>Recent content in howto on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 11:06:22 +0530</lastBuildDate><atom:link href="/tags/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 11:06:22 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -13,6 +6,21 @@ taken it upon themselves to discover ever new ways to incant those hoary symbols
 library to cook up as many ways to encode FizzBuzz as one can muster (or steal).
 If all goes well, this post will receive many updates. If it goes &lt;em>really&lt;/em>
 well, all sorts of bad ideas and clever foot-guns will be discovered and used.&lt;/p>
+&lt;p>The creative constraint is this: any FizzBuzz, however terrible or hilarious,
+&lt;em>must also be useful&lt;/em>. It should have reason to exist and should reveal some
+real-world Clojure thinking.&lt;/p>
+&lt;p>So, no &lt;a href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">FizzBuzzEnterpriseEdition&lt;/a>. Sorry!&lt;/p></description><content>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+or at least bears witness to another. Over the years, many gentlenerds have
+taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
+&lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
+&lt;p>The brainwave here is to (mis)use the feature set of Clojure and its standard
+library to cook up as many ways to encode FizzBuzz as one can muster (or steal).
+If all goes well, this post will receive many updates. If it goes &lt;em>really&lt;/em>
+well, all sorts of bad ideas and clever foot-guns will be discovered and used.&lt;/p>
+&lt;p>The creative constraint is this: any FizzBuzz, however terrible or hilarious,
+&lt;em>must also be useful&lt;/em>. It should have reason to exist and should reveal some
+real-world Clojure thinking.&lt;/p>
+&lt;p>So, no &lt;a href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">FizzBuzzEnterpriseEdition&lt;/a>. Sorry!&lt;/p>
 &lt;p>Not to be indelicate, but I will state the problem before proceeding.&lt;/p>
 &lt;blockquote>
 &lt;p>Fizz buzz is a group word game for children to teach them about division.
@@ -1339,8 +1347,8 @@ described below.&lt;/p>
 after reading half a book. You may do it differently. The important thing is
 to construct a &lt;em>good enough model&lt;/em> to help us think.&lt;/p>
 &lt;div class="collapsable-code">
-&lt;input id="752431689" type="checkbox" checked />
-&lt;label for="752431689">
+&lt;input id="815943762" type="checkbox" checked />
+&lt;label for="815943762">
 &lt;span class="collapsable-code__language">html&lt;/span>
 &lt;span class="collapsable-code__title">Anatomy of the markup&lt;/span>
 &lt;span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide">&lt;/span>
