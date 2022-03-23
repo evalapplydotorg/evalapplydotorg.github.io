@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 12:50:08 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 12:50:08 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on eval/apply</title><link>/posts/</link><description>Recent content in Posts on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 23 Mar 2022 11:55:11 +0530</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Wed, 23 Mar 2022 11:55:11 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -1924,7 +1924,9 @@ That you &lt;em>fully&lt;/em> grok. That you can change at will. That is therefo
 &lt;/li>
 &lt;/ol>
 &lt;/section></content></item><item><title>Dismal Arithmetic in Dyalog APL and Clojure</title><link>/posts/dismal-arithmetic-dyalog-apl-clojure/</link><pubDate>Fri, 25 Feb 2022 16:29:33 +0530</pubDate><guid>/posts/dismal-arithmetic-dyalog-apl-clojure/</guid><description>&lt;p>Throwback: Jan 2018.&lt;/p>
-&lt;p>I learned of something called &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em>. As the linked paper describes it:&lt;/p>
+&lt;p>I learned of &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em> from &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> who posed it as a
+programming problem in a Slackroom of local gentlenerds.&lt;/p>
+&lt;p>As the linked paper describes it:&lt;/p>
 &lt;blockquote>
 &lt;p>Dismal arithmetic is just like the arithmetic you learned in school, only
 simpler: there are no carries, when you add digits you just take the largest,
@@ -1944,7 +1946,9 @@ I stumbled on the idea of &amp;ldquo;inverse of a function&amp;rdquo; which melt
 &lt;li>&lt;a href="#addendum-the-of-inverse">Addendum: The ⍣ of inverse&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted --></description><content>&lt;p>Throwback: Jan 2018.&lt;/p>
-&lt;p>I learned of something called &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em>. As the linked paper describes it:&lt;/p>
+&lt;p>I learned of &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em> from &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> who posed it as a
+programming problem in a Slackroom of local gentlenerds.&lt;/p>
+&lt;p>As the linked paper describes it:&lt;/p>
 &lt;blockquote>
 &lt;p>Dismal arithmetic is just like the arithmetic you learned in school, only
 simpler: there are no carries, when you add digits you just take the largest,

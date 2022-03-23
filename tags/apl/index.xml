@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>apl on eval/apply</title><link>/tags/apl/</link><description>Recent content in apl on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 25 Feb 2022 16:29:33 +0530</lastBuildDate><atom:link href="/tags/apl/index.xml" rel="self" type="application/rss+xml"/><item><title>Dismal Arithmetic in Dyalog APL and Clojure</title><link>/posts/dismal-arithmetic-dyalog-apl-clojure/</link><pubDate>Fri, 25 Feb 2022 16:29:33 +0530</pubDate><guid>/posts/dismal-arithmetic-dyalog-apl-clojure/</guid><description>&lt;p>Throwback: Jan 2018.&lt;/p>
-&lt;p>I learned of something called &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em>. As the linked paper describes it:&lt;/p>
+&lt;p>I learned of &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em> from &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> who posed it as a
+programming problem in a Slackroom of local gentlenerds.&lt;/p>
+&lt;p>As the linked paper describes it:&lt;/p>
 &lt;blockquote>
 &lt;p>Dismal arithmetic is just like the arithmetic you learned in school, only
 simpler: there are no carries, when you add digits you just take the largest,
@@ -19,7 +21,9 @@ I stumbled on the idea of &amp;ldquo;inverse of a function&amp;rdquo; which melt
 &lt;li>&lt;a href="#addendum-the-of-inverse">Addendum: The ⍣ of inverse&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted --></description><content>&lt;p>Throwback: Jan 2018.&lt;/p>
-&lt;p>I learned of something called &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em>. As the linked paper describes it:&lt;/p>
+&lt;p>I learned of &lt;em>&lt;a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic&lt;/a>&lt;/em> from &lt;a href="https://twitter.com/rdivyanshu">@rdivyanshu&lt;/a> who posed it as a
+programming problem in a Slackroom of local gentlenerds.&lt;/p>
+&lt;p>As the linked paper describes it:&lt;/p>
 &lt;blockquote>
 &lt;p>Dismal arithmetic is just like the arithmetic you learned in school, only
 simpler: there are no carries, when you add digits you just take the largest,
