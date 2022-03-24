@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>howto on eval/apply</title><link>/tags/howto/</link><description>Recent content in howto on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Mar 2022 12:50:08 +0530</lastBuildDate><atom:link href="/tags/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Tue, 22 Mar 2022 12:50:08 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>howto on eval/apply</title><link>/tags/howto/</link><description>Recent content in howto on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 25 Mar 2022 01:55:51 +0530</lastBuildDate><atom:link href="/tags/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>n ways to FizzBuzz in Clojure</title><link>/posts/n-ways-to-fizzbuzz-in-clojure/</link><pubDate>Fri, 25 Mar 2022 01:55:51 +0530</pubDate><guid>/posts/n-ways-to-fizzbuzz-in-clojure/</guid><description>&lt;p>FizzBuzz is everywhere. Every programmer passes through its rite of passage,
 or at least bears witness to another. Over the years, many gentlenerds have
 taken it upon themselves to discover ever new ways to incant those hoary symbols.&lt;/p>
 &lt;p>I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.&lt;/p>
@@ -72,6 +72,16 @@ three with the word &amp;ldquo;fizz&amp;rdquo;, and any number divisible by five
 &lt;li>&lt;a href="#clojure-spec-d-buzz">Clojure Spec&amp;rsquo;d Buzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#wicked-pprint-buzz">Wicked pprint Buzz&lt;/a>&lt;/li>
 &lt;li>&lt;a href="#tagged-literal-buzz">Tagged Literal Buzz&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#interlude-what-more-could-we-possibly-decomplect">Interlude: What more could we possibly decomplect?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#transducery-buzz">Transducery Buzz&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#what-are-we-decomplecting">What are we decomplecting?&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#demo-one-computation-and-output-format-pulled-apart">Demo One: Computation and &lt;em>Output&lt;/em> format pulled apart&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#demo-two-computation-and-input-format-pulled-apart-dot">Demo Two: Computation and &lt;em>Input&lt;/em> format pulled apart.&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#demo-three-use-only-the-xform-as-a-calculator">Demo Three: Use &lt;em>only&lt;/em> the xform as a calculator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#further-reading">Further reading&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;a href="#buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/a>&lt;/li>
@@ -1071,9 +1081,233 @@ literals, but only in context of other people&amp;rsquo;s libraries (&lt;a href=
 &lt;span style="color:#f92672">#&lt;/span>tagged.buzz/Buzz &lt;span style="color:#ae81ff">5&lt;/span>
 &lt;span style="color:#f92672">#&lt;/span>tagged.buzz/FizzBuzz &lt;span style="color:#ae81ff">15&lt;/span>
 &lt;span style="color:#f92672">#&lt;/span>tagged.buzz/Number &lt;span style="color:#ae81ff">1&lt;/span>])
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Anyway, it&amp;rsquo;s way past 3 AM now.&lt;/p>
-&lt;p>Maybe tomorrow.&lt;/p>
-&lt;p>I mean, later today.&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note: Parked for now. I&amp;rsquo;m not sure if this a reasonably real-world FizzBuzz.&lt;/p>
+&lt;h2 id="interlude-what-more-could-we-possibly-decomplect">Interlude: What more could we possibly decomplect?&lt;/h2>
+&lt;p>Well, in one word, &lt;em>&lt;strong>Transducers&lt;/strong>&lt;/em>.&lt;/p>
+&lt;p>Which you can assume is Clojurish for &amp;ldquo;You haven&amp;rsquo;t decomplected your Clojure
+quite enough just yet.&amp;rdquo;. But before we go there, a quick survey.&lt;/p>
+&lt;p>Thus far, we have pulled apart the FizzBuzz problem space in many dimensions.&lt;/p>
+&lt;ul>
+&lt;li>Calculation v/s Effects (lifted out &lt;code>println&lt;/code>)&lt;/li>
+&lt;li>Calculation v/s Sequence generation (lifted fizzbuzz logic out of &lt;code>for&lt;/code>)&lt;/li>
+&lt;li>Definition v/s Realisation (lazy definitions like &lt;code>all-fizz-buzzes&lt;/code>)&lt;/li>
+&lt;li>Lifted out concepts in the domain of the &lt;em>solution&lt;/em> (&lt;code>fizzes?&lt;/code> &lt;code>buzzes?&lt;/code> etc.)&lt;/li>
+&lt;li>Lifted out concepts in the domain of the &lt;em>problem&lt;/em> (modulo math FizzBuzzes)&lt;/li>
+&lt;li>Lifted all fizzbuzzes out of the concrete 3/5 FizzBuzz (&lt;code>any-mod-cycle-buzz&lt;/code>)&lt;/li>
+&lt;li>Added Fizzbuzz-meaning to Numbers &lt;em>without&lt;/em> changing existing Number-meaning
+(protocols, and maybe also tagged literals if I can make it work sensibly)&lt;/li>
+&lt;li>Concrete Numbers v/s abstract representations (PeanoBuzz, &lt;code>mod-cycle-buzz&lt;/code>)&lt;/li>
+&lt;li>Calculation v/s Specification (&lt;code>spec-parse-buzz&lt;/code>)&lt;/li>
+&lt;li>We even teased apart &lt;em>printing context&lt;/em> (wicked &lt;code>pprint-buzz&lt;/code>)&lt;/li>
+&lt;/ul>
+&lt;p>Note that &lt;em>&lt;strong>all of this belongs in the real-world Clojurian&amp;rsquo;s design toolbox&lt;/strong>.&lt;/em>&lt;/p>
+&lt;p>Not only do we do it &amp;ldquo;in the small&amp;rdquo;, in our little namespaces and &lt;del>monoliths&lt;/del>
+polyliths, we also do it &amp;ldquo;in the large&amp;rdquo; in our data-center-spanning distributed
+systems.&lt;/p>
+&lt;p>But you see, in all the teasing apart so far, we &lt;em>implied&lt;/em> FizzBuzz was
+in-memory sequence processing. What if we &lt;em>could not make any assumption
+whatsoever&lt;/em> about data source, or data size, or data format, or process
+control, or the output sink? Can we still describe FizzBuzz in some useful way?&lt;/p>
+&lt;p>Well, in one word, &lt;em>&lt;strong>Transducers&lt;/strong>&lt;/em>.&lt;/p>
+&lt;p>Savvy Clojurians may appreciate that text above has &lt;a href="https://clojure.org/reference/transducers#%5Fterminology">transducer signature&lt;/a>.&lt;/p>
+&lt;blockquote>
+&lt;p>(whatever, input -&amp;gt; whatever) -&amp;gt; (whatever, input -&amp;gt; whatever)&lt;/p>
+&lt;p>&amp;ldquo;&lt;a href="https://www.youtube.com/watch?v=6mTbuzafcII&amp;amp;t=1677s">Seems like a good project for the bar, later on.&lt;/a>&amp;rdquo;&lt;/p>
+&lt;ul>
+&lt;li>Rich Hickey&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h2 id="transducery-buzz">Transducery Buzz&lt;/h2>
+&lt;p>This is really my feeble attempt to nerdsnipe you into falling into deep
+abstraction territory.&lt;/p>
+&lt;p>I pray that you give yourself time to &lt;em>absorb&lt;/em> transducers. Peruse the code
+below. Then peruse the list of stimulating material that follows, over a
+relaxed weekend with several cups of delicious artisanal Oolong to salve
+the brain pain.&lt;/p>
+&lt;h3 id="what-are-we-decomplecting">What are we decomplecting?&lt;/h3>
+&lt;p>Because, with &lt;em>&lt;strong>transducers&lt;/strong>&lt;/em>, we will now &lt;em>also&lt;/em> pull apart:&lt;/p>
+&lt;ul>
+&lt;li>Data source (sequence, stream, channel, socket etc.)&lt;/li>
+&lt;li>Data sink (sequence, stream, channel, socket etc.)&lt;/li>
+&lt;li>Data transformer (function of any value -&amp;gt; any other value)&lt;/li>
+&lt;li>Data transformation process (mapping, filtering, reducing etc.)&lt;/li>
+&lt;li>Some process control (we can transduce finite data (of course) as well as
+streams, and also have optional early termination in either case. I&amp;rsquo;m not
+sure about first-class support for other methods like backpressure.)&lt;/li>
+&lt;/ul>
+&lt;p>Of course, for useful computations, we have to compose these back in some
+sensible way, appropriate to the context at hand (e.g. read numbers off a
+Kafka topic, FizzBuzz them, and send them to another Kafka topic, OR slurp
+numbers from file on disk, FizzBuzz them, and push into an in-memory queue).&lt;/p>
+&lt;p>A word of caution. As you read, you may think &amp;ldquo;Ew, he peddles oldass Unix
+Pipes.&amp;quot; &lt;sup id="fnref:20">&lt;a href="#fn:20" class="footnote-ref" role="doc-noteref">20&lt;/a>&lt;/sup> (or shiny new Monads or Lambda Architecture(TM) or some
+familiar-to-you generics). You won&amp;rsquo;t be &lt;em>wrong&lt;/em>. You won&amp;rsquo;t be &lt;em>right&lt;/em> either.&lt;/p>
+&lt;p>Because, as is true for all sufficiently abstract abstractions, analogies
+are not equivalences. Details differ deeply and your brain will hurt at first.
+A lot. For example, it is &lt;em>not&lt;/em> obvious &lt;em>why&lt;/em>, but the transducer&amp;rsquo;s mandate
+of &lt;em>a la carte&lt;/em> re-composition &lt;em>demands&lt;/em> that &lt;em>all&lt;/em> the new pulling apart
+&lt;em>must be fully compatible&lt;/em> with &lt;em>all&lt;/em> the old pulling apart.&lt;/p>
+&lt;p>&amp;lsquo;nuff said. Decomplecting our Clojure &amp;lsquo;smore in 3&amp;hellip; 2&amp;hellip; 1&amp;hellip;&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>transducery.buzz)
+(&lt;span style="color:#66d9ef">def &lt;/span>divisible?
+(comp zero? rem))
+(&lt;span style="color:#66d9ef">defn &lt;/span>basic-buzz
+[n]
+(&lt;span style="color:#a6e22e">cond&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">15&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;FizzBuzz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Fizz&amp;#34;&lt;/span>
+(&lt;span style="color:#a6e22e">divisible?&lt;/span> n &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#e6db74">&amp;#34;Buzz&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">:else&lt;/span> n))
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>zzzzz. snort. Old news. Whatever.&lt;/p>
+&lt;h3 id="demo-one-computation-and-output-format-pulled-apart">Demo One: Computation and &lt;em>Output&lt;/em> format pulled apart&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>transducery.buzz)
+&lt;span style="color:#75715e">;; Separately define /only/ the transformation &amp;#34;xform&amp;#34;&lt;/span>
+(&lt;span style="color:#66d9ef">def &lt;/span>fizz-buzz-xform
+(comp (map basic-buzz)
+(take &lt;span style="color:#ae81ff">100&lt;/span>))) &lt;span style="color:#75715e">;; early termination&lt;/span>
+&lt;span style="color:#75715e">;; Separately define /only/ input data&lt;/span>
+(&lt;span style="color:#66d9ef">def &lt;/span>natural-nums
+(rest (&lt;span style="color:#a6e22e">range&lt;/span>)))
+&lt;span style="color:#75715e">;; Compose to produce a sequence&lt;/span>
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(&lt;span style="color:#a6e22e">transduce&lt;/span> fizz-buzz-xform &lt;span style="color:#75715e">;; calculate each step&lt;/span>
+conj &lt;span style="color:#75715e">;; and use this output method&lt;/span>
+[] &lt;span style="color:#75715e">;; to pour output into this data structure&lt;/span>
+natural-nums) &lt;span style="color:#75715e">;; given this input&lt;/span>
+)
+&lt;span style="color:#75715e">;; Compose differently to produce a string&lt;/span>
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(&lt;span style="color:#a6e22e">transduce&lt;/span> fizz-buzz-xform &lt;span style="color:#75715e">;; calculate each step&lt;/span>
+str &lt;span style="color:#75715e">;; and use this output method&lt;/span>
+&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#75715e">;; to catenate output into this string&lt;/span>
+natural-nums) &lt;span style="color:#75715e">;; given this input&lt;/span>
+)
+&lt;span style="color:#75715e">;; Compose still differently to produce a CSV string&lt;/span>
+(&lt;span style="color:#66d9ef">defn &lt;/span>suffix-comma
+[s]
+(str s &lt;span style="color:#e6db74">&amp;#34;,&amp;#34;&lt;/span>))
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(&lt;span style="color:#a6e22e">transduce&lt;/span> (comp fizz-buzz-xform
+(map suffix-comma)) &lt;span style="color:#75715e">;; calculate each step&lt;/span>
+str &lt;span style="color:#75715e">;; and use this output method&lt;/span>
+&lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#75715e">;; to catenate output into this string&lt;/span>
+natural-nums) &lt;span style="color:#75715e">;; given this input&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Pause for a bit.&lt;/p>
+&lt;ul>
+&lt;li>Consider the parts we did &lt;em>not&lt;/em> have to modify &lt;em>at all&lt;/em> even though we
+modified &lt;em>everything&lt;/em> about the output and about the xform.&lt;/li>
+&lt;li>Consider what it might take to reuse any of the other fizzbuzzers instead
+of &lt;code>basic-buzz&lt;/code>.&lt;/li>
+&lt;li>Try it!&lt;/li>
+&lt;/ul>
+&lt;h3 id="demo-two-computation-and-input-format-pulled-apart-dot">Demo Two: Computation and &lt;em>Input&lt;/em> format pulled apart.&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>transducery.buzz)
+&lt;span style="color:#75715e">;; Setup&lt;/span>
+(&lt;span style="color:#66d9ef">def &lt;/span>numbers-file
+&lt;span style="color:#e6db74">&amp;#34;Plaintext file containing numbers in some format.&amp;#34;&lt;/span>
+&lt;span style="color:#e6db74">&amp;#34;/tmp/deleteme-spat-by-clj-fizz-buzz-demo.txt&amp;#34;&lt;/span>)
+&lt;span style="color:#75715e">;; Write 10,000 natural numbers to file, one per line&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>_(&lt;span style="color:#a6e22e">spit&lt;/span> numbers-file
+(&lt;span style="color:#a6e22e">clojure.string/join&lt;/span> &lt;span style="color:#e6db74">&amp;#34;\n&amp;#34;&lt;/span> (range &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">10001&lt;/span>)))
+&lt;span style="color:#75715e">;; Read back to double-check we got it.&lt;/span>
+&lt;span style="color:#f92672">#&lt;/span>_(slurp numbers-file)
+&lt;span style="color:#75715e">;; For contrast: This is how we might fizz-buzz traditionally.&lt;/span>
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+&lt;span style="color:#75715e">;; Like this, if we don&amp;#39;t know our threading macros.&lt;/span>
+&lt;span style="color:#75715e">;; (Don&amp;#39;t fret about it. This is just fine.)&lt;/span>
+(&lt;span style="color:#66d9ef">let &lt;/span>[fizz-buzz (&lt;span style="color:#66d9ef">fn &lt;/span>[s] (&lt;span style="color:#a6e22e">basic-buzz&lt;/span> (&lt;span style="color:#a6e22e">Integer/parseInt&lt;/span> s)))]
+(take &lt;span style="color:#ae81ff">15&lt;/span>
+(map fizz-buzz
+(&lt;span style="color:#a6e22e">clojure.string/split-lines&lt;/span> (slurp numbers-file)))))
+&lt;span style="color:#75715e">;; Or more Clojurishly, with our nifty threading macros.&lt;/span>
+(&lt;span style="color:#a6e22e">-&amp;gt;&amp;gt;&lt;/span> numbers-file
+slurp
+clojure.string/split-lines
+(map &lt;span style="color:#f92672">#&lt;/span>(&lt;span style="color:#a6e22e">basic-buzz&lt;/span> (&lt;span style="color:#a6e22e">Integer/parseInt&lt;/span> %)))
+(take &lt;span style="color:#ae81ff">15&lt;/span>))
+&lt;span style="color:#75715e">;; I interrupted us with this, because of a pet peeve. People like to&lt;/span>
+&lt;span style="color:#75715e">;; describe this form as a &amp;#34;pipeline&amp;#34;. It isn&amp;#39;t. It is a formatting&lt;/span>
+&lt;span style="color:#75715e">;; sleight of hand that makes in-process call stacks of functions&lt;/span>
+&lt;span style="color:#75715e">;; /appear/ to be straight-line. The resulting shape visually suggests&lt;/span>
+&lt;span style="color:#75715e">;; punching data through a pipeline.&lt;/span>
+&lt;span style="color:#75715e">;;&lt;/span>
+&lt;span style="color:#75715e">;; Whereas pipelines are fundamentally streaming abstractions that&lt;/span>
+&lt;span style="color:#75715e">;; cross process boundaries.&lt;/span>
+&lt;span style="color:#75715e">;;&lt;/span>
+&lt;span style="color:#75715e">;; Transducers + xforms are highly pipeline-like.&lt;/span>
+)
+&lt;span style="color:#75715e">;; Apart from not really being pipelines, both these traditional versions&lt;/span>
+&lt;span style="color:#75715e">;; are also hopelessly complected with sequences, which malady is addressed&lt;/span>
+&lt;span style="color:#75715e">;; by this transducer version.&lt;/span>
+(&lt;span style="color:#a6e22e">comment&lt;/span>
+(&lt;span style="color:#a6e22e">transduce&lt;/span> (comp (map &lt;span style="color:#f92672">#&lt;/span>(&lt;span style="color:#a6e22e">Integer/parseInt&lt;/span> %))
+fizz-buzz-xform) &lt;span style="color:#75715e">;; calculate each step&lt;/span>
+conj &lt;span style="color:#75715e">;; and use this output method&lt;/span>
+[] &lt;span style="color:#75715e">;; to pour output into this data structure&lt;/span>
+(&lt;span style="color:#a6e22e">clojure.string/split-lines&lt;/span>
+(slurp numbers-file))) &lt;span style="color:#75715e">;; given this input&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>A reader may complain that split-lines and file slurpin&amp;rsquo; is still complected.
+The reader would be right. Tim Baldridge&amp;rsquo;s video series listed below will
+help work out how one might go about transducing over numbers-file directly.&lt;/p>
+&lt;h3 id="demo-three-use-only-the-xform-as-a-calculator">Demo Three: Use &lt;em>only&lt;/em> the xform as a calculator&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-clojure" data-lang="clojure">(&lt;span style="color:#66d9ef">ns &lt;/span>transducery.buzz)
+&lt;span style="color:#75715e">;; The xform can still calculate just a single item:&lt;/span>
+((&lt;span style="color:#a6e22e">fizz-buzz-xform&lt;/span> conj) [] &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">;; =&amp;gt; [&amp;#34;Fizz&amp;#34;]&lt;/span>
+((&lt;span style="color:#a6e22e">fizz-buzz-xform&lt;/span> str) &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">;; =&amp;gt; &amp;#34;Fizz&amp;#34;&lt;/span>
+((&lt;span style="color:#a6e22e">fizz-buzz-xform&lt;/span> str) &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>) &lt;span style="color:#75715e">;; =&amp;gt; &amp;#34;1&amp;#34;&lt;/span>
+((&lt;span style="color:#a6e22e">fizz-buzz-xform&lt;/span> (&lt;span style="color:#66d9ef">fn &lt;/span>[_ out] out)) nil &lt;span style="color:#ae81ff">3&lt;/span>) &lt;span style="color:#75715e">;; &amp;#34;Fizz&amp;#34;&lt;/span>
+((&lt;span style="color:#a6e22e">fizz-buzz-xform&lt;/span> (&lt;span style="color:#66d9ef">fn &lt;/span>[_ out] out)) nil &lt;span style="color:#ae81ff">1&lt;/span>) &lt;span style="color:#75715e">;; 1&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Hopefully now it is a little more obvious &lt;em>why&lt;/em> the transducer&amp;rsquo;s mandate
+of &lt;em>a la carte&lt;/em> re-composition &lt;em>demands&lt;/em> that &lt;em>all&lt;/em> the new pulling apart
+&lt;em>must be fully compatible&lt;/em> with &lt;em>all&lt;/em> the old pulling apart.&lt;/p>
+&lt;h3 id="further-reading">Further reading&lt;/h3>
+&lt;p>Transducers are very deep conceptually, and literally. Since Clojure 1.7,
+they have come to underpin all of Clojure&amp;rsquo;s heavy-lift capability.&lt;/p>
+&lt;p>I recommend drilling down this way.&lt;/p>
+&lt;p>&lt;em>&lt;strong>Thirty minute quickstart&lt;/strong>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>Skim-read the official words introducing &lt;a href="https://clojure.org/reference/transducers">Transducers&lt;/a>,
+and describing &amp;ldquo;&lt;a href="https://clojure.org/guides/faq#transducers%5Fvs%5Fseqs">What are good use cases for transducers?&lt;/a>&amp;rdquo;.&lt;/li>
+&lt;li>Watch &lt;a href="https://twitter.com/timbaldridge">Tim Baldridge&lt;/a> lift the essence of transducers out from
+map/filter/reduce in 10 minutes: &lt;a href="https://www.youtube.com/watch?v=WkHdqg%5FDBBs">Transducers - Episode 1 - Introduction to Transducers&lt;/a>&lt;/li>
+&lt;li>Compare with &lt;code>(clojure.repl/source map)&lt;/code> (and filter and reduce).&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>&lt;strong>Half day binge watch&lt;/strong>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>Watch Rich Hickey &lt;a href="https://www.youtube.com/watch?v=6mTbuzafcII">introduce Transducers&lt;/a>&lt;/li>
+&lt;li>Follow Tim Baldridge through &lt;a href="https://tbaldridge.pivotshare.com/categories/transducers/2426/media">9 short video demos&lt;/a>,
+where he &amp;ldquo;draws the rest of the Owl&amp;rdquo; so to speak, but actually, with all
+the intermediate steps accounted for. IMHO, this is hands-down the best
+exploration of transducers out there &lt;sup id="fnref:21">&lt;a href="#fn:21" class="footnote-ref" role="doc-noteref">21&lt;/a>&lt;/sup>.&lt;/li>
+&lt;li>Watch Rich Hickey dive &lt;a href="https://www.youtube.com/watch?v=4KqUvG8HPYo">Inside Transducers&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>&lt;strong>Grok some real-world Transduction&lt;/strong>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/bobby/kafka-streams-clojure">Kafkaesquely Streaming Transducery&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.grammarly.com/blog/engineering/building-etl-pipelines-with-clojure-and-transducers/">Grammar Transduction&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/hyPiRion/haskell-transducers">Transducers Haskellized&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=1sC71eb9Ox0">Structure and Interpretation of Clojure Transducers&lt;/a>
+re:Clojure 2021 workshop, by Ben Sless&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>&lt;strong>Exercise your brain&lt;/strong>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>Write a FizzBuzz in Shell that can compute with any source/sink combination;
+in-line seq, mkfifo, files, sockets, URLs.&lt;/li>
+&lt;li>Next, replace &lt;em>only&lt;/em> the Shell FizzBuzz function with the &lt;code>basic-buzz&lt;/code>
+function we wrote (use babashka).&lt;/li>
+&lt;li>Finally, write an all-Clojure version around the &lt;code>basic-buzz&lt;/code> function,
+&lt;em>without&lt;/em> losing the the ability to transparently read/write from/to
+seq, mkfifo, file, socket, URL.&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">man bash |
+tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span> |
+tr A-Z a-z |
+sort | uniq -c | sort -rn |
+sed 10q
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;a href="https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/">;-)&lt;/a>&lt;/p>
 &lt;h2 id="buzz">&lt;!-- raw HTML omitted -->TODO&lt;!-- raw HTML omitted --> Buzz&lt;/h2>
 &lt;p>Ideas on deck, to put self on the hook&amp;hellip;&lt;/p>
 &lt;ul>
@@ -1084,7 +1318,7 @@ literals, but only in context of other people&amp;rsquo;s libraries (&lt;a href=
 &lt;li>&lt;input disabled="" type="checkbox"> concurrent fizzbuzz (with agents, but the code in my head is
 probably totally wrong),&lt;/li>
 &lt;li>&lt;input checked="" disabled="" type="checkbox"> parallel fizzbuzz, (just pmap, quite silly actually, but why not? It&amp;rsquo;s legit!)&lt;/li>
-&lt;li>&lt;input disabled="" type="checkbox"> transducing fizzbuzz, (should be able to transduce all the fizz-buzzes
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> transducing fizzbuzz, (should be able to transduce all the fizz-buzzes
 up to Peano FizzBuzz)&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> maaabe also re-do Rich&amp;rsquo;s ants sim with FizzBuzz ants (4 species of, ah,
 ConcurrAnts &amp;mdash; IdentiAnt, FizzAnt, BuzzAnt, FizzBuzzAnt).&lt;/li>
@@ -1152,6 +1386,12 @@ will be too high concept, and too contrived.&lt;/p>
 &lt;/li>
 &lt;li id="fn:19" role="doc-endnote">
 &lt;p>Aside: This is actually double-boxing, because in Java, numbers are already boxed by design. So this approach may carry some performance penalty depending on your context. For example, see this DZone &amp;gt; Java Zone article: &lt;a href="https://dzone.com/articles/whats-wrong-with-java-boxed-numbers">What&amp;rsquo;s Wrong With Java Boxed Numbers?&lt;/a>&amp;#160;&lt;a href="#fnref:19" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:20" role="doc-endnote">
+&lt;p>Yes I do: &lt;a href="https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/">Shell ain&amp;rsquo;t a bad place to FP&lt;/a> :)&amp;#160;&lt;a href="#fnref:20" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:21" role="doc-endnote">
+&lt;p>Later, get all of &lt;a href="https://tbaldridge.pivotshare.com/">Clojure Tutorials - With Tim Baldridge&lt;/a>. It is a joy to watch a master craftsman at work!&amp;#160;&lt;a href="#fnref:21" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/section></content></item><item><title>shite: static sites from shell: part 1/2</title><link>/posts/shite-the-static-sites-from-shell-part-1/</link><pubDate>Tue, 08 Mar 2022 01:29:08 +0530</pubDate><guid>/posts/shite-the-static-sites-from-shell-part-1/</guid><description>&lt;p>This primer is for people like me, who long dreamed of lovingly hand-crafting
@@ -1369,8 +1609,8 @@ described below.&lt;/p>
 after reading half a book. You may do it differently. The important thing is
 to construct a &lt;em>good enough model&lt;/em> to help us think.&lt;/p>
 &lt;div class="collapsable-code">
-&lt;input id="784523916" type="checkbox" checked />
-&lt;label for="784523916">
+&lt;input id="763482951" type="checkbox" checked />
+&lt;label for="763482951">
 &lt;span class="collapsable-code__language">html&lt;/span>
 &lt;span class="collapsable-code__title">Anatomy of the markup&lt;/span>
 &lt;span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide">&lt;/span>
