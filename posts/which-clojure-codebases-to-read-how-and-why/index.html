@@ -1,0 +1,417 @@
+<!doctype html><html lang=en>
+<head>
+<title>Which Clojure codebases should I read? How and why? :: eval/apply</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="This question is frequently asked by newcomers to Clojure. I struggled a lot with this too. I still do from time to time, in unfamiliar territory.
+These days, I feel like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians &amp;mdash; individuals and groups &amp;mdash; have been producing so much creative, diverse work over these last few years, that keeping up is impossible!
+No doubt this surfeit of creativity intimidates newcomers. The strange ideas and lingo and ways of thinking and writing espoused by Clojurians can seem so very alien. But despair not, for Clojureland also has a surfeit of friendly, helpful people. And very many of our codebases are small! You will be able to read them!
+This post explains what I believe I&amp;rsquo;ve done subconsciously over the years. It is as much an answer for somewhat experienced me as it is for the relative newcomer you!
+ A quick motivating example Heuristics to choose a project to read Effective way(s) to read a project Suggested projects with short reasons why to read Library maintainers: Would HOWTOREADMEs make sense?  (Note: This post is likely to be revised a few times. I&amp;rsquo;ve quick-fire published it to solicit feedback and to use it as a discussion tool for an ongoing conversation about this topic.)
+">
+<meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+<meta name=robots content="noodp">
+<link rel=canonical href=/posts/which-clojure-codebases-to-read-how-and-why/>
+<link rel=stylesheet href=/assets/style.css>
+<link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content="[Adi]">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Which Clojure codebases should I read? How and why?">
+<meta property="og:description" content="This question is frequently asked by newcomers to Clojure. I struggled a lot with this too. I still do from time to time, in unfamiliar territory.
+These days, I feel like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians &amp;mdash; individuals and groups &amp;mdash; have been producing so much creative, diverse work over these last few years, that keeping up is impossible!
+No doubt this surfeit of creativity intimidates newcomers. The strange ideas and lingo and ways of thinking and writing espoused by Clojurians can seem so very alien. But despair not, for Clojureland also has a surfeit of friendly, helpful people. And very many of our codebases are small! You will be able to read them!
+This post explains what I believe I&amp;rsquo;ve done subconsciously over the years. It is as much an answer for somewhat experienced me as it is for the relative newcomer you!
+ A quick motivating example Heuristics to choose a project to read Effective way(s) to read a project Suggested projects with short reasons why to read Library maintainers: Would HOWTOREADMEs make sense?  (Note: This post is likely to be revised a few times. I&amp;rsquo;ve quick-fire published it to solicit feedback and to use it as a discussion tool for an ongoing conversation about this topic.)
+">
+<meta property="og:url" content="/posts/which-clojure-codebases-to-read-how-and-why/">
+<meta property="og:site_name" content="eval/apply">
+<meta property="og:image" content="/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-04-19 19:33:06 +0530 IST">
+</head>
+<body class=orange>
+<div class="container center">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+eval/apply
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/posts/hello-world>how it began</a></li>
+<li><a href=/posts>how it's going</a></li>
+<ul class=menu__sub-inner>
+<li class=menu__sub-inner-more-trigger>Show more ▾</li>
+<ul class="menu__sub-inner-more hidden">
+<li><a href=index.xml>occasional RSS feed</a></li>
+<li><a href=#footer>occasional newsletter</a></li>
+<li><a href=https://github.com/adityaathalye>who did this?</a></li>
+</ul>
+</ul>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/posts/hello-world>how it began</a></li>
+<li><a href=/posts>how it's going</a></li>
+<li><a href=index.xml>occasional RSS feed</a></li>
+<li><a href=#footer>occasional newsletter</a></li>
+<li><a href=https://github.com/adityaathalye>who did this?</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=/posts/which-clojure-codebases-to-read-how-and-why/>Which Clojure codebases should I read? How and why?</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-04-19
+[Updated on: 2022-04-19]
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/clojure/>clojure</a>&nbsp;
+#<a href=/tags/howto/>howto</a>&nbsp;
+#<a href=/tags/whyto/>whyto</a>&nbsp;
+</span>
+<div class=post-content><div>
+<p>This question is frequently asked by newcomers to Clojure. I struggled a lot
+with this too. I still do from time to time, in unfamiliar territory.</p>
+<p>These days, I feel like I&rsquo;m in unfamiliar territory a lot. Various Clojurians
+&mdash; individuals and groups &mdash; have been producing so much creative, diverse
+work over these last few years, that keeping up is impossible!</p>
+<p>No doubt this surfeit of creativity intimidates newcomers. The strange ideas
+and lingo and ways of thinking and writing espoused by Clojurians can seem so
+very alien. But despair not, for Clojureland also has a surfeit of friendly,
+helpful people. And very many of our codebases are small! You will be able to
+read them!</p>
+<p>This post explains what I believe I&rsquo;ve done subconsciously over the years. It
+is as much an answer for somewhat experienced me as it is for the relative
+newcomer you!</p>
+<ul>
+<li><a href=#a-quick-motivating-example>A quick motivating example</a></li>
+<li><a href=#heuristics-to-choose-a-project-to-read>Heuristics to choose a project to read</a></li>
+<li><a href=#effective-way--s--to-read-a-project>Effective way(s) to read a project</a></li>
+<li><a href=#suggested-projects-with-short-reasons-why-to-read>Suggested projects with short reasons why to read</a></li>
+<li><a href=#library-maintainers-would-howtoreadmes-make-sense>Library maintainers: Would HOWTOREADMEs make sense?</a></li>
+</ul>
+<p>(Note: This post is likely to be revised a few times. I&rsquo;ve quick-fire published
+it to solicit feedback and to use it as a discussion tool for <a href=https://github.com/clojure/clojure-site/issues/586>an ongoing conversation</a>
+about this topic.)</p>
+<hr>
+<h2 id=a-quick-motivating-example>A quick motivating example<a href=#a-quick-motivating-example class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>I haven&rsquo;t done much focused code reading recently, but semi-recently, I went
+down the rabbit hole of comparing &ldquo;System&rdquo; libraries. The details are for a
+separate blog post. I&rsquo;ve placed it here as reference material to illustrate
+some of this post.</p>
+<p><a href=https://github.com/adityaathalye/slideware/raw/master/Grokking%20Libraries%20in%20Clojureland.pdf>Grokking Libraries in Clojureland</a> (PDF, slides).</p>
+<h2 id=heuristics-to-choose-a-project-to-read>Heuristics to choose a project to read<a href=#heuristics-to-choose-a-project-to-read class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>This kind of code reading is best viewed as applied, directed reading designed
+to deeply understand creative (and destructive) ways to use an instrument,
+in this case, Clojure the language, its standard library, idioms, patterns,
+and style.</p>
+<p>The key problem here is &ldquo;you don&rsquo;t know what you don&rsquo;t know&rdquo;. Coming up with
+a set of heuristics can help discover good choices. In fact, one can make a
+decision-making matrix of #{libraries} X #{heuristics}, like so:</p>
+<table>
+<thead>
+<tr>
+<th>Heuristic / Library</th>
+<th>Lib A</th>
+<th>Lib B</th>
+<th>Lib C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code size (LoC)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Code complexity (high/mid/low)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Utility</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Stability (high, mid, low)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Docs</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Talks</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Tutorials</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>&mldr;</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>It also helps to decide a domain or area of knowledge (web/HTML, web/HTTP,
+algorave, databases etc.), before drawing up the decision-making matrix.</p>
+<p>Here is a set of opinions and heuristics to steal and/or riff off.</p>
+<h3 id=choosing-an-area-of-domain-knowledge>Choosing an area of domain knowledge<a href=#choosing-an-area-of-domain-knowledge class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Knowledge about a domain or problem space is a source of massive cognitive
+overhead. It helps a lot to pick an area of knowledge you feel you are most
+comfortable with, and narrow your code search and reading to that area.</p>
+<p>For example, web programmers may want to read an HTTP library. Musicians may
+want to find a music synthesis codebase. Frontend people many like to read
+HTML / CSS parsers or generators. Database nerds may want to know how we do
+stuff without fancy ORMs etc.</p>
+<h3 id=project-type>Project type<a href=#project-type class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Choose single-purpose libraries. The Clojure world is full of libraries of
+various sizes and responsibilities. Most of these tend to focus very sharply
+on one single problem, which makes it easier to build and retain complete
+context in one&rsquo;s head. These tend to be good place to start.</p>
+<p>Application code, by contrast, tends to be a complex (or complected) mix
+of domains, patterns, libraries. This makes it easy to get lost.</p>
+<p>Further, there is no one true way to organise Clojure apps. Often, apps
+don&rsquo;t even mirror standard conventions seen elsewhere (e.g. MVC/MVCC etc.).
+Clojure apps are assemblies of libraries, where each library choice comes
+with some technical and/or design tradeoff. Further, build tools vary. App
+configuration systems vary. etc. etc. many tens of moving parts.</p>
+<p>One eventually develops a sense for it all, but most of it is completely not
+obvious when one is just starting off. It makes way-finding really hard.
+You will spend lots of time just to figure out how some app is wired together.</p>
+<p>So it&rsquo;s better to subtract everything until you are left with a singular
+idea and its expression. That is, often, a single-purpose library!</p>
+<h3 id=code-size>Code size<a href=#code-size class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Prefer libraries with as few lines of code as possible. The good news is
+that Clojure libraries tend to focus on a single well-defined problem,
+which tends to result in small <em>and complete</em> solutions to problems. Many
+excellent Clojure libraries weigh in at under 1,000 LoC.</p>
+<p>With some effort, you can hope to hold the entire codebase in your head.
+Once that happens, your brain will discover things in diffuse mode in your
+shower or on a walk or something. And then you know you&rsquo;ve struck gold!</p>
+<h3 id=code-complexity>Code complexity<a href=#code-complexity class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Even if a library is small, it may be complex, because it address a hard
+problem. This is tricky to infer up-front, and that&rsquo;s fine. Getting stuck is
+part of the process. One mitigation is to skim-read the source first. If you
+see very deeply indented code, or lots of large functions, or lots of macros,
+maybe park it for later. Definitely prefer libraries without advanced macrology
+(unless your purpose is to understand advanced macrology :).</p>
+<h3 id=utility>Utility<a href=#utility class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>How much is the library used? A well-used library may be widely used, or it
+may be niche but heavily used. Either way, odds are good that the source has
+been vetted. Also it improves your chances of finding help if you get stuck.</p>
+<p>Some proxy measures like github stars, a dedicated channel in Slack or Zulip,
+or references in mailing list history can help judge this. If you are still
+uncertain, just drop a message in one of the community forums. Helpful people
+will help!</p>
+<h3 id=talks-docs-tutorials>Talks, docs, tutorials<a href=#talks-docs-tutorials class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Are talks, docs, and tutorials available for the library, or at least the space
+the library addresses? The code often does not tell the full story of the
+&ldquo;why?&rdquo; of the library, the roads not taken or choices unmade. Code also tends
+not to convey the author&rsquo;s mental process. This is the highest value learning
+that comes from reading; viz. learning a new way to think. So knowing what
+knowledgeable people have been saying about the space/code is very useful.</p>
+<h3 id=beware-the-falsehood-of-dead-repos>Beware the falsehood of &ldquo;dead&rdquo; repos<a href=#beware-the-falsehood-of-dead-repos class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Many in-use Clojure libraries don&rsquo;t see frequent (or large) updates. This is
+a virtue in our circles. It indicates finished-ness and stability. In fact, if
+you find a repo with no commits for months or years, and a &ldquo;liveness advisory&rdquo;
+on it, you <em>definitely</em> want to read that code. That code has proven itself
+handsomely!</p>
+<h2 id=effective-way--s--to-read-a-project>Effective way(s) to read a project<a href=#effective-way--s--to-read-a-project class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>This is basically a set of ways to <em>engage</em> with the material. The programmer
+equivalent of textbook underlining, marginalia, scribbling notes and diagrams.</p>
+<h3 id=read-the-readme-and-api-docs>Read the README and API docs<a href=#read-the-readme-and-api-docs class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>And keep them handy. Ideally figure out the <em>why</em> of the project before getting
+into the weeds, because weeds there will be.</p>
+<h3 id=use-the-repl>Use the REPL<a href=#use-the-repl class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>I habitually use <code>clojure.repl/source</code>, to pull up source code for functions
+that are new to me.</p>
+<h3 id=learn-to-navigate-the-code>Learn to navigate the code<a href=#learn-to-navigate-the-code class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Find editor functions that let you see an overview of a namespace, jump to
+and fro from definitions.</p>
+<h3 id=experiment><em>Experiment</em><a href=#experiment class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>IMHO it is critical to <em>experiment</em> with the code. Passive reading gets us
+only so far. To truly grok code one must modify and play with it! This is
+where one thanks oneself for choosing a focused, concise project :)</p>
+<h3 id=comparitive-literature-approach>&ldquo;Comparitive Literature&rdquo; approach<a href=#comparitive-literature-approach class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Preferably find a space where multiple libraries exist. As long as one well
+used library is present, it is fine if unused ones exist too. Frequently
+contemporary libraries aim to overcome walls their classic brethren hit, or
+are novel approaches to the same problem that offer a different set of
+tradeoffs v/s the classics.</p>
+<p>There is much to learn from bygone classics, but only after one works through
+the contemporary stuff, and has several &ldquo;Wait, but why?&rdquo; moments.</p>
+<h3 id=alt-implementation>Alt-implementation<a href=#alt-implementation class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>The Black Belt move is to combine experimentation and comparative lit. and
+try to hack up your own alternate implementation, by purposely taking a
+completely different approach to representing the problem space, as compared
+to the library under study.</p>
+<h2 id=suggested-projects-with-short-reasons-why-to-read>Suggested projects with short reasons why to read<a href=#suggested-projects-with-short-reasons-why-to-read class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>This is a first-cut top-of-mind list, from the top of <em>my</em> chaotic mind.
+Take with a pinch of salt!</p>
+<p>Cross-reference with <a href=https://github.com/clojure/clojure-site/issues/586>this discussion</a>
+where folks are trying to figure out what projects to suggest, how, and why,
+as part of an FAQ or a Guide at the official Clojure website.</p>
+<h3 id=web-html-css>web/HTML/CSS<a href=#web-html-css class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><strong><a href=https://github.com/weavejester/hiccup>weavejester/hiccup</a></strong> to understand
+a natural translation of one domain (HTML) to Clojure data. Writing HTML as
+Clojure data is what we mean when we say &ldquo;well, it&rsquo;s just data&rdquo; or &ldquo;data DSL&rdquo;.</li>
+<li><strong><a href=https://github.com/noprompt/garden>noprompt/garden</a></strong>
+which does unto CSS what Hiccup does unto HTML.</li>
+</ul>
+<h3 id=web-http>web/HTTP<a href=#web-http class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><strong><a href=https://github.com/ring-clojure/ring>Ring</a></strong>, to understand one of the
+most popular HTTP server abstractions in the Clojureverse.</li>
+</ul>
+<h3 id=clojure-itself>Clojure itself<a href=#clojure-itself class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><strong><a href=https://github.com/clojure/clojure/blob/master/src/clj/clojure/test.clj>Clojure.test</a></strong>
+which is the built-in testing framework, in a surprisingly small amount of
+code. Also, incidentally, to start feeling OK diving into Clojure&rsquo;s own source.</li>
+</ul>
+<h3 id=database-queries>Database queries<a href=#database-queries class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><strong><a href=https://github.com/seancorfield/honeysql>honeysql</a></strong>
+to grok a way to represent the Domain of SQL queries as Clojure data.</li>
+</ul>
+<h3 id=music-maker>Music maker<a href=#music-maker class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>There&rsquo;s lots out there that I don&rsquo;t know of, but&mldr;</p>
+<ul>
+<li><a href=https://github.com/overtone/overtone>overtone/overtone</a>, but it is a big project</li>
+<li><a href=https://github.com/ssrihari/ragavardhini>ssrihari/ragavardhini</a> is smaller</li>
+</ul>
+<h3 id=system-start-stop-thingy>&ldquo;System&rdquo; start/stop thingy<a href=#system-start-stop-thingy class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><strong><a href=https://github.com/stuartsierra/component>stuartsierra/component</a></strong>
+&ldquo;Managed lifecycle of stateful objects in Clojure&rdquo;.</li>
+</ul>
+<h3 id=app-configuration-thingy>App configuration thingy<a href=#app-configuration-thingy class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><strong><a href=https://github.com/juxt/aero>juxt/aero</a></strong>
+&ldquo;A small library for explicit, intentful configuration.&rdquo;</li>
+</ul>
+<h3 id=applications-designed-for-copy-and-hack>Applications designed for &ldquo;copy-and-hack&rdquo;<a href=#applications-designed-for-copy-and-hack class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>As <a href=https://github.com/puredanger>@puredanger</a> and <a href=https://github.com/plexus>@plexus</a> have <a href=https://github.com/clojure/clojure-site/issues/586>written here</a>:
+If you&rsquo;re wondering &ldquo;what&rsquo;s something similar I can copy and hack on&rdquo; or
+&ldquo;what does a real project look like&rdquo;?</p>
+<ul>
+<li><a href=https://github.com/seancorfield/usermanager-example>seancorfield/usermanager-example</a></li>
+<li><a href=https://github.com/clojureverse/clojurians-log-app>clojureverse/clojurians-log-app</a></li>
+</ul>
+<h3 id=large-scale-repos>Large-scale repos<a href=#large-scale-repos class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li><a href=https://github.com/nasa/Common-Metadata-Repository>NASA&rsquo;s Common Metadata Repository</a>
+project, just to have one&rsquo;s mind blown :D</li>
+</ul>
+<h2 id=library-maintainers-would-howtoreadmes-make-sense>Library maintainers: Would HOWTOREADMEs make sense?<a href=#library-maintainers-would-howtoreadmes-make-sense class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Hi! First, thank you for your library work! I&rsquo;m just thinking aloud here&mldr;</p>
+<p>Suppose Clojure library authors write little reading guides for their projects;
+<strong>&ldquo;How to read me"s</strong>? Maybe a paragraph or two that provides context like:</p>
+<ul>
+<li>Suggested entry point and Meta-dot pathway</li>
+<li>The most important namespace(s)</li>
+<li>Interesting functions</li>
+<li>Tests or Rich comments to try out on priority</li>
+<li>Any known hairy-scary bits or gotchas</li>
+<li>Perhaps a line or two suggesting &ldquo;compare with Alternate Libs A, B, C&rdquo;</li>
+<li>etc.</li>
+</ul>
+<p>A reader may fruitfully combine this guidance with information about project
+purpose, rationale, and any open issues marked &ldquo;beginner&rdquo; etc.</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button next">
+<a href=/posts/why-and-how-i-use-org-mode/>
+<span class=button__text>Why and How I use "Org Mode" for my writing and more</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer id=footer>
+<div align=center>
+<div>
+<form action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+<label for=bd-email>:: Occasional newsletter ::</label>
+<p><input type=email name=email id=bd-email>
+<input type=submit value=Subscribe>
+</p>
+<div>
+<p>
+(powered by <a href=https://buttondown.email target=_blank>Buttondown</a>)
+</p>
+</div>
+</form>
+</div>
+<p>
+<hr>
+</p>
+<div class=footer__inner>
+<div class=copyright>
+<span>
+Write to <i>weblog (at) evalapply (dot) org</i>.
+Made with
+<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
+<a href=https://orgmode.org/>org-mode</a>,
+<a href=https://ox-hugo.scripter.co/>ox-hugo</a>,
+<a href=http://gohugo.io>Hugo</a>, and
+<a href=https://github.com/panr/hugo-theme-terminal>terminal</a>.
+© 2022
+<a href=https://evalapply.org target=_blank>Aditya Athalye</a>,
+except where otherwise noted.
+</span>
+</div>
+</div>
+<p>
+<hr>
+</p>
+<div>
+<script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+</div>
+</div>
+</footer>
+<script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+</div>
+</body>
+</html>
