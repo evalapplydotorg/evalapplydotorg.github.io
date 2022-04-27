@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>whyto on eval/apply</title><link>/tags/whyto/</link><description>Recent content in whyto on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Apr 2022 19:33:06 +0530</lastBuildDate><atom:link href="/tags/whyto/index.xml" rel="self" type="application/rss+xml"/><item><title>Which Clojure codebases should I read? How and why?</title><link>/posts/which-clojure-codebases-to-read-how-and-why/</link><pubDate>Tue, 19 Apr 2022 19:33:06 +0530</pubDate><guid>/posts/which-clojure-codebases-to-read-how-and-why/</guid><description>&lt;p>This question is frequently asked by newcomers to Clojure. I struggled a lot
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>whyto on eval/apply</title><link>/tags/whyto/</link><description>Recent content in whyto on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Apr 2022 19:48:41 +0530</lastBuildDate><atom:link href="/tags/whyto/index.xml" rel="self" type="application/rss+xml"/><item><title>Which Clojure codebases should I read? How and why?</title><link>/posts/which-clojure-codebases-to-read-how-and-why/</link><pubDate>Tue, 19 Apr 2022 19:48:41 +0530</pubDate><guid>/posts/which-clojure-codebases-to-read-how-and-why/</guid><description>&lt;p>This question is frequently asked by newcomers to Clojure. I struggled a lot
 with this too. I still do from time to time, in unfamiliar territory.&lt;/p>
 &lt;p>These days, I feel like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians
 &amp;mdash; individuals and groups &amp;mdash; have been producing so much creative, diverse
@@ -978,8 +978,8 @@ described below.&lt;/p>
 after reading half a book. You may do it differently. The important thing is
 to construct a &lt;em>good enough model&lt;/em> to help us think.&lt;/p>
 &lt;div class="collapsable-code">
-&lt;input id="589761243" type="checkbox" checked />
-&lt;label for="589761243">
+&lt;input id="829563147" type="checkbox" checked />
+&lt;label for="829563147">
 &lt;span class="collapsable-code__language">html&lt;/span>
 &lt;span class="collapsable-code__title">Anatomy of the markup&lt;/span>
 &lt;span class="collapsable-code__toggle" data-label-expand="Show" data-label-collapse="Hide">&lt;/span>

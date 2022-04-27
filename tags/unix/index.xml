@@ -1,4 +1,583 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>unix on eval/apply</title><link>/tags/unix/</link><description>Recent content in unix on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 11 Mar 2022 00:08:52 +0530</lastBuildDate><atom:link href="/tags/unix/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell ain't a bad place to FP: part 1/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Fri, 11 Mar 2022 00:08:52 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>unix on eval/apply</title><link>/tags/unix/</link><description>Recent content in unix on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 27 Apr 2022 21:43:19 +0530</lastBuildDate><atom:link href="/tags/unix/index.xml" rel="self" type="application/rss+xml"/><item><title>Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools</title><link>/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/</link><pubDate>Wed, 27 Apr 2022 21:43:19 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we hand-craft nano Unix tools using Bash functions.&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>As we saw in the &lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline">previous post&lt;/a>,
+functions obey stdio and we can mix and match them with built-ins (grep, sed,
+cat etc.) and other installed tools (like jq, pandoc, babashka etc.). We used
+functions to name parts of Douglas McIlroy&amp;rsquo;s pipeline and mess around a bit.&lt;/p>
+&lt;p>I tend to make libraries of pure functions that I can source in shell sessions
+and use just like any other shell tool, complete with tab-completion. e.g.
+&lt;a href="https://github.com/adityaathalye/bash-toolkit">bash-toolkit&lt;/a> and &lt;a href="https://github.com/adityaathalye/shite">shite&lt;/a>.&lt;/p>
+&lt;p>Now we step back and try to build good intuitions about&lt;/p>
+&lt;ul>
+&lt;li>what functions are&lt;/li>
+&lt;li>how to design good functions&lt;/li>
+&lt;li>how to design programs with functions&lt;/li>
+&lt;li>how to name them :)&lt;/li>
+&lt;/ul></description><content>&lt;p>Or, &lt;em>&lt;strong>the one in which we hand-craft nano Unix tools using Bash functions.&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>As we saw in the &lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline">previous post&lt;/a>,
+functions obey stdio and we can mix and match them with built-ins (grep, sed,
+cat etc.) and other installed tools (like jq, pandoc, babashka etc.). We used
+functions to name parts of Douglas McIlroy&amp;rsquo;s pipeline and mess around a bit.&lt;/p>
+&lt;p>I tend to make libraries of pure functions that I can source in shell sessions
+and use just like any other shell tool, complete with tab-completion. e.g.
+&lt;a href="https://github.com/adityaathalye/bash-toolkit">bash-toolkit&lt;/a> and &lt;a href="https://github.com/adityaathalye/shite">shite&lt;/a>.&lt;/p>
+&lt;p>Now we step back and try to build good intuitions about&lt;/p>
+&lt;ul>
+&lt;li>what functions are&lt;/li>
+&lt;li>how to design good functions&lt;/li>
+&lt;li>how to design programs with functions&lt;/li>
+&lt;li>how to name them :)&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#previously-in-this-series-dot-dot-dot">Previously in this series&amp;hellip;&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#what-bash-functions-are">What Bash functions are&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#bash-functions-are-compound-commands">Bash functions are compound commands&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#function-definitions-live-in-a-global-namespace">Function definitions live in a global namespace&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#how-to-design-good-functions">How to design good functions&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#wrap-domain-concepts-in-single-purpose-functions">Wrap domain concepts in single-purpose functions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#use-parameter-substitutions-and-local-scope-variables">Use parameter substitutions and local scope variables&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#partial-application-of-functions">Partial application of functions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#dependency-injection-with-functions">Dependency injection with functions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#keeping-functions-pure">Keeping Functions pure&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#program-design-with-functions">Program design with functions&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#writing-pipeline-friendly-functions">Writing Pipeline-friendly Functions&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#separating-return-values-and-non-values">Separating return values and non-values&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#functions-to-delay-evaluation">Functions to delay evaluation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#functional-core-imperative-shell">Functional core, imperative shell&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#naming-conventions">Naming conventions&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="previously-in-this-series-dot-dot-dot">Previously in this series&amp;hellip;&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline">Part 1/N&lt;/a>:
+Exploring McIlroy&amp;rsquo;s pipeline to motivate the series. And an unexpected
+masterclass from the Master himself (see appendix)!&lt;/li>
+&lt;li>&lt;a href="https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/">Part 0/N&lt;/a>:
+intro, caveats, preamble&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-bash-functions-are">What Bash functions are&lt;/h2>
+&lt;p>Last time, we wrote functions like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">flatten_paragraphs&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+tr -cs A-Za-z &lt;span style="color:#e6db74">&amp;#39;\n&amp;#39;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The syntax may look familiar, but their behaviour and semantics differ in
+many ways from functions in the more modern languages like Python or JS etc.&lt;/p>
+&lt;h3 id="bash-functions-are-compound-commands">Bash functions are compound commands&lt;/h3>
+&lt;p>&lt;code>man bash&lt;/code> describes functions as follows (online manpage: &lt;a href="https://www.gnu.org/software/bash/manual/html%5Fnode/Shell-Functions.html">shell functions&lt;/a>).&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Shell Function Definitions&lt;/strong>&lt;/p>
+&lt;p>A shell function is an object that is called like a simple command and
+executes a compound command with a new set of positional parameters.
+Shell functions are declared as follows:&lt;/p>
+&lt;p>&lt;code>name () compound-command [redirection]&lt;/code>&lt;/p>
+&lt;p>&amp;hellip; and more stuff &amp;hellip;&lt;/p>
+&lt;/blockquote>
+&lt;p>We will do names last, because names are hard :) Let&amp;rsquo;s start with the
+&amp;ldquo;compound command&amp;rdquo; part.&lt;/p>
+&lt;p>There are several ways to write &lt;em>compound commands&lt;/em>, each serving a different
+purpose. To define functions, we only need the &lt;code>{ list; }&lt;/code> form. So we will
+ignore the others. Some context from the Bash manpage.&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>Compound Commands&lt;/strong>&lt;/p>
+&lt;p>A compound command is one of the following. In most cases a list in a
+command&amp;rsquo;s description may be separated from the rest of the command by
+one or more newlines, and may be followed by a newline in place of a semicolon.&lt;/p>
+&lt;p>&lt;code>(list)&lt;/code>
+list is executed in a subshell environment &amp;hellip;&lt;/p>
+&lt;p>&lt;code>{ list; }&lt;/code>
+list is simply executed in the current shell environment. list
+must be terminated with a newline or semicolon. This is known as
+a group command. The return status is the exit status of list.
+Note that unlike the metacharacters ( and ), { and } are reserved
+words and must occur where a reserved word is permitted to be
+recognized. Since they do not cause a word break, they must be
+separated from list by whitespace or another shell metacharacter.&lt;/p>
+&lt;p>&lt;code>((expression))&lt;/code>
+Arithmetic expressions &amp;hellip;&lt;/p>
+&lt;p>&lt;code>[[ expression ]]&lt;/code>
+Compound conditional expression &amp;hellip;&lt;/p>
+&lt;/blockquote>
+&lt;p>The Bash manual page can feel a little obtuse at times. Hopefully the examples
+and discussion in this post will serve as useful illustrations.&lt;/p>
+&lt;h3 id="function-definitions-live-in-a-global-namespace">Function definitions live in a global namespace&lt;/h3>
+&lt;p>This means function definitions are isolated, and don&amp;rsquo;t override any alias,
+builtin, variable, or reserved keyword of the same name.&lt;/p>
+&lt;p>To see what that means, let&amp;rsquo;s bind the same name to different things.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ sed&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> echo lol; &lt;span style="color:#f92672">}&lt;/span> &lt;span style="color:#75715e"># will the function override the sed built-in?&lt;/span>
+$ sed&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;phew!&amp;#34;&lt;/span> &lt;span style="color:#75715e"># will the variable override the function we defined?&lt;/span>
+$ alias sed&lt;span style="color:#f92672">=&lt;/span>cat &lt;span style="color:#75715e"># will the alias override everything?&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can query all objects that the name &lt;code>sed&lt;/code> is bound to. (Note: the variable
+meaning won&amp;rsquo;t show up in this listing.)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ type -a sed
+sed is aliased to &lt;span style="color:#e6db74">&amp;#39;cat&amp;#39;&lt;/span>
+sed is a &lt;span style="color:#66d9ef">function&lt;/span>
+sed &lt;span style="color:#f92672">()&lt;/span>
+&lt;span style="color:#f92672">{&lt;/span>
+echo lol
+&lt;span style="color:#f92672">}&lt;/span>
+sed is /bin/sed
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And we can invoke or evaluate each meaning of the word &lt;code>sed&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ man bash | sed &lt;span style="color:#75715e"># Oops. Boy, are we in trouble now.&lt;/span>
+&lt;span style="color:#75715e"># Bash interprets the unquoted word as an alias, which is &amp;#39;cat&amp;#39;.&lt;/span>
+$ man bash | command sed 1q &lt;span style="color:#75715e"># execute as a command (not function, or alias)&lt;/span>
+BASH&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span> General Commands Manual BASH&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">)&lt;/span>
+$ &lt;span style="color:#e6db74">&amp;#39;sed&amp;#39;&lt;/span> &lt;span style="color:#75715e"># quoting prevents interpretation as alias. Function meaning gets used.&lt;/span>
+lol
+$ echo foo | &lt;span style="color:#e6db74">&amp;#39;sed&amp;#39;&lt;/span> &lt;span style="color:#75715e"># works fine in pipes too&lt;/span>
+lol
+$ echo $sed &lt;span style="color:#75715e"># the variable remains intact too&lt;/span>
+phew!
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This namespacing is certainly merciful, but it is not quite enough. As you
+may have guessed, it can get very confusing if we reuse names willy-nilly.
+If there was one thing I could improve about Bash, it would be adding &amp;ldquo;real&amp;rdquo;
+namespaces. That would help write modular code. Alas, that ship sailed long ago.&lt;/p>
+&lt;p>Anyway, I drop Bash after the code starts getting too involved; beyond about
+1,000 LoC (of clean FP-style Bash). In large scripts, the sharp corners of Ye
+Olde Shell start poking holes and forcing bugs (quoting, expansion, trap/error
+handling etc.).&lt;/p>
+&lt;p>That said (or um, sed), under 1K LoC clean FP-style Bash can do a crazy amount
+of work sufficiently fast &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. That sweet spot is what this series
+is all about. Like &lt;a href="https://github.com/adityaathalye/shite">shite&lt;/a> and &lt;a href="https://github.com/adityaathalye/oxo">oxo&lt;/a>.&lt;/p>
+&lt;h2 id="how-to-design-good-functions">How to design good functions&lt;/h2>
+&lt;p>Bash functions provide certain highly functional features like obeying stdio,
+thus being streaming-friendly units of program design. Several other creature
+comforts of functional style are not automatic. &lt;em>However&lt;/em> we can get plenty
+functional with &lt;em>some&lt;/em> care and manual effort.&lt;/p>
+&lt;p>Here are things I do to keep my functions, well, functional.&lt;/p>
+&lt;h3 id="wrap-domain-concepts-in-single-purpose-functions">Wrap domain concepts in single-purpose functions&lt;/h3>
+&lt;p>Previously, we wrapped invocations of Unix tools and pipelines in functions,
+gave them domain-specific names, to achieve domain-specific compositional power.&lt;/p>
+&lt;p>For example:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">sort_dictionary&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+sort -b -d -k2
+&lt;span style="color:#f92672">}&lt;/span>
+sort_rhyme&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+rev | sort -b -d | rev
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Small functions are absolutely fine! In fact, we prefer our functions be small,
+single-purpose, and as general as possible, just like any other Unix tool.&lt;/p>
+&lt;h3 id="use-parameter-substitutions-and-local-scope-variables">Use parameter substitutions and local scope variables&lt;/h3>
+&lt;p>Functions only accept positional parameters, like regular shell scripts. And
+like regular scripts, we can send input for evaluation as well as to control
+behaviour of the function, as well will see later in this post.&lt;/p>
+&lt;p>Unfortunately, positional-only params make optionality hard. The following
+techniques help mitigate this limitation. Compare them with the example below.&lt;/p>
+&lt;ul>
+&lt;li>I tend to keep my functions small and avoid API design that requires more
+than 3 parameters. This is just a nonscientific thumb rule.&lt;/li>
+&lt;li>Next, I use Bash parameter substitution to provide sane fallbacks, and/or
+enforce API contracts (fail and die if param not provided).&lt;/li>
+&lt;li>I always assign positional params to local variables inside the function
+body, which is a bit verbose, but improves readability and traceability.
+And it makes any parameter substitution explicit.&lt;/li>
+&lt;li>I also declare all named params as &lt;code>local&lt;/code>, which ensures variable scope
+and mutation is local to the function.&lt;/li>
+&lt;/ul>
+&lt;p>Most of my parameter-accepting functions are designed with just one optional
+parameter. Here is a motivating example from my little &lt;a href="https://github.com/adityaathalye/bash-toolkit">bash-toolkit&lt;/a> library.
+The ones copied here help with ad-hoc log analysis tasks.&lt;/p>
+&lt;p>Accept optional parameter, with a sane default.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">drop_first_n&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local lines&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>0&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local offset&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">$((&lt;/span> lines &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">))&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+tail -n +&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>offset&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+drop_last_n&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local lines&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>0&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+head -n -&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>lines&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Enforce all parameters, as these functions are meaningless without them.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">drop_header_footer&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local header_lines&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1:?&lt;span style="color:#e6db74">&amp;#39;FAIL. Header line count required, 1-indexed.&amp;#39;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local footer_lines&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>2:?&lt;span style="color:#e6db74">&amp;#39;FAIL. Footer line count required, 1-indexed.&amp;#39;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+drop_first_n &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>header_lines&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> |
+drop_last_n &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>footer_lines&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+window_from_to_lines&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local from_line&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1:?&lt;span style="color:#e6db74">&amp;#39;FAIL. \&amp;#34;FROM\&amp;#34; line number required, 1-indexed.&amp;#39;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local to_line&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>2:?&lt;span style="color:#e6db74">&amp;#39;FAIL. \&amp;#34;TO\&amp;#34; line number required, 1-indexed.&amp;#39;&lt;/span>&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+drop_first_n &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>from_line&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> |
+head -n &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>to_line&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Notice how the latter two functions reuse the earlier functions to create
+completely different log processing tools, yet retain flexibility to deal with
+arbitrary parts of log files, as well as compose together any way we please
+(not all of which will be sensible, but that&amp;rsquo;s besides the point :).&lt;/p>
+&lt;p>There are many ways to do &lt;a href="https://wiki.bash-hackers.org/scripting/posparams">parameter handling&lt;/a>; a whole topic of its own.
+Play around to get a sense for it, but keep your actual usage simple.&lt;/p>
+&lt;h3 id="partial-application-of-functions">Partial application of functions&lt;/h3>
+&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Partial%5Fapplication">Partial application&lt;/a> is not automatic in Bash,
+but that does not mean we can&amp;rsquo;t do it.&lt;/p>
+&lt;p>In the example below, a utility function &lt;code>__with_git_dir&lt;/code> knows something
+about a git directory, but nothing about a git subcommand that we wish to run.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">__with_git_dir&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repo_dir&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+shift
+git --git-dir&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/.git&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$@&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+git_fetch&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repo_dir&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+__with_git_dir &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> fetch -q
+&lt;span style="color:#f92672">}&lt;/span>
+git_status&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+__with_git_dir &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> status
+&lt;span style="color:#f92672">}&lt;/span>
+git_branch_current&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repo_dir&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+__with_git_dir &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> rev-parse --abbrev-ref&lt;span style="color:#f92672">=&lt;/span>strict HEAD
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>These functions &lt;a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh#L99">belong to some git utilities&lt;/a> &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> that
+help me conveniently run git commands against any repo on my file system,
+without cd-ing to the repo.&lt;/p>
+&lt;p>See? Functions can be dead-simple yet super useful. If you accumulate wee
+functions for your git needs, you get executable documentation. You can &lt;code>source&lt;/code>
+them in your Bash terminal on any computer and be on your way. Likewise, any
+other command-line-y need of yours.&lt;/p>
+&lt;h3 id="dependency-injection-with-functions">Dependency injection with functions&lt;/h3>
+&lt;p>The previous section brought us close to dependency injection. We passed in
+git subcommands as argument to the &lt;code>__with_git_dir&lt;/code> utility. &lt;em>&lt;strong>We can do the
+same with our own functions.&lt;/strong>&lt;/em> This is a form of &amp;ldquo;higher order&amp;rdquo; Functional
+Programming; viz. making functions that accept functions as arguments.&lt;/p>
+&lt;p>For example, &lt;a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh">see the same git utilities file&lt;/a> for usages such as these:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Use the &lt;code>xgit&lt;/code> utility fn to apply simple git commands to the given repos.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">ls_git_projects ~/src/bitbucket | xgit fetch &lt;span style="color:#75715e"># bitbucket-hosted repos&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Use &lt;code>proc_repos&lt;/code> to apply custom functions to the given repos.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">ls_git_projects ~/src/bitbucket |
+proc_repos git_fetch &lt;span style="color:#75715e"># all repos&lt;/span>
+ls_git_projects ~/src/bitbucket |
+take_stale |
+proc_repos git_fetch &lt;span style="color:#75715e"># only stale repos&lt;/span>
+ls_git_projects ~/src/bitbucket |
+take_active |
+proc_repos git_fetch &lt;span style="color:#75715e"># only active repos&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>What&amp;rsquo;s the current branch?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">ls_git_projects ~/src/bitbucket |
+proc_repos git_branch_current
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;p>I&amp;rsquo;ve also used this design technique in &lt;a href="https://github.com/adityaathalye/shite">shite&lt;/a>
+(the little static site generator from shell :).
+This is baaasically what its &lt;a href="https://github.com/adityaathalye/shite/blob/f8d2d22316a8c2fc04c92c1390abb77c69377f6f/shite%5Futils.sh#L237">&amp;ldquo;main&amp;rdquo; function&lt;/a> does.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#75715e"># Build page and tee it into the public directory, namespaced by the slug&lt;/span>
+cat &lt;span style="color:#e6db74">${&lt;/span>body_content_file&lt;span style="color:#e6db74">}&lt;/span> |
+&lt;span style="color:#e6db74">${&lt;/span>content_proc_fn&lt;span style="color:#e6db74">}&lt;/span> |
+&lt;span style="color:#75715e"># We have only one page builder today, but&lt;/span>
+&lt;span style="color:#75715e"># we could have a variable number tomorrow.&lt;/span>
+shite_build_page |
+&lt;span style="color:#e6db74">${&lt;/span>html_formatter_fn&lt;span style="color:#e6db74">}&lt;/span> |
+tee &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>shite_global_data[publish_dir]&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>html_output_file_name&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>All the &lt;code>_fn&lt;/code>-suffixed variables are locals in the &amp;ldquo;main&amp;rdquo; fn, that are
+assigned to function names we pass from the outside. Also notice the use of
+sane fallbacks for the positional params in this case.&lt;/p>
+&lt;h3 id="keeping-functions-pure">Keeping Functions pure&lt;/h3>
+&lt;p>The &lt;code>return&lt;/code> statement in Bash returns exit codes, not values. So we have to
+pause a bit to figure out how to &amp;ldquo;return&amp;rdquo; values. Well, we have to rely on
+stdio, and the fact that the Unix tools philosophy encourages us to emit data
+in the same format as we receive it.&lt;/p>
+&lt;p>The &lt;code>identity&lt;/code> function is the simplest example. By definition, it returns
+its input unchanged. That&amp;rsquo;s just &lt;code>cat&lt;/code>! Thus we can write this streaming
+&lt;em>identity&lt;/em> function.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">identity&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+cat -
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This definition of &lt;em>identity&lt;/em> is surprisingly useful, as we will see below.&lt;/p>
+&lt;p>Note that I strongly favour pipeline-friendly domain modeling and functional
+programming, to profit from the naturally streaming nature of Unix.&lt;/p>
+&lt;p>Under such architecture, &lt;em>map&lt;/em>, &lt;em>filter&lt;/em>, and &lt;em>reduce&lt;/em> are automatic, and I
+only need to write a pure &amp;ldquo;step&amp;rdquo; or single-item processing function.&lt;/p>
+&lt;p>My &amp;ldquo;step&amp;rdquo; functions are simply transforms of input text (or data structure)
+to output text (or data structure). This can be anything; in case of plain
+text lines I do line transforms with &lt;code>sed&lt;/code> or &lt;code>printf&lt;/code>, or line selects
+with &lt;code>grep&lt;/code>, or line-munging with &lt;code>tr&lt;/code> etc. I do the equivalent with &lt;code>jq&lt;/code>
+for JSON-formatted lines. &lt;a href="http://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/">The previous post&lt;/a> featured such &amp;ldquo;step&amp;rdquo; functions
+for &lt;em>map&lt;/em> (&lt;code>tokenise_lowercase&lt;/code>, &lt;code>bigram&lt;/code>), &lt;em>filter&lt;/em> (&lt;code>drop_stopwords&lt;/code>), and
+&lt;em>reduce&lt;/em> (&lt;code>frequencies&lt;/code>, &lt;code>sort_dictionary&lt;/code>).&lt;/p>
+&lt;p>&lt;em>shite&lt;/em> has a &lt;a href="https://github.com/adityaathalye/shite/blob/f8d2d22316a8c2fc04c92c1390abb77c69377f6f/shite%5Futils.sh#L89">more interesting example&lt;/a>.&lt;/p>
+&lt;p>Suppose we want to make a blog site. For each blog post, only the content
+changes. The surrounding HTML wrapper remains constant (head, body, header,
+footer etc.). If we tease apart wrapper HTML construction and body HTML
+construction, then we can write a &amp;ldquo;page builder&amp;rdquo; function like this. Note
+the &lt;code>cat -&lt;/code> in the middle. Our identity function appears!&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">shite_build_page&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+cat &lt;span style="color:#e6db74">&amp;lt;&amp;lt;EOF
+&lt;/span>&lt;span style="color:#e6db74">&amp;lt;!DOCTYPE html&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74">&amp;lt;html&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;head&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;!-- Some basic hygiene meta-data --&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;title&amp;gt;My Blog&amp;lt;/title&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;css/style.css&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;/head&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;body&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;header id=&amp;#34;site-header&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;h1&amp;gt;My Blog&amp;lt;/h1&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;hr&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;/header&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;main&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> $(cat -)
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;/main&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;footer&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;hr&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;p&amp;gt;All content is MIT licensed, except where specified otherwise.&amp;lt;/p&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;/footer&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74"> &amp;lt;/body&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74">&amp;lt;/html&amp;gt;
+&lt;/span>&lt;span style="color:#e6db74">EOF&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Observe that &lt;code>$(cat -)&lt;/code> blindly injects content in the &lt;code>&amp;lt;main&amp;gt;&amp;lt;/main&amp;gt;&lt;/code> block,
+received via stdin of the &lt;em>function&lt;/em> &lt;code>shite_build_page&lt;/code>. Thus, for the same
+input it will always produce the same output, making it a pure function.
+This choice also makes the caller responsible for passing it HTML, because
+the output is HTML.&lt;/p>
+&lt;p>Further, by the single responsibility principle, our function&amp;rsquo;s job is simply
+to punch HTML content into an HTML wrapper and return the composite. So it is
+vital that this function &lt;em>not know or care&lt;/em> how the HTML it receives is made.&lt;/p>
+&lt;p>And here&amp;rsquo;s the cherry&amp;hellip; By making this design choice, we have in fact made
+a step function that we can &lt;em>map&lt;/em> over many blog posts.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">gen_html_posts_from_md&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> read blog_post_md_file
+&lt;span style="color:#66d9ef">do&lt;/span> local html_file_name&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>basename -s.md &lt;span style="color:#e6db74">${&lt;/span>blog_post_md_file&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#e6db74">.html&amp;#34;&lt;/span>
+pandoc -f markdown -t html &lt;span style="color:#e6db74">${&lt;/span>html_file_name&lt;span style="color:#e6db74">}&lt;/span> |
+shite_build_page &amp;gt; ./public/posts/&lt;span style="color:#e6db74">${&lt;/span>html_file_name&lt;span style="color:#e6db74">}&lt;/span>
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Thus, if our blog posts are &lt;code>markdown&lt;/code> files in some folder (let&amp;rsquo;s say under
+a &lt;code>content&lt;/code> directory). We can do this.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">find ./content/posts/ -type f -name *.md |
+gen_html_posts_from_md
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>A reader may complain that our HTML posts generator function is too specific
+to the markdown format, and knows too much about how to transform markdown
+to HTML, as well as where to put it. Its job ought to be just to describe
+the transform process.&lt;/p>
+&lt;p>The reader would be right, and may like to solve the problem at home &lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup> :)&lt;/p>
+&lt;h2 id="program-design-with-functions">Program design with functions&lt;/h2>
+&lt;p>Now, how do we apply functional programming principles to the next level up,
+viz. to design our programs?&lt;/p>
+&lt;p>If you&amp;rsquo;ve seen shell scripts in the wild, you&amp;rsquo;d have observed they are often
+written as sequences of statements and imperative control flow that evaluates
+top to bottom. I think that practice is a bit tragic, because it produces
+needlessly complex code, because people reach for flags and global variables
+and traps and suchlike.&lt;/p>
+&lt;p>Functions obviate a lot of that icky stuff. We still need the ick, but we can
+constrain it to very specific tightly controlled bits of our program, and only
+when the ick makes absolute sense.&lt;/p>
+&lt;p>I will also say that if we can make programs that are themselves functional
+compositions, then we can chain entire programs together into still larger
+scale functional structures. Further, since stdio includes named pipes, and
+sockets, we can compose multi-process as well as multi-machine pipelines,
+with a great economy of code. And this is &lt;em>not&lt;/em> insane at all. Seriously.&lt;/p>
+&lt;p>But I&amp;rsquo;m getting ahead of myself. Here is how I try to keep my programs functional.&lt;/p>
+&lt;h3 id="writing-pipeline-friendly-functions">Writing Pipeline-friendly Functions&lt;/h3>
+&lt;p>Frequently, an imperative algorithm can also be expressed in data-flow terms.
+That is, instead of if-else-y code, think in terms of map/filter/reduce.&lt;/p>
+&lt;p>Once again, recalling the git utility functions referenced above. Suppose you
+had to return a list of &amp;ldquo;stale&amp;rdquo; repositories from a given directory, you may
+be tempted to write something like this. (Here &amp;ldquo;stale&amp;rdquo; means &amp;ldquo;not worked on
+for the last N hours&amp;rdquo;).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">get_stale_repos&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repos_root_dir&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local stale_hrs&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>2&lt;span style="color:#66d9ef">:-&lt;/span>12&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local hrs_ago&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$((&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>date +%s&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#66d9ef">$(&lt;/span>stat -c %Y &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/.git&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#ae81ff">3600&lt;/span> &lt;span style="color:#66d9ef">))&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> repo_dir in &lt;span style="color:#66d9ef">$(&lt;/span>ls &lt;span style="color:#e6db74">${&lt;/span>repos_root_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>; &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">[[&lt;/span> $hrs_ago -le $stale_hrs &lt;span style="color:#f92672">]]&lt;/span>
+&lt;span style="color:#66d9ef">then&lt;/span> printf &lt;span style="color:#e6db74">&amp;#34;%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;active: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> printf &lt;span style="color:#e6db74">&amp;#34;%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;stale: &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>However this kind of implementation combines (&amp;ldquo;complects&amp;rdquo;) many different things.&lt;/p>
+&lt;p>Given the fact that functions respect &lt;code>stdio&lt;/code>, we can pull apart our imperative
+attempt. The insight is to combine &lt;code>while&lt;/code> and &lt;code>read&lt;/code> as follows. I use this
+idiom a lot because it helps me drastically simplify my code.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">__is_repo_active&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repo_dir&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local stale_hrs&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>2&lt;span style="color:#66d9ef">:-&lt;/span>12&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+local hrs_ago&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">$((&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">$(&lt;/span>date +%s&lt;span style="color:#66d9ef">)&lt;/span>
+&lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#66d9ef">$(&lt;/span>stat -c %Y &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">/.git&amp;#34;&lt;/span>&lt;span style="color:#66d9ef">)&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#ae81ff">3600&lt;/span> &lt;span style="color:#66d9ef">))&lt;/span>
+&lt;span style="color:#f92672">[[&lt;/span> $hrs_ago -le $stale_hrs &lt;span style="color:#f92672">]]&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+take_stale&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repo_dir
+&lt;span style="color:#66d9ef">while&lt;/span> read repo_dir
+&lt;span style="color:#66d9ef">do&lt;/span> __is_repo_active &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">||&lt;/span> printf &lt;span style="color:#e6db74">&amp;#34;%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we can do this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">ls ~/src/github/adityaathalye |
+take_stale
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And we get bonus reuse, because we may also want to do the inverse.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">take_active&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+local repo_dir
+&lt;span style="color:#66d9ef">while&lt;/span> read repo_dir
+&lt;span style="color:#66d9ef">do&lt;/span> __is_repo_active &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> printf &lt;span style="color:#e6db74">&amp;#34;%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>With a little bit more thinking, we can pull apart this logic even further,
+usefully. Hint: these functions have a &lt;code>filter&lt;/code> embedded inside them.&lt;/p>
+&lt;p>As another fun example, one @rsms &lt;a href="https://twitter.com/rsms/status/1508900257324666882">tweeted this&lt;/a> recently:&lt;/p>
+&lt;blockquote>
+&lt;p>Was curious about source code-line length so wrote a horribly hacky bash
+script that draws a histogram. &lt;a href="https://gist.github.com/rsms/36bda3b5c8ab83d951e45ed788a184f4">https://gist.github.com/rsms/36bda3b5c8ab83d951e45ed788a184f4&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>I saw the script and my habitual thought kicked in, &amp;ldquo;Well, why can&amp;rsquo;t that be
+a pipeline?&amp;rdquo;. A short while later, this emerged.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#75715e"># get some lines of text&lt;/span>
+man bash |
+&lt;span style="color:#75715e"># remove blank lines (extensible to any non-code lines)&lt;/span>
+grep -v &lt;span style="color:#e6db74">&amp;#39;^$&amp;#39;&lt;/span> |
+&lt;span style="color:#75715e"># count chars for each line&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> read line; &lt;span style="color:#66d9ef">do&lt;/span> echo &lt;span style="color:#e6db74">${&lt;/span>line&lt;span style="color:#e6db74">}&lt;/span> | wc -c - | cut -d&lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span> -f1; &lt;span style="color:#66d9ef">done&lt;/span> |
+&lt;span style="color:#75715e"># calculate the frequency distribution&lt;/span>
+sort -nr | uniq -c |
+&lt;span style="color:#75715e"># add a histogram graph to the frequency distribution&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> read lines cols;
+&lt;span style="color:#66d9ef">do&lt;/span> printf &lt;span style="color:#e6db74">&amp;#34;%s\t%s\t%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>lines&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>cols&lt;span style="color:#e6db74">}&lt;/span> &lt;span style="color:#66d9ef">$(&lt;/span>printf &lt;span style="color:#e6db74">&amp;#34;%0.s|&amp;#34;&lt;/span> &lt;span style="color:#66d9ef">$(&lt;/span>seq &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#ae81ff">8&lt;/span> &lt;span style="color:#e6db74">${&lt;/span>cols&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#66d9ef">))&lt;/span>;
+&lt;span style="color:#66d9ef">done&lt;/span> |
+&lt;span style="color:#75715e"># add labels to the histogram&lt;/span>
+cat &amp;lt;&lt;span style="color:#f92672">(&lt;/span>printf &lt;span style="color:#e6db74">&amp;#34;%s\t%s\t%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;LN&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;COL&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;HIST(|=8COL)&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> -
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note the similarities to McIlroy&amp;rsquo;s pipeline from the last post. Also, like
+that program, mine too fits in a tweet and I wasn&amp;rsquo;t even trying.&lt;/p>
+&lt;h3 id="separating-return-values-and-non-values">Separating return values and non-values&lt;/h3>
+&lt;p>&amp;ldquo;Don&amp;rsquo;t be chatty&amp;rdquo; is an important design principle. This means don&amp;rsquo;t pollute
+your stdout values with non-values. Sometimes though, we want to emit process
+information (like logs) &lt;em>along&lt;/em> with emitting process output. For example,
+a structured process log becomes handy when we want to design idempotent jobs.&lt;/p>
+&lt;p>Going back to my &lt;a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh#L49">bulk-git-ops example&lt;/a>,
+suppose I want to process a whole bunch of git repos. This may fail any time
+if my network flakes, or laptop battery dies, or some weird condition occurs.
+Sh*t happens when processes run for a long time &lt;em>and&lt;/em> need networks. So I
+usually want to log each repo as it is being processed.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">identity&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+printf &lt;span style="color:#e6db74">&amp;#34;%s\n&amp;#34;&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$@&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+proc_repos&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e"># Apply any given operation on the given repos. Use in a pipeline.&lt;/span>
+&lt;span style="color:#75715e"># Presumably, the supplied function emits values expected by stdin&lt;/span>
+&lt;span style="color:#75715e"># of the downstream function.&lt;/span>
+local func&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>1&lt;span style="color:#66d9ef">:-&lt;/span>identity&lt;span style="color:#e6db74">}&lt;/span>
+local repo_dir
+&lt;span style="color:#66d9ef">while&lt;/span> read repo_dir
+&lt;span style="color:#66d9ef">do&lt;/span> $func &lt;span style="color:#e6db74">&amp;#34;&lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+log_info &lt;span style="color:#e6db74">&amp;#34;Applied &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>func&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74"> to &lt;/span>&lt;span style="color:#e6db74">${&lt;/span>repo_dir&lt;span style="color:#e6db74">}&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+&lt;span style="color:#66d9ef">done&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This way a downstream consumer can rely on always receiving a legal value at
+stdin, and &lt;em>optionally&lt;/em> access non-values (like logs), if it wants to, via
+stderr &lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>I casually name-dropped &lt;em>idempotence&lt;/em>. It needs its own blog post. Maybe the
+next one!&lt;/p>
+&lt;h3 id="functions-to-delay-evaluation">Functions to delay evaluation&lt;/h3>
+&lt;p>I like to write my code in groups and sequences that help a reader acquire
+context easily, and I call it in sequences that make sense from a process
+point of view. Functions help me do this, because they group statements in
+the scope of the script, &lt;em>without&lt;/em> causing the interpreter to evaluate them.&lt;/p>
+&lt;p>For example, scripts I wrote:&lt;/p>
+&lt;ul>
+&lt;li>to &lt;a href="https://gitlab.com/nilenso/cats/-/blob/c26bcd7e6618843690070b8bf38cf7adb553a0d2/bin/cicd-deployment.sh#L122">perform build/deploy steps&lt;/a> for a study project&lt;/li>
+&lt;li>to help me &lt;a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/machine-setup.sh#L274">set up my machine&lt;/a> (or at least remember what I have use for :)&lt;/li>
+&lt;/ul>
+&lt;h3 id="functional-core-imperative-shell">Functional core, imperative shell&lt;/h3>
+&lt;p>Pun intended. This is &lt;a href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell">a very useful design technique&lt;/a>.&lt;/p>
+&lt;p>We lift out as much work as possible into lots of small, pure, single purpose
+functions, and compose these separately to do composite work and/or to cause
+effects (perform I/O, set/reset globals, mutate in-process state etc.).&lt;/p>
+&lt;p>You may observe it applied in all my code:&lt;/p>
+&lt;ul>
+&lt;li>My &lt;a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/usage-trap.sh#L109">usage-trap file&lt;/a>
+is a template for how I tend to go about that for single-file scripts.&lt;/li>
+&lt;li>The whole game design of &lt;a href="https://github.com/adityaathalye/oxo">oxo&lt;/a>:
+&lt;ul>
+&lt;li>The &lt;code>oxo_logic.sh&lt;/code> file is the &amp;ldquo;functional core&amp;rdquo;.&lt;/li>
+&lt;li>The &lt;code>oxo&lt;/code> file is the &amp;ldquo;imperative shell&amp;rdquo; (and is the game&amp;rsquo;s entry point).&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://github.com/adityaathalye/shite">shite&lt;/a> is being developed exactly this way.&lt;/li>
+&lt;/ul>
+&lt;p>This technique helps me develop scripts incrementally, in terms of highly
+reusable, testable, composable functional &amp;ldquo;lego blocks&amp;rdquo;.&lt;/p>
+&lt;h2 id="naming-conventions">Naming conventions&lt;/h2>
+&lt;p>Now the really hard part&amp;hellip;&lt;/p>
+&lt;p>I write all my function names as follows, because it is the most portable
+syntax. Bash accepts several ways to define functions, but POSIX sh strictly
+expects this syntax, and I prefer to maintain as much compatibility as I can.
+Also I find it is the neatest of the alternatives.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">namespace_func_name&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+statement &lt;span style="color:#ae81ff">1&lt;/span>
+statement &lt;span style="color:#ae81ff">2&lt;/span>
+statement &lt;span style="color:#ae81ff">3&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Sometimes I write short one-liners as follows. The semicolon is essential
+for one-liners. So is the space between the braces and the statement.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">namespace_func_name&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> statement ; &lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>There is no such thing as a &amp;ldquo;private&amp;rdquo; or locally-scoped function, so I resort
+to marking these &amp;ldquo;private&amp;rdquo; by convention with a &lt;code>__&lt;/code> (double underscore) prefix.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">__namespace_private_func_name&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+statement1
+statement2
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The following syntax is legal Bash, but I do not use it.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#66d9ef">function&lt;/span> namespace_func_name &lt;span style="color:#f92672">{&lt;/span>
+statement1
+statement2
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span> namespace_func_name&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+statement1
+statement2
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e"># OR one-liner variants&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span> namespace_func_name &lt;span style="color:#f92672">{&lt;/span> statement ; &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">function&lt;/span> namespace_func_name&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> statement ; &lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Bash accepts &lt;code>.&lt;/code> and &lt;code>-&lt;/code> in function names, but that is also a no-no for me.
+A linter like Shellcheck will complain in strict mode.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">namespace.funcname&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+statement &lt;span style="color:#ae81ff">1&lt;/span>
+statement &lt;span style="color:#ae81ff">2&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+namespace-funcname&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+statement &lt;span style="color:#ae81ff">1&lt;/span>
+statement &lt;span style="color:#ae81ff">2&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ok, we covered a lot of ground, so I&amp;rsquo;ll stop for now. There are more aspects
+of FP in bash (idempotence, declarative programming etc.), for future posts.
+But even this much will elevate your shell-fu, and let you write nontrivial
+scripts incrementally, safely, and maintainably.&lt;/p>
+&lt;p>Happy Bash-ing!&lt;/p>
+&lt;section class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1" role="doc-endnote">
+&lt;p>And if you use awk, I hear that it is known to outperform hand optimized C for a variety of data processing problems. Apparently genomics people awk a lot.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2" role="doc-endnote">
+&lt;p>You may particularly enjoy those if you sometimes (or often) have to do bulk maintenance on many repos. Fetch and update them, or at least identify stale repos before deciding what to do etc.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3" role="doc-endnote">
+&lt;p>Hint: Partial application and/or dependency injection may be appropriate.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4" role="doc-endnote">
+&lt;p>Monads. There, I said it.&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/section></content></item><item><title>Shell ain't a bad place to FP: part 1/N: McIlroy's Pipeline</title><link>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</link><pubDate>Fri, 11 Mar 2022 00:08:52 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid><description>&lt;p>Or, &lt;em>&lt;strong>the one in which we &amp;ldquo;take apart&amp;rdquo; Douglas McIlroy&amp;rsquo;s pipeline from 1986.&lt;/strong>&lt;/em>&lt;/p>
 &lt;p>Doing so teaches an object lesson about the essence of modular, composable,
 functional architecture. And things start to really heat up when it dawns on
 us, how a good set of standard parts can be used to express totally different
@@ -372,7 +951,7 @@ long-unused copies of the K&amp;amp;R book and The Unix Programming Environment.
 &lt;li>Using them interactively like regular UNIX tools&lt;/li>
 &lt;li>maybe more&amp;hellip;&lt;/li>
 &lt;/ul>
-&lt;p>The ol' noodle is noodlin' over it. Stay tooned!&lt;/p></content></item><item><title>Shell ain't a bad place to FP: part 0/N</title><link>/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</link><pubDate>Wed, 23 Feb 2022 01:55:11 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</guid><description>&lt;p>Or, &lt;em>&lt;strong>Supremely Functional Bash Programming&lt;/strong>, an exploration in N parts&amp;hellip;&lt;/em>&lt;/p>
+&lt;p>The ol' noodle is noodlin' over it. Stay tooned!&lt;/p></content></item><item><title>Shell ain't a bad place to FP: part 0/N: Introduction</title><link>/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</link><pubDate>Wed, 23 Feb 2022 01:55:11 +0530</pubDate><guid>/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</guid><description>&lt;p>Or, &lt;em>&lt;strong>Supremely Functional Bash Programming&lt;/strong>, an exploration in N parts&amp;hellip;&lt;/em>&lt;/p>
 &lt;p>Once upon a time, while fiddling with a log processing shell pipeline, it hit me
 that the UNIX Way is a Surprisingly Functional Way, and so Functional Programming
 (FP) and Bash must be a natural fit. They fit. The world was never the same again.&lt;/p>
