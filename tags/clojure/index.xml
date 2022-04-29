@@ -1,13 +1,42 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>clojure on eval/apply</title><link>/tags/clojure/</link><description>Recent content in clojure on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Apr 2022 19:48:41 +0530</lastBuildDate><atom:link href="/tags/clojure/index.xml" rel="self" type="application/rss+xml"/><item><title>Which Clojure codebases should I read? How and why?</title><link>/posts/which-clojure-codebases-to-read-how-and-why/</link><pubDate>Tue, 19 Apr 2022 19:48:41 +0530</pubDate><guid>/posts/which-clojure-codebases-to-read-how-and-why/</guid><description>&lt;p>This question is frequently asked by newcomers to Clojure. I struggled a lot
-with this too. I still do from time to time, in unfamiliar territory.&lt;/p>
-&lt;p>These days, I feel like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians
-&amp;mdash; individuals and groups &amp;mdash; have been producing so much creative, diverse
-work over these last few years, that keeping up is impossible!&lt;/p>
-&lt;p>No doubt this surfeit of creativity intimidates newcomers. The strange ideas
-and lingo and ways of thinking and writing espoused by Clojurians can seem so
-very alien. But despair not, for Clojureland also has a surfeit of friendly,
-helpful people. And very many of our codebases are small! You will be able to
-read them!&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>clojure on eval/apply</title><link>/tags/clojure/</link><description>Recent content in clojure on eval/apply</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 29 Apr 2022 12:56:25 +0530</lastBuildDate><atom:link href="/tags/clojure/index.xml" rel="self" type="application/rss+xml"/><item><title>Which Clojure codebases should I read? How and why?</title><link>/posts/which-clojure-codebases-to-read-how-and-why/</link><pubDate>Fri, 29 Apr 2022 12:56:25 +0530</pubDate><guid>/posts/which-clojure-codebases-to-read-how-and-why/</guid><description>&lt;p>Newcomers to Clojure so frequently ask this question that an FAQ/Guide is
+being discussed, to add to the Clojure website. See Issue #586:
+&lt;a href="https://github.com/clojure/clojure-site/issues/586">Add FAQ or guide for example projects&lt;/a>.
+Please add your thoughts to that ticket!&lt;/p>
+&lt;p>This post is my (opinionated) take on it. I struggled a lot with this too.
+I still do from time to time, in unfamiliar territory, and these days I feel
+like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians &amp;mdash; individuals and
+groups &amp;mdash; have been producing so much creative, diverse work over these last
+few years that keeping up quickly became impossible!&lt;/p>
+&lt;p>No doubt this surfeit of creativity intimidates newcomers. The strange ideas,
+lingo, thinking, and writing espoused by Clojurians can seem so very alien.
+But despair not, for Clojureland also has a surfeit of friendly, helpful people.
+And very many of our codebases are small! You will be able to read them! And
+get help if you get stuck!&lt;/p>
+&lt;p>This post explains what I believe I&amp;rsquo;ve done subconsciously over the years. It
+is as much an answer for somewhat experienced me as it is for the relative
+newcomer you!&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;ul>
+&lt;li>&lt;a href="#a-quick-motivating-example">A quick motivating example&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#heuristics-to-choose-a-project-to-read">Heuristics to choose a project to read&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#effective-way--s--to-read-a-project">Effective way(s) to read a project&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#suggested-projects-with-short-reasons-why-to-read">Suggested projects with short reasons why to read&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#library-maintainers-would-howtoreadmes-make-sense">Library maintainers: Would HOWTOREADMEs make sense?&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- raw HTML omitted --></description><content>&lt;p>Newcomers to Clojure so frequently ask this question that an FAQ/Guide is
+being discussed, to add to the Clojure website. See Issue #586:
+&lt;a href="https://github.com/clojure/clojure-site/issues/586">Add FAQ or guide for example projects&lt;/a>.
+Please add your thoughts to that ticket!&lt;/p>
+&lt;p>This post is my (opinionated) take on it. I struggled a lot with this too.
+I still do from time to time, in unfamiliar territory, and these days I feel
+like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians &amp;mdash; individuals and
+groups &amp;mdash; have been producing so much creative, diverse work over these last
+few years that keeping up quickly became impossible!&lt;/p>
+&lt;p>No doubt this surfeit of creativity intimidates newcomers. The strange ideas,
+lingo, thinking, and writing espoused by Clojurians can seem so very alien.
+But despair not, for Clojureland also has a surfeit of friendly, helpful people.
+And very many of our codebases are small! You will be able to read them! And
+get help if you get stuck!&lt;/p>
 &lt;p>This post explains what I believe I&amp;rsquo;ve done subconsciously over the years. It
 is as much an answer for somewhat experienced me as it is for the relative
 newcomer you!&lt;/p>
@@ -20,33 +49,6 @@ newcomer you!&lt;/p>
 &lt;li>&lt;a href="#library-maintainers-would-howtoreadmes-make-sense">Library maintainers: Would HOWTOREADMEs make sense?&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;!-- raw HTML omitted -->
-&lt;p>(Note: This post is likely to be revised a few times. I&amp;rsquo;ve quick-fire published
-it to solicit feedback and to use it as a discussion tool for &lt;a href="https://github.com/clojure/clojure-site/issues/586">an ongoing conversation&lt;/a>
-about this topic.)&lt;/p></description><content>&lt;p>This question is frequently asked by newcomers to Clojure. I struggled a lot
-with this too. I still do from time to time, in unfamiliar territory.&lt;/p>
-&lt;p>These days, I feel like I&amp;rsquo;m in unfamiliar territory a lot. Various Clojurians
-&amp;mdash; individuals and groups &amp;mdash; have been producing so much creative, diverse
-work over these last few years, that keeping up is impossible!&lt;/p>
-&lt;p>No doubt this surfeit of creativity intimidates newcomers. The strange ideas
-and lingo and ways of thinking and writing espoused by Clojurians can seem so
-very alien. But despair not, for Clojureland also has a surfeit of friendly,
-helpful people. And very many of our codebases are small! You will be able to
-read them!&lt;/p>
-&lt;p>This post explains what I believe I&amp;rsquo;ve done subconsciously over the years. It
-is as much an answer for somewhat experienced me as it is for the relative
-newcomer you!&lt;/p>
-&lt;!-- raw HTML omitted -->
-&lt;ul>
-&lt;li>&lt;a href="#a-quick-motivating-example">A quick motivating example&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#heuristics-to-choose-a-project-to-read">Heuristics to choose a project to read&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#effective-way--s--to-read-a-project">Effective way(s) to read a project&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#suggested-projects-with-short-reasons-why-to-read">Suggested projects with short reasons why to read&lt;/a>&lt;/li>
-&lt;li>&lt;a href="#library-maintainers-would-howtoreadmes-make-sense">Library maintainers: Would HOWTOREADMEs make sense?&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;!-- raw HTML omitted -->
-&lt;p>(Note: This post is likely to be revised a few times. I&amp;rsquo;ve quick-fire published
-it to solicit feedback and to use it as a discussion tool for &lt;a href="https://github.com/clojure/clojure-site/issues/586">an ongoing conversation&lt;/a>
-about this topic.)&lt;/p>
 &lt;hr>
 &lt;h2 id="a-quick-motivating-example">A quick motivating example&lt;/h2>
 &lt;p>I haven&amp;rsquo;t done much focused code reading recently, but semi-recently, I went
