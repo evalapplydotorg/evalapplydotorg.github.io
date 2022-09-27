@@ -1,212 +1,166 @@
-<!doctype html><html lang=en>
-<head>
-<title>Poor man's Reader App with Pandoc and Bash :: eval/apply</title>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="Throwback, June 27, 2020.
-Every so often, I want to avoid opening a website in a browser, for &amp;hellip; reasons.
-Curl alone presents too much html. I want to try and read stuff.
-Today, I was playing with Igor Chubin&amp;rsquo;s awesome terminal services (wttr.in, cht.sh etc.), and it hit me:
-&amp;ldquo;WAIT, there&amp;rsquo;s pandoc, what if I just &amp;hellip; &amp;quot;
-">
-<meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta name=robots content="noodp">
-<link rel=canonical href=/posts/reader-app-pandoc-bash/>
-<link rel=stylesheet href=/assets/style.css>
-<link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
-<link rel="shortcut icon" href=/favicon.ico>
-<meta name=twitter:card content="summary">
-<meta name=twitter:site content>
-<meta name=twitter:creator content="[Adi]">
-<meta property="og:locale" content="en">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Poor man's Reader App with Pandoc and Bash">
-<meta property="og:description" content="Throwback, June 27, 2020.
-Every so often, I want to avoid opening a website in a browser, for &amp;hellip; reasons.
-Curl alone presents too much html. I want to try and read stuff.
-Today, I was playing with Igor Chubin&amp;rsquo;s awesome terminal services (wttr.in, cht.sh etc.), and it hit me:
-&amp;ldquo;WAIT, there&amp;rsquo;s pandoc, what if I just &amp;hellip; &amp;quot;
-">
-<meta property="og:url" content="/posts/reader-app-pandoc-bash/">
-<meta property="og:site_name" content="eval/apply">
-<meta property="og:image" content="/favicon.ico">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-<meta property="article:published_time" content="2022-02-10 22:10:43 +0530 IST">
-</head>
-<body class=orange>
-<div class="container center">
-<header class=header>
-<div class=header__inner>
-<div class=header__logo>
-<a href=/>
-<div class=logo>
-eval/apply
-</div>
-</a>
-</div>
-<div class=menu-trigger>menu</div>
-</div>
-<nav class=menu>
-<ul class="menu__inner menu__inner--desktop">
-<li><a href=/posts/hello-world>how it began</a></li>
-<li><a href=/posts>how it's going</a></li>
-<ul class=menu__sub-inner>
-<li class=menu__sub-inner-more-trigger>Show more ▾</li>
-<ul class="menu__sub-inner-more hidden">
-<li><a href=index.xml>occasional RSS feed</a></li>
-<li><a href=#footer>occasional newsletter</a></li>
-<li><a href=https://github.com/adityaathalye>who did this?</a></li>
-</ul>
-</ul>
-</ul>
-<ul class="menu__inner menu__inner--mobile">
-<li><a href=/posts/hello-world>how it began</a></li>
-<li><a href=/posts>how it's going</a></li>
-<li><a href=index.xml>occasional RSS feed</a></li>
-<li><a href=#footer>occasional newsletter</a></li>
-<li><a href=https://github.com/adityaathalye>who did this?</a></li>
-</ul>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Some basic hygiene meta-data -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval / Apply is pure magic</title>
+<!-- <base href="https://evalapply.org/./">  -->
+<meta name="author" content="Aditya Athalye">
+<meta name="description" content="Evaling and Applying forever.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+        <link rel="stylesheet preload" type="text/css" href="https://evalapply.org/static/css/style.css" />
+<link href="https://evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Eval / Apply is pure magic" />
+        <link rel="canonical" href="https://evalapply.org/posts/reader-app-pandoc-bash/index.html">
+    </head>
+    <body >
+      <div id="the-very-top" class="stack center box">
+          <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://evalapply.org/index.html#main">
+        <img src="https://evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic" />
+      </a>
+      <div class="stack">
+        <div class="site-header">Eval / Apply is pure magic</div>
+        <nav class="cluster site-header site-header:nav-items">
+           <a href="https://evalapply.org/posts/hello-world/index.html#main">how it began</a>
+           <a href="https://evalapply.org/index.html#blog-index-list">how it's going</a>
+           <a href="https://github.com/adityaathalye"
+              target="_blank" rel="noreferrer noopener">
+              who did this?
+           </a>
+           <!-- <a href="https://evalapply.org/about.html#main">is he unhireable?</a> -->
+           <a href="#site-footer">contact? feed? newsletter?</a>
+        </nav>
+      </div>
+    </div>
+  </div>
 </header>
-<div class=content>
-<div class=post>
-<h1 class=post-title>
-<a href=/posts/reader-app-pandoc-bash/>Poor man&rsquo;s Reader App with Pandoc and Bash</a></h1>
-<div class=post-meta>
-<span class=post-date>
-2022-02-10
-[Updated on: 2022-02-10]
-</span>
-<span class=post-author>:: [Adi]</span>
-</div>
-<span class=post-tags>
-#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
-#<a href=/tags/bash/>bash</a>&nbsp;
-#<a href=/tags/unix/>unix</a>&nbsp;
-#<a href=/tags/random/>random</a>&nbsp;
-</span>
-<div class=post-content><div>
-<p>Throwback, June 27, 2020.</p>
-<p>Every so often, I want to avoid opening a website in a browser, for &mldr; reasons.</p>
+          <main id="main">
+            <article id="blog-post" class="stack">
+  <header>
+    <div class="stack">
+      <div class="title">Poor man's Reader App with Pandoc & Bash</div>
+      <div class="cluster post-meta"><span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+        </div>
+      <div class="summary">Every so often, I want to avoid opening a website in a browser, for ... reasons.</div>
+      <div class="cluster post-meta">
+        <span class="author">By: Adi</span>
+        <span class="date">Published: 2022-02-10</span>
+        <span class="date">Updated: 2022-09-27</span>
+        <span class="tags">Tags:  / <a href="https://evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://evalapply.org/tags/bash/index.html#main">#bash</a> / <a href="https://evalapply.org/tags/unix/index.html#main">#unix</a> / <a href="https://evalapply.org/tags/random/index.html#main">#random</a>
+        </span>
+      </div>
+      <hr>
+    </div>
+  </header>
+  <section class="stack">
+      <p><em>Throwback, June 27, 2020.</em></p>
+<p>Every so often, I want to avoid opening a website in a browser, for … reasons.</p>
 <p>Curl alone presents too much html. I want to try and read stuff.</p>
-<p>Today, I was playing with Igor Chubin&rsquo;s <strong>awesome</strong> terminal services (wttr.in,
-cht.sh etc.), and it hit me:</p>
-<p>&ldquo;WAIT, there&rsquo;s pandoc, what if I just &mldr; "</p>
-<hr>
-<p>&mldr;
-&mldr;
-&mldr; and an hour later&mldr; a terrible idea manifested itself.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>www_to_md<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-    pandoc --wrap<span style=color:#f92672>=</span>none -f html -t markdown <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>1<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-<span style=color:#f92672>}</span>
+<p>Today, I was playing with Igor Chubin's <strong>awesome</strong> terminal services (wttr.in, cht.sh etc.), and it hit me:</p>
+<p>"WAIT, there's pandoc, what if I just … "</p>
+<p>—</p>
+<p>… … … and an hour later… a terrible idea manifested itself.</p>
+<pre class="shell"><code>www_to_md() {
+    pandoc --wrap=none -f html -t markdown &quot;${1}&quot;
+}
 
-drop_noise<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-    <span style=color:#75715e># remove pesky divs</span>
-    grep -v -E <span style=color:#e6db74>&#34;(&lt;div|&lt;/div).*[&gt;]?|*.&gt;&#34;</span> |
-        <span style=color:#75715e># squeeze multiple blank lines into one</span>
+drop_noise() {
+    # remove pesky divs
+    grep -v -E &quot;(&lt;div|&lt;/div).*[&gt;]?|*.&gt;&quot; |
+        # squeeze multiple blank lines into one
         cat -s
-<span style=color:#f92672>}</span>
+}
 
-cache_site<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-    local sitecache<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>1:?<span style=color:#e6db74>&#39;Fail. Path to create cache.&#39;</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    local mdfilename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>2<span style=color:#66d9ef>:-</span><span style=color:#e6db74>&#39;this.md&#39;</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    local evict_cache_qmark<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>3<span style=color:#66d9ef>:-</span>no<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+cache_site() {
+    local sitecache=&quot;${1:?&#39;Fail. Path to create cache.&#39;}&quot;
+    local mdfilename=&quot;${2:-&#39;this.md&#39;}&quot;
+    local evict_cache_qmark=&quot;${3:-no}&quot;
 
-    mkdir -p <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>sitecache<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+    mkdir -p &quot;${sitecache}&quot;
 
-    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> -f <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>sitecache<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>${</span>mdfilename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>evict_cache_qmark<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;no&#34;</span> <span style=color:#f92672>]]</span>
-    <span style=color:#66d9ef>then</span> tee
-    <span style=color:#66d9ef>else</span> tee <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>sitecache<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>${</span>mdfilename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    <span style=color:#66d9ef>fi</span>
-<span style=color:#f92672>}</span>
+    if [[ -f &quot;${sitecache}/${mdfilename}&quot; &amp;&amp; &quot;${evict_cache_qmark}&quot; == &quot;no&quot; ]]
+    then tee
+    else tee &quot;${sitecache}/${mdfilename}&quot;
+    fi
+}
 
-panwww<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-    local siteurl<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>1<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    local evict_cache_qmark<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>2<span style=color:#66d9ef>:-</span>no<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    local sitename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>siteurl/http*:<span style=color:#ae81ff>\/\/</span>/www.<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    local sitecache<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/tmp/panwwwcache/</span><span style=color:#e6db74>${</span>sitename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    local mdfilename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;this.md&#34;</span>
+panwww() {
+    local siteurl=&quot;${1}&quot;
+    local evict_cache_qmark=&quot;${2:-no}&quot;
+    local sitename=&quot;${siteurl/http*:\/\//www.}&quot;
+    local sitecache=&quot;/tmp/panwwwcache/${sitename}&quot;
+    local mdfilename=&quot;this.md&quot;
 
-    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[[</span> -f <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>sitecache<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>${</span>mdfilename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>evict_cache_qmark<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;no&#34;</span> <span style=color:#f92672>]]</span>
-    <span style=color:#66d9ef>then</span> local cmd<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;cat </span><span style=color:#e6db74>${</span>sitecache<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>${</span>mdfilename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    <span style=color:#66d9ef>else</span> local cmd<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;www_to_md </span><span style=color:#e6db74>${</span>siteurl<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-    <span style=color:#66d9ef>fi</span>
+    if [[ -f &quot;${sitecache}/${mdfilename}&quot; &amp;&amp; &quot;${evict_cache_qmark}&quot; == &quot;no&quot; ]]
+    then local cmd=&quot;cat ${sitecache}/${mdfilename}&quot;
+    else local cmd=&quot;www_to_md ${siteurl}&quot;
+    fi
 
-    $cmd | drop_noise | cache_site <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>sitecache<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>mdfilename<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>evict_cache_qmark<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><p>so that &mldr;</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>panwww <span style=color:#e6db74>&#34;https://www.recurse.com/&#34;</span> | less <span style=color:#75715e># fetches site the first time</span>
-panwww <span style=color:#e6db74>&#34;https://www.recurse.com/&#34;</span> | less <span style=color:#75715e># looks up &#34;cache&#34;</span>
-panwww <span style=color:#e6db74>&#34;https://www.recurse.com/&#34;</span> <span style=color:#e6db74>&#34;refetch&#34;</span> | less
-</code></pre></div>
-</div></div>
-<div class=pagination>
-<div class=pagination__title>
-<span class=pagination__title-h>Read other posts</span>
+    $cmd | drop_noise | cache_site &quot;${sitecache}&quot; &quot;${mdfilename}&quot; &quot;${evict_cache_qmark}&quot;
+}
+</code></pre>
+<p>so that …</p>
+<pre class="shell"><code>panwww &quot;https://www.recurse.com/&quot; | less # fetches site the first time
+panwww &quot;https://www.recurse.com/&quot; | less # looks up &quot;cache&quot;
+panwww &quot;https://www.recurse.com/&quot; &quot;refetch&quot; | less
+</code></pre>
+  </section>
+  <footer class="footer">
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+    </nav>
+  </footer>
+</article>
+          </main>
+          <footer id="site-footer">
 <hr>
-</div>
-<div class=pagination__buttons>
-<span class="button previous">
-<a href=/posts/people-culture-values-strategy-technology/>
-<span class=button__icon>←</span>
-<span class=button__text>people > culture > values > strategy > technology</span>
-</a>
-</span>
-<span class="button next">
-<a href=/posts/how-to-not-die-by-a-thousand-cuts/>
-<span class=button__text>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</span>
-<span class=button__icon>→</span>
-</a>
-</span>
-</div>
-</div>
-</div>
-</div>
-<footer class=footer id=footer>
-<div align=center>
-<div>
-<form action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-<label for=bd-email>:: Occasional newsletter ::</label>
-<p><input type=email name=email id=bd-email>
-<input type=submit value=Subscribe>
-</p>
-<div>
-<p>
-(powered by <a href=https://buttondown.email target=_blank>Buttondown</a>)
-</p>
-</div>
-</form>
-</div>
-<p>
-<hr>
-</p>
-<div class=footer__inner>
-<div class=copyright>
-<span>
-Write to <i>weblog (at) evalapply (dot) org</i>.
-Made with
-<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
-<a href=https://orgmode.org/>org-mode</a>,
-<a href=https://ox-hugo.scripter.co/>ox-hugo</a>,
-<a href=http://gohugo.io>Hugo</a>, and
-<a href=https://github.com/panr/hugo-theme-terminal>terminal</a>.
-© 2022
-<a href=https://evalapply.org target=_blank>Aditya Athalye</a>,
-except where otherwise noted.
-</span>
-</div>
-</div>
-<p>
-<hr>
-</p>
-<div>
-<script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
-</div>
+<div class="box invert footer stack">
+  <p> Write to <em>weblog (at) evalapply (dot) org</em>. Made with
+      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
+      <a href="https://orgmode.org/">org-mode</a>, and
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+  </p>
+  <hr>
+  <div class="cluster">
+    <span>
+      <a class="site-feed"
+         href="https://evalapply.org/index.xml">
+         Get fed
+      </a>.
+    </span>
+  <form class="cluster"
+        action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+        method="post" target="popupwindow"
+        onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+      <input type="email" name="email" id="bd-email">
+    <span>
+      <input type="submit" value="Get occasional newsletter">
+      <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+    </span>
+  </form>
+  </div>
+  <hr>
+  <p>&copy; copyright 2022, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
+    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    Creative Commons Attribution-ShareAlike 4.0 International License
+    </a>, the same one used by Wikipedia.</span>
+<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" />
+    </a></span>
+  </p>
+  <hr>
+  <p>
+  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+  </p>
 </div>
 </footer>
-<script src=/assets/main.js></script>
-<script src=/assets/prism.js></script>
-</div>
-</body>
+      </div>
+    </body>
 </html>

@@ -1,146 +1,149 @@
-<!doctype html><html lang=en>
-<head>
-<title>design :: eval/apply</title>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content>
-<meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta name=robots content="noodp">
-<link rel=canonical href=/tags/design/>
-<link rel=stylesheet href=/assets/style.css>
-<link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
-<link rel="shortcut icon" href=/favicon.ico>
-<meta name=twitter:card content="summary">
-<meta name=twitter:site content>
-<meta name=twitter:creator content>
-<meta property="og:locale" content="en">
-<meta property="og:type" content="website">
-<meta property="og:title" content="design">
-<meta property="og:description" content>
-<meta property="og:url" content="/tags/design/">
-<meta property="og:site_name" content="eval/apply">
-<meta property="og:image" content="/favicon.ico">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-<link href=/tags/design/index.xml rel=alternate type=application/rss+xml title=eval/apply>
-</head>
-<body class=orange>
-<div class="container center">
-<header class=header>
-<div class=header__inner>
-<div class=header__logo>
-<a href=/>
-<div class=logo>
-eval/apply
-</div>
-</a>
-</div>
-<div class=menu-trigger>menu</div>
-</div>
-<nav class=menu>
-<ul class="menu__inner menu__inner--desktop">
-<li><a href=/posts/hello-world>how it began</a></li>
-<li><a href=/posts>how it's going</a></li>
-<ul class=menu__sub-inner>
-<li class=menu__sub-inner-more-trigger>Show more ▾</li>
-<ul class="menu__sub-inner-more hidden">
-<li><a href=index.xml>occasional RSS feed</a></li>
-<li><a href=#footer>occasional newsletter</a></li>
-<li><a href=https://github.com/adityaathalye>who did this?</a></li>
-</ul>
-</ul>
-</ul>
-<ul class="menu__inner menu__inner--mobile">
-<li><a href=/posts/hello-world>how it began</a></li>
-<li><a href=/posts>how it's going</a></li>
-<li><a href=index.xml>occasional RSS feed</a></li>
-<li><a href=#footer>occasional newsletter</a></li>
-<li><a href=https://github.com/adityaathalye>who did this?</a></li>
-</ul>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Some basic hygiene meta-data -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval / Apply is pure magic</title>
+<!-- <base href="https://evalapply.org/./">  -->
+<meta name="author" content="Aditya Athalye">
+<meta name="description" content="Evaling and Applying forever.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+        <link rel="stylesheet preload" type="text/css" href="https://evalapply.org/static/css/style.css" />
+<link href="https://evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Eval / Apply is pure magic" />
+        <link rel="canonical" href="https://evalapply.org/index.html">
+    </head>
+    <body >
+      <div id="the-very-top" class="stack center box">
+          <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://evalapply.org/index.html#main">
+        <img src="https://evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic" />
+      </a>
+      <div class="stack">
+        <div class="site-header">Eval / Apply is pure magic</div>
+        <nav class="cluster site-header site-header:nav-items">
+           <a href="https://evalapply.org/posts/hello-world/index.html#main">how it began</a>
+           <a href="https://evalapply.org/index.html#blog-index-list">how it's going</a>
+           <a href="https://github.com/adityaathalye"
+              target="_blank" rel="noreferrer noopener">
+              who did this?
+           </a>
+           <!-- <a href="https://evalapply.org/about.html#main">is he unhireable?</a> -->
+           <a href="#site-footer">contact? feed? newsletter?</a>
+        </nav>
+      </div>
+    </div>
+  </div>
 </header>
-<div class=content>
-<div class=posts>
-<div class="post on-list">
-<h1 class=post-title>
-<a href=/posts/shite-the-static-sites-from-shell-part-1/>shite: static sites from shell: part 1/2</a>
-</h1>
-<div class=post-meta>
-<span class=post-date>
-2022-03-08
-</span>
-<span class=post-author>:: [Adi]</span>
-</div>
-<span class=post-tags>
-#<a href=/tags/design/>design</a>&nbsp;
-#<a href=/tags/websites/>websites</a>&nbsp;
-#<a href=/tags/frontend/>frontend</a>&nbsp;
-#<a href=/tags/howto/>howto</a>&nbsp;
-#<a href=/tags/whyto/>whyto</a>&nbsp;
-</span>
-<div class=post-content>
-<p>This primer is for people like me, who long dreamed of lovingly hand-crafting
-our own home on the Internet. We would make it ultramodern yet ultralight,
-simple yet beautiful. Something <em>not</em> WordPress because that&rsquo;s so last century.
-(Seriously, just go to WordPress.)</p>
-<p>No. We were committed. We would do it for the sake of craftsmanship and the
-environment and World Peace. And that&rsquo;s how we found ourselves awake at 2 A.M.,
-having absurd conversations <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> with Distant Internet Strangers&mldr;</p>
-</div>
-<div>
-<a class="read-more button" href=/posts/shite-the-static-sites-from-shell-part-1/>Read more →</a>
-</div>
-</div>
-<div class=pagination>
-<div class=pagination__buttons>
-</div>
-</div>
-</div>
-</div>
-<footer class=footer id=footer>
-<div align=center>
-<div>
-<form action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-<label for=bd-email>:: Occasional newsletter ::</label>
-<p><input type=email name=email id=bd-email>
-<input type=submit value=Subscribe>
-</p>
-<div>
-<p>
-(powered by <a href=https://buttondown.email target=_blank>Buttondown</a>)
-</p>
-</div>
-</form>
-</div>
-<p>
+          <main id="main">
+            <div class="stack">
+  <div class="title">All the posts tagged #design</div>
+  <nav class="cluster post-meta">
+    <span>
+      &larr; <a href="https://evalapply.org/index.html">back home</a>
+    </span>
+    <span>
+      &uarr; <a href="https://evalapply.org/tags/index.html#main">all the tags</a>
+    </span>
+  </nav>
 <hr>
-</p>
-<div class=footer__inner>
-<div class=copyright>
-<span>
-Write to <i>weblog (at) evalapply (dot) org</i>.
-Made with
-<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
-<a href=https://orgmode.org/>org-mode</a>,
-<a href=https://ox-hugo.scripter.co/>ox-hugo</a>,
-<a href=http://gohugo.io>Hugo</a>, and
-<a href=https://github.com/panr/hugo-theme-terminal>terminal</a>.
-© 2022
-<a href=https://evalapply.org target=_blank>Aditya Athalye</a>,
-except where otherwise noted.
-</span>
+  <div class="post-index-item with-sidebar-narrow">
+  <div class="post-index-item:date">
+    2022-03-08
+  </div>
+  <div class="stack">
+    <a href=https://evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html#main
+       class="post-index-item:title">
+       shite: static sites from shell (part 1/2) — feeling the html.energy
+    </a>
+    <p class="post-index-item:summary">This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.</p>
+    <div class="cluster">
+    <a href="https://evalapply.org/tags/design/index.html#main"
+               class="post-index-item:tag">#design</a>
+<a href="https://evalapply.org/tags/websites/index.html#main"
+               class="post-index-item:tag">#websites</a>
+<a href="https://evalapply.org/tags/frontend/index.html#main"
+               class="post-index-item:tag">#frontend</a>
+<a href="https://evalapply.org/tags/bash/index.html#main"
+               class="post-index-item:tag">#bash</a>
+<a href="https://evalapply.org/tags/howto/index.html#main"
+               class="post-index-item:tag">#howto</a>
+<a href="https://evalapply.org/tags/whyto/index.html#main"
+               class="post-index-item:tag">#whyto</a>
+    </div>
+  </div>
 </div>
+<hr class="post-index-item:hr">
+<div class="post-index-item with-sidebar-narrow">
+  <div class="post-index-item:date">
+    2022-02-11
+  </div>
+  <div class="stack">
+    <a href=https://evalapply.org/posts/people-culture-values-strategy-technology/index.html#main
+       class="post-index-item:title">
+       people &gt; culture &gt; values &gt; strategy &gt; technology
+    </a>
+    <p class="post-index-item:summary">Technology is—and ought to be—the /byproduct/ of far more important, powerful, and deep-rooted aspects of organisations — including wholesale societies. The pandemic of technology-solutionism gleefully embraced and amplified by all and sundry makes me believe that people seem to have decided it&apos;s the other way around.</p>
+    <div class="cluster">
+    <a href="https://evalapply.org/tags/organisation_design/index.html#main"
+               class="post-index-item:tag">#organisation_design</a>
+<a href="https://evalapply.org/tags/systems/index.html#main"
+               class="post-index-item:tag">#systems</a>
+<a href="https://evalapply.org/tags/culture/index.html#main"
+               class="post-index-item:tag">#culture</a>
+    </div>
+  </div>
 </div>
-<p>
+<hr class="post-index-item:hr">
+</div>
+          </main>
+          <footer id="site-footer">
 <hr>
-</p>
-<div>
-<script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
-</div>
+<div class="box invert footer stack">
+  <p> Write to <em>weblog (at) evalapply (dot) org</em>. Made with
+      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
+      <a href="https://orgmode.org/">org-mode</a>, and
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+  </p>
+  <hr>
+  <div class="cluster">
+    <span>
+      <a class="site-feed"
+         href="https://evalapply.org/index.xml">
+         Get fed
+      </a>.
+    </span>
+  <form class="cluster"
+        action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+        method="post" target="popupwindow"
+        onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+      <input type="email" name="email" id="bd-email">
+    <span>
+      <input type="submit" value="Get occasional newsletter">
+      <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+    </span>
+  </form>
+  </div>
+  <hr>
+  <p>&copy; copyright 2022, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
+    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    Creative Commons Attribution-ShareAlike 4.0 International License
+    </a>, the same one used by Wikipedia.</span>
+<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" />
+    </a></span>
+  </p>
+  <hr>
+  <p>
+  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+  </p>
 </div>
 </footer>
-<script src=/assets/main.js></script>
-<script src=/assets/prism.js></script>
-</div>
-</body>
+      </div>
+    </body>
 </html>

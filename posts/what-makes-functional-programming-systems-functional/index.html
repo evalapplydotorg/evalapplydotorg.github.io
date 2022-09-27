@@ -1,350 +1,225 @@
-<!doctype html><html lang=en>
-<head>
-<title>What makes Functional Programs and Systems "Functional"? :: eval/apply</title>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="In which we ponder the Functional Nature of Life, The Universe, and Everything. Please feel free to follow through the weeds, or jump straight to the bottom for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)
-Disclaimer: I live in the Land of Lisp, meditate in the Church of Alonzo, and am ever-wary of The State. Only converts might find some entertainment value.
- &amp;ldquo;For the love of State is the root of all evil: which while some coveted after, they have erred from Lambda the Ultimate, and pierced themselves through with many sorrows.&amp;quot;
-  Is it already suffusing your very being? Is it Mathematics? Is it being &amp;ldquo;declarative&amp;rdquo;? Is it being &amp;ldquo;data-oriented&amp;rdquo;? Is it about &amp;ldquo;Statelessness&amp;rdquo;? Is it about &amp;ldquo;managed&amp;rdquo; environments? Is it about following some discipline, and maybe automating it? My 2 nano BTC on the matter  ">
-<meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta name=robots content="noodp">
-<link rel=canonical href=/posts/what-makes-functional-programming-systems-functional/>
-<link rel=stylesheet href=/assets/style.css>
-<link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
-<link rel="shortcut icon" href=/favicon.ico>
-<meta name=twitter:card content="summary">
-<meta name=twitter:site content>
-<meta name=twitter:creator content="[Adi]">
-<meta property="og:locale" content="en">
-<meta property="og:type" content="article">
-<meta property="og:title" content="What makes Functional Programs and Systems &#34;Functional&#34;?">
-<meta property="og:description" content="In which we ponder the Functional Nature of Life, The Universe, and Everything. Please feel free to follow through the weeds, or jump straight to the bottom for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)
-Disclaimer: I live in the Land of Lisp, meditate in the Church of Alonzo, and am ever-wary of The State. Only converts might find some entertainment value.
- &amp;ldquo;For the love of State is the root of all evil: which while some coveted after, they have erred from Lambda the Ultimate, and pierced themselves through with many sorrows.&amp;quot;
-  Is it already suffusing your very being? Is it Mathematics? Is it being &amp;ldquo;declarative&amp;rdquo;? Is it being &amp;ldquo;data-oriented&amp;rdquo;? Is it about &amp;ldquo;Statelessness&amp;rdquo;? Is it about &amp;ldquo;managed&amp;rdquo; environments? Is it about following some discipline, and maybe automating it? My 2 nano BTC on the matter  ">
-<meta property="og:url" content="/posts/what-makes-functional-programming-systems-functional/">
-<meta property="og:site_name" content="eval/apply">
-<meta property="og:image" content="/favicon.ico">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-<meta property="article:published_time" content="2022-02-22 15:36:52 +0530 IST">
-</head>
-<body class=orange>
-<div class="container center">
-<header class=header>
-<div class=header__inner>
-<div class=header__logo>
-<a href=/>
-<div class=logo>
-eval/apply
-</div>
-</a>
-</div>
-<div class=menu-trigger>menu</div>
-</div>
-<nav class=menu>
-<ul class="menu__inner menu__inner--desktop">
-<li><a href=/posts/hello-world>how it began</a></li>
-<li><a href=/posts>how it's going</a></li>
-<ul class=menu__sub-inner>
-<li class=menu__sub-inner-more-trigger>Show more ▾</li>
-<ul class="menu__sub-inner-more hidden">
-<li><a href=index.xml>occasional RSS feed</a></li>
-<li><a href=#footer>occasional newsletter</a></li>
-<li><a href=https://github.com/adityaathalye>who did this?</a></li>
-</ul>
-</ul>
-</ul>
-<ul class="menu__inner menu__inner--mobile">
-<li><a href=/posts/hello-world>how it began</a></li>
-<li><a href=/posts>how it's going</a></li>
-<li><a href=index.xml>occasional RSS feed</a></li>
-<li><a href=#footer>occasional newsletter</a></li>
-<li><a href=https://github.com/adityaathalye>who did this?</a></li>
-</ul>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Some basic hygiene meta-data -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval / Apply is pure magic</title>
+<!-- <base href="https://evalapply.org/./">  -->
+<meta name="author" content="Aditya Athalye">
+<meta name="description" content="Evaling and Applying forever.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+        <link rel="stylesheet preload" type="text/css" href="https://evalapply.org/static/css/style.css" />
+<link href="https://evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Eval / Apply is pure magic" />
+        <link rel="canonical" href="https://evalapply.org/posts/what-makes-functional-programming-systems-functional/index.html">
+    </head>
+    <body >
+      <div id="the-very-top" class="stack center box">
+          <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://evalapply.org/index.html#main">
+        <img src="https://evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic" />
+      </a>
+      <div class="stack">
+        <div class="site-header">Eval / Apply is pure magic</div>
+        <nav class="cluster site-header site-header:nav-items">
+           <a href="https://evalapply.org/posts/hello-world/index.html#main">how it began</a>
+           <a href="https://evalapply.org/index.html#blog-index-list">how it's going</a>
+           <a href="https://github.com/adityaathalye"
+              target="_blank" rel="noreferrer noopener">
+              who did this?
+           </a>
+           <!-- <a href="https://evalapply.org/about.html#main">is he unhireable?</a> -->
+           <a href="#site-footer">contact? feed? newsletter?</a>
+        </nav>
+      </div>
+    </div>
+  </div>
 </header>
-<div class=content>
-<div class=post>
-<h1 class=post-title>
-<a href=/posts/what-makes-functional-programming-systems-functional/>What makes Functional Programs and Systems &ldquo;Functional&rdquo;?</a></h1>
-<div class=post-meta>
-<span class=post-date>
-2022-02-22
-[Updated on: 2022-02-22]
-</span>
-<span class=post-author>:: [Adi]</span>
+          <main id="main">
+            <article id="blog-post" class="stack">
+  <header>
+    <div class="stack">
+      <div class="title">What makes Functional Programs and Systems "Functional"?</div>
+      <div class="cluster post-meta"><span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+        <span>&darr; <a href="#blog-post-toc" rel="bookmark">toc</a></span></div>
+      <div class="summary">In which we ponder the Functional Nature of Life, The Universe, and Everything. Please feel free to follow through the weeds, or jump straight to the bottom for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)</div>
+      <div class="cluster post-meta">
+        <span class="author">By: Adi</span>
+        <span class="date">Published: 2022-02-22</span>
+        <span class="date">Updated: 2022-09-27</span>
+        <span class="tags">Tags:  / <a href="https://evalapply.org/tags/meta/index.html#main">#meta</a> / <a href="https://evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://evalapply.org/tags/architecture/index.html#main">#architecture</a> / <a href="https://evalapply.org/tags/systems/index.html#main">#systems</a>
+        </span>
+      </div>
+      <hr>
+    </div>
+  </header>
+  <section class="stack">
+      <div id="blog-post-toc" class="stack table-of-contents">
+  <details class="box invert stack" open>
+    <summary>
+      <strong>Contents</strong>
+    </summary>
+    <nav class="stack">
+      <a href="#is-it-already-suffusing-your-very-being" class="toc-heading:h1">Is it already suffusing your very being?</a>
+<a href="#is-it-mathematics" class="toc-heading:h1">Is it Mathematics?</a>
+<a href="#is-it-being-declarative" class="toc-heading:h1">Is it being "declarative"?</a>
+<a href="#is-it-being-data-oriented" class="toc-heading:h1">Is it being "data-oriented"?</a>
+<a href="#is-it-about-statelessness" class="toc-heading:h1">Is it about "Statelessness"?</a>
+<a href="#is-it-about-managed-environments" class="toc-heading:h1">Is it about "managed" environments?</a>
+<a href="#is-it-about-following-some-discipline-and-maybe-automating-it" class="toc-heading:h1">Is it about following some discipline, and maybe automating it?</a>
+<a href="#my-2-nano-btc-on-the-matter" class="toc-heading:h1">My 2 nano BTC on the matter</a>
+<a href="#the-object-oriented-way-inexorably-pushes-us-to-clone-reality." class="toc-heading:h2"><strong>The "Object-Oriented" way</strong> inexorably pushes us to clone reality.</a>
+<a href="#the-imperative-way-is-more-like-doing-open-heart-surgery." class="toc-heading:h2"><strong>The "Imperative" way</strong> is more like doing open heart surgery.</a>
+<a href="#the-functional-way-wants-to-completely-invert-these-models." class="toc-heading:h2"><strong>The "Functional" way</strong> wants to completely invert these models.</a>
+<a href="#maybe-pure-data-at-rest-is-the-only-truly-functional-thing" class="toc-heading:h2"><strong>Maybe pure data at rest</strong> is the only truly "functional" thing?</a>
+<a href="#all-said-everything-mutates-sooner-or-later." class="toc-heading:h2"><strong>All said, everything mutates sooner or later.</strong></a>
+<a href="#and-all-that-said-i-leave-you-with-this-prayer" class="toc-heading:h2">And all <em>that</em> said, I leave you with this prayer:</a>
+    </nav>
+  </details>
 </div>
-<span class=post-tags>
-#<a href=/tags/meta/>meta</a>&nbsp;
-#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
-#<a href=/tags/architecture/>architecture</a>&nbsp;
-#<a href=/tags/systems/>systems</a>&nbsp;
-</span>
-<div class=post-content><div>
-<p>In which we ponder the Functional Nature of Life, The Universe, and Everything.
-Please feel free to follow through the weeds, or jump straight to the bottom
-for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)</p>
-<p>Disclaimer: I live in the Land of Lisp, meditate in the Church of Alonzo, and
-am ever-wary of The State. Only converts <em>might</em> find some entertainment value.</p>
-<blockquote>
-<p><em>&ldquo;For the love of State is the root of all evil: which while some coveted after,</em>
-<em>they have erred from Lambda the Ultimate, and pierced themselves through with</em>
-<em>many sorrows."</em></p>
-</blockquote>
-<ul>
-<li><a href=#is-it-already-suffusing-your-very-being>Is it already suffusing your very being?</a></li>
-<li><a href=#is-it-mathematics>Is it Mathematics?</a></li>
-<li><a href=#is-it-being-declarative>Is it being &ldquo;declarative&rdquo;?</a></li>
-<li><a href=#is-it-being-data-oriented>Is it being &ldquo;data-oriented&rdquo;?</a></li>
-<li><a href=#is-it-about-statelessness>Is it about &ldquo;Statelessness&rdquo;?</a></li>
-<li><a href=#is-it-about-managed-environments>Is it about &ldquo;managed&rdquo; environments?</a></li>
-<li><a href=#is-it-about-following-some-discipline-and-maybe-automating-it>Is it about following some discipline, and maybe automating it?</a></li>
-<li><a href=#my-2-nano-btc-on-the-matter>My 2 nano BTC on the matter</a></li>
-</ul>
 <hr>
-<h2 id=is-it-already-suffusing-your-very-being>Is it already suffusing your very being?<a href=#is-it-already-suffusing-your-very-being class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<p>Because so-called &ldquo;Functional Programming&rdquo; started becoming pretty sexy over
-the 2010s. By the 2020s, it started infiltrating all the things, small and big
-and hyperscaled.</p>
-<p>Now you can&rsquo;t get people to shut up about their declarative infrastructure-as-code
-as-YAML microservices-first infinitely elastic shared-nothing event-sourced
-map-reducing lambda architecture marvels.</p>
-<p>Now your VCs and your board nod sagely when these words flash past in your slick
-OKR plan vision strategy slide decks. Now they further <em>&ldquo;Hey, quick question&rdquo;</em>
-you to same-page on your strategy for blockchain and smart contracts. And
-general web3 readiness. So does every novice hire it seems, no matter their role.</p>
-<p>Now&mdash;and be honest, OK?&mdash;don&rsquo;t you feel like everybody should just mentally
-lie down for a few minutes in their metaverse, pass around the meta-ayahuasca,
-and after the purge just ask simple meta-questions about FP and life for a
-change? Because, for the love of lambda, we haven&rsquo;t even gotten a breather
-from the fast-nearing AI supremacy?</p>
-<p>No? OK, consider the following incomplete list of traits commonly attributed
-to the &ldquo;Functional&rdquo; paradigm of programming languages and of systems. Alongside,
-consider:</p>
+  <p>Disclaimer: I live in the Land of Lisp, meditate in the Church of Alonzo, and am ever-wary of The State. Only converts <em>might</em> find some entertainment value.</p>
+<blockquote>
+<p><em>"For the love of State is the root of all evil: which while some coveted after,</em> <em>they have erred from Lambda the Ultimate, and pierced themselves through with</em> <em>many sorrows."</em></p>
+<p>— self.</p>
+</blockquote>
+<h1 id="is-it-already-suffusing-your-very-being">Is it already suffusing your very being?</h1>
+<p>Because so-called "Functional Programming" started becoming pretty sexy over the 2010s. By the 2020s, it started infiltrating all the things, small and big and hyperscaled.</p>
+<p>Now you can't get people to shut up about their declarative infrastructure-as-code as-YAML microservices-first infinitely elastic shared-nothing event-sourced map-reducing lambda architecture marvels.</p>
+<p>Now your VCs and your board nod sagely when these words flash past in your slick OKR plan vision strategy slide decks. Now they further <em>"Hey, quick question"</em> you to same-page on your strategy for blockchain and smart contracts. And general web3 readiness. So does every novice hire it seems, no matter their role.</p>
+<p>Now—and be honest, OK?—don't you feel like everybody should just mentally lie down for a few minutes in their metaverse, pass around the meta-ayahuasca, and after the purge just ask simple meta-questions about FP and life for a change? Because, for the love of lambda, we haven't even gotten a breather from the fast-nearing AI supremacy?</p>
+<p>No? OK, consider the following incomplete list of traits commonly attributed to the "Functional" paradigm of programming languages and of systems. Alongside, consider:</p>
 <ul>
 <li>Which traits does your pet programming language (or system) provide by default?</li>
 <li>Which traits do you create yourself in your programs (and systems)?</li>
-<li>Which traits draw the hard line between &ldquo;Functional&rdquo; and other kinds of
-programs (and systems)?</li>
+<li>Which traits draw the hard line between "Functional" and other kinds of programs (and systems)?</li>
 <li>Which traits <em>really</em> matter?</li>
 <li>Why would you even want any of it in the first place?</li>
 </ul>
 <p>And will we really achieve world domination with FP? (Yes, we will.)</p>
-<h2 id=is-it-mathematics>Is it Mathematics?<a href=#is-it-mathematics class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<p>Is it about writing &ldquo;pure&rdquo; functions?</p>
-<p>This is a bit of a tautology. A function is &ldquo;pure&rdquo; by definition. It specifies
-a fixed mapping of an input domain to an output domain. When invoked, it
-changes nothing about the state of the world. Which begs the question, how can
-a thing that <em>does</em> nothing be computationally useful? (Spoiler: it isn&rsquo;t in
-isolation, unless of course, you figure out a way to use the computational
-uselessness to turn staggeringly larger amounts of electricity into progressively
-smaller fragments of your imagination, on a blockchain somewhere). But I digress&mldr;</p>
-<p>Must we further also have &ldquo;first-class&rdquo; functions?</p>
-<p>Ones that we can pass around as values? This lets us describe all manner of
-deferred computations, including un-computable absurdities like infinite sequences,
-and partial applications that will sit around forever if we don&rsquo;t complete them.</p>
-<p>And do we absolutely <em>need</em> the solid ground of Lambda Calculus or Category
-Theory to <em>pre-exist</em>?</p>
-<p>That&rsquo;s an easy one to refute, but these things have become rather holy grail-y
-now. If you don&rsquo;t know your monad laws, I&rsquo;m sorry you&rsquo;re not permitted near
-functions any more. Oh, and what about proofs? These are in the process of
-holy-grailing too&mldr;</p>
-<h2 id=is-it-being-declarative>Is it being &ldquo;declarative&rdquo;?<a href=#is-it-being-declarative class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h1 id="is-it-mathematics">Is it Mathematics?</h1>
+<p>Is it about writing "pure" functions?</p>
+<p>This is a bit of a tautology. A function is "pure" by definition. It specifies a fixed mapping of an input domain to an output domain. When invoked, it changes nothing about the state of the world. Which begs the question, how can a thing that <em>does</em> nothing be computationally useful? (Spoiler: it isn't in isolation, unless of course, you figure out a way to use the computational uselessness to turn staggeringly larger amounts of electricity into progressively smaller fragments of your imagination, on a blockchain somewhere). But I digress…</p>
+<p>Must we further also have "first-class" functions?</p>
+<p>Ones that we can pass around as values? This lets us describe all manner of deferred computations, including un-computable absurdities like infinite sequences, and partial applications that will sit around forever if we don't complete them.</p>
+<p>And do we absolutely <em>need</em> the solid ground of Lambda Calculus or Category Theory to <em>pre-exist</em>?</p>
+<p>That's an easy one to refute, but these things have become rather holy grail-y now. If you don't know your monad laws, I'm sorry you're not permitted near functions any more. Oh, and what about proofs? These are in the process of holy-grailing too…</p>
+<h1 id="is-it-being-declarative">Is it being "declarative"?</h1>
 <p>Reduce/ravel/plan/derive/goal-seek?</p>
-<p>To be &ldquo;declarative&rdquo; is to want to write down a set of constraints or rules
-or input-output relationships, and leave it to the system to figure out not
-only <em>what operations</em> to perform, but also <em>how</em> and <em>when</em> to perform them.</p>
-<p>The declarative world is thrice-removed from the &ldquo;procedural&rdquo; world, where we
-have to tell the computer the what, how, and when in excruciating detail.</p>
-<p>SQL, Prolog, APL are seen as &ldquo;highly declarative&rdquo; languages. CSS is also a
-highly declarative language (which, I feel, is why people have a really hard
-time with it&mdash;CSS is a <em>constraint mechanism</em> but our minds are strongly
-conditioned for procedural thinking).</p>
-<p>And maybe AI is the currently-ultimate expression of being &ldquo;declarative&rdquo;. We
-declare that we don&rsquo;t even know what to declare, and write a meta-declaration
-and hope to Lambda that it will figure out the declaration that we should have
-fed to the computer in the first place.</p>
-<h2 id=is-it-being-data-oriented>Is it being &ldquo;data-oriented&rdquo;?<a href=#is-it-being-data-oriented class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<p>viz., choosing to work in terms of inert &ldquo;literal&rdquo; entities like JSON or EDN
-or XML or some structured binary encoding, instead of &ldquo;live&rdquo; objects with
-internal state? Asynchronous message-passing instead of synchronous remote
-procedure calls (whether through object graphs, or across computer networks)?</p>
-<p>Is it about adhering to the principle of referential transparency; i.e. the
-equivalence of evaluated functions and literal data?</p>
-<h2 id=is-it-about-statelessness>Is it about &ldquo;Statelessness&rdquo;?<a href=#is-it-about-statelessness class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<p>No machine registers? No place-oriented &ldquo;mutable&rdquo; state? No pointers? No
-shared references? No side effects? Yes laziness? Yes append-only storage?
-Yes event sourcing?</p>
-<h2 id=is-it-about-managed-environments>Is it about &ldquo;managed&rdquo; environments?<a href=#is-it-about-managed-environments class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>To be "declarative" is to want to write down a set of constraints or rules or input-output relationships, and leave it to the system to figure out not only <em>what operations</em> to perform, but also <em>how</em> and <em>when</em> to perform them.</p>
+<p>The declarative world is thrice-removed from the "procedural" world, where we have to tell the computer the what, how, and when in excruciating detail.</p>
+<p>SQL, Prolog, APL are seen as "highly declarative" languages. CSS is also a highly declarative language (which, I feel, is why people have a really hard time with it—CSS is a <em>constraint mechanism</em> but our minds are strongly conditioned for procedural thinking).</p>
+<p>And maybe AI is the currently-ultimate expression of being "declarative". We declare that we don't even know what to declare, and write a meta-declaration and hope to Lambda that it will figure out the declaration that we should have fed to the computer in the first place.</p>
+<h1 id="is-it-being-data-oriented">Is it being "data-oriented"?</h1>
+<p>viz., choosing to work in terms of inert "literal" entities like JSON or EDN or XML or some structured binary encoding, instead of "live" objects with internal state? Asynchronous message-passing instead of synchronous remote procedure calls (whether through object graphs, or across computer networks)?</p>
+<p>Is it about adhering to the principle of referential transparency; i.e. the equivalence of evaluated functions and literal data?</p>
+<h1 id="is-it-about-statelessness">Is it about "Statelessness"?</h1>
+<p>No machine registers? No place-oriented "mutable" state? No pointers? No shared references? No side effects? Yes laziness? Yes append-only storage? Yes event sourcing?</p>
+<h1 id="is-it-about-managed-environments">Is it about "managed" environments?</h1>
 <p>Language mechanisms that relieve us of the burden and perils of malloc/free?</p>
-<p>Garbage collection? Immutable persistent data structures? Type-directed
-compile-time memory access/use control? Multi-Version Concurrency Control?</p>
+<p>Garbage collection? Immutable persistent data structures? Type-directed compile-time memory access/use control? Multi-Version Concurrency Control?</p>
 <p>Kubernetes?</p>
-<h2 id=is-it-about-following-some-discipline-and-maybe-automating-it>Is it about following some discipline, and maybe automating it?<a href=#is-it-about-following-some-discipline-and-maybe-automating-it class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h1 id="is-it-about-following-some-discipline-and-maybe-automating-it">Is it about following some discipline, and maybe automating it?</h1>
 <p>viz. a <em>system</em> or a design philosophy of doing things, such as:</p>
 <ul>
 <li>An accountant-like state management practice.</li>
 <li>Carefully manipulating state only when absolutely necessary.</li>
 <li>Hard-wiring FP traits into a programming language / system.</li>
-<li>Choosing a strict single-process, non-branching, forward-looping-only
-method of flow control.</li>
-<li>Having standard, highly general purpose compositional interfaces oriented
-around streaming data flow?</li>
-<li>Eiffel-like Design-By-Contract? (Which is surprisingly &ldquo;functional&rdquo;.)</li>
+<li>Choosing a strict single-process, non-branching, forward-looping-only method of flow control.</li>
+<li>Having standard, highly general purpose compositional interfaces oriented around streaming data flow?</li>
+<li>Eiffel-like Design-By-Contract? (Which is surprisingly "functional".)</li>
 <li>Continuation-passing style?</li>
-<li>&mldr; etc?</li>
+<li>… etc?</li>
 </ul>
-<h2 id=my-2-nano-btc-on-the-matter>My 2 nano BTC on the matter<a href=#my-2-nano-btc-on-the-matter class=hanchor arialabel=Anchor>&#8983;</a> </h2>
-<p>I think all of our popular programming systems are object-oriented <em>and</em>
-imperative by default, whether explicitly or implicitly. Now they all seem
-to be adding &ldquo;functional&rdquo; looking features too. But to me, the functional-ness
-of a language (or a system) is not about the feature set, but fundamentally
-about its default (automatic) relationship with The State (of the world).</p>
-<p><strong>The &ldquo;Object-Oriented&rdquo; way</strong> inexorably pushes us to clone reality.</p>
-<p>We ingest and manage as much state and behaviour as possible, in order to
-emulate the world. This, by construction, requires us to operate based on
-theories and assumptions (internal state) doomed to always lag and diverge
-from reality. In other words, it&rsquo;s a synchronization problem mixed with the
-impossible ideal of wanting to make the actual run-time look like the apparent
-run-time. Concurrency quickly reveals the difficulties of trying this.</p>
-<p><strong>The &ldquo;Imperative&rdquo; way</strong> is more like doing open heart surgery.</p>
-<p>We have to get in there and manually orchestrate control flow, interrupt things,
-and get the whole of it to mutate in-place <em>while it is running</em>. The race
-condition is always imminent&mdash;will we close first, or will it stop first?
-We never <em>really</em> know if the seemingly routine procedure will cause something
-totally unrelated to blow up in our faces this time around. Meanwhile we have
-very sharp instruments in hand, and have to do a lot of it by <em>fingerspitzengefühl</em>
-because half the time we literally can&rsquo;t see where to cut or clamp or suture.
-I didn&rsquo;t train for this but I hope you have. For at least 10 years. You have,
-right? &mldr; Right?</p>
-<p><strong>The &ldquo;Functional&rdquo; way</strong> wants to completely invert these models.</p>
-<p>It tries to expel all system state from inside to the outside. In so doing, it
-immerses itself in world-state and tries to be a new conduit for different
-parts of outside reality to communicate, hoping to make it behave to our liking.
-This, by construction, forces us to think explicitly in terms of events
-(discrete sensing and sequencing of world updates, i.e. facts), messaging
-(encoding and transmitting facts as data), and time (asynchronicity, consistency,
-consensus).</p>
-<p>The functional way is also totally different from how we experience the world.
-The world is a concurrent, recurrent, parallel, fractal distributed system of
-systems. And it is also stochastic and full of discontinuities. We have evolved
-to form just-about-good-enough models of reality in our heads, in very bounded
-contexts, to the extent necessary for survival. These internal models smooth
-over all sorts of discontinuities, resist change while survival odds feel good,
-and determine how we behave regardless of what might actually be out there.
-We learn imperatively by poking and prodding the world around us while it hums
-along. I think this is why it takes serious effort to learn the &ldquo;functional&rdquo;
-way. We have to upend our entire mental model of how to do things in the world.</p>
-<p><strong>Maybe pure data at rest</strong> is the only truly &ldquo;functional&rdquo; thing?</p>
-<p>Maybe not. Like a pure function, pure data at rest does nothing and so is
-useless to us when dormant. Besides, it is &ldquo;pure&rdquo; <em>only</em> for the duration
-entropy permits its complete un-corrupted recovery. Ultimately, the laws of
-Physics will always win. To muddy the waters a bit more, even the purest of
-pure functional systems contain state; signals in flight or some in-progress
-computation.</p>
-<p>The only saving grace is that in a highly functional system, any run-time
-state is entirely recoverable, reproducible, discrete, and isolated.</p>
-<p><strong>All said, everything mutates sooner or later.</strong></p>
-<p>I don&rsquo;t know how to navigate this, except to remind myself about The Thing
-That Actually Matters&mldr; to always remember that The State is the frenemy.</p>
-<p>So while it pleases me that so many wish to eagerly embrace the Functional Way,
-it is good to be soberly mindful of scopes, lifetimes, margins, error budgets,
-and bounds of reality (state) and of data (information about reality). Good
-situational awareness will lead us to build highly functional systems that
-keep The State where it belongs, and still do useful things with it.</p>
-<p>And all <em>that</em> said, I leave you with this prayer:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text>O Lambda the Ultimate,
-bless the reader of these words.
-
-That their core be functional,
-and their functions be pure.
-
-That their data be immutable,
-so they may know the value of values.
-
-That their systems be composable,
-so they may grow and scale with grace.
-
-That their States only mutate
-in pleasantly surprising ways.
-
-For otherwise nothing lives.
-Nothing evolves.
-
-In the name of the alpha,
-the beta, and the eta...
-
-(λx.x x) (λx.x x)
-</code></pre></div>
-</div></div>
-<div class=pagination>
-<div class=pagination__title>
-<span class=pagination__title-h>Read other posts</span>
+<h1 id="my-2-nano-btc-on-the-matter">My 2 nano BTC on the matter</h1>
+<p>I think all of our popular programming systems are object-oriented <em>and</em> imperative by default, whether explicitly or implicitly. Now they all seem to be adding "functional" looking features too. But to me, the functional-ness of a language (or a system) is not about the feature set, but fundamentally about its default (automatic) relationship with The State (of the world).</p>
+<h2 id="the-object-oriented-way-inexorably-pushes-us-to-clone-reality."><strong>The "Object-Oriented" way</strong> inexorably pushes us to clone reality.</h2>
+<p>We ingest and manage as much state and behaviour as possible, in order to emulate the world. This, by construction, requires us to operate based on theories and assumptions (internal state) doomed to always lag and diverge from reality. In other words, it's a synchronization problem mixed with the impossible ideal of wanting to make the actual run-time look like the apparent run-time. Concurrency quickly reveals the difficulties of trying this.</p>
+<h2 id="the-imperative-way-is-more-like-doing-open-heart-surgery."><strong>The "Imperative" way</strong> is more like doing open heart surgery.</h2>
+<p>We have to get in there and manually orchestrate control flow, interrupt things, and get the whole of it to mutate in-place <em>while it is running</em>. The race condition is always imminent—will we close first, or will it stop first? We never <em>really</em> know if the seemingly routine procedure will cause something totally unrelated to blow up in our faces this time around. Meanwhile we have very sharp instruments in hand, and have to do a lot of it by <em>fingerspitzengefühl</em> because half the time we literally can't see where to cut or clamp or suture. I didn't train for this but I hope you have. For at least 10 years. You have, right? … Right?</p>
+<h2 id="the-functional-way-wants-to-completely-invert-these-models."><strong>The "Functional" way</strong> wants to completely invert these models.</h2>
+<p>It tries to expel all system state from inside to the outside. In so doing, it immerses itself in world-state and tries to be a new conduit for different parts of outside reality to communicate, hoping to make it behave to our liking. This, by construction, forces us to think explicitly in terms of events (discrete sensing and sequencing of world updates, i.e. facts), messaging (encoding and transmitting facts as data), and time (asynchronicity, consistency, consensus).</p>
+<p>The functional way is also totally different from how we experience the world. The world is a concurrent, recurrent, parallel, fractal distributed system of systems. And it is also stochastic and full of discontinuities. We have evolved to form just-about-good-enough models of reality in our heads, in very bounded contexts, to the extent necessary for survival. These internal models smooth over all sorts of discontinuities, resist change while survival odds feel good, and determine how we behave regardless of what might actually be out there. We learn imperatively by poking and prodding the world around us while it hums along. I think this is why it takes serious effort to learn the "functional" way. We have to upend our entire mental model of how to do things in the world.</p>
+<h2 id="maybe-pure-data-at-rest-is-the-only-truly-functional-thing"><strong>Maybe pure data at rest</strong> is the only truly "functional" thing?</h2>
+<p>Maybe not. Like a pure function, pure data at rest does nothing and so is useless to us when dormant. Besides, it is "pure" <em>only</em> for the duration entropy permits its complete un-corrupted recovery. Ultimately, the laws of Physics will always win. To muddy the waters a bit more, even the purest of pure functional systems contain state; signals in flight or some in-progress computation.</p>
+<p>The only saving grace is that in a highly functional system, any run-time state is entirely recoverable, reproducible, discrete, and isolated.</p>
+<h2 id="all-said-everything-mutates-sooner-or-later."><strong>All said, everything mutates sooner or later.</strong></h2>
+<p>I don't know how to navigate this, except to remind myself about The Thing That Actually Matters… to always remember that The State is the frenemy.</p>
+<p>So while it pleases me that so many wish to eagerly embrace the Functional Way, it is good to be soberly mindful of scopes, lifetimes, margins, error budgets, and bounds of reality (state) and of data (information about reality). Good situational awareness will lead us to build highly functional systems that keep The State where it belongs, and still do useful things with it.</p>
+<h2 id="and-all-that-said-i-leave-you-with-this-prayer">And all <em>that</em> said, I leave you with this prayer:</h2>
+<blockquote>
+<p>O Lambda the Ultimate,<br />
+bless the reader of these words.</p>
+<p>That their core be functional,<br />
+and their functions be pure.</p>
+<p>That their data be immutable,<br />
+so they may know the value of values.</p>
+<p>That their systems be composable,<br />
+so they may grow and scale with grace.</p>
+<p>That their States only mutate<br />
+in pleasantly surprising ways.</p>
+<p>For otherwise nothing lives.<br />
+Nothing evolves.</p>
+<p>In the name of the alpha,<br />
+the beta, and the eta…</p>
+<p>(λx.x x) (λx.x x)</p>
+</blockquote>
+  </section>
+  <footer class="footer">
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+    </nav>
+  </footer>
+</article>
+          </main>
+          <footer id="site-footer">
 <hr>
-</div>
-<div class=pagination__buttons>
-<span class="button previous">
-<a href=/posts/shell-aint-a-bad-place-to-fp-part-0-intro/>
-<span class=button__icon>←</span>
-<span class=button__text>Shell ain't a bad place to FP: part 0/N: Introduction</span>
-</a>
-</span>
-<span class="button next">
-<a href=/posts/dont-hurry-dont-stop-sad-version/>
-<span class=button__text>Baby don't hurry, don't stop (feat. Melancholy)</span>
-<span class=button__icon>→</span>
-</a>
-</span>
-</div>
-</div>
-</div>
-</div>
-<footer class=footer id=footer>
-<div align=center>
-<div>
-<form action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-<label for=bd-email>:: Occasional newsletter ::</label>
-<p><input type=email name=email id=bd-email>
-<input type=submit value=Subscribe>
-</p>
-<div>
-<p>
-(powered by <a href=https://buttondown.email target=_blank>Buttondown</a>)
-</p>
-</div>
-</form>
-</div>
-<p>
-<hr>
-</p>
-<div class=footer__inner>
-<div class=copyright>
-<span>
-Write to <i>weblog (at) evalapply (dot) org</i>.
-Made with
-<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
-<a href=https://orgmode.org/>org-mode</a>,
-<a href=https://ox-hugo.scripter.co/>ox-hugo</a>,
-<a href=http://gohugo.io>Hugo</a>, and
-<a href=https://github.com/panr/hugo-theme-terminal>terminal</a>.
-© 2022
-<a href=https://evalapply.org target=_blank>Aditya Athalye</a>,
-except where otherwise noted.
-</span>
-</div>
-</div>
-<p>
-<hr>
-</p>
-<div>
-<script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
-</div>
+<div class="box invert footer stack">
+  <p> Write to <em>weblog (at) evalapply (dot) org</em>. Made with
+      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
+      <a href="https://orgmode.org/">org-mode</a>, and
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+  </p>
+  <hr>
+  <div class="cluster">
+    <span>
+      <a class="site-feed"
+         href="https://evalapply.org/index.xml">
+         Get fed
+      </a>.
+    </span>
+  <form class="cluster"
+        action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+        method="post" target="popupwindow"
+        onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+      <input type="email" name="email" id="bd-email">
+    <span>
+      <input type="submit" value="Get occasional newsletter">
+      <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+    </span>
+  </form>
+  </div>
+  <hr>
+  <p>&copy; copyright 2022, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
+    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    Creative Commons Attribution-ShareAlike 4.0 International License
+    </a>, the same one used by Wikipedia.</span>
+<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" />
+    </a></span>
+  </p>
+  <hr>
+  <p>
+  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+  </p>
 </div>
 </footer>
-<script src=/assets/main.js></script>
-<script src=/assets/prism.js></script>
-</div>
-</body>
+      </div>
+    </body>
 </html>

@@ -1,0 +1,275 @@
+<!doctype html><html lang=en>
+<head>
+<title>bash :: eval/apply</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content>
+<meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+<meta name=robots content="noodp">
+<link rel=canonical href=/tags/bash/>
+<link rel=stylesheet href=/assets/style.css>
+<link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="website">
+<meta property="og:title" content="bash">
+<meta property="og:description" content>
+<meta property="og:url" content="/tags/bash/">
+<meta property="og:site_name" content="eval/apply">
+<meta property="og:image" content="/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<link href=/tags/bash/index.xml rel=alternate type=application/rss+xml title=eval/apply>
+</head>
+<body class=orange>
+<div class="container center">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+eval/apply
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/posts/hello-world>how it began</a></li>
+<li><a href=/posts>how it's going</a></li>
+<ul class=menu__sub-inner>
+<li class=menu__sub-inner-more-trigger>Show more ▾</li>
+<ul class="menu__sub-inner-more hidden">
+<li><a href=index.xml>occasional RSS feed</a></li>
+<li><a href=#footer>occasional newsletter</a></li>
+<li><a href=https://github.com/adityaathalye>who did this?</a></li>
+</ul>
+</ul>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/posts/hello-world>how it began</a></li>
+<li><a href=/posts>how it's going</a></li>
+<li><a href=index.xml>occasional RSS feed</a></li>
+<li><a href=#footer>occasional newsletter</a></li>
+<li><a href=https://github.com/adityaathalye>who did this?</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=posts>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/>Shell ain&rsquo;t a bad place to FP: part 2/N: Functions as Unix Tools</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-04-27
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/bash/>bash</a>&nbsp;
+#<a href=/tags/unix/>unix</a>&nbsp;
+#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
+#<a href=/tags/architecture/>architecture</a>&nbsp;
+</span>
+<div class=post-content>
+<p>Or, <em><strong>the one in which we hand-craft nano Unix tools using Bash functions.</strong></em></p>
+<p>As we saw in the <a href=https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline>previous post</a>,
+functions obey stdio and we can mix and match them with built-ins (grep, sed,
+cat etc.) and other installed tools (like jq, pandoc, babashka etc.). We used
+functions to name parts of Douglas McIlroy&rsquo;s pipeline and mess around a bit.</p>
+<p>I tend to make libraries of pure functions that I can source in shell sessions
+and use just like any other shell tool, complete with tab-completion. e.g.
+<a href=https://github.com/adityaathalye/bash-toolkit>bash-toolkit</a> and <a href=https://github.com/adityaathalye/shite>shite</a>.</p>
+<p>Now we step back and try to build good intuitions about</p>
+<ul>
+<li>what functions are</li>
+<li>how to design good functions</li>
+<li>how to design programs with functions</li>
+<li>how to name them :)</li>
+</ul>
+</div>
+<div>
+<a class="read-more button" href=/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Shell ain&rsquo;t a bad place to FP: part 1/N: McIlroy&rsquo;s Pipeline</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-03-11
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/bash/>bash</a>&nbsp;
+#<a href=/tags/unix/>unix</a>&nbsp;
+#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
+#<a href=/tags/architecture/>architecture</a>&nbsp;
+</span>
+<div class=post-content>
+<p>Or, <em><strong>the one in which we &ldquo;take apart&rdquo; Douglas McIlroy&rsquo;s pipeline from 1986.</strong></em></p>
+<p>Doing so teaches an object lesson about the essence of modular, composable,
+functional architecture. And things start to really heat up when it dawns on
+us, how a good set of standard parts can be used to express totally different
+ideas <em>just by composing them in different ways</em>.</p>
+<p>(Edit 2022-03-10: speaking of lessons, how about the one in the appendix?!)</p>
+<blockquote>
+<p>&ldquo;Designing is <em>fundamentally</em> about taking things apart. It&rsquo;s about taking
+things apart <em>in such a way</em> that they can be put back together. i.e.
+Separating into things that can be composed.&rdquo;</p>
+<ul>
+<li>Rich Hickey, &ldquo;<a href="https://www.youtube.com/watch?v=QCwqnjxqfmY">Design, Composition, and Performance</a>&rdquo;, 2013</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>tr -cs A-Za-z <span style=color:#e6db74>&#39;\n&#39;</span> | tr A-Z a-z | sort | uniq -c | sort -rn | sed 10q
+</code></pre></div><ul>
+<li>Douglas McIlroy, <a href=https://dl.acm.org/doi/10.1145/5948.315654>Communications of the ACM</a>, 1986</li>
+</ul>
+</blockquote>
+<ul>
+<li><a href=#the-pipeline-that-douglas-built>The Pipeline that Douglas Built</a></li>
+<li><a href=#take-apart-semantics-idioms-functions>Take Apart! Semantics/Idioms -> Functions</a></li>
+<li><a href=#play-semantics-functions-ooh-what-if-i-dot-dot-dot>Play! Semantics -> Functions -> &ldquo;Ooh, what if I&mldr;"</a></li>
+<li><a href=#compose-again-semantics-functions-play-grand-new-pipeline>Compose Again! Semantics -> Functions -> Play -> Grand New Pipeline</a></li>
+<li><a href=#addendum-remarkable-aspects-of-doug-s-o-dot-g-dot-pipeline>Addendum: Remarkable aspects of Doug&rsquo;s O.G. pipeline</a></li>
+<li><a href=#appendix-an-unexpected-masterclass>Appendix: an unexpected masterclass!</a>
+<ul>
+<li><a href=#the-danger-lurking-in-the-pipes>The danger lurking in the pipes</a></li>
+<li><a href=#backstory>Backstory</a></li>
+<li><a href=#postscript>Postscript</a></li>
+</ul>
+</li>
+</ul>
+<p>Previously: <a href=https://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/>Shell ain&rsquo;t a bad place to FP: part 0/N</a></p>
+</div>
+<div>
+<a class="read-more button" href=/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=/posts/shell-aint-a-bad-place-to-fp-part-0-intro/>Shell ain&rsquo;t a bad place to FP: part 0/N: Introduction</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-23
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/bash/>bash</a>&nbsp;
+#<a href=/tags/unix/>unix</a>&nbsp;
+#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
+#<a href=/tags/architecture/>architecture</a>&nbsp;
+</span>
+<div class=post-content>
+<p>Or, <em><strong>Supremely Functional Bash Programming</strong>, an exploration in N parts&mldr;</em></p>
+<p>Once upon a time, while fiddling with a log processing shell pipeline, it hit me
+that the UNIX Way is a Surprisingly Functional Way, and so Functional Programming
+(FP) and Bash must be a natural fit. They fit. The world was never the same again.</p>
+<p>Now I believe it so much, that I will go on a limb and assert that it is
+highly inappropriate to write imperative-style Bash when we can just as easily
+write <em>supremely</em> functional Bash. Why? Because it makes for supremely <em>better</em>
+Bash (more reusable, more composable, more scalable, more enjoyable).</p>
+<p>Yes, I truly believe.</p>
+<p>Yes, I&rsquo;m sane.</p>
+<p>No? Well OK, humour me&mldr;</p>
+<ul>
+<li><a href=#obligatory-mea-culpa>Obligatory mea culpa</a></li>
+<li><a href=#an-outline-of-the-n-parts>An outline of the &ldquo;N&rdquo; parts</a></li>
+<li><a href=#prelude-seeing-the-unix-tools-philosophy-as-a-functional-design-philosophy>Prelude: Seeing the UNIX tools philosophy as a functional design philosophy</a></li>
+<li><a href=#screw-that-show-me-your-code>&ldquo;Screw that, show me your code&rdquo;</a></li>
+</ul>
+</div>
+<div>
+<a class="read-more button" href=/posts/shell-aint-a-bad-place-to-fp-part-0-intro/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=/posts/reader-app-pandoc-bash/>Poor man&rsquo;s Reader App with Pandoc and Bash</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-10
+</span>
+<span class=post-author>:: [Adi]</span>
+</div>
+<span class=post-tags>
+#<a href=/tags/functional-programming/>functional-programming</a>&nbsp;
+#<a href=/tags/bash/>bash</a>&nbsp;
+#<a href=/tags/unix/>unix</a>&nbsp;
+#<a href=/tags/random/>random</a>&nbsp;
+</span>
+<div class=post-content>
+<p>Throwback, June 27, 2020.</p>
+<p>Every so often, I want to avoid opening a website in a browser, for &mldr; reasons.</p>
+<p>Curl alone presents too much html. I want to try and read stuff.</p>
+<p>Today, I was playing with Igor Chubin&rsquo;s <strong>awesome</strong> terminal services (wttr.in,
+cht.sh etc.), and it hit me:</p>
+<p>&ldquo;WAIT, there&rsquo;s pandoc, what if I just &mldr; "</p>
+</div>
+<div>
+<a class="read-more button" href=/posts/reader-app-pandoc-bash/>Read more →</a>
+</div>
+</div>
+<div class=pagination>
+<div class=pagination__buttons>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer id=footer>
+<div align=center>
+<div>
+<form action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+<label for=bd-email>:: Occasional newsletter ::</label>
+<p><input type=email name=email id=bd-email>
+<input type=submit value=Subscribe>
+</p>
+<div>
+<p>
+(powered by <a href=https://buttondown.email target=_blank>Buttondown</a>)
+</p>
+</div>
+</form>
+</div>
+<p>
+<hr>
+</p>
+<div class=footer__inner>
+<div class=copyright>
+<span>
+Write to <i>weblog (at) evalapply (dot) org</i>.
+Made with
+<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
+<a href=https://orgmode.org/>org-mode</a>,
+<a href=https://ox-hugo.scripter.co/>ox-hugo</a>,
+<a href=http://gohugo.io>Hugo</a>, and
+<a href=https://github.com/panr/hugo-theme-terminal>terminal</a>.
+© 2022
+<a href=https://evalapply.org target=_blank>Aditya Athalye</a>,
+except where otherwise noted.
+</span>
+</div>
+</div>
+<p>
+<hr>
+</p>
+<div>
+<script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+</div>
+</div>
+</footer>
+<script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+</div>
+</body>
+</html>
