@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <!-- Some basic hygiene meta-data -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Eval / Apply is pure magic</title>
-<!-- <base href="https://evalapply.org/./">  -->
-<meta name="author" content="Aditya Athalye">
-<meta name="description" content="Evaling and Applying forever.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-        <link rel="stylesheet preload" type="text/css" href="https://evalapply.org/static/css/style.css" />
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Technical Debt is really Software Debt. And it&apos;s a AAA-rated CDO.</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="author" content="Aditya Athalye" />
+<meta name="description"
+      content="I&apos;ve long struggled with the &lt;b&gt;Technical&lt;/b&gt; Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I&apos;ve reframed it as &lt;b&gt;Software&lt;/b&gt; Debt, for myself. Here&apos;s what I&apos;m thinking." />
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure" />
+<meta property="og:title" content="Technical Debt is really Software Debt. And it&apos;s a AAA-rated CDO." />
+<meta property="og:description" content="I&apos;ve long struggled with the &lt;b&gt;Technical&lt;/b&gt; Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I&apos;ve reframed it as &lt;b&gt;Software&lt;/b&gt; Debt, for myself. Here&apos;s what I&apos;m thinking." />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://evalapply.org/posts/software-debt/index.html" />
+    <link rel="stylesheet preload" type="text/css" href="https://evalapply.org/static/css/style.css" />
 <link href="https://evalapply.org/index.xml"
       rel="alternate" type="application/rss+xml"
       title="Eval / Apply is pure magic" />
-        <link rel="canonical" href="https://evalapply.org/posts/software-debt/index.html">
-    </head>
-    <body >
-      <div id="the-very-top" class="stack center box">
-          <header id="site-header">
+<link rel="canonical" href="https://evalapply.org/posts/software-debt/index.html">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
   <div class="box invert stack">
     <div class="with-sidebar site-header">
       <a class="box icon" href="https://evalapply.org/index.html#main">
         <img src="https://evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic" />
       </a>
       <div class="stack">
-        <div class="site-header">Eval / Apply is pure magic</div>
+        <div class="site-header site-header:title">Eval / Apply is pure magic</div>
         <nav class="cluster site-header site-header:nav-items">
-           <a href="https://evalapply.org/posts/hello-world/index.html#main">how it began</a>
-           <a href="https://evalapply.org/index.html#blog-index-list">how it's going</a>
-           <a href="https://github.com/adityaathalye"
-              target="_blank" rel="noreferrer noopener">
-              who did this?
-           </a>
-           <!-- <a href="https://evalapply.org/about.html#main">is he unhireable?</a> -->
-           <a href="#site-footer">contact? feed? newsletter?</a>
+          <a href="https://evalapply.org/index.html#the-very-top">
+   &lambda; about
+</a>
+<a href="https://evalapply.org/posts/index.html">
+   &#9753; blog
+</a>
+<a href="mailto:hello@evalapply.org">
+   email
+</a>
+<a href="#site-footer">
+   &rlhar; subscribe
+</a>
         </nav>
       </div>
     </div>
   </div>
 </header>
-          <main id="main">
-            <article id="blog-post" class="stack">
+        <main id="main">
+          <article id="blog-post" class="stack">
   <header>
     <div class="stack">
       <div class="title">Technical Debt is really Software Debt. And it's a AAA-rated CDO.</div>
@@ -50,7 +59,7 @@
       <div class="cluster post-meta">
         <span class="author">By: Adi</span>
         <span class="date">Published: 2022-01-20</span>
-        <span class="date">Updated: 2022-09-27</span>
+        <span class="date">Updated: 2022-11-08</span>
         <span class="tags">Tags:  / <a href="https://evalapply.org/tags/risk/index.html#main">#risk</a> / <a href="https://evalapply.org/tags/complexity/index.html#main">#complexity</a> / <a href="https://evalapply.org/tags/bias/index.html#main">#bias</a> / <a href="https://evalapply.org/tags/systems/index.html#main">#systems</a>
         </span>
       </div>
@@ -180,33 +189,26 @@
     </nav>
   </footer>
 </article>
-          </main>
-          <footer id="site-footer">
+        </main>
+        <footer id="site-footer">
 <hr>
 <div class="box invert footer stack">
-  <p> Write to <em>weblog (at) evalapply (dot) org</em>. Made with
-      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
-      <a href="https://orgmode.org/">org-mode</a>, and
-      <a href="https://github.com/adityaathalye/shite">shite</a>.
-  </p>
-  <hr>
   <div class="cluster">
-    <span>
-      <a class="site-feed"
-         href="https://evalapply.org/index.xml">
-         Get fed
-      </a>.
-    </span>
-  <form class="cluster"
-        action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-        method="post" target="popupwindow"
-        onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-      <input type="email" name="email" id="bd-email">
-    <span>
-      <input type="submit" value="Get occasional newsletter">
-      <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-    </span>
-  </form>
+    <span>&#128231; : <a href="mailto:hello@evalapply.org">hello@evalapply.org</a></span>
+    <a class="site-feed"
+       href="https://evalapply.org/index.xml">
+       Blog feed
+    </a>
+    <form class="cluster"
+          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+          method="post" target="popupwindow"
+          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+        <input type="email" name="email" id="bd-email">
+      <span>
+        <input type="submit" value="Get occasional newsletter">
+        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+      </span>
+    </form>
   </div>
   <hr>
   <p>&copy; copyright 2022, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
@@ -219,11 +221,16 @@
     </a></span>
   </p>
   <hr>
-  <p>
+  <p> Made with
+      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
+      <a href="https://orgmode.org/">org-mode</a>, and
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+  </p>
+  <p id="recurse-scout">
   <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
   </p>
 </div>
 </footer>
-      </div>
-    </body>
+    </div>
+  </body>
 </html>
