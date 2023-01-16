@@ -2,15 +2,15 @@
 <html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <!-- Some basic hygiene meta-data -->
-<title>Animating Text Art in Javascript</title>
+<title>Animating Text Art in JavaScript</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Aditya Athalye">
 <meta name="description"
-      content="It is with no small thanks to MDN, StackOverflow, Firefox&apos;s support for countless open tabs, Javascript&apos;s support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web frontend novice to program &quot;text art animations&quot;. Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here&apos;s how it went down.">
+      content="It is with no small thanks to MDN, StackOverflow, Firefox&apos;s support for countless open tabs, JavaScript&apos;s support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program &quot;text art animations&quot;. Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here&apos;s how it went down.">
 <meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta property="og:title" content="Animating Text Art in Javascript">
-<meta property="og:description" content="It is with no small thanks to MDN, StackOverflow, Firefox&apos;s support for countless open tabs, Javascript&apos;s support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web frontend novice to program &quot;text art animations&quot;. Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here&apos;s how it went down.">
+<meta property="og:title" content="Animating Text Art in JavaScript">
+<meta property="og:description" content="It is with no small thanks to MDN, StackOverflow, Firefox&apos;s support for countless open tabs, JavaScript&apos;s support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program &quot;text art animations&quot;. Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here&apos;s how it went down.">
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://evalapply.org/posts/animate-text-art-javascript/index.html">
@@ -31,7 +31,7 @@
       <div class="stack">
         <div class="site-header site-header:title">Eval / Apply is pure magic</div>
         <nav class="cluster site-header site-header:nav-items">
-          <a href="https://evalapply.org/index.html#the-very-top">
+          <a href="https://evalapply.org/index.html#main">
    &lambda; about
 </a>
 <a href="https://evalapply.org/posts/index.html">
@@ -52,17 +52,17 @@
           <article id="blog-post" class="stack">
   <header>
     <div class="stack">
-      <div class="title">Animating Text Art in Javascript</div>
+      <div class="title">Animating Text Art in JavaScript</div>
       <div class="cluster post-meta">
            <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
            <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
            <span>&darr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
       </div>
-      <div class="summary">It is with no small thanks to MDN, StackOverflow, Firefox's support for countless open tabs, Javascript's support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web frontend novice to program "text art animations". Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here's how it went down.</div>
+      <div class="summary">It is with no small thanks to MDN, StackOverflow, Firefox's support for countless open tabs, JavaScript's support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program "text art animations". Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here's how it went down.</div>
       <div class="cluster post-meta">
         <span class="author">By: Adi</span>
-        <span class="date">Published: 2022-12-25</span>
-        <span class="date">Updated: 2023-01-15</span>
+        <span class="date">Published: 2023-01-16</span>
+        <span class="date">Updated: 2023-01-16</span>
         <span class="tags">Tags:  / <a href="https://evalapply.org/tags/hanukkah_of_data/index.html#main">#hanukkah_of_data</a> / <a href="https://evalapply.org/tags/text_art/index.html#main">#text_art</a> / <a href="https://evalapply.org/tags/javascript/index.html#main">#javascript</a> / <a href="https://evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://evalapply.org/tags/howto/index.html#main">#howto</a>
         </span>
       </div>
@@ -94,6 +94,7 @@
 <a href="#composition-and-painting" class="toc-heading:h2">Composition and Painting</a>
 <a href="#conclusion" class="toc-heading:h1">Conclusion</a>
 <a href="#copyright-notice" class="toc-heading:h1">Copyright notice</a>
+<a href="#acknowledgments" class="toc-heading:h1">Acknowledgments</a>
 <a href="#footnotes" class="toc-heading:h1">Footnotes</a>
     </nav>
   </details>
@@ -101,7 +102,7 @@
 <hr>
   <script type="text/javascript" src="animations.js"></script>
 <figure>
-<img src="HanukkahOfData2022ArtSliceCopyrightDwimmertxt.png" alt="" /><figcaption>Slice of text art for Hanukkah of Data 2022, by <a href="https://instagram.com/dwimmertxt">dwimmer</a></figcaption>
+<img src="HanukkahOfData2022ArtSliceCopyrightDwimmertxt.png" alt="" /><figcaption>Slice of text art for <a href="https://hanukkah.bluebird.sh/credits/">Hanukkah of Data 2022</a>, by <a href="#copyright-notice">dwimmer</a>. Solve the puzzles to see it all, <em>or</em> use the cheat noted below. :)</figcaption>
 </figure>
 <h1 id="data-puzzles-in-december">"Data Puzzles in December"</h1>
 <p>A perfectly innocent-looking thread <code>saulpw</code> (a.k.a. <a href="https://www.saul.pw/">Saul Pwanson</a>) started in the <a href="#site-footer">Recurse Center</a> community Zulip. Tame enough to scroll past at first glance. As did I. Lucky me, someone did not. <em>"What's a data puzzle?"</em>, they asked.</p>
@@ -112,10 +113,10 @@
 <p>— saulpw</p>
 </blockquote>
 <p>Long story short <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, there I was, tagging along with a <a href="https://hanukkah.bluebird.sh/credits/">merry band of Devottys and assorted gentlenerds</a>, tryna make a thing.</p>
-<p>The goal became to create a local-first game experience. Where the puzzle dataset is a file to download (CSV, JSON, SQLITE). Each day, a puzzle question is released to the website. There is no central scoreboard. Stats are personal. Answers are validated locally. Correct answers beget lightings of flames, reveals of parts of a tapestry, complete with animated animals.</p>
+<p>The goal became to create a local-first game experience. Where the puzzle data set is a file to download (CSV, JSON, SQLITE). Each day, a puzzle question is released to the website. There is no central scoreboard. Stats are personal. Answers are validated locally. Correct answers beget lightings of flames, reveals of parts of a tapestry, complete with animated animals.</p>
 <p>Oh yes, Animated Text Art!</p>
 <h1 id="what-is-text-art-animation-even">What is <em>Text Art Animation</em> even?</h1>
-<p>'tis Pontillism in motion. Imagination extruded from pure data. Digital art with, ah, <em>character</em>.</p>
+<p>'tis Pointillism in motion. Imagination cast as pure data. Digital art with, ah, <em>character</em>.</p>
 <pre class="text"><code> ⎠(  ⎠/⎞⎜  ⎠⎞  ⎟⎟  ⎛(  ⎞⎞⎛⎛ ⎠⎛⎞ \ ⎞ ᾆ῎ϔᾧᾗ ⎛ /  ⎛⎝  ⎞⎞⎛⎛  ⎠⎛⎝  ⎜⎜ ⎛⎛⎝
  ⎝‿)    ⎝ (‿⎠  ⎟⎛  ⎝‿) ⎟⎟⎜⎜ ⎝‿⎠  ⎞⎟ ⎜;ἷˈɮ ⎜⎛   ⎝‿) ⎟⎟⎜⎜  ⎝‿⎠  ⎞⎜ ⎝‿⎠
   Ɣ        Ɣ    \   Ɣ  ⎠/⎞⎜  Ɣ   ⎟⎟ ⎜.¡ ⎟ ⎜⎜    Ɣ  ⎟⎛\⎝   Ɣ   /   Ɣ
@@ -123,7 +124,7 @@
 ᾆ῟¡₰ᾗ    ᾆ῎ϔᾧᾗ    Ḉἧ℃&#39;ῒ   ᾆ῟¡₰ᾗ   \{ìɨʉɨí}/  Ḉἧ℃&#39;ῒ    ᾆ῟¡₰ᾗ    ᾆ῎ϔᾧ
 ⎜¸ƾ῟ἷ    ⎜;ἷˈɮ    ⎜Ҹ῏῝ʖ    ⎜¸ƾ῟ἷ    )ˊ⁀ˋ(     ⎜Ҹ῏῝ʖ    ⎜¸ƾ῟ἷ    ⎜;ἷˈ
 </code></pre>
-<p>Lots of character in fact. Each <code>UTF8</code> character chosen with care. Each instance of each character lovingly hand-picked, painstakingly hand-placed, and coloured. <em>Animated</em> Text Art is several frames worth of this loving, caring, painstaking arrangement of plaintext. Maybe two frames that blink at you, maybe forty-two that make a candle flame dance. A craft that harkens back to <em>Ye Olde</em> days of hand-drawn animation.</p>
+<p>Lots of character in fact. Each <code>UTF8</code> character chosen with care. Each instance of each character lovingly hand-picked, painstakingly hand-placed, and coloured. <em>Animated</em> Text Art is several frames worth of this loving, caring, painstaking arrangement of plain text. Maybe two frames that blink at you, maybe forty-two that make a candle flame dance. A craft that hearkens back to <em>Ye Olde</em> days of hand-drawn animation.</p>
 <figure>
 <img src="HanukkahOfData2022DarkDrawDrawingViewCopyrightDwimmer.png" alt="" /><figcaption><a href="https://instagram.com/dwimmertxt">dwimmer</a> created the Text Art with <a href="https://github.com/devottys/darkdraw">DarkDraw</a>, in <a href="https://www.visidata.org/">VisiData</a>.</figcaption>
 </figure>
@@ -137,18 +138,18 @@
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>{<span class="st">&quot;x&quot;</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="st">&quot;y&quot;</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;text&quot;</span><span class="op">:</span> <span class="st">&quot;</span><span class="sc">\u0194</span><span class="st">&quot;</span><span class="op">,</span> <span class="st">&quot;color&quot;</span><span class="op">:</span> <span class="st">&quot;88&quot;</span><span class="op">,</span> <span class="st">&quot;tags&quot;</span><span class="op">:</span> [<span class="st">&quot;wick&quot;</span><span class="op">,</span> <span class="st">&quot;day0&quot;</span>]<span class="op">,</span> <span class="st">&quot;group&quot;</span><span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span> <span class="st">&quot;frame&quot;</span><span class="op">:</span> <span class="st">&quot;on&quot;</span>}<span class="op">,</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>{<span class="st">&quot;x&quot;</span><span class="op">:</span> <span class="dv">46</span><span class="op">,</span> <span class="st">&quot;y&quot;</span><span class="op">:</span> <span class="dv">11</span><span class="op">,</span> <span class="st">&quot;text&quot;</span><span class="op">:</span> <span class="st">&quot;{&quot;</span><span class="op">,</span> <span class="st">&quot;color&quot;</span><span class="op">:</span> <span class="st">&quot;255 bold&quot;</span><span class="op">,</span> <span class="st">&quot;tags&quot;</span><span class="op">:</span> [<span class="st">&quot;menorah&quot;</span>]<span class="op">,</span> <span class="st">&quot;group&quot;</span><span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span> <span class="st">&quot;frame&quot;</span><span class="op">:</span> <span class="st">&quot;off&quot;</span>}<span class="op">,</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>{<span class="st">&quot;x&quot;</span><span class="op">:</span> <span class="dv">52</span><span class="op">,</span> <span class="st">&quot;y&quot;</span><span class="op">:</span> <span class="dv">11</span><span class="op">,</span> <span class="st">&quot;text&quot;</span><span class="op">:</span> <span class="st">&quot;}&quot;</span><span class="op">,</span> <span class="st">&quot;color&quot;</span><span class="op">:</span> <span class="st">&quot;255 bold&quot;</span><span class="op">,</span> <span class="st">&quot;tags&quot;</span><span class="op">:</span> [<span class="st">&quot;menorah&quot;</span>]<span class="op">,</span> <span class="st">&quot;group&quot;</span><span class="op">:</span> <span class="st">&quot;&quot;</span><span class="op">,</span> <span class="st">&quot;frame&quot;</span><span class="op">:</span> <span class="st">&quot;off&quot;</span>}</span></code></pre></div>
-<p>But, honestly, 'tis awesomesauce that mere pictures do not do justice to.</p>
+<p>But, honestly, 'tis awesome sauce that mere pictures do not do justice to.</p>
 <p>Go <a href="https://hanukkah.bluebird.sh/">play Hanukkah of Data</a> to uncover the art and animations for yourself! Or cheat <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
 <h1 id="from-darkdraw-to-thine-browser">From DarkDraw to thine Browser</h1>
 <figure>
 <img src="HanukkahOfData2022ArtCopyrightDwimmertxt.png" alt="" /><figcaption>Browser rendering of the delightful Text Art for Hanukkah of Data, by <a href="https://instagram.com/dwimmertxt">dwimmer</a>.</figcaption>
 </figure>
-<p>Text Art can literally be Javascript too, if your artist draws in <a href="https://github.com/devottys/darkdraw">DarkDraw</a> and your build pipeline exports plaintext <code>ddw</code> file contents straight into handy JSON arrays.</p>
+<p>Text Art can literally be Javascript too, if your artist draws in <a href="https://github.com/devottys/darkdraw">DarkDraw</a> and your build pipeline exports plain text <code>ddw</code> file contents straight into handy JSON arrays.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">for</span> <span class="ex">i</span> in menorah tapestry flame <span class="kw">;</span> <span class="kw">do</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    <span class="bu">echo</span> -n <span class="st">&quot;const </span><span class="va">${i}</span><span class="st">DDW = &quot;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="ex">vd</span> -b resources/<span class="va">${i}</span>.ddw -o - --save-filetype json</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">done</span> <span class="op">&gt;</span> <span class="ex">assets/js/text_art_data.js</span></span></code></pre></div>
-<p>And this is where the frontend novice—yours truly—begins to git forge ahead, footguns in both hands, pointed squarely at feet, after this fateful utternace…</p>
+<p>And this is where the front end novice—yours truly—begins to git forge ahead, footguns in both hands, pointed squarely at feet, after this fateful utterance…</p>
 <blockquote>
 <p><em>"Sure, I'll try to Javascript the Text Art Animation."</em>.</p>
 <p>— Yours Truly</p>
@@ -318,7 +319,7 @@
 <span id="cb7-72"><a href="#cb7-72" aria-hidden="true"></a>    })<span class="op">;</span></span>
 <span id="cb7-73"><a href="#cb7-73" aria-hidden="true"></a>}<span class="op">;</span></span></code></pre></div>
 </code></details>
-<p>So, an empty "cell" like this <code>&lt;span data-x="30" data-y="42"&gt;&lt;/span&gt;</code> may get darkdraw character information like this <code>&lt;span data-x="30" data-y="42" class=" fg255 bold" data-frame="off"&gt;)&lt;/span&gt;</code>. Where the source DarkDraw character data itself would look like this: <code>{"x": 30, "y": 42, "text": ")", "color": "225 bold", "tags": [], "group": "", "frame": ""}</code>.</p>
+<p>So, an empty "cell" like this <code>&lt;span data-x="30" data-y="42"&gt;&lt;/span&gt;</code> may get DarkDraw character information like this <code>&lt;span data-x="30" data-y="42" class=" fg255 bold" data-frame="off"&gt;)&lt;/span&gt;</code>. Where the source DarkDraw character data itself would look like this: <code>{"x": 30, "y": 42, "text": ")", "color": "225 bold", "tags": [], "group": "", "frame": ""}</code>.</p>
 <p>Like this:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">function</span> <span class="fu">paintTextArtPiece</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>    ddwCharArray<span class="op">,</span></span>
@@ -338,8 +339,8 @@
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true"></a>    }</span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true"></a>}</span></code></pre></div>
 <h2 id="what-transpired-in-between-learning-to-see">What transpired in-between: Learning to "see"</h2>
-<p>Picture a reticient server-inhabiter bobbing about in a primordial DOM-soup, waiting for the stars to rise.</p>
-<p>There is a knowing how to swim versus a knowing how to swim in the open sea. The raw skills are similar, but oceans are so very different from familiar swimming pools, that one has to learn a whole other way of sensing, observing, thinking, and operating. That is how it goes, in unfamilar territory.</p>
+<p>Picture a reticent server-inhabiter bobbing about in a primordial DOM-soup, waiting for the stars to rise.</p>
+<p>There is a knowing how to swim versus a knowing how to swim in the open sea. The raw skills are similar, but oceans are so very different from familiar swimming pools, that one has to learn a whole other way of sensing, observing, thinking, and operating. That is how it goes, in unfamiliar territory.</p>
 <p>The slow star-dawn was the very process of relocating the "spreadsheet" from being in-memory (a 2D Matrix), to being an in-DOM grid of live elements. That in turn meant identifying the various parts at my disposal, and working out how to organise the solution using the pieces, viz.</p>
 <ul>
 <li><p>design of raw data; its shape and structure,</p>
@@ -385,7 +386,7 @@
 <p>The revised approach also resulted in code that is true to the <em>aesthetic</em> feel of Text Art animation, which was the real win.</p>
 <h1 id="details-details-details">Details details details</h1>
 <h2 id="the-aesthetic-of-text-art-and-its-animation">The aesthetic of Text Art and its Animation</h2>
-<p><em>Characters are material</em>; where a character is a glyph along with its associated information, including styles (256 bit colour palette), x/y grid position, order of appearence (frame number), tags, grouping etc.</p>
+<p><em>Characters are material</em>; where a character is a glyph along with its associated information, including styles (256 bit colour palette), x/y grid position, order of appearance (frame number), tags, grouping etc.</p>
 <p><em>Animation is discrete</em>, not smooth; effected by replacing characters with characters.</p>
 <p><em>Painting is <strong>not</strong> an emulation of the artist's intent</em>, but a faithful reproduction of their hand, regardless of medium.</p>
 <p>Our mechanical text artist was code in the web browser medium. But one can imagine implementing text artistry with stop-motion photography, or printed flip-books, or kaleidoscopes, or this wicked cool <a href="https://tangible.media.mit.edu/project/inform/.">Dynamic Shape Display</a> at MIT Media Lab.</p>
@@ -414,7 +415,7 @@ it's all just data :)"</p>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a> <span class="dt">&quot;tags&quot;</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span> <span class="dt">&quot;group&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a> <span class="dt">&quot;duration_ms&quot;</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">}</span></span></code></pre></div>
 <p>These come bundled in a <code>ddw</code> data file. VisiData uses these to render DarkDraw text art animations. Our game requires only two kinds of animations: flames that cycle over 42 frames, and animals that blink (on/off frames). So I just wrote special functions for each kind of frame-handling. A general frame-aware animator is TBD. Maybe next year :)</p></li>
-<li><p><strong>"Character" records</strong>, which we tagged semantically. Is it for a squirrel? A wick? The menorah? Which day of gameplay to associate it with?</p>
+<li><p><strong>"Character" records</strong>, which we tagged semantically. Is it for a squirrel? A wick? The menorah? Which day of game play to associate it with?</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="fu">{</span><span class="dt">&quot;x&quot;</span><span class="fu">:</span> <span class="dv">76</span><span class="fu">,</span> <span class="dt">&quot;y&quot;</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a> <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;</span><span class="ch">\u0194</span><span class="st">&quot;</span><span class="fu">,</span> <span class="dt">&quot;color&quot;</span><span class="fu">:</span> <span class="st">&quot;88&quot;</span><span class="fu">,</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a> <span class="dt">&quot;tags&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;wick&quot;</span><span class="ot">,</span> <span class="st">&quot;day1&quot;</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">&quot;group&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
@@ -460,7 +461,7 @@ it's all just data :)"</p>
 <li>animated parts such as flames and twitchy animals</li>
 <li>"revealed" parts that could be static and/or animated</li>
 </ul>
-<p>Each part occupies a rectangular area. We can think of these as sheets. Sheets of art are overpainted on a shared blank rectangular canvas of pre-set size. A sheet may be as small as one character, or as large as the whole canvas.</p>
+<p>We can think of each part as an abstract sheet. Sheets of art are over-painted on a shared blank rectangular canvas of pre-set size. A sheet may be as small as one character, or as large as the whole canvas, and may be of any shape in-between.</p>
 <p>All art is painted with respect to the same x/y origin, where the coordinates follow display screen layout:</p>
 <ul>
 <li>x = columns of a sheet of text art</li>
@@ -472,17 +473,18 @@ it's all just data :)"</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>Animating text art in the browser is a lot of fun… have at it! Draw with <a href="https://github.com/devottys/darkdraw">DarkDraw</a>. Export as JSON. Drop some <em>Vanilla ice ice baby</em> Javascript. Profit?</p>
 <h1 id="copyright-notice">Copyright notice</h1>
-<p>All <em>Hanukkah of Data</em> text art featured in this piece, in any form (e.g. screenshots, source data, rendered samples) are copyright dwimmer. Reproduced with permission.</p>
-<p>If you like the art (and why wouldn't you?), give a shout-out to <a href="https://www.instagram.com/dwimmertxt/">dwimmer</a>. Better still, commision him to make rad stuff for you!</p>
+<p>All <em>Hanukkah of Data</em> text art featured in this piece, in any form (e.g. screenshots, source data, rendered samples) are copyright <a href="https://www.instagram.com/dwimmertxt/">dwimmer</a>. Reproduced with permission. If you like the art (and why wouldn't you?), give him a shout out. Better still, commission him to make rad stuff for you!</p>
+<h1 id="acknowledgments">Acknowledgments</h1>
+<p>Cheers to all the <a href="https://bluebird.sh">devottys</a> for a super fun time making Hanukkah of Data. It was my first time working with an artist to render their work, and I'm glad it was someone like dwimmer. A joy! Thanks to <a href="https://www.saul.pw/">Saul</a>, <a href="https://anja.kefala.info/">Anja</a>, <a href="https://www.radhikamurthy.com/">Radhika</a> for reviews and remarks on this post.</p>
 <h1 id="footnotes">Footnotes</h1>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>AoC is <a href="https://adventofcode.com/">Advent of Code</a>. AoC-like is like Rouge-like. Did I just coin a name for a genre of programmer-y puzzles for programmer nerds by programmer nerds?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Later <a href="https://www.visidata.org/blog/2022/hanukkah-of-data/">announced at the Visidata blog</a> as: <em>If you like the concept of Advent of Code, but wish there was set of data puzzles for data nerds, well, this year you're in luck!</em><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>AoC is <a href="https://adventofcode.com/">Advent of Code</a>. AoC-like is like Rogue-like. Did I just coin a name for a genre of programmer-y puzzles for programmer nerds by programmer nerds?<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Later <a href="https://www.visidata.org/blog/2022/hanukkah-of-data/">announced at the VisiData blog</a> as: <em>If you like the concept of Advent of Code, but wish there was set of data puzzles for data nerds, well, this year you're in luck!</em><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p>Suppose you were I.</p>
-<p>And suppose you had a little chat with Saul. And suppose he mentioned there <em>might</em> be an inebriated aunt in the wind, who aided by a deliciously smoky, peaty Kentuky Burbon (or few) has navigated her way to an inscrutable location, instead of the warm home in NYC where she is anxiously awaited owing to the <em>Very Important Ingredients</em> she was supposed to have driven over from her family store in DC… or something. And that the working title of the game is <em>"Hanukkah of Data"</em>.</p>
-<p>Also, ah, minor detail… you are clueless about puzzles. In fact, you are clueless about the whole enterpirse of game-making for that matter.</p>
+<p>You are clueless about puzzles. In fact, you are clueless about the whole enterprise of game-making for that matter.</p>
+<p>But! Suppose you ended up on a call with Saul. And suppose he says there <em>might</em> be an inebriated aunt in the wind who aided by a deliciously smoky and peaty Kentucky Bourbon (or few) has navigated her way to an inscrutable location, instead of the warm home in NYC where she is anxiously awaited owing to the <em>Very Important Ingredients</em> she was supposed to have driven over from her family store in DC… or something. And that the working title of the game is <em>"Hanukkah of Data"</em>.</p>
 <p>What would you do?</p>
 <p>Sign up, of course. Whimsy? Hilarity? A fun project of, by, for gentlenerds? <em>Just because</em>? Slam dunk sale!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>The art reveals progressively, as one solves each data puzzle. If you just want to see the art, a cheat is available. In the browser console: <code>atob("c29sdmVQdXp6bGVzKCk=")</code> -&gt; call the function -&gt; refresh browser.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
