@@ -6,7 +6,7 @@
     <description>Evaling and Applying forever.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 16 Jan 2023 17:04:28 +0530</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jan 2023 21:03:41 +0530</lastBuildDate>
     <atom:link href="https://evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Eval / Apply is pure magic</title>
@@ -14,6 +14,13 @@
         <link>https://evalapply.org/</link>
     </image>
     <item>
+  <title>Riff: Classifying Tools for Thought</title>
+  <link>https://evalapply.org/posts/tools-for-thought/index.html</link>
+  <pubDate>Thu, 19 Jan 2023 00:00:00 +0000</pubDate>
+  <guid>https://evalapply.org/posts/tools-for-thought/</guid>
+  <description>Trying out a classification for "Tools for Thought" as a means of augmenting the human intellect, hot on the heels of recent community conversations about ChatGPT, CoPilot, Stable Diffusion etc...</description>
+</item>
+<item>
   <title>Animating Text Art in JavaScript</title>
   <link>https://evalapply.org/posts/animate-text-art-javascript/index.html</link>
   <pubDate>Mon, 16 Jan 2023 00:00:00 +0000</pubDate>
