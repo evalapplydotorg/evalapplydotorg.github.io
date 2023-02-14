@@ -2,11 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://evalapply.org/</loc>
-    <lastmod>2023-01-19T21:03:41+05:30</lastmod>
+    <lastmod>2023-02-14T20:18:20+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <loc>https://evalapply.org/posts/tools-for-thought/</loc>
+  <loc>https://evalapply.org/posts/bad-matrix/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://evalapply.org/posts/tools-for-thought/</loc>
 <changefreq>yearly</changefreq>
 <priority>0.8</priority>
 <loc>https://evalapply.org/posts/animate-text-art-javascript/</loc>
