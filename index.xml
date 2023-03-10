@@ -6,7 +6,7 @@
     <description>Evaling and Applying forever.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 06 Mar 2023 20:25:53 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 10 Mar 2023 18:38:20 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Eval / Apply is pure magic</title>
@@ -133,18 +133,18 @@
   <description>Spurred by a conversation with a whip-smart friend and fellow gentlenerd, who unreasonably believed (believes?) they have nothing worth speaking about at the software conferences we like (IN/Clojure, FunctionalConf, local meetups etc).</description>
 </item>
 <item>
-  <title>Technical Debt is really Software Debt. And it's a AAA-rated CDO.</title>
+  <title>Reframe Technical Debt as Software Debt. Treat it like a AAA-rated CDO.</title>
   <link>https://www.evalapply.org/posts/software-debt/index.html</link>
   <pubDate>Thu, 20 Jan 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/software-debt/</guid>
-  <description>I've long struggled with the &lt;b&gt;Technical&lt;/b&gt; Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I've reframed it as &lt;b&gt;Software&lt;/b&gt; Debt, for myself. Here's what I'm thinking.</description>
+  <description>I've long struggled with the *Technical* Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I've reframed it as *Software* Debt, for myself. Here's what I'm thinking.</description>
 </item>
 <item>
   <title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title>
   <link>https://www.evalapply.org/posts/how-to-not-die-by-a-thousand-cuts/index.html</link>
   <pubDate>Thu, 20 Jan 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/how-to-not-die-by-a-thousand-cuts/</guid>
-  <description>Not a weighty meandering 300 page Zen dialogue on Motorcycle Maintenance. Merely a meandering blog post in which one contemplates &lt;em&gt;Quality&lt;/em&gt; of software products.</description>
+  <description>Not a weighty meandering 300 page Zen dialogue on Motorcycle Maintenance. Merely a meandering blog post in which one contemplates /Quality/ of software products.</description>
 </item>
 <item>
   <title>Systems, Scale, Value</title>
