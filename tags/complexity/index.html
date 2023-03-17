@@ -1,158 +1,19 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: https://ogp.me/ns#">
-  <head>
-    <!-- Some basic hygiene meta-data -->
-<title>Eval / Apply is pure magic</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="author" content="Aditya Athalye">
-<meta name="description"
-      content="Stuff I like to nerd about.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta property="og:title" content="Eval / Apply is pure magic">
-<meta property="og:description" content="Stuff I like to nerd about.">
-<meta property="og:locale" content="en_GB">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.evalapply.org/posts/index.html">
-    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
-<link href="https://www.evalapply.org/index.xml"
-      rel="alternate" type="application/rss+xml"
-      title="Eval / Apply is pure magic">
-<link rel="canonical" href="https://www.evalapply.org/posts/index.html">
-<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
-</head>
-  <body>
-    <div id="the-very-top" class="stack center box">
-        <header id="site-header">
-  <div class="box invert stack">
-    <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html#main">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic">
-      </a>
-      <div class="stack">
-        <div class="site-header site-header:title">Eval / Apply is pure magic</div>
-        <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html#main">
-   &lambda; about
-</a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; blog
-</a>
-<a href="mailto:hello@evalapply.org">
-   email
-</a>
-<a href="#site-footer">
-   &rlhar; subscribe
-</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-        <main id="main">
-          <div class="stack">
-  <div class="title">All the posts tagged #complexity</div>
-  <nav class="cluster post-meta">
-    <span>
-      &larr; <a href="https://www.evalapply.org/index.html">back home</a>
-    </span>
-    <span>
-      &uarr; <a href="https://www.evalapply.org/tags/index.html#main">all the tags</a>
-    </span>
-  </nav>
-<hr>
-  <div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-01-20
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/software-debt/index.html#main
-       class="post-index-item:title">
-       Reframe Technical Debt as Software Debt. Treat it like a AAA-rated CDO.
-    </a>
-    <p class="post-index-item:summary">I&apos;ve long struggled with the *Technical* Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I&apos;ve reframed it as *Software* Debt, for myself. Here&apos;s what I&apos;m thinking.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/risk/index.html#main"
-               class="post-index-item:tag">#risk</a>
-<a href="https://www.evalapply.org/tags/complexity/index.html#main"
-               class="post-index-item:tag">#complexity</a>
-<a href="https://www.evalapply.org/tags/bias/index.html#main"
-               class="post-index-item:tag">#bias</a>
-<a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2021-11-13
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/systems-scale-value/index.html#main
-       class="post-index-item:title">
-       Systems, Scale, Value
-    </a>
-    <p class="post-index-item:summary">Creating things is a delicate endeavour, fraught with peril. People struggle forward through crazy marketplace and environmental complexities just to get from one day to the other. Yet I can&apos;t shake off the feeling that we make it harder for ourselves than it should be. I&apos;ve been trying to work out why. There&apos;s a lot to unpack. This post is a start at thinking about it in public.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-<a href="https://www.evalapply.org/tags/scale/index.html#main"
-               class="post-index-item:tag">#scale</a>
-<a href="https://www.evalapply.org/tags/complexity/index.html#main"
-               class="post-index-item:tag">#complexity</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-</div>
-        </main>
-        <footer id="site-footer">
-<hr>
-<div class="box invert footer stack">
-  <div class="cluster">
-    <span>&#128231; : <a href="mailto:hello@evalapply.org">hello@evalapply.org</a></span>
-    <a class="site-feed"
-       href="https://www.evalapply.org/index.xml">
-       Blog feed
-    </a>
-    <form class="cluster"
-          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-          method="post" target="popupwindow"
-          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-        <input type="email" name="email" id="bd-email">
-      <span>
-        <input type="submit" value="Get occasional newsletter">
-        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-      </span>
-    </form>
-  </div>
-  <hr>
-  <p>&copy; copyright 2023, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
-    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    Creative Commons Attribution-ShareAlike 4.0 International License
-    </a>, the same one used by Wikipedia.</span>
-<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    <img alt="Creative Commons License" style="border-width:0"
-         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png">
-    </a></span>
-  </p>
-  <hr>
-  <p> Made with
-      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
-      <a href="https://orgmode.org/">org-mode</a>, and
-      <a href="https://github.com/adityaathalye/shite">shite</a>.
-  </p>
-  <p id="recurse-scout">
-  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
-  </p>
-</div>
-</footer>
-    </div>
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-            data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
-    </script>
-    <!-- End Cloudflare Web Analytics -->
-  </body>
-</html>
+<!doctype html><html lang=en prefix="og: https://ogp.me/ns#"><title>Eval / Apply is pure magic</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Aditya Athalye"><meta name=description content="Stuff I like to nerd about."><meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure"><meta property="og:title" content="Eval / Apply is pure magic"><meta property="og:description" content="Stuff I like to nerd about."><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:url" content="https://www.evalapply.org/posts/index.html"><link rel="stylesheet preload" as=style href=https://www.evalapply.org/static/css/style.css><link href=https://www.evalapply.org/index.xml rel=alternate type=application/rss+xml title="Eval / Apply is pure magic"><link rel=canonical href=https://www.evalapply.org/posts/index.html><link rel=icon type=image/vnd.microsoft.icon href=https://www.evalapply.org/static/img/favicon.ico><div id=the-very-top class="stack center box"><header id=site-header><div class="box invert stack"><div class="with-sidebar site-header"><a class="box icon" href=https://www.evalapply.org/index.html#main><img src=https://www.evalapply.org/static/img/Lisp_logo.svg alt="Eval / Apply is pure magic"></a><div class=stack><div class="site-header site-header:title">Eval / Apply is pure magic</div><nav class="cluster site-header site-header:nav-items"><a href=https://www.evalapply.org/index.html#main>&#955; about</a>
+<a href=https://www.evalapply.org/posts/index.html>&#9753; blog</a>
+<a href=mailto:hello@evalapply.org>email</a>
+<a href=#site-footer>&rlhar; subscribe</a></nav></div></div></div></header><main id=main><div class=stack><div class=title>All the posts tagged #complexity</div><nav class="cluster post-meta"><span>&larr; <a href=https://www.evalapply.org/index.html>back home</a></span>
+<span>&uarr; <a href=https://www.evalapply.org/tags/index.html#main>all the tags</a></span></nav><hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-01-20</div><div class=stack><a href=https://www.evalapply.org/posts/software-debt/index.html#main class=post-index-item:title>Reframe Technical Debt as Software Debt. Treat it like a AAA-rated CDO.</a><p class=post-index-item:summary>I've long struggled with the *Technical* Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I've reframed it as *Software* Debt, for myself. Here's what I'm thinking.<div class=cluster><a href=https://www.evalapply.org/tags/risk/index.html#main class=post-index-item:tag>#risk</a>
+<a href=https://www.evalapply.org/tags/complexity/index.html#main class=post-index-item:tag>#complexity</a>
+<a href=https://www.evalapply.org/tags/bias/index.html#main class=post-index-item:tag>#bias</a>
+<a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2021-11-13</div><div class=stack><a href=https://www.evalapply.org/posts/systems-scale-value/index.html#main class=post-index-item:title>Systems, Scale, Value</a><p class=post-index-item:summary>Creating things is a delicate endeavour, fraught with peril. People struggle forward through crazy marketplace and environmental complexities just to get from one day to the other. Yet I can't shake off the feeling that we make it harder for ourselves than it should be. I've been trying to work out why. There's a lot to unpack. This post is a start at thinking about it in public.<div class=cluster><a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a>
+<a href=https://www.evalapply.org/tags/scale/index.html#main class=post-index-item:tag>#scale</a>
+<a href=https://www.evalapply.org/tags/complexity/index.html#main class=post-index-item:tag>#complexity</a></div></div></div><hr class=post-index-item:hr></div></main><footer id=site-footer><hr><div class="box invert footer stack"><div class=cluster><span>&#128231; : <a href=mailto:hello@evalapply.org>hello@evalapply.org</a></span>
+<a class=site-feed href=https://www.evalapply.org/index.xml>Blog feed</a><form class=cluster action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')"><input type=email name=email id=bd-email>
+<span><input type=submit value="Get occasional newsletter">
+<em>(thanks, <a href=https://buttondown.email target=_blank>Buttondown</a>!)</em></span></form></div><hr><p>&copy; copyright 2023, <a href=https://evalapply.org target=_blank>Aditya Athalye</a>.
+<span>Except where otherwise noted, content on this site is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative Commons Attribution-ShareAlike 4.0 International License
+</a>, the same one used by Wikipedia.</span>
+<span><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/4.0/80x15.png></a></span><hr><p>Made with
+<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
+<a href=https://orgmode.org/>org-mode</a>, and
+<a href=https://github.com/adityaathalye/shite>shite</a>.<p id=recurse-scout><script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script></div></footer></div><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'></script>

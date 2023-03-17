@@ -1,793 +1,142 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: https://ogp.me/ns#">
-  <head>
-    <!-- Some basic hygiene meta-data -->
-<title>Eval / Apply is pure magic</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="author" content="Aditya Athalye">
-<meta name="description"
-      content="Stuff I like to nerd about.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta property="og:title" content="Eval / Apply is pure magic">
-<meta property="og:description" content="Stuff I like to nerd about.">
-<meta property="og:locale" content="en_GB">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.evalapply.org/posts/index.html">
-    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
-<link href="https://www.evalapply.org/index.xml"
-      rel="alternate" type="application/rss+xml"
-      title="Eval / Apply is pure magic">
-<link rel="canonical" href="https://www.evalapply.org/posts/index.html">
-<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
-</head>
-  <body>
-    <div id="the-very-top" class="stack center box">
-        <header id="site-header">
-  <div class="box invert stack">
-    <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html#main">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic">
-      </a>
-      <div class="stack">
-        <div class="site-header site-header:title">Eval / Apply is pure magic</div>
-        <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html#main">
-   &lambda; about
-</a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; blog
-</a>
-<a href="mailto:hello@evalapply.org">
-   email
-</a>
-<a href="#site-footer">
-   &rlhar; subscribe
-</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-        <main id="main">
-          <div class="stack">
-<div class="title">Writing = Thinking</div>
-<nav class="cluster post-meta">
-  <span>&darr; <a href="#tags-index-list">the topics</a></span>
-  <span>&darr; <a href="#blog-index-list">the posts</a></span>
-</nav>
-<hr/>
-
-<p><strong><strong>Oh <em>eval/apply</em>, you beautiful thing…</strong></strong></p>
-<blockquote>
-<p>At once, the essence of cognition, a system of thinking, and an engine to compute anything. Lisp <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Simultaneously a philosophy, a strategy framework, and a gun in a knife fight. OODA <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Holistically a state of being, a path to excellence, and a catalyst of growth for self and kind. Flow <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Fundamentally a…</p>
-</blockquote>
-<p>Oh, hello!</p>
-<blockquote>
-<p>… Lowers face and arms, directed vaguely toward Betelgeuse.</p>
-</blockquote>
-<p>Pardon my rambling. It's dark out here and I didn't see you arrive!</p>
-<p>My blog is about thinking and <em>"learning generously"</em>, in public <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Please <a href="#tags-index-list">have a dekko</a>, and <a href="#site-footer">write to me</a> if it strikes your fancy.</p>
-<p>May The Source be with us.</p>
-<p>\\//_ :)</p>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>LISP as Maxwell's Equations of Software: <a href="https://www.gnu.org/software/mes/manual/html_node/LISP-as-Maxwell_0027s-Equations-of-Software.html">GNU Mes manual</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>John Boyd's concept of OODA: <a href="https://en.wikipedia.org/wiki/OODA_loop">Wikipedia</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>Mihaly Csikszentmihalyi's <a href="https://en.wikipedia.org/wiki/Flow_(psychology)">Flow</a>. (Though, <a href="https://xkcd.com/1796/">XKCD's riff, "Focus Knob"</a> appeals (and applies) more to me :).</p>
-<p><img src="https://imgs.xkcd.com/comics/focus_knob.png" /> …<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Writing = Thinking for me. <em>Learn generously</em> is a "self-directive" at the <a href="#site-footer">Recurse Center</a>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
-<section id="tags-index-list">
-  <div class="title box invert">All the topics</div>
-  <nav class="cluster box tag-index-items">
-  <a href="https://www.evalapply.org/tags/apl/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#apl</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/architecture/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#architecture</span>
-  <span class="tag-index-item:count">/ 5</span>
-</a>
-  <a href="https://www.evalapply.org/tags/bash/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#bash</span>
-  <span class="tag-index-item:count">/ 6</span>
-</a>
-  <a href="https://www.evalapply.org/tags/bias/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#bias</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/clojure/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#clojure</span>
-  <span class="tag-index-item:count">/ 4</span>
-</a>
-  <a href="https://www.evalapply.org/tags/complexity/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#complexity</span>
-  <span class="tag-index-item:count">/ 2</span>
-</a>
-  <a href="https://www.evalapply.org/tags/culture/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#culture</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/design/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#design</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/frontend/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#frontend</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#functional_programming</span>
-  <span class="tag-index-item:count">/ 9</span>
-</a>
-  <a href="https://www.evalapply.org/tags/hanukkah_of_data/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#hanukkah_of_data</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/hello_world/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#hello_world</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/howto/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#howto</span>
-  <span class="tag-index-item:count">/ 6</span>
-</a>
-  <a href="https://www.evalapply.org/tags/intelligence_augmentation/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#intelligence_augmentation</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/javascript/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#javascript</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/knowledge_management/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#knowledge_management</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/local_first/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#local_first</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/mentalhealth/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#mentalhealth</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/meta/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#meta</span>
-  <span class="tag-index-item:count">/ 4</span>
-</a>
-  <a href="https://www.evalapply.org/tags/notebooks/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#notebooks</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/organisation_design/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#organisation_design</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/org_mode/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#org_mode</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/quality/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#quality</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/riff/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#riff</span>
-  <span class="tag-index-item:count">/ 5</span>
-</a>
-  <a href="https://www.evalapply.org/tags/risk/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#risk</span>
-  <span class="tag-index-item:count">/ 2</span>
-</a>
-  <a href="https://www.evalapply.org/tags/scale/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#scale</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/software_design/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#software_design</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/speaking/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#speaking</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/systems/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#systems</span>
-  <span class="tag-index-item:count">/ 5</span>
-</a>
-  <a href="https://www.evalapply.org/tags/text_art/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#text_art</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#tools_for_thought</span>
-  <span class="tag-index-item:count">/ 2</span>
-</a>
-  <a href="https://www.evalapply.org/tags/unix/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#unix</span>
-  <span class="tag-index-item:count">/ 4</span>
-</a>
-  <a href="https://www.evalapply.org/tags/websites/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#websites</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-  <a href="https://www.evalapply.org/tags/whyto/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#whyto</span>
-  <span class="tag-index-item:count">/ 4</span>
-</a>
-  <a href="https://www.evalapply.org/tags/writing/index.html#main"
-     class="tag-index-item">
-  <span class="tag-index-item:name">#writing</span>
-  <span class="tag-index-item:count">/ 1</span>
-</a>
-</nav>
-</section>
-<section id="blog-index-list">
-  <div class="title box invert">All the posts</div>
-  <div class="stack box">
-    <div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2023-02-14
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/bad-matrix/index.html#main
-       class="post-index-item:title">
-       Bad Matrix
-    </a>
-    <p class="post-index-item:summary">A while ago, someone in the Recurse Center nerdiverse decided we needed a &quot;Bad Print&quot;. They made one. Things escalated. Bad Matrix happened.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/riff/index.html#main"
-               class="post-index-item:tag">#riff</a>
-<a href="https://www.evalapply.org/tags/bash/index.html#main"
-               class="post-index-item:tag">#bash</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2023-01-19
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/tools-for-thought/index.html#main
-       class="post-index-item:title">
-       Riff: Classifying Tools for Thought
-    </a>
-    <p class="post-index-item:summary">Trying out a classification for &quot;Tools for Thought&quot; as a means of augmenting the human intellect, hot on the heels of recent community conversations about ChatGPT, CoPilot, Stable Diffusion etc...</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/meta/index.html#main"
-               class="post-index-item:tag">#meta</a>
-<a href="https://www.evalapply.org/tags/riff/index.html#main"
-               class="post-index-item:tag">#riff</a>
-<a href="https://www.evalapply.org/tags/intelligence_augmentation/index.html#main"
-               class="post-index-item:tag">#intelligence_augmentation</a>
-<a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main"
-               class="post-index-item:tag">#tools_for_thought</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2023-01-16
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/animate-text-art-javascript/index.html#main
-       class="post-index-item:title">
-       Animating Text Art in JavaScript
-    </a>
-    <p class="post-index-item:summary">It is with no small thanks to MDN, StackOverflow, Firefox&apos;s support for countless open tabs, JavaScript&apos;s support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program &quot;text art animations&quot;. Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here&apos;s how it went down.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/hanukkah_of_data/index.html#main"
-               class="post-index-item:tag">#hanukkah_of_data</a>
-<a href="https://www.evalapply.org/tags/text_art/index.html#main"
-               class="post-index-item:tag">#text_art</a>
-<a href="https://www.evalapply.org/tags/javascript/index.html#main"
-               class="post-index-item:tag">#javascript</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/howto/index.html#main"
-               class="post-index-item:tag">#howto</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-10-19
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/clojure-mars-rover/index.html#main
-       class="post-index-item:title">
-       A Clojure view of &quot;Mars Rover&quot;
-    </a>
-    <p class="post-index-item:summary">Here I illustrate how Clojurists (including Yours Truly) like to solve problems and model things using hammocks, pure functions, and the &quot;it&apos;s just data&quot; ideology. Also, while the *problem* focuses on &quot;design in the small&quot; of application logic, many ideas in the *solution* can—and do—scale all the way to &quot;design in the large&quot; of whole systems.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/clojure/index.html#main"
-               class="post-index-item:tag">#clojure</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/software_design/index.html#main"
-               class="post-index-item:tag">#software_design</a>
-<a href="https://www.evalapply.org/tags/architecture/index.html#main"
-               class="post-index-item:tag">#architecture</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-04-29
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/which-clojure-codebases-to-read-how-and-why/index.html#main
-       class="post-index-item:title">
-       Which Clojure codebases should I read? How and why?
-    </a>
-    <p class="post-index-item:summary">Newcomers to Clojure so frequently ask this question that an FAQ/Guide is being discussed, to add to the Clojure website. I struggled a lot with the question too, when starting off in Clojureland. Here are my notes and opinions.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/clojure/index.html#main"
-               class="post-index-item:tag">#clojure</a>
-<a href="https://www.evalapply.org/tags/howto/index.html#main"
-               class="post-index-item:tag">#howto</a>
-<a href="https://www.evalapply.org/tags/whyto/index.html#main"
-               class="post-index-item:tag">#whyto</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-04-27
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/index.html#main
-       class="post-index-item:title">
-       Shell ain&apos;t a bad place to FP: part 2/N: Functions as Unix Tools
-    </a>
-    <p class="post-index-item:summary">Or, the one in which we hand-craft nano Unix tools using Bash functions.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/bash/index.html#main"
-               class="post-index-item:tag">#bash</a>
-<a href="https://www.evalapply.org/tags/unix/index.html#main"
-               class="post-index-item:tag">#unix</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/architecture/index.html#main"
-               class="post-index-item:tag">#architecture</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-04-19
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/why-and-how-i-use-org-mode/index.html#main
-       class="post-index-item:title">
-       Why and How I use &quot;Org Mode&quot; for my writing and more
-    </a>
-    <p class="post-index-item:summary">I find myself telling people that they will have to pry org-mode from my cold dead hands. Which befuddles me. Why, as an ingrate software nerd who has soured on software technology — talk about biting the hand that feeds — do I evince such strong sentiment about a software program?!</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/howto/index.html#main"
-               class="post-index-item:tag">#howto</a>
-<a href="https://www.evalapply.org/tags/whyto/index.html#main"
-               class="post-index-item:tag">#whyto</a>
-<a href="https://www.evalapply.org/tags/org_mode/index.html#main"
-               class="post-index-item:tag">#org_mode</a>
-<a href="https://www.evalapply.org/tags/local_first/index.html#main"
-               class="post-index-item:tag">#local_first</a>
-<a href="https://www.evalapply.org/tags/notebooks/index.html#main"
-               class="post-index-item:tag">#notebooks</a>
-<a href="https://www.evalapply.org/tags/knowledge_management/index.html#main"
-               class="post-index-item:tag">#knowledge_management</a>
-<a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main"
-               class="post-index-item:tag">#tools_for_thought</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-03-25
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/n-ways-to-fizzbuzz-in-clojure/index.html#main
-       class="post-index-item:title">
-       n ways to FizzBuzz in Clojure
-    </a>
-    <p class="post-index-item:summary">FizzBuzz is everywhere. Every programmer passes through its rite of passage, or at least bears witness to another. Over the years, many gentlenerds have taken it upon themselves to discover ever new ways to incant those hoary symbols. I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/clojure/index.html#main"
-               class="post-index-item:tag">#clojure</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/howto/index.html#main"
-               class="post-index-item:tag">#howto</a>
-<a href="https://www.evalapply.org/tags/riff/index.html#main"
-               class="post-index-item:tag">#riff</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-03-11
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/index.html#main
-       class="post-index-item:title">
-       Shell ain&apos;t a bad place to FP: part 1/N: McIlroy&apos;s Pipeline
-    </a>
-    <p class="post-index-item:summary">Or, the one in which we &quot;take apart&quot; Douglas McIlroy&apos;s pipeline from 1986. Doing so teaches an object lesson about the essence of modular, composable, functional architecture.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/bash/index.html#main"
-               class="post-index-item:tag">#bash</a>
-<a href="https://www.evalapply.org/tags/unix/index.html#main"
-               class="post-index-item:tag">#unix</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/architecture/index.html#main"
-               class="post-index-item:tag">#architecture</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-03-08
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html#main
-       class="post-index-item:title">
-       shite: static sites from shell (part 1/2) — feeling the html.energy
-    </a>
-    <p class="post-index-item:summary">This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/design/index.html#main"
-               class="post-index-item:tag">#design</a>
-<a href="https://www.evalapply.org/tags/websites/index.html#main"
-               class="post-index-item:tag">#websites</a>
-<a href="https://www.evalapply.org/tags/frontend/index.html#main"
-               class="post-index-item:tag">#frontend</a>
-<a href="https://www.evalapply.org/tags/bash/index.html#main"
-               class="post-index-item:tag">#bash</a>
-<a href="https://www.evalapply.org/tags/howto/index.html#main"
-               class="post-index-item:tag">#howto</a>
-<a href="https://www.evalapply.org/tags/whyto/index.html#main"
-               class="post-index-item:tag">#whyto</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-25
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/dismal-arithmetic-dyalog-apl-clojure/index.html#main
-       class="post-index-item:title">
-       Dismal Arithmetic in Dyalog APL and Clojure
-    </a>
-    <p class="post-index-item:summary">Dismal arithmetic is just like the arithmetic you learned in school, only simpler: there are no carries, when you add digits you just take the largest, and when you multiply digits you take the smallest. How does code look in the two languages I like a lot; Clojure and APL?</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/clojure/index.html#main"
-               class="post-index-item:tag">#clojure</a>
-<a href="https://www.evalapply.org/tags/apl/index.html#main"
-               class="post-index-item:tag">#apl</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/riff/index.html#main"
-               class="post-index-item:tag">#riff</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-23
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/index.html#main
-       class="post-index-item:title">
-       Shell ain&apos;t a bad place to FP: part 0/N: Introduction
-    </a>
-    <p class="post-index-item:summary">Or, *Supremely Functional Bash Programming*, an exploration in N parts...</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/bash/index.html#main"
-               class="post-index-item:tag">#bash</a>
-<a href="https://www.evalapply.org/tags/unix/index.html#main"
-               class="post-index-item:tag">#unix</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/architecture/index.html#main"
-               class="post-index-item:tag">#architecture</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-22
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/what-makes-functional-programming-systems-functional/index.html#main
-       class="post-index-item:title">
-       What makes Functional Programs and Systems &quot;Functional&quot;?
-    </a>
-    <p class="post-index-item:summary">In which we ponder the Functional Nature of Life, The Universe, and Everything. Please feel free to follow through the weeds, or jump straight to the bottom for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/meta/index.html#main"
-               class="post-index-item:tag">#meta</a>
-<a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/architecture/index.html#main"
-               class="post-index-item:tag">#architecture</a>
-<a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-14
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/dont-hurry-dont-stop-sad-version/index.html#main
-       class="post-index-item:title">
-       Baby don&apos;t hurry, don&apos;t stop (feat. Melancholy)
-    </a>
-    <p class="post-index-item:summary">Here lies melancholy that I put to paper from a particularly deep hole, not too long ago. It may ruin your day, or it may make you feel a little bit understood about your dark moments. Your mileage will vary.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/meta/index.html#main"
-               class="post-index-item:tag">#meta</a>
-<a href="https://www.evalapply.org/tags/mentalhealth/index.html#main"
-               class="post-index-item:tag">#mentalhealth</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-11
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/people-culture-values-strategy-technology/index.html#main
-       class="post-index-item:title">
-       people &gt; culture &gt; values &gt; strategy &gt; technology
-    </a>
-    <p class="post-index-item:summary">Technology is—and ought to be—the /byproduct/ of far more important, powerful, and deep-rooted aspects of organisations — including wholesale societies. The pandemic of technology-solutionism gleefully embraced and amplified by all and sundry makes me believe that people seem to have decided it&apos;s the other way around.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/organisation_design/index.html#main"
-               class="post-index-item:tag">#organisation_design</a>
-<a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-<a href="https://www.evalapply.org/tags/culture/index.html#main"
-               class="post-index-item:tag">#culture</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-10
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html#main
-       class="post-index-item:title">
-       Poor man&apos;s Reader App with Pandoc &amp; Bash
-    </a>
-    <p class="post-index-item:summary">Every so often, I want to avoid opening a website in a browser, for ... reasons.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/functional_programming/index.html#main"
-               class="post-index-item:tag">#functional_programming</a>
-<a href="https://www.evalapply.org/tags/bash/index.html#main"
-               class="post-index-item:tag">#bash</a>
-<a href="https://www.evalapply.org/tags/unix/index.html#main"
-               class="post-index-item:tag">#unix</a>
-<a href="https://www.evalapply.org/tags/riff/index.html#main"
-               class="post-index-item:tag">#riff</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-02-03
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/how-to-give-a-conference-talk/index.html#main
-       class="post-index-item:title">
-       How To Be a Totally Natural Conference Speaker?
-    </a>
-    <p class="post-index-item:summary">Spurred by a conversation with a whip-smart friend and fellow gentlenerd, who unreasonably believed (believes?) they have nothing worth speaking about at the software conferences we like (IN/Clojure, FunctionalConf, local meetups etc).</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/meta/index.html#main"
-               class="post-index-item:tag">#meta</a>
-<a href="https://www.evalapply.org/tags/writing/index.html#main"
-               class="post-index-item:tag">#writing</a>
-<a href="https://www.evalapply.org/tags/speaking/index.html#main"
-               class="post-index-item:tag">#speaking</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-01-20
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/software-debt/index.html#main
-       class="post-index-item:title">
-       Reframe Technical Debt as Software Debt. Treat it like a AAA-rated CDO.
-    </a>
-    <p class="post-index-item:summary">I&apos;ve long struggled with the *Technical* Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I&apos;ve reframed it as *Software* Debt, for myself. Here&apos;s what I&apos;m thinking.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/risk/index.html#main"
-               class="post-index-item:tag">#risk</a>
-<a href="https://www.evalapply.org/tags/complexity/index.html#main"
-               class="post-index-item:tag">#complexity</a>
-<a href="https://www.evalapply.org/tags/bias/index.html#main"
-               class="post-index-item:tag">#bias</a>
-<a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2022-01-20
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/how-to-not-die-by-a-thousand-cuts/index.html#main
-       class="post-index-item:title">
-       How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.
-    </a>
-    <p class="post-index-item:summary">Not a weighty meandering 300 page Zen dialogue on Motorcycle Maintenance. Merely a meandering blog post in which one contemplates /Quality/ of software products.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/quality/index.html#main"
-               class="post-index-item:tag">#quality</a>
-<a href="https://www.evalapply.org/tags/risk/index.html#main"
-               class="post-index-item:tag">#risk</a>
-<a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2021-11-13
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/systems-scale-value/index.html#main
-       class="post-index-item:title">
-       Systems, Scale, Value
-    </a>
-    <p class="post-index-item:summary">Creating things is a delicate endeavour, fraught with peril. People struggle forward through crazy marketplace and environmental complexities just to get from one day to the other. Yet I can&apos;t shake off the feeling that we make it harder for ourselves than it should be. I&apos;ve been trying to work out why. There&apos;s a lot to unpack. This post is a start at thinking about it in public.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/systems/index.html#main"
-               class="post-index-item:tag">#systems</a>
-<a href="https://www.evalapply.org/tags/scale/index.html#main"
-               class="post-index-item:tag">#scale</a>
-<a href="https://www.evalapply.org/tags/complexity/index.html#main"
-               class="post-index-item:tag">#complexity</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-<div class="post-index-item with-sidebar-narrow">
-  <div class="post-index-item:date">
-    2021-11-10
-  </div>
-  <div class="stack">
-    <a href=https://www.evalapply.org/posts/hello-world/index.html#main
-       class="post-index-item:title">
-       In the beginning, was the domain name
-    </a>
-    <p class="post-index-item:summary">How this blog came to be is a minor miracle. Long story short, I conned myself into believing nobody will find /and/ read it. But you&apos;re here, aren&apos;t you? And you&apos;re reading this. Aren&apos;t You? Confucamus. Well, here&apos;s how you got here.</p>
-    <div class="cluster">
-    <a href="https://www.evalapply.org/tags/hello_world/index.html#main"
-               class="post-index-item:tag">#hello_world</a>
-<a href="https://www.evalapply.org/tags/howto/index.html#main"
-               class="post-index-item:tag">#howto</a>
-<a href="https://www.evalapply.org/tags/whyto/index.html#main"
-               class="post-index-item:tag">#whyto</a>
-    </div>
-  </div>
-</div>
-<hr class="post-index-item:hr">
-  </div>
-</section>
-</div>
-        </main>
-        <footer id="site-footer">
-<hr>
-<div class="box invert footer stack">
-  <div class="cluster">
-    <span>&#128231; : <a href="mailto:hello@evalapply.org">hello@evalapply.org</a></span>
-    <a class="site-feed"
-       href="https://www.evalapply.org/index.xml">
-       Blog feed
-    </a>
-    <form class="cluster"
-          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-          method="post" target="popupwindow"
-          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-        <input type="email" name="email" id="bd-email">
-      <span>
-        <input type="submit" value="Get occasional newsletter">
-        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-      </span>
-    </form>
-  </div>
-  <hr>
-  <p>&copy; copyright 2023, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
-    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    Creative Commons Attribution-ShareAlike 4.0 International License
-    </a>, the same one used by Wikipedia.</span>
-<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    <img alt="Creative Commons License" style="border-width:0"
-         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png">
-    </a></span>
-  </p>
-  <hr>
-  <p> Made with
-      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
-      <a href="https://orgmode.org/">org-mode</a>, and
-      <a href="https://github.com/adityaathalye/shite">shite</a>.
-  </p>
-  <p id="recurse-scout">
-  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
-  </p>
-</div>
-</footer>
-    </div>
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-            data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
-    </script>
-    <!-- End Cloudflare Web Analytics -->
-  </body>
-</html>
+<!doctype html><html lang=en prefix="og: https://ogp.me/ns#"><title>Eval / Apply is pure magic</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Aditya Athalye"><meta name=description content="Stuff I like to nerd about."><meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure"><meta property="og:title" content="Eval / Apply is pure magic"><meta property="og:description" content="Stuff I like to nerd about."><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:url" content="https://www.evalapply.org/posts/index.html"><link rel="stylesheet preload" as=style href=https://www.evalapply.org/static/css/style.css><link href=https://www.evalapply.org/index.xml rel=alternate type=application/rss+xml title="Eval / Apply is pure magic"><link rel=canonical href=https://www.evalapply.org/posts/index.html><link rel=icon type=image/vnd.microsoft.icon href=https://www.evalapply.org/static/img/favicon.ico><div id=the-very-top class="stack center box"><header id=site-header><div class="box invert stack"><div class="with-sidebar site-header"><a class="box icon" href=https://www.evalapply.org/index.html#main><img src=https://www.evalapply.org/static/img/Lisp_logo.svg alt="Eval / Apply is pure magic"></a><div class=stack><div class="site-header site-header:title">Eval / Apply is pure magic</div><nav class="cluster site-header site-header:nav-items"><a href=https://www.evalapply.org/index.html#main>&#955; about</a>
+<a href=https://www.evalapply.org/posts/index.html>&#9753; blog</a>
+<a href=mailto:hello@evalapply.org>email</a>
+<a href=#site-footer>&rlhar; subscribe</a></nav></div></div></div></header><main id=main><div class=stack><div class=title>Writing = Thinking</div><nav class="cluster post-meta"><span>&darr; <a href=#tags-index-list>the topics</a></span>
+<span>&darr; <a href=#blog-index-list>the posts</a></span></nav><hr><p><strong><strong>Oh <em>eval/apply</em>, you beautiful thing…</strong></strong><blockquote><p>At once, the essence of cognition, a system of thinking, and an engine to compute anything. Lisp <a href=#fn1 class=footnote-ref id=fnref1 role=doc-noteref><sup>1</sup></a>. Simultaneously a philosophy, a strategy framework, and a gun in a knife fight. OODA <a href=#fn2 class=footnote-ref id=fnref2 role=doc-noteref><sup>2</sup></a>. Holistically a state of being, a path to excellence, and a catalyst of growth for self and kind. Flow <a href=#fn3 class=footnote-ref id=fnref3 role=doc-noteref><sup>3</sup></a>. Fundamentally a…</blockquote><p>Oh, hello!<blockquote><p>… Lowers face and arms, directed vaguely toward Betelgeuse.</blockquote><p>Pardon my rambling. It's dark out here and I didn't see you arrive!<p>My blog is about thinking and <em>"learning generously"</em>, in public <a href=#fn4 class=footnote-ref id=fnref4 role=doc-noteref><sup>4</sup></a>. Please <a href=#tags-index-list>have a dekko</a>, and <a href=#site-footer>write to me</a> if it strikes your fancy.<p>May The Source be with us.<p>\\//_ :)<section class=footnotes role=doc-endnotes><hr><ol><li id=fn1 role=doc-endnote><p>LISP as Maxwell's Equations of Software: <a href=https://www.gnu.org/software/mes/manual/html_node/LISP-as-Maxwell_0027s-Equations-of-Software.html>GNU Mes manual</a>.<a href=#fnref1 class=footnote-back role=doc-backlink>↩︎</a><li id=fn2 role=doc-endnote><p>John Boyd's concept of OODA: <a href=https://en.wikipedia.org/wiki/OODA_loop>Wikipedia</a>.<a href=#fnref2 class=footnote-back role=doc-backlink>↩︎</a><li id=fn3 role=doc-endnote><p>Mihaly Csikszentmihalyi's <a href=https://en.wikipedia.org/wiki/Flow_(psychology)>Flow</a>. (Though, <a href=https://xkcd.com/1796/>XKCD's riff, "Focus Knob"</a> appeals (and applies) more to me :).<p><img src=https://imgs.xkcd.com/comics/focus_knob.png> …<a href=#fnref3 class=footnote-back role=doc-backlink>↩︎</a><li id=fn4 role=doc-endnote><p>Writing = Thinking for me. <em>Learn generously</em> is a "self-directive" at the <a href=#site-footer>Recurse Center</a>.<a href=#fnref4 class=footnote-back role=doc-backlink>↩︎</a></ol></section><section id=tags-index-list><div class="title box invert">All the topics</div><nav class="cluster box tag-index-items"><a href=https://www.evalapply.org/tags/apl/index.html#main class=tag-index-item><span class=tag-index-item:name>#apl</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/architecture/index.html#main class=tag-index-item><span class=tag-index-item:name>#architecture</span>
+<span class=tag-index-item:count>/ 5</span></a>
+<a href=https://www.evalapply.org/tags/bash/index.html#main class=tag-index-item><span class=tag-index-item:name>#bash</span>
+<span class=tag-index-item:count>/ 6</span></a>
+<a href=https://www.evalapply.org/tags/bias/index.html#main class=tag-index-item><span class=tag-index-item:name>#bias</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/clojure/index.html#main class=tag-index-item><span class=tag-index-item:name>#clojure</span>
+<span class=tag-index-item:count>/ 4</span></a>
+<a href=https://www.evalapply.org/tags/complexity/index.html#main class=tag-index-item><span class=tag-index-item:name>#complexity</span>
+<span class=tag-index-item:count>/ 2</span></a>
+<a href=https://www.evalapply.org/tags/culture/index.html#main class=tag-index-item><span class=tag-index-item:name>#culture</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/design/index.html#main class=tag-index-item><span class=tag-index-item:name>#design</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/frontend/index.html#main class=tag-index-item><span class=tag-index-item:name>#frontend</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=tag-index-item><span class=tag-index-item:name>#functional_programming</span>
+<span class=tag-index-item:count>/ 9</span></a>
+<a href=https://www.evalapply.org/tags/hanukkah_of_data/index.html#main class=tag-index-item><span class=tag-index-item:name>#hanukkah_of_data</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/hello_world/index.html#main class=tag-index-item><span class=tag-index-item:name>#hello_world</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/howto/index.html#main class=tag-index-item><span class=tag-index-item:name>#howto</span>
+<span class=tag-index-item:count>/ 6</span></a>
+<a href=https://www.evalapply.org/tags/intelligence_augmentation/index.html#main class=tag-index-item><span class=tag-index-item:name>#intelligence_augmentation</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/javascript/index.html#main class=tag-index-item><span class=tag-index-item:name>#javascript</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/knowledge_management/index.html#main class=tag-index-item><span class=tag-index-item:name>#knowledge_management</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/local_first/index.html#main class=tag-index-item><span class=tag-index-item:name>#local_first</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/mentalhealth/index.html#main class=tag-index-item><span class=tag-index-item:name>#mentalhealth</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/meta/index.html#main class=tag-index-item><span class=tag-index-item:name>#meta</span>
+<span class=tag-index-item:count>/ 4</span></a>
+<a href=https://www.evalapply.org/tags/notebooks/index.html#main class=tag-index-item><span class=tag-index-item:name>#notebooks</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/organisation_design/index.html#main class=tag-index-item><span class=tag-index-item:name>#organisation_design</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/org_mode/index.html#main class=tag-index-item><span class=tag-index-item:name>#org_mode</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/quality/index.html#main class=tag-index-item><span class=tag-index-item:name>#quality</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/riff/index.html#main class=tag-index-item><span class=tag-index-item:name>#riff</span>
+<span class=tag-index-item:count>/ 5</span></a>
+<a href=https://www.evalapply.org/tags/risk/index.html#main class=tag-index-item><span class=tag-index-item:name>#risk</span>
+<span class=tag-index-item:count>/ 2</span></a>
+<a href=https://www.evalapply.org/tags/scale/index.html#main class=tag-index-item><span class=tag-index-item:name>#scale</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/software_design/index.html#main class=tag-index-item><span class=tag-index-item:name>#software_design</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/speaking/index.html#main class=tag-index-item><span class=tag-index-item:name>#speaking</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/systems/index.html#main class=tag-index-item><span class=tag-index-item:name>#systems</span>
+<span class=tag-index-item:count>/ 5</span></a>
+<a href=https://www.evalapply.org/tags/text_art/index.html#main class=tag-index-item><span class=tag-index-item:name>#text_art</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/tools_for_thought/index.html#main class=tag-index-item><span class=tag-index-item:name>#tools_for_thought</span>
+<span class=tag-index-item:count>/ 2</span></a>
+<a href=https://www.evalapply.org/tags/unix/index.html#main class=tag-index-item><span class=tag-index-item:name>#unix</span>
+<span class=tag-index-item:count>/ 4</span></a>
+<a href=https://www.evalapply.org/tags/websites/index.html#main class=tag-index-item><span class=tag-index-item:name>#websites</span>
+<span class=tag-index-item:count>/ 1</span></a>
+<a href=https://www.evalapply.org/tags/whyto/index.html#main class=tag-index-item><span class=tag-index-item:name>#whyto</span>
+<span class=tag-index-item:count>/ 4</span></a>
+<a href=https://www.evalapply.org/tags/writing/index.html#main class=tag-index-item><span class=tag-index-item:name>#writing</span>
+<span class=tag-index-item:count>/ 1</span></a></nav></section><section id=blog-index-list><div class="title box invert">All the posts</div><div class="stack box"><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2023-02-14</div><div class=stack><a href=https://www.evalapply.org/posts/bad-matrix/index.html#main class=post-index-item:title>Bad Matrix</a><p class=post-index-item:summary>A while ago, someone in the Recurse Center nerdiverse decided we needed a "Bad Print". They made one. Things escalated. Bad Matrix happened.<div class=cluster><a href=https://www.evalapply.org/tags/riff/index.html#main class=post-index-item:tag>#riff</a>
+<a href=https://www.evalapply.org/tags/bash/index.html#main class=post-index-item:tag>#bash</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2023-01-19</div><div class=stack><a href=https://www.evalapply.org/posts/tools-for-thought/index.html#main class=post-index-item:title>Riff: Classifying Tools for Thought</a><p class=post-index-item:summary>Trying out a classification for "Tools for Thought" as a means of augmenting the human intellect, hot on the heels of recent community conversations about ChatGPT, CoPilot, Stable Diffusion etc...<div class=cluster><a href=https://www.evalapply.org/tags/meta/index.html#main class=post-index-item:tag>#meta</a>
+<a href=https://www.evalapply.org/tags/riff/index.html#main class=post-index-item:tag>#riff</a>
+<a href=https://www.evalapply.org/tags/intelligence_augmentation/index.html#main class=post-index-item:tag>#intelligence_augmentation</a>
+<a href=https://www.evalapply.org/tags/tools_for_thought/index.html#main class=post-index-item:tag>#tools_for_thought</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2023-01-16</div><div class=stack><a href=https://www.evalapply.org/posts/animate-text-art-javascript/index.html#main class=post-index-item:title>Animating Text Art in JavaScript</a><p class=post-index-item:summary>It is with no small thanks to MDN, StackOverflow, Firefox's support for countless open tabs, JavaScript's support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program "text art animations". Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here's how it went down.<div class=cluster><a href=https://www.evalapply.org/tags/hanukkah_of_data/index.html#main class=post-index-item:tag>#hanukkah_of_data</a>
+<a href=https://www.evalapply.org/tags/text_art/index.html#main class=post-index-item:tag>#text_art</a>
+<a href=https://www.evalapply.org/tags/javascript/index.html#main class=post-index-item:tag>#javascript</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/howto/index.html#main class=post-index-item:tag>#howto</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-10-19</div><div class=stack><a href=https://www.evalapply.org/posts/clojure-mars-rover/index.html#main class=post-index-item:title>A Clojure view of "Mars Rover"</a><p class=post-index-item:summary>Here I illustrate how Clojurists (including Yours Truly) like to solve problems and model things using hammocks, pure functions, and the "it's just data" ideology. Also, while the *problem* focuses on "design in the small" of application logic, many ideas in the *solution* can—and do—scale all the way to "design in the large" of whole systems.<div class=cluster><a href=https://www.evalapply.org/tags/clojure/index.html#main class=post-index-item:tag>#clojure</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/software_design/index.html#main class=post-index-item:tag>#software_design</a>
+<a href=https://www.evalapply.org/tags/architecture/index.html#main class=post-index-item:tag>#architecture</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-04-29</div><div class=stack><a href=https://www.evalapply.org/posts/which-clojure-codebases-to-read-how-and-why/index.html#main class=post-index-item:title>Which Clojure codebases should I read? How and why?</a><p class=post-index-item:summary>Newcomers to Clojure so frequently ask this question that an FAQ/Guide is being discussed, to add to the Clojure website. I struggled a lot with the question too, when starting off in Clojureland. Here are my notes and opinions.<div class=cluster><a href=https://www.evalapply.org/tags/clojure/index.html#main class=post-index-item:tag>#clojure</a>
+<a href=https://www.evalapply.org/tags/howto/index.html#main class=post-index-item:tag>#howto</a>
+<a href=https://www.evalapply.org/tags/whyto/index.html#main class=post-index-item:tag>#whyto</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-04-27</div><div class=stack><a href=https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/index.html#main class=post-index-item:title>Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools</a><p class=post-index-item:summary>Or, the one in which we hand-craft nano Unix tools using Bash functions.<div class=cluster><a href=https://www.evalapply.org/tags/bash/index.html#main class=post-index-item:tag>#bash</a>
+<a href=https://www.evalapply.org/tags/unix/index.html#main class=post-index-item:tag>#unix</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/architecture/index.html#main class=post-index-item:tag>#architecture</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-04-19</div><div class=stack><a href=https://www.evalapply.org/posts/why-and-how-i-use-org-mode/index.html#main class=post-index-item:title>Why and How I use "Org Mode" for my writing and more</a><p class=post-index-item:summary>I find myself telling people that they will have to pry org-mode from my cold dead hands. Which befuddles me. Why, as an ingrate software nerd who has soured on software technology — talk about biting the hand that feeds — do I evince such strong sentiment about a software program?!<div class=cluster><a href=https://www.evalapply.org/tags/howto/index.html#main class=post-index-item:tag>#howto</a>
+<a href=https://www.evalapply.org/tags/whyto/index.html#main class=post-index-item:tag>#whyto</a>
+<a href=https://www.evalapply.org/tags/org_mode/index.html#main class=post-index-item:tag>#org_mode</a>
+<a href=https://www.evalapply.org/tags/local_first/index.html#main class=post-index-item:tag>#local_first</a>
+<a href=https://www.evalapply.org/tags/notebooks/index.html#main class=post-index-item:tag>#notebooks</a>
+<a href=https://www.evalapply.org/tags/knowledge_management/index.html#main class=post-index-item:tag>#knowledge_management</a>
+<a href=https://www.evalapply.org/tags/tools_for_thought/index.html#main class=post-index-item:tag>#tools_for_thought</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-03-25</div><div class=stack><a href=https://www.evalapply.org/posts/n-ways-to-fizzbuzz-in-clojure/index.html#main class=post-index-item:title>n ways to FizzBuzz in Clojure</a><p class=post-index-item:summary>FizzBuzz is everywhere. Every programmer passes through its rite of passage, or at least bears witness to another. Over the years, many gentlenerds have taken it upon themselves to discover ever new ways to incant those hoary symbols. I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.<div class=cluster><a href=https://www.evalapply.org/tags/clojure/index.html#main class=post-index-item:tag>#clojure</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/howto/index.html#main class=post-index-item:tag>#howto</a>
+<a href=https://www.evalapply.org/tags/riff/index.html#main class=post-index-item:tag>#riff</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-03-11</div><div class=stack><a href=https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/index.html#main class=post-index-item:title>Shell ain't a bad place to FP: part 1/N: McIlroy's Pipeline</a><p class=post-index-item:summary>Or, the one in which we "take apart" Douglas McIlroy's pipeline from 1986. Doing so teaches an object lesson about the essence of modular, composable, functional architecture.<div class=cluster><a href=https://www.evalapply.org/tags/bash/index.html#main class=post-index-item:tag>#bash</a>
+<a href=https://www.evalapply.org/tags/unix/index.html#main class=post-index-item:tag>#unix</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/architecture/index.html#main class=post-index-item:tag>#architecture</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-03-08</div><div class=stack><a href=https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html#main class=post-index-item:title>shite: static sites from shell (part 1/2) — feeling the html.energy</a><p class=post-index-item:summary>This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.<div class=cluster><a href=https://www.evalapply.org/tags/design/index.html#main class=post-index-item:tag>#design</a>
+<a href=https://www.evalapply.org/tags/websites/index.html#main class=post-index-item:tag>#websites</a>
+<a href=https://www.evalapply.org/tags/frontend/index.html#main class=post-index-item:tag>#frontend</a>
+<a href=https://www.evalapply.org/tags/bash/index.html#main class=post-index-item:tag>#bash</a>
+<a href=https://www.evalapply.org/tags/howto/index.html#main class=post-index-item:tag>#howto</a>
+<a href=https://www.evalapply.org/tags/whyto/index.html#main class=post-index-item:tag>#whyto</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-25</div><div class=stack><a href=https://www.evalapply.org/posts/dismal-arithmetic-dyalog-apl-clojure/index.html#main class=post-index-item:title>Dismal Arithmetic in Dyalog APL and Clojure</a><p class=post-index-item:summary>Dismal arithmetic is just like the arithmetic you learned in school, only simpler: there are no carries, when you add digits you just take the largest, and when you multiply digits you take the smallest. How does code look in the two languages I like a lot; Clojure and APL?<div class=cluster><a href=https://www.evalapply.org/tags/clojure/index.html#main class=post-index-item:tag>#clojure</a>
+<a href=https://www.evalapply.org/tags/apl/index.html#main class=post-index-item:tag>#apl</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/riff/index.html#main class=post-index-item:tag>#riff</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-23</div><div class=stack><a href=https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/index.html#main class=post-index-item:title>Shell ain't a bad place to FP: part 0/N: Introduction</a><p class=post-index-item:summary>Or, *Supremely Functional Bash Programming*, an exploration in N parts...<div class=cluster><a href=https://www.evalapply.org/tags/bash/index.html#main class=post-index-item:tag>#bash</a>
+<a href=https://www.evalapply.org/tags/unix/index.html#main class=post-index-item:tag>#unix</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/architecture/index.html#main class=post-index-item:tag>#architecture</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-22</div><div class=stack><a href=https://www.evalapply.org/posts/what-makes-functional-programming-systems-functional/index.html#main class=post-index-item:title>What makes Functional Programs and Systems "Functional"?</a><p class=post-index-item:summary>In which we ponder the Functional Nature of Life, The Universe, and Everything. Please feel free to follow through the weeds, or jump straight to the bottom for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)<div class=cluster><a href=https://www.evalapply.org/tags/meta/index.html#main class=post-index-item:tag>#meta</a>
+<a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/architecture/index.html#main class=post-index-item:tag>#architecture</a>
+<a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-14</div><div class=stack><a href=https://www.evalapply.org/posts/dont-hurry-dont-stop-sad-version/index.html#main class=post-index-item:title>Baby don't hurry, don't stop (feat. Melancholy)</a><p class=post-index-item:summary>Here lies melancholy that I put to paper from a particularly deep hole, not too long ago. It may ruin your day, or it may make you feel a little bit understood about your dark moments. Your mileage will vary.<div class=cluster><a href=https://www.evalapply.org/tags/meta/index.html#main class=post-index-item:tag>#meta</a>
+<a href=https://www.evalapply.org/tags/mentalhealth/index.html#main class=post-index-item:tag>#mentalhealth</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-11</div><div class=stack><a href=https://www.evalapply.org/posts/people-culture-values-strategy-technology/index.html#main class=post-index-item:title>people > culture > values > strategy > technology</a><p class=post-index-item:summary>Technology is—and ought to be—the /byproduct/ of far more important, powerful, and deep-rooted aspects of organisations — including wholesale societies. The pandemic of technology-solutionism gleefully embraced and amplified by all and sundry makes me believe that people seem to have decided it's the other way around.<div class=cluster><a href=https://www.evalapply.org/tags/organisation_design/index.html#main class=post-index-item:tag>#organisation_design</a>
+<a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a>
+<a href=https://www.evalapply.org/tags/culture/index.html#main class=post-index-item:tag>#culture</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-10</div><div class=stack><a href=https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html#main class=post-index-item:title>Poor man's Reader App with Pandoc & Bash</a><p class=post-index-item:summary>Every so often, I want to avoid opening a website in a browser, for ... reasons.<div class=cluster><a href=https://www.evalapply.org/tags/functional_programming/index.html#main class=post-index-item:tag>#functional_programming</a>
+<a href=https://www.evalapply.org/tags/bash/index.html#main class=post-index-item:tag>#bash</a>
+<a href=https://www.evalapply.org/tags/unix/index.html#main class=post-index-item:tag>#unix</a>
+<a href=https://www.evalapply.org/tags/riff/index.html#main class=post-index-item:tag>#riff</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-03</div><div class=stack><a href=https://www.evalapply.org/posts/how-to-give-a-conference-talk/index.html#main class=post-index-item:title>How To Be a Totally Natural Conference Speaker?</a><p class=post-index-item:summary>Spurred by a conversation with a whip-smart friend and fellow gentlenerd, who unreasonably believed (believes?) they have nothing worth speaking about at the software conferences we like (IN/Clojure, FunctionalConf, local meetups etc).<div class=cluster><a href=https://www.evalapply.org/tags/meta/index.html#main class=post-index-item:tag>#meta</a>
+<a href=https://www.evalapply.org/tags/writing/index.html#main class=post-index-item:tag>#writing</a>
+<a href=https://www.evalapply.org/tags/speaking/index.html#main class=post-index-item:tag>#speaking</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-01-20</div><div class=stack><a href=https://www.evalapply.org/posts/software-debt/index.html#main class=post-index-item:title>Reframe Technical Debt as Software Debt. Treat it like a AAA-rated CDO.</a><p class=post-index-item:summary>I've long struggled with the *Technical* Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I've reframed it as *Software* Debt, for myself. Here's what I'm thinking.<div class=cluster><a href=https://www.evalapply.org/tags/risk/index.html#main class=post-index-item:tag>#risk</a>
+<a href=https://www.evalapply.org/tags/complexity/index.html#main class=post-index-item:tag>#complexity</a>
+<a href=https://www.evalapply.org/tags/bias/index.html#main class=post-index-item:tag>#bias</a>
+<a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-01-20</div><div class=stack><a href=https://www.evalapply.org/posts/how-to-not-die-by-a-thousand-cuts/index.html#main class=post-index-item:title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</a><p class=post-index-item:summary>Not a weighty meandering 300 page Zen dialogue on Motorcycle Maintenance. Merely a meandering blog post in which one contemplates /Quality/ of software products.<div class=cluster><a href=https://www.evalapply.org/tags/quality/index.html#main class=post-index-item:tag>#quality</a>
+<a href=https://www.evalapply.org/tags/risk/index.html#main class=post-index-item:tag>#risk</a>
+<a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2021-11-13</div><div class=stack><a href=https://www.evalapply.org/posts/systems-scale-value/index.html#main class=post-index-item:title>Systems, Scale, Value</a><p class=post-index-item:summary>Creating things is a delicate endeavour, fraught with peril. People struggle forward through crazy marketplace and environmental complexities just to get from one day to the other. Yet I can't shake off the feeling that we make it harder for ourselves than it should be. I've been trying to work out why. There's a lot to unpack. This post is a start at thinking about it in public.<div class=cluster><a href=https://www.evalapply.org/tags/systems/index.html#main class=post-index-item:tag>#systems</a>
+<a href=https://www.evalapply.org/tags/scale/index.html#main class=post-index-item:tag>#scale</a>
+<a href=https://www.evalapply.org/tags/complexity/index.html#main class=post-index-item:tag>#complexity</a></div></div></div><hr class=post-index-item:hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2021-11-10</div><div class=stack><a href=https://www.evalapply.org/posts/hello-world/index.html#main class=post-index-item:title>In the beginning, was the domain name</a><p class=post-index-item:summary>How this blog came to be is a minor miracle. Long story short, I conned myself into believing nobody will find /and/ read it. But you're here, aren't you? And you're reading this. Aren't You? Confucamus. Well, here's how you got here.<div class=cluster><a href=https://www.evalapply.org/tags/hello_world/index.html#main class=post-index-item:tag>#hello_world</a>
+<a href=https://www.evalapply.org/tags/howto/index.html#main class=post-index-item:tag>#howto</a>
+<a href=https://www.evalapply.org/tags/whyto/index.html#main class=post-index-item:tag>#whyto</a></div></div></div><hr class=post-index-item:hr></div></section></div></main><footer id=site-footer><hr><div class="box invert footer stack"><div class=cluster><span>&#128231; : <a href=mailto:hello@evalapply.org>hello@evalapply.org</a></span>
+<a class=site-feed href=https://www.evalapply.org/index.xml>Blog feed</a><form class=cluster action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')"><input type=email name=email id=bd-email>
+<span><input type=submit value="Get occasional newsletter">
+<em>(thanks, <a href=https://buttondown.email target=_blank>Buttondown</a>!)</em></span></form></div><hr><p>&copy; copyright 2023, <a href=https://evalapply.org target=_blank>Aditya Athalye</a>.
+<span>Except where otherwise noted, content on this site is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative Commons Attribution-ShareAlike 4.0 International License
+</a>, the same one used by Wikipedia.</span>
+<span><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/4.0/80x15.png></a></span><hr><p>Made with
+<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
+<a href=https://orgmode.org/>org-mode</a>, and
+<a href=https://github.com/adityaathalye/shite>shite</a>.<p id=recurse-scout><script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script></div></footer></div><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'></script>

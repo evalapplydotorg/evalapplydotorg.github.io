@@ -1,433 +1,174 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: https://ogp.me/ns#">
-  <head>
-    <!-- Some basic hygiene meta-data -->
-<title>shite: static sites from shell (part 1/2) — feeling the html.energy</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="author" content="Aditya Athalye">
-<meta name="description"
-      content="This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
-<meta property="og:title" content="shite: static sites from shell (part 1/2) — feeling the html.energy">
-<meta property="og:description" content="This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.">
-<meta property="og:locale" content="en_GB">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html">
-    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
-<link href="https://www.evalapply.org/index.xml"
-      rel="alternate" type="application/rss+xml"
-      title="Eval / Apply is pure magic">
-<link rel="canonical" href="https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html">
-<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
-</head>
-  <body>
-    <div id="the-very-top" class="stack center box">
-        <header id="site-header">
-  <div class="box invert stack">
-    <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html#main">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic">
-      </a>
-      <div class="stack">
-        <div class="site-header site-header:title">Eval / Apply is pure magic</div>
-        <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html#main">
-   &lambda; about
-</a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; blog
-</a>
-<a href="mailto:hello@evalapply.org">
-   email
-</a>
-<a href="#site-footer">
-   &rlhar; subscribe
-</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-        <main id="main">
-          <article id="blog-post" class="stack">
-  <header>
-    <div class="stack">
-      <div class="title">shite: static sites from shell (part 1/2) — feeling the html.energy</div>
-      <div class="cluster post-meta">
-           <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-           <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
-           <span>&darr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-      </div>
-      <div class="summary">This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.</div>
-      <div class="cluster post-meta">
-        <span class="author">By: Adi</span>
-        <span class="date">Published: 2022-03-08</span>
-        <span class="date">Updated: 2022-03-08</span>
-        <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/design/index.html#main">#design</a> / <a href="https://www.evalapply.org/tags/websites/index.html#main">#websites</a> / <a href="https://www.evalapply.org/tags/frontend/index.html#main">#frontend</a> / <a href="https://www.evalapply.org/tags/bash/index.html#main">#bash</a> / <a href="https://www.evalapply.org/tags/howto/index.html#main">#howto</a> / <a href="https://www.evalapply.org/tags/whyto/index.html#main">#whyto</a>
-        </span>
-      </div>
-      <hr>
-    </div>
-  </header>
-  <section class="stack">
-      <div id="blog-post-toc" class="stack table-of-contents">
-  <details class="box invert stack" open>
-    <summary>
-      <strong>Contents</strong>
-    </summary>
-    <nav class="stack">
-      <a href="#screw-that-gimme-a-site-already" class="toc-heading:h1">"Screw that, gimme a site already"</a>
-<a href="#whats-the-plan" class="toc-heading:h1">What's the plan?</a>
-<a href="#what-is-a-static-website" class="toc-heading:h1">What is a static website?</a>
-<a href="#hello-world." class="toc-heading:h1">Hello, world.</a>
-<a href="#peeking-under-the-browsers-hood" class="toc-heading:h1">Peeking under the browser's hood</a>
-<a href="#the-hello-world-is-not-enough" class="toc-heading:h1">The hello-world is not enough</a>
-<a href="#harness-html.energy-to-model-our-would-be-site" class="toc-heading:h1">Harness html.energy to model our would-be site</a>
-<a href="#flip-the-model-into-a-full-website" class="toc-heading:h1">Flip the model into a full website</a>
-<a href="#what-next" class="toc-heading:h1">What next?</a>
-<a href="#footnotes" class="toc-heading:h1">Footnotes</a>
-    </nav>
-  </details>
-</div>
-<hr>
-  <p>We've long dreamed of lovingly hand-crafting our wee home on the Internet, you and I. We would make it ultramodern yet ultralight, simple yet beautiful. Something <em>not</em> WordPress because that's so last century. (Seriously, just go to WordPress.)</p>
-<p>No. We were committed. We would do it for the sake of craftsmanship and the environment and World Peace. And that's how we found ourselves awake at 2 A.M., having absurd conversations <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> with Distant Internet Strangers…</p>
-<blockquote>
-<p>You (loudly): <em>"BOOTSTRAP? Yes, I want to bootstrap my website."</em></p>
-<p>D.I.S. (miming): <em>"No, no. You. <strong>Need.</strong> Bootstrap."</em></p>
-<p>You: "<em>I whaaat?</em>"</p>
-<p>D.I.S.: <em>"… aaannd NODE JAY ESS too…"</em></p>
-</blockquote>
-<p>You can't fathom <em>why</em> there are a jillion "CMSes", fifty "build tools", and nine dozen "static site generators", each with their own bespoke "templating system".</p>
-<p>You are <em>this close</em> to DM-ing the first person who green-dots in your current Slack; "<em>Please, can you help me?</em> I didn't know. I'm so sorry. For <em>everything</em>. I just wanted a website… <em>Please???</em>.".</p>
-<p>Okay, then…</p>
-<h1 id="screw-that-gimme-a-site-already">"Screw that, gimme a site already"</h1>
-<p>Certainly!</p>
-<ul>
-<li><p><em><strong><a href="demo-2/index.html">site template</a></strong>, hand-rolled and infused with pure html.energy</em>. Just save each page and use any text editor to modify it.</p></li>
-<li><p><em><strong><a href="https://github.com/adityaathalye/shite">shite</a></strong>, the tiny static site builder from shell.</em> When the copy-pasta gets too much, a tiny Shell script can go a long way.</p></li>
-</ul>
-<p>TL;DR? Copy, use, modify at will.</p>
-<p>L;R? Follow me and I'll show you how deep the rabbit hole goes.</p>
-<p><img src="morpheus-red-blue-pill.jpg" /></p>
-<h1 id="whats-the-plan">What's the plan?</h1>
-<p>To your credit, you will struggle and muddle and slap together a reasonable site. I know I did. But you may also feel uneasy about the magic you used. I know I did.</p>
-<p>Not today, though. Today we simplify, demystify, flow effortlessly, and end up with…</p>
-<p>Part 1: This blog:</p>
-<ul>
-<li>devise a decent, dead-simple HTML page template that you can fully grok, and copy away to website success</li>
-</ul>
-<p>Part 2: Next blog:</p>
-<ul>
-<li><p>grasp the problem space of making a static website (or, a website),</p></li>
-<li><p>make <em>shite: the website generator from Shell</em>, to automate the boring parts,</p></li>
-<li><p>do nothing that will surprise a Perl/PHP gentleperson hacker from the last century. 'twas a far more civilized time <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. I know because I'm from the last century.</p></li>
-</ul>
-<blockquote>
-<p><em>"Be water, my friend."</em></p>
-<p>— Bruce Lee.</p>
-</blockquote>
-<h1 id="what-is-a-static-website">What is a static website?</h1>
-<p>Static simply means <em>as-is</em>. Its inverse is "dynamic", meaning in-transit. The "static" part of "static website" corresponds to stored information. The "website" part corresponds to where from and <em>how</em>, the information gets to one's computer. A web-site is literally a place (site) on the World Wide Web, whence our computer has to fetch the information we want.</p>
-<p>Fetching information, such as a web page, over the Internet is "dynamic" by definition. Even just opening a file on your own computer's disk is "dynamic". The very act of reading a digital file, and/or transmitting it, means copying its bits from one place and showing them in another place <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-<p>The <em>Ultimate Static Site</em>, is a file that once written never changes. Thus, once-received we never have to fetch it again (unless we lose it). Reality is of course not so simple. But we will work with the "static means never changing" mental model, because we can go pretty far with just that.</p>
-<p>We explore the <em>making</em> of the "static" part; viz. the web pages. What could these web pages convey? Well, any collection of words. A blog series. A resume. A single essay. A tutorial. A presentation. A collection of books. A portfolio. An artist's statement. Or even a simple "Hello, world" message. Your site, you choose!</p>
-<h1 id="hello-world.">Hello, world.</h1>
-<p>One of the simplest possible "static" websites is just a plain old text file with a <code>.html</code> file extension. Type a little '<em>Hello, world</em>' message into a text file (in Notepad or some other such text editor). Save it as <em>hello.html</em>. Open the file in a browser. Sure enough, we'll see our little piece of text.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>Hello, world! I am @random on Twitter, Insta, FB,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>and LinkedIn. Look me up!</span></code></pre></div>
-<p>If we put hello.html on a web server and have it serve the file as-is, well, we just published a static website on the Internet.</p>
-<p>Some people enjoy these simple joys of life.</p>
-<p>For example, Adam Kelly <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, m'colleague from the <a href="./#footer">Recurse Center</a> community, thinks their website <a href="https://www.cthulahoops.org/">cthulahoops.org</a> is just fine.</p>
-<p>And it is.</p>
-<figure>
-<img src="plain-static-website-cthulahoops.png" alt="" /><figcaption>Adam "Cthulahoops" Kelly makes you grin with just one line. (Retrieved Thu, 03 March, 2022).</figcaption>
-</figure>
-<p>But you and I want more.</p>
-<h1 id="peeking-under-the-browsers-hood">Peeking under the browser's hood</h1>
-<p>Right now, let's ignore this "server" business entirely. The <em>Ultimate Static Site</em> is usable from our computer, as-is. So let's focus on the contents of the site, and a general approach to assembling one.</p>
-<p>Our browser's "View source" feature provides the first little clue. We see something more than the plain text we typed into hello.html.</p>
-<p>The text of the '<em>Hello, world</em>' message renders as:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;&lt;/head&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    Hello, world! I am @random on Twitter, Insta, FB,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>    and LinkedIn. Look me up!</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
-<figure>
-<img src="plain-static-website-cthulahoops-view-source.png" alt="" /><figcaption>Inside Adam's website.</figcaption>
-</figure>
-<p>This immediately suggests a lesson, viz…</p>
-<h1 id="the-hello-world-is-not-enough">The hello-world is not enough</h1>
-<p>The browser actually needs well-formed Hyper-Text Markup Language (HTML), to correctly interpret and display content. But browsers also guess at content type and apply rules to show content as sensibly as possible. In our dead-simple case, the browser chose to wrap the plain text in the appropriate HTML tags.</p>
-<p>Unfortunately, typing plain text paragraphs into our hello.html file doesn't cut it because, to a browser, the whole thing is just one text node. It will flatten the entire text file into single line. Browsers are clever in a very narrow sense. Also there's the small matter that a web server may refuse to send HTML that it thinks is incomplete (malformed). So we'll fix that first.</p>
-<p>So the next-simplest evolution of our static site would be to put appropriate HTML around our text. <code>&lt;p&gt;&lt;/p&gt;</code> (paragraph) tags for instance, like a civilized person from the last century would do.</p>
-<pre class="text"><code>&lt;p&gt;Hello, world.&lt;/p&gt;
+<!doctype html><html lang=en prefix="og: https://ogp.me/ns#"><title>shite: static sites from shell (part 1/2) — feeling the html.energy</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Aditya Athalye"><meta name=description content="This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy."><meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure"><meta property="og:title" content="shite: static sites from shell (part 1/2) — feeling the html.energy"><meta property="og:description" content="This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy."><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:url" content="https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html"><link rel="stylesheet preload" as=style href=https://www.evalapply.org/static/css/style.css><link href=https://www.evalapply.org/index.xml rel=alternate type=application/rss+xml title="Eval / Apply is pure magic"><link rel=canonical href=https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html><link rel=icon type=image/vnd.microsoft.icon href=https://www.evalapply.org/static/img/favicon.ico><div id=the-very-top class="stack center box"><header id=site-header><div class="box invert stack"><div class="with-sidebar site-header"><a class="box icon" href=https://www.evalapply.org/index.html#main><img src=https://www.evalapply.org/static/img/Lisp_logo.svg alt="Eval / Apply is pure magic"></a><div class=stack><div class="site-header site-header:title">Eval / Apply is pure magic</div><nav class="cluster site-header site-header:nav-items"><a href=https://www.evalapply.org/index.html#main>&#955; about</a>
+<a href=https://www.evalapply.org/posts/index.html>&#9753; blog</a>
+<a href=mailto:hello@evalapply.org>email</a>
+<a href=#site-footer>&rlhar; subscribe</a></nav></div></div></div></header><main id=main><article id=blog-post class=stack><header><div class=stack><div class=title>shite: static sites from shell (part 1/2) — feeling the html.energy</div><div class="cluster post-meta"><span>&uarr; <a href=#site-header rel=bookmark>menu</a></span>
+<span>&darr; <a href=#blog-post-footer rel=bookmark>discuss</a></span>
+<span>&darr; <a href=#blog-post-toc rel=bookmark>toc</a></span></div><div class=summary>This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.</div><div class="cluster post-meta"><span class=author>By: Adi</span>
+<span class=date>Published: 2022-03-08</span>
+<span class=date>Updated: 2022-03-08</span>
+<span class=tags>Tags: / <a href=https://www.evalapply.org/tags/design/index.html#main>#design</a> / <a href=https://www.evalapply.org/tags/websites/index.html#main>#websites</a> / <a href=https://www.evalapply.org/tags/frontend/index.html#main>#frontend</a> / <a href=https://www.evalapply.org/tags/bash/index.html#main>#bash</a> / <a href=https://www.evalapply.org/tags/howto/index.html#main>#howto</a> / <a href=https://www.evalapply.org/tags/whyto/index.html#main>#whyto</a></span></div><hr></div></header><section class=stack><div id=blog-post-toc class="stack table-of-contents"><details class="box invert stack" open><summary><strong>Contents</strong></summary><nav class=stack><a href=#screw-that-gimme-a-site-already class=toc-heading:h1>"Screw that, gimme a site already"</a>
+<a href=#whats-the-plan class=toc-heading:h1>What's the plan?</a>
+<a href=#what-is-a-static-website class=toc-heading:h1>What is a static website?</a>
+<a href=#hello-world. class=toc-heading:h1>Hello, world.</a>
+<a href=#peeking-under-the-browsers-hood class=toc-heading:h1>Peeking under the browser's hood</a>
+<a href=#the-hello-world-is-not-enough class=toc-heading:h1>The hello-world is not enough</a>
+<a href=#harness-html.energy-to-model-our-would-be-site class=toc-heading:h1>Harness html.energy to model our would-be site</a>
+<a href=#flip-the-model-into-a-full-website class=toc-heading:h1>Flip the model into a full website</a>
+<a href=#what-next class=toc-heading:h1>What next?</a>
+<a href=#footnotes class=toc-heading:h1>Footnotes</a></nav></details></div><hr><p>We've long dreamed of lovingly hand-crafting our wee home on the Internet, you and I. We would make it ultramodern yet ultralight, simple yet beautiful. Something <em>not</em> WordPress because that's so last century. (Seriously, just go to WordPress.)<p>No. We were committed. We would do it for the sake of craftsmanship and the environment and World Peace. And that's how we found ourselves awake at 2 A.M., having absurd conversations <a href=#fn1 class=footnote-ref id=fnref1 role=doc-noteref><sup>1</sup></a> with Distant Internet Strangers…<blockquote><p>You (loudly): <em>"BOOTSTRAP? Yes, I want to bootstrap my website."</em><p>D.I.S. (miming): <em>"No, no. You. <strong>Need.</strong> Bootstrap."</em><p>You: "<em>I whaaat?</em>"<p>D.I.S.: <em>"… aaannd NODE JAY ESS too…"</em></blockquote><p>You can't fathom <em>why</em> there are a jillion "CMSes", fifty "build tools", and nine dozen "static site generators", each with their own bespoke "templating system".<p>You are <em>this close</em> to DM-ing the first person who green-dots in your current Slack; "<em>Please, can you help me?</em> I didn't know. I'm so sorry. For <em>everything</em>. I just wanted a website… <em>Please???</em>.".<p>Okay, then…<h1 id=screw-that-gimme-a-site-already>"Screw that, gimme a site already"</h1><p>Certainly!<ul><li><p><em><strong><a href=demo-2/index.html>site template</a></strong>, hand-rolled and infused with pure html.energy</em>. Just save each page and use any text editor to modify it.<li><p><em><strong><a href=https://github.com/adityaathalye/shite>shite</a></strong>, the tiny static site builder from shell.</em> When the copy-pasta gets too much, a tiny Shell script can go a long way.</ul><p>TL;DR? Copy, use, modify at will.<p>L;R? Follow me and I'll show you how deep the rabbit hole goes.<p><img src=morpheus-red-blue-pill.jpg><h1 id=whats-the-plan>What's the plan?</h1><p>To your credit, you will struggle and muddle and slap together a reasonable site. I know I did. But you may also feel uneasy about the magic you used. I know I did.<p>Not today, though. Today we simplify, demystify, flow effortlessly, and end up with…<p>Part 1: This blog:<ul><li>devise a decent, dead-simple HTML page template that you can fully grok, and copy away to website success</ul><p>Part 2: Next blog:<ul><li><p>grasp the problem space of making a static website (or, a website),<li><p>make <em>shite: the website generator from Shell</em>, to automate the boring parts,<li><p>do nothing that will surprise a Perl/PHP gentleperson hacker from the last century. 'twas a far more civilized time <a href=#fn2 class=footnote-ref id=fnref2 role=doc-noteref><sup>2</sup></a>. I know because I'm from the last century.</ul><blockquote><p><em>"Be water, my friend."</em><p>— Bruce Lee.</blockquote><h1 id=what-is-a-static-website>What is a static website?</h1><p>Static simply means <em>as-is</em>. Its inverse is "dynamic", meaning in-transit. The "static" part of "static website" corresponds to stored information. The "website" part corresponds to where from and <em>how</em>, the information gets to one's computer. A web-site is literally a place (site) on the World Wide Web, whence our computer has to fetch the information we want.<p>Fetching information, such as a web page, over the Internet is "dynamic" by definition. Even just opening a file on your own computer's disk is "dynamic". The very act of reading a digital file, and/or transmitting it, means copying its bits from one place and showing them in another place <a href=#fn3 class=footnote-ref id=fnref3 role=doc-noteref><sup>3</sup></a>.<p>The <em>Ultimate Static Site</em>, is a file that once written never changes. Thus, once-received we never have to fetch it again (unless we lose it). Reality is of course not so simple. But we will work with the "static means never changing" mental model, because we can go pretty far with just that.<p>We explore the <em>making</em> of the "static" part; viz. the web pages. What could these web pages convey? Well, any collection of words. A blog series. A resume. A single essay. A tutorial. A presentation. A collection of books. A portfolio. An artist's statement. Or even a simple "Hello, world" message. Your site, you choose!<h1 id=hello-world.>Hello, world.</h1><p>One of the simplest possible "static" websites is just a plain old text file with a <code>.html</code> file extension. Type a little '<em>Hello, world</em>' message into a text file (in Notepad or some other such text editor). Save it as <em>hello.html</em>. Open the file in a browser. Sure enough, we'll see our little piece of text.<div class=sourceCode id=cb1><pre class="sourceCode html"><code class="sourceCode html"><span id=cb1-1><a href=#cb1-1 aria-hidden=true></a>Hello, world! I am @random on Twitter, Insta, FB,</span>
+<span id=cb1-2><a href=#cb1-2 aria-hidden=true></a>and LinkedIn. Look me up!</span></code></pre></div><p>If we put hello.html on a web server and have it serve the file as-is, well, we just published a static website on the Internet.<p>Some people enjoy these simple joys of life.<p>For example, Adam Kelly <a href=#fn4 class=footnote-ref id=fnref4 role=doc-noteref><sup>4</sup></a>, m'colleague from the <a href=./#footer>Recurse Center</a> community, thinks their website <a href=https://www.cthulahoops.org/>cthulahoops.org</a> is just fine.<p>And it is.<figure><img src=plain-static-website-cthulahoops.png alt><figcaption>Adam "Cthulahoops" Kelly makes you grin with just one line. (Retrieved Thu, 03 March, 2022).</figcaption></figure><p>But you and I want more.<h1 id=peeking-under-the-browsers-hood>Peeking under the browser's hood</h1><p>Right now, let's ignore this "server" business entirely. The <em>Ultimate Static Site</em> is usable from our computer, as-is. So let's focus on the contents of the site, and a general approach to assembling one.<p>Our browser's "View source" feature provides the first little clue. We see something more than the plain text we typed into hello.html.<p>The text of the '<em>Hello, world</em>' message renders as:<div class=sourceCode id=cb2><pre class="sourceCode html"><code class="sourceCode html"><span id=cb2-1><a href=#cb2-1 aria-hidden=true></a><span class=kw>&lt;html&gt;</span></span>
+<span id=cb2-2><a href=#cb2-2 aria-hidden=true></a>  <span class=kw>&lt;head&gt;&lt;/head&gt;</span></span>
+<span id=cb2-3><a href=#cb2-3 aria-hidden=true></a>  <span class=kw>&lt;body&gt;</span></span>
+<span id=cb2-4><a href=#cb2-4 aria-hidden=true></a>    Hello, world! I am @random on Twitter, Insta, FB,</span>
+<span id=cb2-5><a href=#cb2-5 aria-hidden=true></a>    and LinkedIn. Look me up!</span>
+<span id=cb2-6><a href=#cb2-6 aria-hidden=true></a>  <span class=kw>&lt;/body&gt;</span></span>
+<span id=cb2-7><a href=#cb2-7 aria-hidden=true></a><span class=kw>&lt;/html&gt;</span></span></code></pre></div><figure><img src=plain-static-website-cthulahoops-view-source.png alt><figcaption>Inside Adam's website.</figcaption></figure><p>This immediately suggests a lesson, viz…<h1 id=the-hello-world-is-not-enough>The hello-world is not enough</h1><p>The browser actually needs well-formed Hyper-Text Markup Language (HTML), to correctly interpret and display content. But browsers also guess at content type and apply rules to show content as sensibly as possible. In our dead-simple case, the browser chose to wrap the plain text in the appropriate HTML tags.<p>Unfortunately, typing plain text paragraphs into our hello.html file doesn't cut it because, to a browser, the whole thing is just one text node. It will flatten the entire text file into single line. Browsers are clever in a very narrow sense. Also there's the small matter that a web server may refuse to send HTML that it thinks is incomplete (malformed). So we'll fix that first.<p>So the next-simplest evolution of our static site would be to put appropriate HTML around our text. <code>&lt;p>&lt;/p></code> (paragraph) tags for instance, like a civilized person from the last century would do.<pre class=text><code>&lt;p&gt;Hello, world.&lt;/p&gt;
 &lt;p&gt;I am @random on Twitter, Insta, FB, and LinkedIn.&lt;/p&gt;
 &lt;p&gt;Look me up!&lt;/p&gt;
-</code></pre>
-<p>As before, the browser helpfully enclosed our incomplete html in the document level tags (html, body).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;&lt;/head&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>Hello, world.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>I am @random on Twitter, Insta, FB, and LinkedIn.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    <span class="kw">&lt;p&gt;</span>Look me up!<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
-<p>The browser somehow renders our text as neat paragraphs. That's because it automatically applies default style information to HTML elements it recognizes. We can see this in the "Styles" tab when we "view source" (in Firefox).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>p {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="kw">display</span>: <span class="dv">block</span><span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="kw">margin-block-start</span>: <span class="dv">1</span><span class="dt">em</span><span class="op">;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  <span class="kw">margin-block-end</span>: <span class="dv">1</span><span class="dt">em</span><span class="op">;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>  <span class="kw">margin-inline-start</span>: <span class="dv">0</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>  <span class="kw">margin-inline-end</span>: <span class="dv">0</span><span class="dt">px</span><span class="op">;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>}</span></code></pre></div>
-<p>It's not magic. Have a look at the default style sheets to render HTML <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
-<ul>
-<li>in the Chromium project: <a href="https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css">core/css/html.css</a></li>
-<li>in the Firefox project: <a href="https://searchfox.org/mozilla-central/source/layout/style/res/html.css">layout/style/res/html.css</a></li>
-</ul>
-<p>So there it is. In the simplest case, we need only worry about the bare essential content and HTML formatting, and rely on the browser to supply the rest; wrapper HTML, and CSS style information.</p>
-<p>Further, even in this crude form, the browser has already planted the seed of an idea in our minds. If <em>we</em> supply just the content, <em>something else</em> could mechanically add in the boilerplate/repetitive HTML + CSS. A templating system.</p>
-<p>But we're getting ahead of ourselves. If we want browsers to show our content the way we intended, then we must remove guesswork by wrapping the content in well-formed HTML syntax.</p>
-<h1 id="harness-html.energy-to-model-our-would-be-site">Harness html.energy to model our would-be site</h1>
-<figure>
-<img src="shite-demo-1.png" alt="" /><figcaption>A model page for the shite</figcaption>
-</figure>
-<p>The web is meant to be a publishing medium. HTML, its lingua franca, has become a highly standardized, feature-rich, and expressive language.</p>
-<p>Modern HTML aims to be "semantic", i.e. it allows us to organize and describe various parts of our website in HTML tags that are well-accepted <strong>and</strong> machine- friendly <strong>and</strong> meaningful to humans. A lot can be done with very little <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
-<p>CSS too has evolved a lot. But we will focus more on the HTML bits, because that's at the heart of all web layouts and we can rely on browsers to supply reasonable styling information automatically.</p>
-<p>So, we may rifle through the HTML reference page and come up with some sort of a model of our would-be site. See the <a href="demo/index.html">live demo</a> and compare with the markup anatomy described below.</p>
-<details class="box invert stack">
-<summary>
-<code>Anatomy of the markup</code>
-<hr>
-</summary>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>  <span class="kw">&lt;head&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    <span class="co">&lt;!-- Some basic hygiene meta-data --&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;utf-8&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="ot">          content=</span><span class="st">&quot;width=device-width, initial-scale=1&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>    <span class="kw">&lt;title&gt;</span>A Shtatic Shite<span class="kw">&lt;/title&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>    <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;author&quot;</span><span class="ot"> content=</span><span class="st">&quot;Yours Truly&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>    <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;description&quot;</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="ot">          content=</span><span class="st">&quot;In which we work our way to world domination...</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a><span class="st">                   the hard way.&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>    <span class="co">&lt;!-- Some bare bones style information. --&gt;</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>    <span class="co">&lt;!-- Ignore details, it&#39;s just for show. --&gt;</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>    <span class="co">&lt;!-- Read https://every-layout.dev for true CSS enlightenment. --&gt;</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>    <span class="kw">&lt;style&gt;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>      <span class="in">:root</span> {</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>      <span class="kw">color</span>: <span class="cn">#1a2639</span><span class="op">;</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>      <span class="kw">background-color</span>: <span class="cn">#f0ece2</span><span class="op">;</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a>      <span class="kw">font-family</span>: <span class="dv">sans-serif</span><span class="op">;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a>      }</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a>      <span class="op">*</span> {</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>      <span class="kw">background-color</span>: <span class="cn">lightyellow</span><span class="op">;</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>      }</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a>      a {</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a>      <span class="kw">color</span>: <span class="cn">darkred</span><span class="op">;</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a>      }</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a>      body {</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a>      <span class="co">/* Constrain body width. */</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a>      <span class="kw">max-width</span>: <span class="dv">72</span><span class="dt">ch</span><span class="op">;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a>      <span class="co">/* Prevent content from sticking to inside edges of body. */</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a>      <span class="kw">padding</span>: <span class="dv">1.5</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a>      <span class="co">/* Position body in the middle of the screen. */</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true"></a>      <span class="kw">margin-top</span>: <span class="dv">1.5</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true"></a>      <span class="kw">margin-left</span>: <span class="bu">auto</span><span class="op">;</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true"></a>      <span class="kw">margin-right</span>: <span class="bu">auto</span><span class="op">;</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true"></a>      }</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true"></a>      nav {</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true"></a>      <span class="kw">display</span>: flex<span class="op">;</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true"></a>      <span class="kw">gap</span>: <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true"></a>      <span class="kw">margin-top</span>: <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true"></a>      <span class="kw">margin-bottom</span>: <span class="dv">1</span><span class="dt">rem</span><span class="op">;</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true"></a>      }</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true"></a>    <span class="kw">&lt;/style&gt;</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true"></a>  <span class="kw">&lt;/head&gt;</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true"></a>  <span class="kw">&lt;body&gt;</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true"></a>    <span class="kw">&lt;header</span><span class="ot"> id=</span><span class="st">&quot;site-header&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true"></a>      <span class="kw">&lt;h1&gt;</span>A &quot;Hello, World&quot; website by Yours Truly.<span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true"></a>      <span class="kw">&lt;nav&gt;</span></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true"></a>        <span class="kw">&lt;span&gt;&lt;a</span><span class="ot"> href=</span><span class="st">&quot;index.html&quot;</span><span class="kw">&gt;</span>Blog<span class="kw">&lt;/a&gt;&lt;/span&gt;</span></span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true"></a>        <span class="kw">&lt;span&gt;&lt;a</span><span class="ot"> href=</span><span class="st">&quot;about.html&quot;</span><span class="kw">&gt;</span>About<span class="kw">&lt;/a&gt;&lt;/span&gt;</span></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true"></a>        <span class="kw">&lt;span&gt;&lt;a</span><span class="ot"> href=</span><span class="st">&quot;resume.html&quot;</span><span class="kw">&gt;</span>Resume<span class="kw">&lt;/a&gt;&lt;/span&gt;</span></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true"></a>      <span class="kw">&lt;/nav&gt;</span></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true"></a>      <span class="kw">&lt;hr&gt;</span></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true"></a>    <span class="kw">&lt;/header&gt;</span></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true"></a>    <span class="kw">&lt;main&gt;</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true"></a>      <span class="kw">&lt;h1&gt;</span>Blog posts<span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true"></a>      <span class="kw">&lt;article</span><span class="ot"> id=</span><span class="st">&quot;article-hello-world&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true"></a>        <span class="kw">&lt;h2&gt;</span>Hello, world.<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true"></a>        <span class="kw">&lt;details&gt;</span></span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true"></a>          <span class="kw">&lt;summary&gt;</span></span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true"></a>            In which we greet the world.</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true"></a>          <span class="kw">&lt;/summary&gt;</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>Hello, world.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>I&#39;m here.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>And I&#39;m going to take you head-on...<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true"></a>          <span class="kw">&lt;nav&gt;</span></span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true"></a>            <span class="kw">&lt;span&gt;</span></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true"></a>              <span class="kw">&lt;sub&gt;</span>^ <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;#article-hello-world&quot;</span><span class="kw">&gt;</span>title<span class="kw">&lt;/a&gt;&lt;/sub&gt;</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true"></a>            <span class="kw">&lt;/span&gt;</span></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true"></a>            <span class="kw">&lt;span&gt;</span></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true"></a>              <span class="kw">&lt;sub&gt;</span>^ <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;#site-header&quot;</span><span class="kw">&gt;</span>menu<span class="kw">&lt;/a&gt;&lt;/sub&gt;</span></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true"></a>            <span class="kw">&lt;/span&gt;</span></span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true"></a>          <span class="kw">&lt;/nav&gt;</span></span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true"></a>        <span class="kw">&lt;/details&gt;</span></span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true"></a>      <span class="kw">&lt;/article&gt;</span></span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true"></a>      <span class="kw">&lt;article</span><span class="ot"> id=</span><span class="st">&quot;article-wtf-world&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true"></a>        <span class="kw">&lt;h2&gt;</span>Wtf, world?!<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true"></a>        <span class="kw">&lt;details&gt;</span></span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true"></a>          <span class="kw">&lt;summary&gt;</span></span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true"></a>            In which we marvel at the various insanties</span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true"></a>            of life and the living.</span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true"></a>          <span class="kw">&lt;/summary&gt;</span></span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>Wtf, world.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>I&#39;m here.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>And I&#39;m just... How do you even work?<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true"></a>          <span class="kw">&lt;nav&gt;</span></span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true"></a>            <span class="kw">&lt;span&gt;</span></span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true"></a>              <span class="kw">&lt;sub&gt;</span>^ <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;#article-hello-world&quot;</span><span class="kw">&gt;</span>title<span class="kw">&lt;/a&gt;&lt;/sub&gt;</span></span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true"></a>            <span class="kw">&lt;/span&gt;</span></span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true"></a>            <span class="kw">&lt;span&gt;</span></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true"></a>              <span class="kw">&lt;sub&gt;</span>^ <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;#site-header&quot;</span><span class="kw">&gt;</span>menu<span class="kw">&lt;/a&gt;&lt;/sub&gt;</span></span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true"></a>            <span class="kw">&lt;/span&gt;</span></span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true"></a>          <span class="kw">&lt;/nav&gt;</span></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true"></a>        <span class="kw">&lt;/details&gt;</span></span>
-<span id="cb6-96"><a href="#cb6-96" aria-hidden="true"></a>      <span class="kw">&lt;/article&gt;</span></span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true"></a>      <span class="kw">&lt;article</span><span class="ot"> id=</span><span class="st">&quot;article-goodbye-world&quot;</span><span class="kw">&gt;</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true"></a>        <span class="kw">&lt;h2&gt;</span>Goodybe, world.<span class="kw">&lt;/h2&gt;</span></span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true"></a>        <span class="kw">&lt;details&gt;</span></span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true"></a>          <span class="kw">&lt;summary&gt;</span></span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true"></a>            In which we bid adieu to the world.</span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true"></a>          <span class="kw">&lt;/summary&gt;</span></span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>Goodbye, world.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>It was nice being here.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-105"><a href="#cb6-105" aria-hidden="true"></a>          <span class="kw">&lt;p&gt;</span>I hope we meet again...<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-106"><a href="#cb6-106" aria-hidden="true"></a>          <span class="kw">&lt;nav&gt;</span></span>
-<span id="cb6-107"><a href="#cb6-107" aria-hidden="true"></a>            <span class="kw">&lt;span&gt;</span></span>
-<span id="cb6-108"><a href="#cb6-108" aria-hidden="true"></a>              <span class="kw">&lt;sub&gt;</span>^ <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;#article-goodbye-world&quot;</span><span class="kw">&gt;</span>title<span class="kw">&lt;/a&gt;&lt;/sub&gt;</span></span>
-<span id="cb6-109"><a href="#cb6-109" aria-hidden="true"></a>            <span class="kw">&lt;/span&gt;</span></span>
-<span id="cb6-110"><a href="#cb6-110" aria-hidden="true"></a>            <span class="kw">&lt;span&gt;</span></span>
-<span id="cb6-111"><a href="#cb6-111" aria-hidden="true"></a>              <span class="kw">&lt;sub&gt;</span>^ <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;#site-header&quot;</span><span class="kw">&gt;</span>menu<span class="kw">&lt;/a&gt;&lt;/sub&gt;</span></span>
-<span id="cb6-112"><a href="#cb6-112" aria-hidden="true"></a>            <span class="kw">&lt;/span&gt;</span></span>
-<span id="cb6-113"><a href="#cb6-113" aria-hidden="true"></a>          <span class="kw">&lt;/nav&gt;</span></span>
-<span id="cb6-114"><a href="#cb6-114" aria-hidden="true"></a>        <span class="kw">&lt;/details&gt;</span></span>
-<span id="cb6-115"><a href="#cb6-115" aria-hidden="true"></a>      <span class="kw">&lt;/article&gt;</span></span>
-<span id="cb6-116"><a href="#cb6-116" aria-hidden="true"></a>    <span class="kw">&lt;/main&gt;</span></span>
-<span id="cb6-117"><a href="#cb6-117" aria-hidden="true"></a>    <span class="kw">&lt;footer&gt;</span></span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true"></a>      <span class="kw">&lt;hr&gt;</span></span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>Copyright, Yours Truly.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true"></a>      <span class="kw">&lt;p&gt;</span>All content is MIT licensed, except where specified otherwise.<span class="kw">&lt;/p&gt;</span></span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true"></a>    <span class="kw">&lt;/footer&gt;</span></span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true"></a>  <span class="kw">&lt;/body&gt;</span></span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
-</details>
-<p>Our model already contains much html.energy. We're almost done.</p>
-<blockquote>
-<p>Note: I used the HTML and CSS I did simply because I picked up a few tricks after reading half a book. You may do it differently. The important thing is to construct a <em>good enough model</em> to help us think.</p>
-</blockquote>
-<h1 id="flip-the-model-into-a-full-website">Flip the model into a full website</h1>
-<p>In all honesty, the above structure could serve you well for many blog posts and pages. You can just copy-paste the HTML and modify the content, styles, meta —anything, really— to create new pages.</p>
-<p>Like this <a href="demo-2/index.html">other live demo</a>.</p>
-<p>See? Cute, right?</p>
-<table>
-<tbody>
-<tr class="odd">
-<td><img src="shite-demo-2-index.png" /></td>
-<td><img src="shite-demo-2-about.png" /></td>
-<td><img src="shite-demo-2-resume.png" /></td>
-</tr>
-</tbody>
-</table>
-<p>(Fine, I also made <em>just one</em> little tweak for colour effect. I couldn't help it, OK?).</p>
-<h1 id="what-next">What next?</h1>
-<p>Well, you can…</p>
-<ul>
-<li>write a pleasantly styled private diary that lives just on your computer, or</li>
-<li>email any page, or the whole thing to anyone you like, or</li>
-<li>share the site via dropbox or suchlike, with close friends and family, or</li>
-<li>publish it to the WWW <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> for all to behold</li>
-</ul>
-<p>But why stop here? I wish you and your site grow ever richer. And why stop at one? I wish your ambition grows to make many sites of all shapes and sizes.</p>
-<p>Either way, may the copy pasta stop being cute very fast. May it cause you to seek ways to automate away the tedious bits of site-building. Because it's too much fun!</p>
-<p>In next and concluding part, I draw a blueprint you could crib from, should you choose this virtuous adventure in artisanal automation. Something dead-simple. That you <em>fully</em> grok. That you can change at will. That is therefore timeless.</p>
-<h1 id="footnotes">Footnotes</h1>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>Even Joe Armstrong <a href="https://www.youtube.com/watch?v=lKXe3HUG2l4">gave up after "the local Grunt" wouldn't work</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Recently, a friend told me matter-of-fact-ly that they know people who were spinning up a Kubernetes cluster for their static website. For scale and all, you know. (If you don't know what any of that means, it's fine. I don't either.)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p><a href="https://wesleyac.com/">Wesley A-C.</a>, m'colleague from the Recurse Center community, has more to say about the <a href="https://blog.wesleyac.com/posts/no-static-websites">static/dynamic divide</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Thanks to <a href="https://github.com/cthulahoops">Adam Kelly</a>, for permission to use their site as example.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Someone on the html.energy discord pointed to this truth buried in The Source.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Visit <a href="https://html.energy/home.html">html.energy</a> to learn the truth, <a href="https://gossipsweb.net/">gossipsweb</a> to experience it, and the <a href="https://512kb.club/">512KB Club</a> to meet the lightweight elite.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>This blog post <a href="https://alignedleft.com/resources/cheap-web-hosting">Cheap or Free Static Website Hosting</a> suggests several options. The neocities.org way seems easiest for a simple website like ours. You'll also find plenty of help for <a href="https://pages.github.com/">publishing with github pages</a>. Alternatively, there seems to be a way to publish direct from your Google Drive or Dropbox etc. <a href="https://www.freecodecamp.org/news/how-to-deploy-a-static-website-for-free-in-only-3-minutes-with-google-drive/">using Fast.io</a>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
-  </section>
-  <footer id="blog-post-footer" class="footer">
-    <nav class="cluster">
-      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
-      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-      <span>&rarr; <a href="mailto:weblog@evalapply.org">email comments</a></span>
-    </nav>
-  </footer>
-</article>
-        </main>
-        <footer id="site-footer">
-<hr>
-<div class="box invert footer stack">
-  <div class="cluster">
-    <span>&#128231; : <a href="mailto:hello@evalapply.org">hello@evalapply.org</a></span>
-    <a class="site-feed"
-       href="https://www.evalapply.org/index.xml">
-       Blog feed
-    </a>
-    <form class="cluster"
-          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-          method="post" target="popupwindow"
-          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-        <input type="email" name="email" id="bd-email">
-      <span>
-        <input type="submit" value="Get occasional newsletter">
-        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-      </span>
-    </form>
-  </div>
-  <hr>
-  <p>&copy; copyright 2023, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
-    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    Creative Commons Attribution-ShareAlike 4.0 International License
-    </a>, the same one used by Wikipedia.</span>
-<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-    <img alt="Creative Commons License" style="border-width:0"
-         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png">
-    </a></span>
-  </p>
-  <hr>
-  <p> Made with
-      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
-      <a href="https://orgmode.org/">org-mode</a>, and
-      <a href="https://github.com/adityaathalye/shite">shite</a>.
-  </p>
-  <p id="recurse-scout">
-  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
-  </p>
-</div>
-</footer>
-    </div>
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-            data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
-    </script>
-    <!-- End Cloudflare Web Analytics -->
-  </body>
-</html>
+</code></pre><p>As before, the browser helpfully enclosed our incomplete html in the document level tags (html, body).<div class=sourceCode id=cb4><pre class="sourceCode html"><code class="sourceCode html"><span id=cb4-1><a href=#cb4-1 aria-hidden=true></a><span class=kw>&lt;html&gt;</span></span>
+<span id=cb4-2><a href=#cb4-2 aria-hidden=true></a>  <span class=kw>&lt;head&gt;&lt;/head&gt;</span></span>
+<span id=cb4-3><a href=#cb4-3 aria-hidden=true></a>  <span class=kw>&lt;body&gt;</span></span>
+<span id=cb4-4><a href=#cb4-4 aria-hidden=true></a>    <span class=kw>&lt;p&gt;</span>Hello, world.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb4-5><a href=#cb4-5 aria-hidden=true></a>    <span class=kw>&lt;p&gt;</span>I am @random on Twitter, Insta, FB, and LinkedIn.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb4-6><a href=#cb4-6 aria-hidden=true></a>    <span class=kw>&lt;p&gt;</span>Look me up!<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb4-7><a href=#cb4-7 aria-hidden=true></a>  <span class=kw>&lt;/body&gt;</span></span>
+<span id=cb4-8><a href=#cb4-8 aria-hidden=true></a><span class=kw>&lt;/html&gt;</span></span></code></pre></div><p>The browser somehow renders our text as neat paragraphs. That's because it automatically applies default style information to HTML elements it recognizes. We can see this in the "Styles" tab when we "view source" (in Firefox).<div class=sourceCode id=cb5><pre class="sourceCode css"><code class="sourceCode css"><span id=cb5-1><a href=#cb5-1 aria-hidden=true></a>p {</span>
+<span id=cb5-2><a href=#cb5-2 aria-hidden=true></a>  <span class=kw>display</span>: <span class=dv>block</span><span class=op>;</span></span>
+<span id=cb5-3><a href=#cb5-3 aria-hidden=true></a>  <span class=kw>margin-block-start</span>: <span class=dv>1</span><span class=dt>em</span><span class=op>;</span></span>
+<span id=cb5-4><a href=#cb5-4 aria-hidden=true></a>  <span class=kw>margin-block-end</span>: <span class=dv>1</span><span class=dt>em</span><span class=op>;</span></span>
+<span id=cb5-5><a href=#cb5-5 aria-hidden=true></a>  <span class=kw>margin-inline-start</span>: <span class=dv>0</span><span class=dt>px</span><span class=op>;</span></span>
+<span id=cb5-6><a href=#cb5-6 aria-hidden=true></a>  <span class=kw>margin-inline-end</span>: <span class=dv>0</span><span class=dt>px</span><span class=op>;</span></span>
+<span id=cb5-7><a href=#cb5-7 aria-hidden=true></a>}</span></code></pre></div><p>It's not magic. Have a look at the default style sheets to render HTML <a href=#fn5 class=footnote-ref id=fnref5 role=doc-noteref><sup>5</sup></a>:<ul><li>in the Chromium project: <a href=https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css>core/css/html.css</a><li>in the Firefox project: <a href=https://searchfox.org/mozilla-central/source/layout/style/res/html.css>layout/style/res/html.css</a></ul><p>So there it is. In the simplest case, we need only worry about the bare essential content and HTML formatting, and rely on the browser to supply the rest; wrapper HTML, and CSS style information.<p>Further, even in this crude form, the browser has already planted the seed of an idea in our minds. If <em>we</em> supply just the content, <em>something else</em> could mechanically add in the boilerplate/repetitive HTML + CSS. A templating system.<p>But we're getting ahead of ourselves. If we want browsers to show our content the way we intended, then we must remove guesswork by wrapping the content in well-formed HTML syntax.<h1 id=harness-html.energy-to-model-our-would-be-site>Harness html.energy to model our would-be site</h1><figure><img src=shite-demo-1.png alt><figcaption>A model page for the shite</figcaption></figure><p>The web is meant to be a publishing medium. HTML, its lingua franca, has become a highly standardized, feature-rich, and expressive language.<p>Modern HTML aims to be "semantic", i.e. it allows us to organize and describe various parts of our website in HTML tags that are well-accepted <strong>and</strong> machine- friendly <strong>and</strong> meaningful to humans. A lot can be done with very little <a href=#fn6 class=footnote-ref id=fnref6 role=doc-noteref><sup>6</sup></a>.<p>CSS too has evolved a lot. But we will focus more on the HTML bits, because that's at the heart of all web layouts and we can rely on browsers to supply reasonable styling information automatically.<p>So, we may rifle through the HTML reference page and come up with some sort of a model of our would-be site. See the <a href=demo/index.html>live demo</a> and compare with the markup anatomy described below.<details class="box invert stack"><summary><code>Anatomy of the markup</code><hr></summary><div class=sourceCode id=cb6><pre class="sourceCode html"><code class="sourceCode html"><span id=cb6-1><a href=#cb6-1 aria-hidden=true></a><span class=dt>&lt;!DOCTYPE </span>html<span class=dt>&gt;</span></span>
+<span id=cb6-2><a href=#cb6-2 aria-hidden=true></a><span class=kw>&lt;html&gt;</span></span>
+<span id=cb6-3><a href=#cb6-3 aria-hidden=true></a>  <span class=kw>&lt;head&gt;</span></span>
+<span id=cb6-4><a href=#cb6-4 aria-hidden=true></a>    <span class=co>&lt;!-- Some basic hygiene meta-data --&gt;</span></span>
+<span id=cb6-5><a href=#cb6-5 aria-hidden=true></a>    <span class=kw>&lt;meta</span><span class=ot> charset=</span><span class=st>&quot;utf-8&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-6><a href=#cb6-6 aria-hidden=true></a>    <span class=kw>&lt;meta</span><span class=ot> name=</span><span class=st>&quot;viewport&quot;</span></span>
+<span id=cb6-7><a href=#cb6-7 aria-hidden=true></a><span class=ot>          content=</span><span class=st>&quot;width=device-width, initial-scale=1&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-8><a href=#cb6-8 aria-hidden=true></a>    <span class=kw>&lt;title&gt;</span>A Shtatic Shite<span class=kw>&lt;/title&gt;</span></span>
+<span id=cb6-9><a href=#cb6-9 aria-hidden=true></a>    <span class=kw>&lt;meta</span><span class=ot> name=</span><span class=st>&quot;author&quot;</span><span class=ot> content=</span><span class=st>&quot;Yours Truly&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-10><a href=#cb6-10 aria-hidden=true></a>    <span class=kw>&lt;meta</span><span class=ot> name=</span><span class=st>&quot;description&quot;</span></span>
+<span id=cb6-11><a href=#cb6-11 aria-hidden=true></a><span class=ot>          content=</span><span class=st>&quot;In which we work our way to world domination...</span></span>
+<span id=cb6-12><a href=#cb6-12 aria-hidden=true></a><span class=st>                   the hard way.&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-13><a href=#cb6-13 aria-hidden=true></a>    <span class=co>&lt;!-- Some bare bones style information. --&gt;</span></span>
+<span id=cb6-14><a href=#cb6-14 aria-hidden=true></a>    <span class=co>&lt;!-- Ignore details, it&#39;s just for show. --&gt;</span></span>
+<span id=cb6-15><a href=#cb6-15 aria-hidden=true></a>    <span class=co>&lt;!-- Read https://every-layout.dev for true CSS enlightenment. --&gt;</span></span>
+<span id=cb6-16><a href=#cb6-16 aria-hidden=true></a>    <span class=kw>&lt;style&gt;</span></span>
+<span id=cb6-17><a href=#cb6-17 aria-hidden=true></a>      <span class=in>:root</span> {</span>
+<span id=cb6-18><a href=#cb6-18 aria-hidden=true></a>      <span class=kw>color</span>: <span class=cn>#1a2639</span><span class=op>;</span></span>
+<span id=cb6-19><a href=#cb6-19 aria-hidden=true></a>      <span class=kw>background-color</span>: <span class=cn>#f0ece2</span><span class=op>;</span></span>
+<span id=cb6-20><a href=#cb6-20 aria-hidden=true></a>      <span class=kw>font-family</span>: <span class=dv>sans-serif</span><span class=op>;</span></span>
+<span id=cb6-21><a href=#cb6-21 aria-hidden=true></a>      }</span>
+<span id=cb6-22><a href=#cb6-22 aria-hidden=true></a>      <span class=op>*</span> {</span>
+<span id=cb6-23><a href=#cb6-23 aria-hidden=true></a>      <span class=kw>background-color</span>: <span class=cn>lightyellow</span><span class=op>;</span></span>
+<span id=cb6-24><a href=#cb6-24 aria-hidden=true></a>      }</span>
+<span id=cb6-25><a href=#cb6-25 aria-hidden=true></a>      a {</span>
+<span id=cb6-26><a href=#cb6-26 aria-hidden=true></a>      <span class=kw>color</span>: <span class=cn>darkred</span><span class=op>;</span></span>
+<span id=cb6-27><a href=#cb6-27 aria-hidden=true></a>      }</span>
+<span id=cb6-28><a href=#cb6-28 aria-hidden=true></a>      body {</span>
+<span id=cb6-29><a href=#cb6-29 aria-hidden=true></a>      <span class=co>/* Constrain body width. */</span></span>
+<span id=cb6-30><a href=#cb6-30 aria-hidden=true></a>      <span class=kw>max-width</span>: <span class=dv>72</span><span class=dt>ch</span><span class=op>;</span></span>
+<span id=cb6-31><a href=#cb6-31 aria-hidden=true></a>      <span class=co>/* Prevent content from sticking to inside edges of body. */</span></span>
+<span id=cb6-32><a href=#cb6-32 aria-hidden=true></a>      <span class=kw>padding</span>: <span class=dv>1.5</span><span class=dt>rem</span><span class=op>;</span></span>
+<span id=cb6-33><a href=#cb6-33 aria-hidden=true></a>      <span class=co>/* Position body in the middle of the screen. */</span></span>
+<span id=cb6-34><a href=#cb6-34 aria-hidden=true></a>      <span class=kw>margin-top</span>: <span class=dv>1.5</span><span class=dt>rem</span><span class=op>;</span></span>
+<span id=cb6-35><a href=#cb6-35 aria-hidden=true></a>      <span class=kw>margin-left</span>: <span class=bu>auto</span><span class=op>;</span></span>
+<span id=cb6-36><a href=#cb6-36 aria-hidden=true></a>      <span class=kw>margin-right</span>: <span class=bu>auto</span><span class=op>;</span></span>
+<span id=cb6-37><a href=#cb6-37 aria-hidden=true></a>      }</span>
+<span id=cb6-38><a href=#cb6-38 aria-hidden=true></a>      nav {</span>
+<span id=cb6-39><a href=#cb6-39 aria-hidden=true></a>      <span class=kw>display</span>: flex<span class=op>;</span></span>
+<span id=cb6-40><a href=#cb6-40 aria-hidden=true></a>      <span class=kw>gap</span>: <span class=dv>1</span><span class=dt>rem</span><span class=op>;</span></span>
+<span id=cb6-41><a href=#cb6-41 aria-hidden=true></a>      <span class=kw>margin-top</span>: <span class=dv>1</span><span class=dt>rem</span><span class=op>;</span></span>
+<span id=cb6-42><a href=#cb6-42 aria-hidden=true></a>      <span class=kw>margin-bottom</span>: <span class=dv>1</span><span class=dt>rem</span><span class=op>;</span></span>
+<span id=cb6-43><a href=#cb6-43 aria-hidden=true></a>      }</span>
+<span id=cb6-44><a href=#cb6-44 aria-hidden=true></a>    <span class=kw>&lt;/style&gt;</span></span>
+<span id=cb6-45><a href=#cb6-45 aria-hidden=true></a>  <span class=kw>&lt;/head&gt;</span></span>
+<span id=cb6-46><a href=#cb6-46 aria-hidden=true></a>  <span class=kw>&lt;body&gt;</span></span>
+<span id=cb6-47><a href=#cb6-47 aria-hidden=true></a>    <span class=kw>&lt;header</span><span class=ot> id=</span><span class=st>&quot;site-header&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-48><a href=#cb6-48 aria-hidden=true></a>      <span class=kw>&lt;h1&gt;</span>A &quot;Hello, World&quot; website by Yours Truly.<span class=kw>&lt;/h1&gt;</span></span>
+<span id=cb6-49><a href=#cb6-49 aria-hidden=true></a>      <span class=kw>&lt;nav&gt;</span></span>
+<span id=cb6-50><a href=#cb6-50 aria-hidden=true></a>        <span class=kw>&lt;span&gt;&lt;a</span><span class=ot> href=</span><span class=st>&quot;index.html&quot;</span><span class=kw>&gt;</span>Blog<span class=kw>&lt;/a&gt;&lt;/span&gt;</span></span>
+<span id=cb6-51><a href=#cb6-51 aria-hidden=true></a>        <span class=kw>&lt;span&gt;&lt;a</span><span class=ot> href=</span><span class=st>&quot;about.html&quot;</span><span class=kw>&gt;</span>About<span class=kw>&lt;/a&gt;&lt;/span&gt;</span></span>
+<span id=cb6-52><a href=#cb6-52 aria-hidden=true></a>        <span class=kw>&lt;span&gt;&lt;a</span><span class=ot> href=</span><span class=st>&quot;resume.html&quot;</span><span class=kw>&gt;</span>Resume<span class=kw>&lt;/a&gt;&lt;/span&gt;</span></span>
+<span id=cb6-53><a href=#cb6-53 aria-hidden=true></a>      <span class=kw>&lt;/nav&gt;</span></span>
+<span id=cb6-54><a href=#cb6-54 aria-hidden=true></a>      <span class=kw>&lt;hr&gt;</span></span>
+<span id=cb6-55><a href=#cb6-55 aria-hidden=true></a>    <span class=kw>&lt;/header&gt;</span></span>
+<span id=cb6-56><a href=#cb6-56 aria-hidden=true></a>    <span class=kw>&lt;main&gt;</span></span>
+<span id=cb6-57><a href=#cb6-57 aria-hidden=true></a>      <span class=kw>&lt;h1&gt;</span>Blog posts<span class=kw>&lt;/h1&gt;</span></span>
+<span id=cb6-58><a href=#cb6-58 aria-hidden=true></a>      <span class=kw>&lt;article</span><span class=ot> id=</span><span class=st>&quot;article-hello-world&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-59><a href=#cb6-59 aria-hidden=true></a>        <span class=kw>&lt;h2&gt;</span>Hello, world.<span class=kw>&lt;/h2&gt;</span></span>
+<span id=cb6-60><a href=#cb6-60 aria-hidden=true></a>        <span class=kw>&lt;details&gt;</span></span>
+<span id=cb6-61><a href=#cb6-61 aria-hidden=true></a>          <span class=kw>&lt;summary&gt;</span></span>
+<span id=cb6-62><a href=#cb6-62 aria-hidden=true></a>            In which we greet the world.</span>
+<span id=cb6-63><a href=#cb6-63 aria-hidden=true></a>          <span class=kw>&lt;/summary&gt;</span></span>
+<span id=cb6-64><a href=#cb6-64 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>Hello, world.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-65><a href=#cb6-65 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>I&#39;m here.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-66><a href=#cb6-66 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>And I&#39;m going to take you head-on...<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-67><a href=#cb6-67 aria-hidden=true></a>          <span class=kw>&lt;nav&gt;</span></span>
+<span id=cb6-68><a href=#cb6-68 aria-hidden=true></a>            <span class=kw>&lt;span&gt;</span></span>
+<span id=cb6-69><a href=#cb6-69 aria-hidden=true></a>              <span class=kw>&lt;sub&gt;</span>^ <span class=kw>&lt;a</span><span class=ot> href=</span><span class=st>&quot;#article-hello-world&quot;</span><span class=kw>&gt;</span>title<span class=kw>&lt;/a&gt;&lt;/sub&gt;</span></span>
+<span id=cb6-70><a href=#cb6-70 aria-hidden=true></a>            <span class=kw>&lt;/span&gt;</span></span>
+<span id=cb6-71><a href=#cb6-71 aria-hidden=true></a>            <span class=kw>&lt;span&gt;</span></span>
+<span id=cb6-72><a href=#cb6-72 aria-hidden=true></a>              <span class=kw>&lt;sub&gt;</span>^ <span class=kw>&lt;a</span><span class=ot> href=</span><span class=st>&quot;#site-header&quot;</span><span class=kw>&gt;</span>menu<span class=kw>&lt;/a&gt;&lt;/sub&gt;</span></span>
+<span id=cb6-73><a href=#cb6-73 aria-hidden=true></a>            <span class=kw>&lt;/span&gt;</span></span>
+<span id=cb6-74><a href=#cb6-74 aria-hidden=true></a>          <span class=kw>&lt;/nav&gt;</span></span>
+<span id=cb6-75><a href=#cb6-75 aria-hidden=true></a>        <span class=kw>&lt;/details&gt;</span></span>
+<span id=cb6-76><a href=#cb6-76 aria-hidden=true></a>      <span class=kw>&lt;/article&gt;</span></span>
+<span id=cb6-77><a href=#cb6-77 aria-hidden=true></a>      <span class=kw>&lt;article</span><span class=ot> id=</span><span class=st>&quot;article-wtf-world&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-78><a href=#cb6-78 aria-hidden=true></a>        <span class=kw>&lt;h2&gt;</span>Wtf, world?!<span class=kw>&lt;/h2&gt;</span></span>
+<span id=cb6-79><a href=#cb6-79 aria-hidden=true></a>        <span class=kw>&lt;details&gt;</span></span>
+<span id=cb6-80><a href=#cb6-80 aria-hidden=true></a>          <span class=kw>&lt;summary&gt;</span></span>
+<span id=cb6-81><a href=#cb6-81 aria-hidden=true></a>            In which we marvel at the various insanties</span>
+<span id=cb6-82><a href=#cb6-82 aria-hidden=true></a>            of life and the living.</span>
+<span id=cb6-83><a href=#cb6-83 aria-hidden=true></a>          <span class=kw>&lt;/summary&gt;</span></span>
+<span id=cb6-84><a href=#cb6-84 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>Wtf, world.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-85><a href=#cb6-85 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>I&#39;m here.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-86><a href=#cb6-86 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>And I&#39;m just... How do you even work?<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-87><a href=#cb6-87 aria-hidden=true></a>          <span class=kw>&lt;nav&gt;</span></span>
+<span id=cb6-88><a href=#cb6-88 aria-hidden=true></a>            <span class=kw>&lt;span&gt;</span></span>
+<span id=cb6-89><a href=#cb6-89 aria-hidden=true></a>              <span class=kw>&lt;sub&gt;</span>^ <span class=kw>&lt;a</span><span class=ot> href=</span><span class=st>&quot;#article-hello-world&quot;</span><span class=kw>&gt;</span>title<span class=kw>&lt;/a&gt;&lt;/sub&gt;</span></span>
+<span id=cb6-90><a href=#cb6-90 aria-hidden=true></a>            <span class=kw>&lt;/span&gt;</span></span>
+<span id=cb6-91><a href=#cb6-91 aria-hidden=true></a>            <span class=kw>&lt;span&gt;</span></span>
+<span id=cb6-92><a href=#cb6-92 aria-hidden=true></a>              <span class=kw>&lt;sub&gt;</span>^ <span class=kw>&lt;a</span><span class=ot> href=</span><span class=st>&quot;#site-header&quot;</span><span class=kw>&gt;</span>menu<span class=kw>&lt;/a&gt;&lt;/sub&gt;</span></span>
+<span id=cb6-93><a href=#cb6-93 aria-hidden=true></a>            <span class=kw>&lt;/span&gt;</span></span>
+<span id=cb6-94><a href=#cb6-94 aria-hidden=true></a>          <span class=kw>&lt;/nav&gt;</span></span>
+<span id=cb6-95><a href=#cb6-95 aria-hidden=true></a>        <span class=kw>&lt;/details&gt;</span></span>
+<span id=cb6-96><a href=#cb6-96 aria-hidden=true></a>      <span class=kw>&lt;/article&gt;</span></span>
+<span id=cb6-97><a href=#cb6-97 aria-hidden=true></a>      <span class=kw>&lt;article</span><span class=ot> id=</span><span class=st>&quot;article-goodbye-world&quot;</span><span class=kw>&gt;</span></span>
+<span id=cb6-98><a href=#cb6-98 aria-hidden=true></a>        <span class=kw>&lt;h2&gt;</span>Goodybe, world.<span class=kw>&lt;/h2&gt;</span></span>
+<span id=cb6-99><a href=#cb6-99 aria-hidden=true></a>        <span class=kw>&lt;details&gt;</span></span>
+<span id=cb6-100><a href=#cb6-100 aria-hidden=true></a>          <span class=kw>&lt;summary&gt;</span></span>
+<span id=cb6-101><a href=#cb6-101 aria-hidden=true></a>            In which we bid adieu to the world.</span>
+<span id=cb6-102><a href=#cb6-102 aria-hidden=true></a>          <span class=kw>&lt;/summary&gt;</span></span>
+<span id=cb6-103><a href=#cb6-103 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>Goodbye, world.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-104><a href=#cb6-104 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>It was nice being here.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-105><a href=#cb6-105 aria-hidden=true></a>          <span class=kw>&lt;p&gt;</span>I hope we meet again...<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-106><a href=#cb6-106 aria-hidden=true></a>          <span class=kw>&lt;nav&gt;</span></span>
+<span id=cb6-107><a href=#cb6-107 aria-hidden=true></a>            <span class=kw>&lt;span&gt;</span></span>
+<span id=cb6-108><a href=#cb6-108 aria-hidden=true></a>              <span class=kw>&lt;sub&gt;</span>^ <span class=kw>&lt;a</span><span class=ot> href=</span><span class=st>&quot;#article-goodbye-world&quot;</span><span class=kw>&gt;</span>title<span class=kw>&lt;/a&gt;&lt;/sub&gt;</span></span>
+<span id=cb6-109><a href=#cb6-109 aria-hidden=true></a>            <span class=kw>&lt;/span&gt;</span></span>
+<span id=cb6-110><a href=#cb6-110 aria-hidden=true></a>            <span class=kw>&lt;span&gt;</span></span>
+<span id=cb6-111><a href=#cb6-111 aria-hidden=true></a>              <span class=kw>&lt;sub&gt;</span>^ <span class=kw>&lt;a</span><span class=ot> href=</span><span class=st>&quot;#site-header&quot;</span><span class=kw>&gt;</span>menu<span class=kw>&lt;/a&gt;&lt;/sub&gt;</span></span>
+<span id=cb6-112><a href=#cb6-112 aria-hidden=true></a>            <span class=kw>&lt;/span&gt;</span></span>
+<span id=cb6-113><a href=#cb6-113 aria-hidden=true></a>          <span class=kw>&lt;/nav&gt;</span></span>
+<span id=cb6-114><a href=#cb6-114 aria-hidden=true></a>        <span class=kw>&lt;/details&gt;</span></span>
+<span id=cb6-115><a href=#cb6-115 aria-hidden=true></a>      <span class=kw>&lt;/article&gt;</span></span>
+<span id=cb6-116><a href=#cb6-116 aria-hidden=true></a>    <span class=kw>&lt;/main&gt;</span></span>
+<span id=cb6-117><a href=#cb6-117 aria-hidden=true></a>    <span class=kw>&lt;footer&gt;</span></span>
+<span id=cb6-118><a href=#cb6-118 aria-hidden=true></a>      <span class=kw>&lt;hr&gt;</span></span>
+<span id=cb6-119><a href=#cb6-119 aria-hidden=true></a>      <span class=kw>&lt;p&gt;</span>Copyright, Yours Truly.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-120><a href=#cb6-120 aria-hidden=true></a>      <span class=kw>&lt;p&gt;</span>All content is MIT licensed, except where specified otherwise.<span class=kw>&lt;/p&gt;</span></span>
+<span id=cb6-121><a href=#cb6-121 aria-hidden=true></a>    <span class=kw>&lt;/footer&gt;</span></span>
+<span id=cb6-122><a href=#cb6-122 aria-hidden=true></a>  <span class=kw>&lt;/body&gt;</span></span>
+<span id=cb6-123><a href=#cb6-123 aria-hidden=true></a><span class=kw>&lt;/html&gt;</span></span></code></pre></div></details><p>Our model already contains much html.energy. We're almost done.<blockquote><p>Note: I used the HTML and CSS I did simply because I picked up a few tricks after reading half a book. You may do it differently. The important thing is to construct a <em>good enough model</em> to help us think.</blockquote><h1 id=flip-the-model-into-a-full-website>Flip the model into a full website</h1><p>In all honesty, the above structure could serve you well for many blog posts and pages. You can just copy-paste the HTML and modify the content, styles, meta —anything, really— to create new pages.<p>Like this <a href=demo-2/index.html>other live demo</a>.<p>See? Cute, right?<table><tbody><tr class=odd><td><img src=shite-demo-2-index.png><td><img src=shite-demo-2-about.png><td><img src=shite-demo-2-resume.png></table><p>(Fine, I also made <em>just one</em> little tweak for colour effect. I couldn't help it, OK?).<h1 id=what-next>What next?</h1><p>Well, you can…<ul><li>write a pleasantly styled private diary that lives just on your computer, or<li>email any page, or the whole thing to anyone you like, or<li>share the site via dropbox or suchlike, with close friends and family, or<li>publish it to the WWW <a href=#fn7 class=footnote-ref id=fnref7 role=doc-noteref><sup>7</sup></a> for all to behold</ul><p>But why stop here? I wish you and your site grow ever richer. And why stop at one? I wish your ambition grows to make many sites of all shapes and sizes.<p>Either way, may the copy pasta stop being cute very fast. May it cause you to seek ways to automate away the tedious bits of site-building. Because it's too much fun!<p>In next and concluding part, I draw a blueprint you could crib from, should you choose this virtuous adventure in artisanal automation. Something dead-simple. That you <em>fully</em> grok. That you can change at will. That is therefore timeless.<h1 id=footnotes>Footnotes</h1><section class=footnotes role=doc-endnotes><hr><ol><li id=fn1 role=doc-endnote><p>Even Joe Armstrong <a href="https://www.youtube.com/watch?v=lKXe3HUG2l4">gave up after "the local Grunt" wouldn't work</a>.<a href=#fnref1 class=footnote-back role=doc-backlink>↩︎</a><li id=fn2 role=doc-endnote><p>Recently, a friend told me matter-of-fact-ly that they know people who were spinning up a Kubernetes cluster for their static website. For scale and all, you know. (If you don't know what any of that means, it's fine. I don't either.)<a href=#fnref2 class=footnote-back role=doc-backlink>↩︎</a><li id=fn3 role=doc-endnote><p><a href=https://wesleyac.com/>Wesley A-C.</a>, m'colleague from the Recurse Center community, has more to say about the <a href=https://blog.wesleyac.com/posts/no-static-websites>static/dynamic divide</a>.<a href=#fnref3 class=footnote-back role=doc-backlink>↩︎</a><li id=fn4 role=doc-endnote><p>Thanks to <a href=https://github.com/cthulahoops>Adam Kelly</a>, for permission to use their site as example.<a href=#fnref4 class=footnote-back role=doc-backlink>↩︎</a><li id=fn5 role=doc-endnote><p>Someone on the html.energy discord pointed to this truth buried in The Source.<a href=#fnref5 class=footnote-back role=doc-backlink>↩︎</a><li id=fn6 role=doc-endnote><p>Visit <a href=https://html.energy/home.html>html.energy</a> to learn the truth, <a href=https://gossipsweb.net/>gossipsweb</a> to experience it, and the <a href=https://512kb.club/>512KB Club</a> to meet the lightweight elite.<a href=#fnref6 class=footnote-back role=doc-backlink>↩︎</a><li id=fn7 role=doc-endnote><p>This blog post <a href=https://alignedleft.com/resources/cheap-web-hosting>Cheap or Free Static Website Hosting</a> suggests several options. The neocities.org way seems easiest for a simple website like ours. You'll also find plenty of help for <a href=https://pages.github.com/>publishing with github pages</a>. Alternatively, there seems to be a way to publish direct from your Google Drive or Dropbox etc. <a href=https://www.freecodecamp.org/news/how-to-deploy-a-static-website-for-free-in-only-3-minutes-with-google-drive/>using Fast.io</a>.<a href=#fnref7 class=footnote-back role=doc-backlink>↩︎</a></ol></section></section><footer id=blog-post-footer class=footer><nav class=cluster><span>&uarr; <a href=#blog-post rel=bookmark>title</a></span>
+<span>&uarr; <a href=#site-header rel=bookmark>menu</a></span>
+<span>&rarr; <a href=mailto:weblog@evalapply.org>email comments</a></span></nav></footer></article></main><footer id=site-footer><hr><div class="box invert footer stack"><div class=cluster><span>&#128231; : <a href=mailto:hello@evalapply.org>hello@evalapply.org</a></span>
+<a class=site-feed href=https://www.evalapply.org/index.xml>Blog feed</a><form class=cluster action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')"><input type=email name=email id=bd-email>
+<span><input type=submit value="Get occasional newsletter">
+<em>(thanks, <a href=https://buttondown.email target=_blank>Buttondown</a>!)</em></span></form></div><hr><p>&copy; copyright 2023, <a href=https://evalapply.org target=_blank>Aditya Athalye</a>.
+<span>Except where otherwise noted, content on this site is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative Commons Attribution-ShareAlike 4.0 International License
+</a>, the same one used by Wikipedia.</span>
+<span><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/4.0/80x15.png></a></span><hr><p>Made with
+<a href=https://www.gnu.org/software/emacs/>GNU Emacs</a>,
+<a href=https://orgmode.org/>org-mode</a>, and
+<a href=https://github.com/adityaathalye/shite>shite</a>.<p id=recurse-scout><script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script></div></footer></div><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'></script>
