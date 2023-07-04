@@ -1,0 +1,81 @@
+<!doctype html><html lang=en prefix="og: https://ogp.me/ns#"><title>Emerging from dotemacs bankruptcy the hard way: init begins</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Aditya Athalye"><meta name=description content="The first action must, of course, be to colour the bikeshed and set some decent defaults."><meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure"><meta property="og:title" content="Emerging from dotemacs bankruptcy the hard way: init begins"><meta property="og:description" content="The first action must, of course, be to colour the bikeshed and set some decent defaults."><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:url" content="https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-init-begins/index.html"><link rel="stylesheet preload" as=style href=https://www.evalapply.org/static/css/style.css><link href=https://www.evalapply.org/index.xml rel=alternate type=application/rss+xml title="Eval / Apply is pure magic"><link rel=canonical href=https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-init-begins/index.html><link rel=icon type=image/vnd.microsoft.icon href=https://www.evalapply.org/static/img/favicon.ico><div id=the-very-top class="stack center box"><header id=site-header><div class="box invert stack"><div class="with-sidebar site-header"><a class="box icon" href=https://www.evalapply.org/index.html><img src=https://www.evalapply.org/static/img/Lisp_logo.svg loading=lazy alt="Eval / Apply is pure magic"></a><div class=stack><h1 class="site-header title">Eval / Apply is pure magic</h1><nav class="cluster site-header site-header:nav-items"><a href=https://www.evalapply.org/index.html>&#955; hello</a>
+<a href=https://www.evalapply.org/posts/index.html>&#9753; read</a>
+<a href=https://www.evalapply.org/posts/software-demos/index.html#main>&#9775; demo!</a>
+<a href=mailto:hello@evalapply.org>&nbsp;&#9993; write</a>
+<a href=https://www.evalapply.org/now.html#main>&#171; now &#187;</a>
+<a href=https://www.evalapply.org/index.xml>&ap; feed</a></nav></div></div></div></header><main id=main><article id=blog-post class=stack><header><div class=stack><div class=title>Emerging from dotemacs bankruptcy the hard way: init begins</div><div class="cluster post-meta"><span>&uarr; <a href=#site-header rel=bookmark>menu</a></span>
+<span>&darr; <a href=#blog-post-footer rel=bookmark>discuss</a></span></div><div class=summary>The first action must, of course, be to colour the bikeshed and set some decent defaults.</div><div class="cluster post-meta"><span class=author>By: Adi</span>
+<span class=date>Published: 2023-06-30</span>
+<span class=date>Updated: 2023-06-30</span>
+<span class=tags>Tags: / <a href=https://www.evalapply.org/tags/programming/index.html#main>#programming</a> / <a href=https://www.evalapply.org/tags/emacs/index.html#main>#emacs</a> / <a href=https://www.evalapply.org/tags/howto/index.html#main>#howto</a> / <a href=https://www.evalapply.org/tags/recurse_center/index.html#main>#recurse_center</a></span></div><hr></div></header><section class=stack><p>Jokes apart, my first action has been to read and learn from other peoples' configurations. I am referencing a small set of familiar-to-me configs I noted <a href=../emerging-from-dotemacs-bankruptcy/index.html>previously</a>. It pays to be circumspect. One can <a href=https://www.emacswiki.org/emacs/ExampleConfigurations>drown in configs</a>.<p>OK, so I already have my day-to-day Emacs. It has pulled down packages, and it has set globals and so forth. I want to live-develop my new config on the same machine, without clobbering contents of the old .emacs.d, and without picking up any of my existing init files, which Emacs <a href=https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html>finds by default</a> at startup.<p>This means start a new Emacs session only with my draft init file, like so.<pre class=shell><code>emacs -q -l path/to/new/init.el
+</code></pre><p>And I must ensure I set paths for package downloads, temporary files, and other file-based state in a safe enough way. The init file snippet below sets and/or defines values I have researched so far. The preamble and postfix to the config code is conventional Emacs-speak. An elisp package linter will complain if the information is incomplete, or the text is improper.<details class="box invert stack"><summary><code>The barebones init.el</code><hr></summary><pre class=elisp><code>;;; init.el --- My Emacs configuration.
+
+;;; Commentary:
+
+;;; This file is not part of GNU Emacs.
+
+;;; Author: Aditya Athalye
+;;; Created on: 30 June 2023
+;;; Copyright (c) 2023 Aditya Athalye
+
+;;; License:
+;;; This program is free software; you can redistribute it and/or
+;;; modify it under the terms of the MIT license, which is included
+;;; with this distribution. See the LICENCE.txt file.
+
+;;; Code:
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Globals
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Always load newest byte code
+(setq load-prefer-newer t) ; cf. bbatsov/prelude
+
+;; Directory structure
+;; Take clues from bbatsov/prelude, except keep structure relative to our
+;; initial dotemacs-dir path. This way we can start the user&#39;s emacs via
+;; ~/.emacs.d symlinked to the dotemacs repo, and develop/debug against
+;; the repo without potentially overwriting transient state files of the
+;; daily driver .emacs.d.
+(defvar dotemacs-dir (file-name-directory load-file-name)
+  &quot;The dotemacs&#39; root.&quot;)
+(defvar dotemacs-savefile-dir (expand-file-name &quot;savefile&quot; dotemacs-dir)
+  &quot;This folder stores all the automatically generated save/history-files.&quot;)
+(unless (file-exists-p dotemacs-savefile-dir)
+  (make-directory dotemacs-savefile-dir))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Visual Aesthetics
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq inhibit-startup-message t)
+
+;; More screen real estate
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(set-fringe-mode &#39;(5 . 13)) ;; describe variable fringe-mode
+
+;; Go easy on the eyes
+;; This high-contrast darkmode theme is built into Emacs as of
+;; Emacs version 28.1
+(load-theme &#39;modus-vivendi)
+
+
+(provide &#39;init)
+;;; init.el ends here
+</code></pre></details><p>These preliminaries <em>not at all obvious</em>—"clean GUI", garbage collection (GC) thresholds, native compilation, lockfiles, savefiles, "better defaults" settings, a decent high-contrast theme. They are "unknown unknowns". They are not easy to discover, context-free, as many functions and variables can be oddly named, and do not follow any globally standard naming convention. The manual is vast, and combing through it to learn stuff for our purpose is inadvisable. Settings are also matters of personal taste and need. This is why it helps to read different configs; to acquire context, acquire vocabulary, and to form opinions. And when tastes (or facts) change, one can always change one's mind <em>and</em> dotemacs!<p>The rough plan has been:<ul><li>[✓] Set the very preliminaries.<li>Set up package management. I'll probably stick with the old familiars; elpa and melpa. I'm not sure about straight.el at this time.<li>Choose <code>use-package</code> to get and configure each package. I like how neat configs are, when defined with use-package.<li>Make completions and "getting about" work (the right mix of ivy, consul, swiper, company, helm, imenu). Someone mentioned newer alternatives to helm. Have a look at that.<li>Fix general text editing stuff (keybindings, multiple cursors, snippets etc.)<li>Add support for favourite programming languages.<li>org-mode specifics<li>then let's see…</ul><p>I feel like by this point the new init.el will be good enough to switch to, as my daily driver. Next up, package management and useful packages.</section><footer id=blog-post-footer class="footer stack"><nav class=cluster><span>&uarr; <a href=#blog-post rel=bookmark>title</a></span>
+<span>&uarr; <a href=#site-header rel=bookmark>menu</a></span>
+<span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-init-begins%2Findex.html&t=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20init%20begins">discuss at HN</a></span>
+<span>&rarr; <a href=mailto:weblog@evalapply.org>email comments</a></span>
+<span><a class=site-feed href=https://www.evalapply.org/index.xml>Blog feed</a></span></nav><hr><form class=cluster action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')"><span>Occasional newsletter</span>
+<input type=email name=email id=bd-email>
+<span><input type=submit value="Get the eval/apply dispatch">
+<em>(thanks, <a href=https://buttondown.email target=_blank>Buttondown</a>!)</em></span></form></footer></article></main><footer id=site-footer><hr><div class="box invert footer stack"><p>&copy; 2023,
+<a href=http://adityaathalye.com target=_blank>Aditya Athalye</a>.
+<span>All content licensed
+<a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0
+</a>, except where noted otherwise.</span>
+Built with
+<a href=https://github.com/adityaathalye/shite>shite</a>.</div></footer><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'></script></div>
