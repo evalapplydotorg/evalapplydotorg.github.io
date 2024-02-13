@@ -1,14 +1,114 @@
-<!doctype html><html lang=en prefix="og: https://ogp.me/ns#"><title>Hi, I'm Aditya Athalye. I write here in the spirit of "learn generously".</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Aditya Athalye"><meta name=description content="Writing = Thinking."><meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure"><meta property="og:title" content="Hi, I'm Aditya Athalye. I write here in the spirit of &#34;learn generously&#34;."><meta property="og:description" content="Writing = Thinking."><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:url" content="https://www.evalapply.org/posts/index.html"><link rel="stylesheet preload" as=style href=https://www.evalapply.org/static/css/style.css><link href=https://www.evalapply.org/index.xml rel=alternate type=application/rss+xml title="Aditya Athalye writes and works here."><link rel=canonical href=https://www.evalapply.org/posts/index.html><link rel=icon type=image/vnd.microsoft.icon href=https://www.evalapply.org/static/img/favicon.ico><div id=the-very-top class="stack center box"><header id=site-header><div class="box invert stack"><div class="with-sidebar site-header"><a class="box icon" href=https://www.evalapply.org/index.html><img src=https://www.evalapply.org/static/img/Lisp_logo.svg loading=lazy alt="Aditya Athalye writes and works here."></a><div class=stack><h1 class="site-header title">Aditya Athalye writes and works here.</h1><nav class="cluster site-header site-header:nav-items"><a href=https://www.evalapply.org/index.html>&#955; hello</a>
-<a href=https://www.evalapply.org/posts/index.html>&#9753; read</a>
-<a href=mailto:hello@evalapply.org>&nbsp;&#9993; write</a>
-<a href=https://www.evalapply.org/index.html#hire>$ hire</a>
-<a href=https://www.evalapply.org/now.html#main>&#171; now &#187;</a>
-<a href=https://www.evalapply.org/index.xml>&ap; feed</a></nav></div></div></div></header><main id=main><div class=stack><div class=title>All the posts tagged #mentalhealth</div><nav class="cluster post-meta"><span>&larr; <a href=https://www.evalapply.org/index.html>back home</a></span>
-<span>&uarr; <a href=https://www.evalapply.org/tags/index.html#main>all the tags</a></span></nav><hr><div class="post-index-item with-sidebar-narrow"><div class=post-index-item:date>2022-02-14</div><div class=stack><a href=https://www.evalapply.org/posts/dont-hurry-dont-stop-sad-version/index.html#main class=post-index-item:title>Baby don't hurry, don't stop (feat. Melancholy)</a><p class=post-index-item:summary>Here lies melancholy that I put to paper from a particularly deep hole, not too long ago. It may ruin your day, or it may make you feel a little bit understood about your dark moments. Your mileage will vary.<div class=cluster><a href=https://www.evalapply.org/tags/meta/index.html#main class=post-index-item:tag>#meta</a>
-<a href=https://www.evalapply.org/tags/mentalhealth/index.html#main class=post-index-item:tag>#mentalhealth</a></div></div></div><hr class=post-index-item:hr></div></main><footer id=site-footer><hr><div class="box invert footer stack"><p>&copy; 2024,
-<a href=http://adityaathalye.com target=_blank>Aditya Athalye</a>.
-<span>All content licensed
-<a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0
-</a>, except where noted otherwise.</span>
-Built with
-<a href=https://github.com/adityaathalye/shite>shite</a>.</div></footer><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'></script></div>
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Hi, I&apos;m Aditya Athalye. I write here in the spirit of &quot;learn generously&quot;.</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="Writing = Thinking.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+<meta property="og:title" content="Hi, I&apos;m Aditya Athalye. I write here in the spirit of &quot;learn generously&quot;.">
+<meta property="og:description" content="Writing = Thinking.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/index.html">
+    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Aditya Athalye writes and works here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://www.evalapply.org/index.html">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
+      </a>
+      <div class="stack">
+        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        
+        <nav class="cluster site-header site-header:nav-items">
+          <a href="https://www.evalapply.org/index.html">
+   &lambda; hello
+</a>
+<a href="https://www.evalapply.org/posts/index.html">
+   &#9753; read
+</a>
+<a href="https://www.evalapply.org/index.html#standing-invitation">
+   &nbsp;&#x2709; write
+</a>
+<a href="https://www.evalapply.org/hire.html">
+   $ hire
+</a>
+<a href="https://www.evalapply.org/now.html#main">
+   &laquo; now &raquo;
+</a>
+<a href="https://www.evalapply.org/index.xml">
+   &asymp; feed
+</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+  <main id="main">
+    <div class="stack">
+  <div class="title">All the posts tagged #mentalhealth</div>
+  <nav class="cluster post-meta">
+    <span>
+      &larr; <a href="https://www.evalapply.org/index.html">back home</a>
+    </span>
+    <span>
+      &uarr; <a href="https://www.evalapply.org/tags/index.html#main">all the tags</a>
+    </span>
+  </nav>
+<hr>
+  <div class="post-index-item with-sidebar-narrow">
+  <div class="post-index-item:date">
+    2022-02-14
+  </div>
+  <div class="stack">
+    <a href=https://www.evalapply.org/posts/dont-hurry-dont-stop-sad-version/index.html#main
+       class="post-index-item:title">
+       Baby don&apos;t hurry, don&apos;t stop (feat. Melancholy)
+    </a>
+    <p class="post-index-item:summary">Here lies melancholy that I put to paper from a particularly deep hole, not too long ago. It may ruin your day, or it may make you feel a little bit understood about your dark moments. Your mileage will vary.</p>
+    <div class="cluster">
+    <a href="https://www.evalapply.org/tags/meta/index.html#main"
+               class="post-index-item:tag">#meta</a>
+<a href="https://www.evalapply.org/tags/mentalhealth/index.html#main"
+               class="post-index-item:tag">#mentalhealth</a>
+    </div>
+  </div>
+</div>
+<hr class="post-index-item:hr">
+</div>
+  </main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p>&copy; 2024,
+      <a href="http://adityaathalye.com" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+      Built with
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+    </p>
+  </div>
+</footer>
+      <!-- Cloudflare Web Analytics -->
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+              data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
+      </script>
+      <!-- End Cloudflare Web Analytics -->
+    </div>
+  </body>
+</html>

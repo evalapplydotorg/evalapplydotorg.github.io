@@ -1,13 +1,91 @@
-<!doctype html><html lang=en prefix="og: https://ogp.me/ns#"><title>Poor man's Reader App with Pandoc & Bash</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Aditya Athalye"><meta name=description content="Every so often, I want to avoid opening a website in a browser, for ... reasons."><meta name=keywords content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure"><meta property="og:title" content="Poor man's Reader App with Pandoc & Bash"><meta property="og:description" content="Every so often, I want to avoid opening a website in a browser, for ... reasons."><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:url" content="https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html"><link rel="stylesheet preload" as=style href=https://www.evalapply.org/static/css/style.css><link href=https://www.evalapply.org/index.xml rel=alternate type=application/rss+xml title="Aditya Athalye writes and works here."><link rel=canonical href=https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html><link rel=icon type=image/vnd.microsoft.icon href=https://www.evalapply.org/static/img/favicon.ico><div id=the-very-top class="stack center box"><header id=site-header><div class="box invert stack"><div class="with-sidebar site-header"><a class="box icon" href=https://www.evalapply.org/index.html><img src=https://www.evalapply.org/static/img/Lisp_logo.svg loading=lazy alt="Aditya Athalye writes and works here."></a><div class=stack><h1 class="site-header title">Aditya Athalye writes and works here.</h1><nav class="cluster site-header site-header:nav-items"><a href=https://www.evalapply.org/index.html>&#955; hello</a>
-<a href=https://www.evalapply.org/posts/index.html>&#9753; read</a>
-<a href=mailto:hello@evalapply.org>&nbsp;&#9993; write</a>
-<a href=https://www.evalapply.org/index.html#hire>$ hire</a>
-<a href=https://www.evalapply.org/now.html#main>&#171; now &#187;</a>
-<a href=https://www.evalapply.org/index.xml>&ap; feed</a></nav></div></div></div></header><main id=main><article id=blog-post class=stack><header><div class=stack><div class=title>Poor man's Reader App with Pandoc & Bash</div><div class="cluster post-meta"><span>&uarr; <a href=#site-header rel=bookmark>menu</a></span>
-<span>&darr; <a href=#blog-post-footer rel=bookmark>discuss</a></span></div><div class=summary>Every so often, I want to avoid opening a website in a browser, for ... reasons.</div><div class="cluster post-meta"><span class=author>By: Adi</span>
-<span class=date>Published: 2022-02-10</span>
-<span class=date>Updated: 2022-02-10</span>
-<span class=tags>Tags: / <a href=https://www.evalapply.org/tags/functional_programming/index.html#main>#functional_programming</a> / <a href=https://www.evalapply.org/tags/bash/index.html#main>#bash</a> / <a href=https://www.evalapply.org/tags/unix/index.html#main>#unix</a> / <a href=https://www.evalapply.org/tags/riff/index.html#main>#riff</a></span></div><hr></div></header><section class=stack><p><em>Throwback, June 27, 2020.</em><p>Every so often, I want to avoid opening a website in a browser, for … reasons.<p>Curl alone presents too much html. I want to try and read stuff.<p>Today, I was playing with Igor Chubin's <strong>awesome</strong> terminal services (wttr.in, cht.sh etc.), and it hit me:<p>"WAIT, there's pandoc, what if I just … "<p>—<p>… … … and an hour later… a terrible idea manifested itself.<pre class=shell><code>www_to_md() {
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Poor man&apos;s Reader App with Pandoc &amp; Bash</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="Every so often, I want to avoid opening a website in a browser, for ... reasons.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+<meta property="og:title" content="Poor man&apos;s Reader App with Pandoc &amp; Bash">
+<meta property="og:description" content="Every so often, I want to avoid opening a website in a browser, for ... reasons.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html">
+    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Aditya Athalye writes and works here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://www.evalapply.org/index.html">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
+      </a>
+      <div class="stack">
+        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        
+        <nav class="cluster site-header site-header:nav-items">
+          <a href="https://www.evalapply.org/index.html">
+   &lambda; hello
+</a>
+<a href="https://www.evalapply.org/posts/index.html">
+   &#9753; read
+</a>
+<a href="https://www.evalapply.org/index.html#standing-invitation">
+   &nbsp;&#x2709; write
+</a>
+<a href="https://www.evalapply.org/hire.html">
+   $ hire
+</a>
+<a href="https://www.evalapply.org/now.html#main">
+   &laquo; now &raquo;
+</a>
+<a href="https://www.evalapply.org/index.xml">
+   &asymp; feed
+</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+  <main id="main">
+    <article id="blog-post" class="stack">
+  <header>
+    <div class="stack">
+      <div class="title">Poor man's Reader App with Pandoc & Bash</div>
+      <div class="cluster post-meta">
+           <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+           <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
+           
+      </div>
+      <div class="summary">Every so often, I want to avoid opening a website in a browser, for ... reasons.</div>
+      <div class="cluster post-meta">
+        <span class="author">By: Adi</span>
+        <span class="date">Published: 2022-02-10</span>
+        <span class="date">Updated: 2022-02-10</span>
+        <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://www.evalapply.org/tags/bash/index.html#main">#bash</a> / <a href="https://www.evalapply.org/tags/unix/index.html#main">#unix</a> / <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a>
+        </span>
+      </div>
+      <hr>
+    </div>
+  </header>
+  <section class="stack">
+      <p><em>Throwback, June 27, 2020.</em></p>
+<p>Every so often, I want to avoid opening a website in a browser, for … reasons.</p>
+<p>Curl alone presents too much html. I want to try and read stuff.</p>
+<p>Today, I was playing with Igor Chubin's <strong>awesome</strong> terminal services (wttr.in, cht.sh etc.), and it hit me:</p>
+<p>"WAIT, there's pandoc, what if I just … "</p>
+<p>—</p>
+<p>… … … and an hour later… a terrible idea manifested itself.</p>
+<pre class="shell"><code>www_to_md() {
     pandoc --wrap=none -f html -t markdown &quot;${1}&quot;
 }
 
@@ -45,20 +123,58 @@ panwww() {
 
     $cmd | drop_noise | cache_site &quot;${sitecache}&quot; &quot;${mdfilename}&quot; &quot;${evict_cache_qmark}&quot;
 }
-</code></pre><p>so that …<pre class=shell><code>panwww &quot;https://www.recurse.com/&quot; | less # fetches site the first time
+</code></pre>
+<p>so that …</p>
+<pre class="shell"><code>panwww &quot;https://www.recurse.com/&quot; | less # fetches site the first time
 panwww &quot;https://www.recurse.com/&quot; | less # looks up &quot;cache&quot;
 panwww &quot;https://www.recurse.com/&quot; &quot;refetch&quot; | less
-</code></pre></section><footer id=blog-post-footer class="footer stack"><nav class=cluster><span>&uarr; <a href=#blog-post rel=bookmark>title</a></span>
-<span>&uarr; <a href=#site-header rel=bookmark>menu</a></span>
-<span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Freader-app-pandoc-bash%2Findex.html&t=Poor%20man's%20Reader%20App%20with%20Pandoc%20%26%20Bash">discuss at HN</a></span>
-<span>&rarr; <a href=mailto:weblog@evalapply.org>email comments</a></span>
-<span><a class=site-feed href=https://www.evalapply.org/index.xml>Blog feed</a></span></nav><hr><form class=cluster action=https://buttondown.email/api/emails/embed-subscribe/evalapply method=post target=popupwindow onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')"><span>Occasional newsletter</span>
-<input type=email name=email id=bd-email>
-<span><input type=submit value="Get the eval/apply dispatch">
-<em>(thanks, <a href=https://buttondown.email target=_blank>Buttondown</a>!)</em></span></form></footer></article></main><footer id=site-footer><hr><div class="box invert footer stack"><p>&copy; 2024,
-<a href=http://adityaathalye.com target=_blank>Aditya Athalye</a>.
-<span>All content licensed
-<a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0
-</a>, except where noted otherwise.</span>
-Built with
-<a href=https://github.com/adityaathalye/shite>shite</a>.</div></footer><script defer src=https://static.cloudflareinsights.com/beacon.min.js data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'></script></div>
+</code></pre>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Freader-app-pandoc-bash%2Findex.html&t=Poor%20man's%20Reader%20App%20with%20Pandoc%20%26%20Bash">discuss at HN</a></span>
+      <span>&rarr; <a href="mailto:weblog@evalapply.org">email comments</a></span>
+      <span><a class="site-feed"
+       href="https://www.evalapply.org/index.xml">
+       Blog feed</a></span>
+    </nav>
+    <hr>
+    <form class="cluster"
+          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+          method="post" target="popupwindow"
+          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+      <span>Occasional newsletter</span>
+      <input type="email" name="email" id="bd-email">
+      <span>
+        <input type="submit" value="Get the eval/apply dispatch">
+        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+      </span>
+    </form>
+  </footer>
+</article>
+  </main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p>&copy; 2024,
+      <a href="http://adityaathalye.com" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+      Built with
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+    </p>
+  </div>
+</footer>
+      <!-- Cloudflare Web Analytics -->
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+              data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
+      </script>
+      <!-- End Cloudflare Web Analytics -->
+    </div>
+  </body>
+</html>

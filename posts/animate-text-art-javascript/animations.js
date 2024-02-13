@@ -1,1 +1,265 @@
-const EL_ROW="div",EL_CELL="span",EMPTY_CHARACTER="\u00A0",LIVE_ANIMATIONS_IDS_SET=new Set,loadingDDW=[{x:0,y:0,text:"=",color:"",tags:[],group:""},{x:1,y:0,text:".",color:"",tags:[],group:""},{x:2,y:0,text:"+",color:"",tags:[],group:""},{x:3,y:0,text:"-",color:"",tags:[],group:""}],gliderDDW=[{id:"0",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:100},{id:"1",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:100},{id:"2",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:100},{id:"3",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:100},{id:"4",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:100},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"0"},{x:1,y:2,text:"■",color:"",tags:[],group:"",frame:"0"},{x:1,y:3,text:" ",color:"",tags:[],group:"",frame:"0"},{x:1,y:4,text:" ",color:"",tags:[],group:"",frame:"0"},{x:2,y:1,text:" ",color:"",tags:[],group:"",frame:"0"},{x:2,y:2,text:" ",color:"",tags:[],group:"",frame:"0"},{x:2,y:3,text:" ",color:"",tags:[],group:"",frame:"0"},{x:2,y:4,text:" ",color:"",tags:[],group:"",frame:"0"},{x:2,y:4,text:" ",color:"",tags:[],group:"",frame:"0"},{x:3,y:1,text:" ",color:"",tags:[],group:"",frame:"0"},{x:3,y:2,text:" ",color:"",tags:[],group:"",frame:"0"},{x:3,y:3,text:" ",color:"",tags:[],group:"",frame:"0"},{x:3,y:4,text:" ",color:"",tags:[],group:"",frame:"0"},{x:4,y:1,text:" ",color:"",tags:[],group:"",frame:"0"},{x:4,y:2,text:" ",color:"",tags:[],group:"",frame:"0"},{x:4,y:3,text:" ",color:"",tags:[],group:"",frame:"0"},{x:4,y:4,text:" ",color:"",tags:[],group:"",frame:"0"},{x:1,y:2,text:"■",color:"",tags:[],group:"",frame:"0"},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"1"},{x:1,y:2,text:" ",color:"",tags:[],group:"",frame:"1"},{x:1,y:3,text:" ",color:"",tags:[],group:"",frame:"1"},{x:1,y:4,text:" ",color:"",tags:[],group:"",frame:"1"},{x:2,y:1,text:" ",color:"",tags:[],group:"",frame:"1"},{x:2,y:2,text:" ",color:"",tags:[],group:"",frame:"1"},{x:2,y:3,text:" ",color:"",tags:[],group:"",frame:"1"},{x:2,y:4,text:" ",color:"",tags:[],group:"",frame:"1"},{x:3,y:1,text:" ",color:"",tags:[],group:"",frame:"1"},{x:3,y:2,text:" ",color:"",tags:[],group:"",frame:"1"},{x:3,y:3,text:" ",color:"",tags:[],group:"",frame:"1"},{x:3,y:4,text:" ",color:"",tags:[],group:"",frame:"1"},{x:4,y:1,text:" ",color:"",tags:[],group:"",frame:"1"},{x:4,y:2,text:" ",color:"",tags:[],group:"",frame:"1"},{x:4,y:3,text:" ",color:"",tags:[],group:"",frame:"1"},{x:4,y:4,text:" ",color:"",tags:[],group:"",frame:"1"},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"2"},{x:1,y:2,text:" ",color:"",tags:[],group:"",frame:"2"},{x:1,y:3,text:" ",color:"",tags:[],group:"",frame:"2"},{x:1,y:4,text:" ",color:"",tags:[],group:"",frame:"2"},{x:2,y:1,text:" ",color:"",tags:[],group:"",frame:"2"},{x:2,y:2,text:" ",color:"",tags:[],group:"",frame:"2"},{x:2,y:3,text:" ",color:"",tags:[],group:"",frame:"2"},{x:2,y:4,text:" ",color:"",tags:[],group:"",frame:"2"},{x:3,y:1,text:" ",color:"",tags:[],group:"",frame:"2"},{x:3,y:2,text:" ",color:"",tags:[],group:"",frame:"2"},{x:3,y:3,text:" ",color:"",tags:[],group:"",frame:"2"},{x:3,y:4,text:" ",color:"",tags:[],group:"",frame:"2"},{x:4,y:1,text:" ",color:"",tags:[],group:"",frame:"2"},{x:4,y:2,text:" ",color:"",tags:[],group:"",frame:"2"},{x:4,y:3,text:" ",color:"",tags:[],group:"",frame:"2"},{x:4,y:4,text:" ",color:"",tags:[],group:"",frame:"2"},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"3"},{x:1,y:2,text:" ",color:"",tags:[],group:"",frame:"3"},{x:1,y:3,text:" ",color:"",tags:[],group:"",frame:"3"},{x:1,y:4,text:" ",color:"",tags:[],group:"",frame:"3"},{x:2,y:1,text:" ",color:"",tags:[],group:"",frame:"3"},{x:2,y:2,text:" ",color:"",tags:[],group:"",frame:"3"},{x:2,y:3,text:" ",color:"",tags:[],group:"",frame:"3"},{x:2,y:4,text:" ",color:"",tags:[],group:"",frame:"3"},{x:3,y:1,text:" ",color:"",tags:[],group:"",frame:"3"},{x:3,y:2,text:" ",color:"",tags:[],group:"",frame:"3"},{x:3,y:3,text:" ",color:"",tags:[],group:"",frame:"3"},{x:3,y:4,text:" ",color:"",tags:[],group:"",frame:"3"},{x:4,y:1,text:" ",color:"",tags:[],group:"",frame:"3"},{x:4,y:2,text:" ",color:"",tags:[],group:"",frame:"3"},{x:4,y:3,text:" ",color:"",tags:[],group:"",frame:"3"},{x:4,y:4,text:" ",color:"",tags:[],group:"",frame:"3"},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"4"},{x:1,y:2,text:" ",color:"",tags:[],group:"",frame:"4"},{x:1,y:3,text:" ",color:"",tags:[],group:"",frame:"4"},{x:1,y:4,text:" ",color:"",tags:[],group:"",frame:"4"},{x:2,y:1,text:" ",color:"",tags:[],group:"",frame:"4"},{x:2,y:2,text:" ",color:"",tags:[],group:"",frame:"4"},{x:2,y:3,text:" ",color:"",tags:[],group:"",frame:"4"},{x:2,y:4,text:" ",color:"",tags:[],group:"",frame:"4"},{x:3,y:1,text:" ",color:"",tags:[],group:"",frame:"4"},{x:3,y:2,text:" ",color:"",tags:[],group:"",frame:"4"},{x:3,y:3,text:" ",color:"",tags:[],group:"",frame:"4"},{x:3,y:4,text:" ",color:"",tags:[],group:"",frame:"4"},{x:4,y:1,text:" ",color:"",tags:[],group:"",frame:"4"},{x:4,y:2,text:" ",color:"",tags:[],group:"",frame:"4"},{x:4,y:3,text:" ",color:"",tags:[],group:"",frame:"4"},{x:4,y:4,text:" ",color:"",tags:[],group:"",frame:"4"},{x:2,y:3,text:"■",color:"",tags:[],group:"",frame:"0"},{x:3,y:3,text:"■",color:"",tags:[],group:"",frame:"0"},{x:3,y:2,text:"■",color:"",tags:[],group:"",frame:"0"},{x:3,y:1,text:"■",color:"",tags:[],group:"",frame:"0"},{x:2,y:1,text:"■",color:"",tags:[],group:"",frame:"1"},{x:3,y:2,text:"■",color:"",tags:[],group:"",frame:"1"},{x:4,y:2,text:"■",color:"",tags:[],group:"",frame:"1"},{x:3,y:3,text:"■",color:"",tags:[],group:"",frame:"1"},{x:2,y:3,text:"■",color:"",tags:[],group:"",frame:"1"},{x:2,y:3,text:"■",color:"",tags:[],group:"",frame:"2"},{x:3,y:3,text:"■",color:"",tags:[],group:"",frame:"2"},{x:4,y:3,text:"■",color:"",tags:[],group:"",frame:"2"},{x:4,y:2,text:"■",color:"",tags:[],group:"",frame:"2"},{x:3,y:1,text:"■",color:"",tags:[],group:"",frame:"2"},{x:2,y:2,text:"■",color:"",tags:[],group:"",frame:"3"},{x:4,y:2,text:"■",color:"",tags:[],group:"",frame:"3"},{x:4,y:3,text:"■",color:"",tags:[],group:"",frame:"3"},{x:3,y:3,text:"■",color:"",tags:[],group:"",frame:"3"},{x:3,y:4,text:"■",color:"",tags:[],group:"",frame:"3"},{x:2,y:3,text:"■",color:"",tags:[],group:"",frame:"4"},{x:3,y:4,text:"■",color:"",tags:[],group:"",frame:"4"},{x:4,y:4,text:"■",color:"",tags:[],group:"",frame:"4"},{x:4,y:3,text:"■",color:"",tags:[],group:"",frame:"4"},{x:4,y:2,text:"■",color:"",tags:[],group:"",frame:"4"},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"4"},{x:1,y:1,text:" ",color:"",tags:[],group:"",frame:"4"}],blinkDDW=[{id:"0",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:100},{id:"1",type:"frame",text:"",color:"",tags:[],group:"",duration_ms:200},{x:1,y:1,text:"0",color:"",tags:[],group:"",frame:"0"},{x:1,y:1,text:"=",color:"",tags:[],group:"",frame:"1"},{x:2,y:1,text:"0",color:"",tags:[],group:"",frame:"0"},{x:2,y:1,text:"=",color:"",tags:[],group:"",frame:"1"}];function randInt(a,b){return Math.floor(Math.random()*(b-a)+a)}function getDdwFrames(a){return a.filter(a=>a.type=="frame")}function getDdwChars(a){return a.filter(a=>a.type!="frame")}function paintEmptyCanvas(e,c={x:24,y:3}){var b,a;let f=document.createDocumentFragment(),d=document.createElement("pre");for(y=0;y<c.y;y++){b=document.createElement(EL_ROW),b.dataset.rowindex=y,b.style="font-size: 2em; height: 1ch; padding: 0.05em;";for(x=0;x<c.x;x++)a=document.createElement(EL_CELL),a.dataset.x=x,a.dataset.y=y,a.innerHTML=`${EMPTY_CHARACTER}`,a.style="width: 1ch; display: inline-block; padding: 0.05em;",b.appendChild(a);d.appendChild(b)}e.appendChild(f.appendChild(d))}function paintTextArtPiece(a,b=0,c=0,d=document.getElementById("art")){for(const e of a)el=d.querySelector(`${EL_CELL}[data-y='${e.y+c}'][data-x='${e.x+b}']`),el&&(el.dataset.frame=e.frame?e.frame:"",el.innerHTML=`${e.text}`)}function animateLoading(a,b,c){for(const d of loadingDDW){let e=a.querySelector(`${EL_CELL}[data-y='${d.y+c}'][data-x='${d.x+b}']`);e&&e.animate({transform:['rotate(0deg)','rotate(90deg)','rotate(135deg)','rotate(360deg)']},{duration:1e3,iterations:1/0})}}function animateBlink(a,b){let d=randInt(2e3,3e3),c=document.getElementById("blink-demo");setTimeout(()=>{let d=randInt(100,500);paintTextArtPiece(b,0,0,c),setTimeout(()=>paintTextArtPiece(a,0,0,c),d),animateBlink(a,b)},d)}function FrameCounter(a){this.num_frames=a,this.current_frame=0,this.getFrame=()=>{let b=this.current_frame;return b<a?this.current_frame+=1:this.current_frame=0,b}}function stopAllLiveAnimations(a=LIVE_ANIMATIONS_IDS_SET){a.forEach(a=>clearInterval(a))}const gliderAnimationChars=getDdwChars(gliderDDW),gliderAnimationSequence=getDdwFrames(gliderDDW).sort((a,b)=>b.id<a.id).map(a=>gliderAnimationChars.filter(b=>b.frame==`${a.id}`));console.log(gliderAnimationSequence);function paintGlider(a){let b=document.getElementById("glider-demo"),c=a.getFrame(),d=gliderAnimationSequence[c];paintTextArtPiece(d,0,0,b)}function demoLoading(){let a=document.getElementById("loading-demo");paintEmptyCanvas(a),paintTextArtPiece(loadingDDW,1,1,a),animateLoading(a,1,1)}function demoGlider(){let a=document.getElementById("glider-demo");paintEmptyCanvas(a,{x:24,y:6}),paintGlider(new FrameCounter(4));let b=setInterval(paintGlider,500,new FrameCounter(4));LIVE_ANIMATIONS_IDS_SET.add(b)}function demoBlink(){let a=document.getElementById("blink-demo");paintEmptyCanvas(a),animateBlink(getDdwChars(blinkDDW).filter(a=>a.frame=="0"),getDdwChars(blinkDDW).filter(a=>a.frame=="1"))}
+const EL_ROW = "div";
+const EL_CELL = "span";
+const EMPTY_CHARACTER = "\u00A0";
+// Hold references to running animation IDs, so we can cancel them all at will.
+const LIVE_ANIMATIONS_IDS_SET = new Set();
+
+const loadingDDW = [
+    {"x": 0, "y": 0, "text": "=", "color": "", "tags": [], "group": ""},
+    {"x": 1, "y": 0, "text": ".", "color": "", "tags": [], "group": ""},
+    {"x": 2, "y": 0, "text": "+", "color": "", "tags": [], "group": ""},
+    {"x": 3, "y": 0, "text": "-", "color": "", "tags": [], "group": ""}
+];
+
+const gliderDDW = [
+    {"id": "0", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 100},
+    {"id": "1", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 100},
+    {"id": "2", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 100},
+    {"id": "3", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 100},
+    {"id": "4", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 100},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 1, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 1, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 1, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 4, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 4, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 4, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 4, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 1, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 1, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 1, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 1, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 3, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 3, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 3, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 3, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 4, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 4, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 4, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 4, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 1, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 1, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 1, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 2, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 2, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 2, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 2, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 3, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 3, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 3, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 3, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 4, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 4, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 4, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 4, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 1, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 1, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 1, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 2, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 2, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 2, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 2, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 3, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 3, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 3, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 3, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 4, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 4, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 4, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 4, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 1, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 1, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 1, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 2, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 2, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 2, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 2, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 3, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 3, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 3, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 3, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 2, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 3, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 4, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 2, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 3, "y": 1, "text": "■", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 1, "text": "■", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 3, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 4, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 3, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 3, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 4, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 4, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 3, "y": 1, "text": "■", "color": "", "tags": [], "group": "", "frame": "2"},
+    {"x": 2, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 4, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 4, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 3, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 3, "y": 4, "text": "■", "color": "", "tags": [], "group": "", "frame": "3"},
+    {"x": 2, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 3, "y": 4, "text": "■", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 4, "text": "■", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 3, "text": "■", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 4, "y": 2, "text": "■", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"},
+    {"x": 1, "y": 1, "text": " ", "color": "", "tags": [], "group": "", "frame": "4"}
+];
+
+const blinkDDW = [
+    {"id": "0", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 100},
+    {"id": "1", "type": "frame", "text": "", "color": "", "tags": [], "group": "", "duration_ms": 200},
+    {"x": 1, "y": 1, "text": "0", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 1, "y": 1, "text": "=", "color": "", "tags": [], "group": "", "frame": "1"},
+    {"x": 2, "y": 1, "text": "0", "color": "", "tags": [], "group": "", "frame": "0"},
+    {"x": 2, "y": 1, "text": "=", "color": "", "tags": [], "group": "", "frame": "1"}
+];
+
+function randInt(a, b) {
+    return Math.floor(Math.random()*(b-a)+a);
+}
+
+function getDdwFrames(ddwDataArray) {
+    return ddwDataArray.filter((ddwObject) => ddwObject.type == "frame");
+};
+
+function getDdwChars(ddwDataArray) {
+    return ddwDataArray.filter((ddwObject) => ddwObject.type != "frame");
+};
+
+function paintEmptyCanvas(canvasContext, canvasSize = {x: 24, y: 3}) {
+    let df = document.createDocumentFragment();
+    let pre = document.createElement("pre");
+    for (y = 0; y < canvasSize.y; y++) {
+        // Make a new row
+        var elRow = document.createElement(EL_ROW);
+        elRow.dataset.rowindex = y;
+        elRow.style = "font-size: 2em; height: 1ch; padding: 0.05em;";
+        // Populate row with blank characters
+        for (x = 0; x < canvasSize.x; x++) {
+            var elChar = document.createElement(EL_CELL);
+            elChar.dataset.x = x;
+            elChar.dataset.y = y;
+            elChar.innerHTML = `${EMPTY_CHARACTER}`;
+            elChar.style = "width: 1ch; display: inline-block; padding: 0.05em;";
+            elRow.appendChild(elChar);
+        }
+        // Populate grid with newly-made row
+        pre.appendChild(elRow);
+    }
+
+    canvasContext.appendChild(df.appendChild(pre));
+};
+
+function paintTextArtPiece(
+    ddwCharArray,
+    xCanvasOffset = 0, yCanvasOffset = 0,
+    canvasContext = document.getElementById("art")) {
+    for (const char of ddwCharArray) {
+        el = canvasContext.querySelector(
+            `${EL_CELL}[data-y='${char.y + yCanvasOffset}'][data-x='${char.x + xCanvasOffset}']`
+        );
+        if(el) {
+            el.dataset.frame = char.frame? char.frame : "";
+            el.innerHTML = `${char.text}`;
+        }
+    }
+};
+
+function animateLoading(artContext, xCanvasOffset, yCanvasOffset) {
+    for (const char of loadingDDW) {
+        let charElement = artContext.querySelector(`${EL_CELL}[data-y='${char.y + yCanvasOffset}'][data-x='${char.x + xCanvasOffset}']`);
+        if(charElement) {
+            charElement.animate(
+                // rotation
+                { transform: ['rotate(0deg)', 'rotate(90deg)', 'rotate(135deg)', 'rotate(360deg)'] }
+                , {
+                    duration: 1000,
+                    iterations: Infinity
+                });
+        };
+    };
+};
+
+function animateBlink(blinkOnChars, blinkOffChars) {
+    let millisBetweenTwitches = randInt(2000, 3000);
+    let artContext = document.getElementById("blink-demo");
+    setTimeout(() => {
+        let twitchMillis = randInt(100, 500);
+        paintTextArtPiece(blinkOffChars, 0, 0, artContext);
+        setTimeout(() => paintTextArtPiece(blinkOnChars, 0, 0, artContext), twitchMillis);
+        // the next twitch...
+        animateBlink(blinkOnChars, blinkOffChars);
+    }, millisBetweenTwitches);
+};
+
+function FrameCounter(numFrames) {
+    this.num_frames = numFrames;
+    this.current_frame = 0;
+    this.getFrame = () => {
+        let frame = this.current_frame;
+        frame < numFrames ? this.current_frame += 1 : this.current_frame = 0;
+        return frame;
+    };
+};
+
+function stopAllLiveAnimations(setOfLiveAnimationIds = LIVE_ANIMATIONS_IDS_SET) {
+    setOfLiveAnimationIds.forEach((intervalID) => clearInterval(intervalID));
+}
+
+const gliderAnimationChars = getDdwChars(gliderDDW);
+const gliderAnimationSequence = getDdwFrames(gliderDDW)
+      .sort((fa, fb) => fb.id < fa.id)
+      .map((frame) => gliderAnimationChars
+           .filter((char) => char.frame == `${frame.id}`));
+console.log(gliderAnimationSequence);
+
+function paintGlider(frameCounter) {
+    let artContext = document.getElementById("glider-demo");
+    let frameNumber = frameCounter.getFrame();
+    let frame = gliderAnimationSequence[frameNumber];
+    paintTextArtPiece(frame, 0, 0, artContext);
+}
+
+function demoLoading() {
+    let artContext = document.getElementById("loading-demo");
+    paintEmptyCanvas(artContext);
+    paintTextArtPiece(loadingDDW, 1, 1, artContext);
+    animateLoading(artContext, 1, 1);
+};
+
+function demoGlider() {
+    let artContext = document.getElementById("glider-demo");
+    paintEmptyCanvas(artContext, {x: 24, y: 6});
+    paintGlider(new FrameCounter(4));
+    let animationID = setInterval(paintGlider, 500, new FrameCounter(4));
+    LIVE_ANIMATIONS_IDS_SET.add(animationID);
+}
+
+function demoBlink() {
+    let artContext = document.getElementById("blink-demo");
+    paintEmptyCanvas(artContext);
+    animateBlink(getDdwChars(blinkDDW).filter((c) => c.frame == "0"),
+                 getDdwChars(blinkDDW).filter((c) => c.frame == "1"));
+};
