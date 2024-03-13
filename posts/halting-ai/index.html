@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Halting AI</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="The current wave of AI tools is incredibly cool. I hope more people get distracted by the incredible coolness and bet on this wave of AI, because I&apos;m betting the other way, on the hot mess of human general intelligence.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+<meta property="og:title" content="Halting AI">
+<meta property="og:description" content="The current wave of AI tools is incredibly cool. I hope more people get distracted by the incredible coolness and bet on this wave of AI, because I&apos;m betting the other way, on the hot mess of human general intelligence.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/halting-ai/index.html">
+    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Aditya Athalye writes and works here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/halting-ai/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://www.evalapply.org/index.html">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
+      </a>
+      <div class="stack">
+        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        
+        <nav class="cluster site-header site-header:nav-items">
+          <a href="https://www.evalapply.org/index.html">
+   &lambda; hello
+</a>
+<a href="https://www.evalapply.org/posts/index.html">
+   &#9753; read
+</a>
+<a href="https://www.evalapply.org/index.html#standing-invitation">
+   &nbsp;&#x2709; write
+</a>
+<a href="https://www.evalapply.org/hire.html">
+   $ hire
+</a>
+<a href="https://www.evalapply.org/now.html#main">
+   &laquo; now &raquo;
+</a>
+<a href="https://www.evalapply.org/index.xml">
+   &asymp; feed
+</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+  <main id="main">
+    <article id="blog-post" class="stack">
+  <header>
+    <div class="stack">
+      <div class="title">Halting AI</div>
+      <div class="cluster post-meta">
+           <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+           <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
+           
+      </div>
+      <div class="summary">The current wave of AI tools is incredibly cool. I hope more people get distracted by the incredible coolness and bet on this wave of AI, because I'm betting the other way, on the hot mess of human general intelligence.</div>
+      <div class="cluster post-meta">
+        <span class="author">By: Adi</span>
+        <span class="date">Published: 2024-03-13</span>
+        <span class="date">Updated: 2024-03-13</span>
+        <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/meta/index.html#main">#meta</a> / <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a> / <a href="https://www.evalapply.org/tags/ai/index.html#main">#ai</a> / <a href="https://www.evalapply.org/tags/intelligence_augmentation/index.html#main">#intelligence_augmentation</a> / <a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main">#tools_for_thought</a>
+        </span>
+      </div>
+      <hr>
+    </div>
+  </header>
+  <section class="stack">
+      <p>This riff <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> derives from a recent <em>"AI Programmer"</em> story that's making people in my corner of the nerdiverse sit up and talk, at a time when hot new AI happenings have become mundane.</p>
+<p>Recently HackerNews front-paged the announcement of a <a href="https://twitter.com/cognition_labs/status/1767548763134964000">Devin AI</a>. Earlier today m'colleague remarked that he is on the wait list to use the Devin to get a bunch of his side projects done.</p>
+<p>It is yet another prompt for me to take the lowkey counterfactual bet against the AI wave, in favour of good old flesh and blood humans, and our chaotic, messy systems. What follows will make no sense to an LLM (because it is not a sense-maker) and it will feel nothing (because it is not a sense-maker). So if it riles <em>you</em> up, congratulations, you are a living, breathing person.</p>
+<p>Most line-of-business coding — all that grunt work of coding features, configurations, bug fixes etc. is "side project" sized and shaped. Big tasks are made of many little tasks. The bet is AI Programmers will do this for us, and with sufficient task breakdown, some lightweight supervision and clever prompting do the labour of a hundred men <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>Now, if we assume any programming team can get their hands on shiny new Dev-in tools (haha, see what I did there?) to make that work easy, then all of them ought to be able to level up against each other. If the Invisible Hand does its job, competition will be fierce (like, a prompt engineering arms race?) because only the undifferentiated <em>have</em> to compete. Assuming this happens (as the AI bettors definitely believe), what will set a person or team apart from any other similarly-abled AI tool user? I think it will be, that the infusion of AI grunt work tools will loft and liven the essential role of the wetware in our skulls, and the squishy feelings in our guts. It remains to be seen what kind of history we choose to create.</p>
+<blockquote>
+<p>“Once men turned their thinking over to machines in the hope that this would set them free. But that only permitted other men with machines to enslave them.”</p>
+<p>— Frank Herbert, Dune</p>
+</blockquote>
+<p>Further (and not to pick on the Devin specifically), the numbers they publish are telling. Their claimed ~14% SWE-benchmark task completion looks much better than the field. But, <em>one</em>, it is in the confines of the SWE-benchmark game, and we all know how well mouse models generalise to human models. And, <em>two</em>, even if it gets to 95% on that artificial benchmark (which I highly doubt, because, complexity explosion would demand insane amounts of energy and horsepower), it will still not be good enough. An automated software system that is "works 90% of the time according to mouse models" will require humans in the loop at all times to check the work. The more complex the work, the harder it will be to exercise reasonable oversight. If your error margins are forgiving enough, you could remove the humans. Maybe bog standard SaaS products are a juicy target for AI programmers, if the economics and error/failure margins stay as big and forgiving as they are (~90% gross margins are nothing to sneeze at). Will that moat remain, if means of production become far cheaper than human pay cheques, thereby lowering the bar to participate, thereby spreading those juicy margins out thin?</p>
+<p>Now I'm no analysis whiz, but aren't claims about accuracy suspect sans error bars and confidence intervals? As far as I can tell these systems can never provide that information <em>by construction</em>. Maybe one can mitigate error probabilities with a form of statistical sampling, e.g. "solve this problem three different ways". But won't that only add to the madness, because one will never be able to get the same answer twice for the same input, unless an AI's model state is frozen during these runs. But then it says nothing about all future states when it is live. One will never know which 10% is bad. Maybe "99% good" is even worse in this kind of setup, because the downside of the 1% "not good" is unbounded. There will always be that gnawing doubt. Can you ever let the AI programmer loose by itself? And if you can't what's the cost of supervising and managing the consequences of its work product?</p>
+<p>On the lines of 100x-ing the influence of a mere mortal, I read some interesting and plausible-sounding speculation of the AI powered billion dollar <em>"company of one"</em>. Maybe that comes to pass at some point. Software <em>is</em> extreme leverage, after all. <em>However</em> leverage works both ways — "up and to the right", as well as "down and to the negative". The downside is totally unbounded. It can subtract far more than what is created, because that's how shit blows up. A billion dollar company of one will be a wildly complex system of systems, and this entity better price in all that risk, which I doubt, because as posited, the risk is unbounded. I think scale demands more participants precisely because risk dislikes being concentrated. Whenever we force big risks into a small box, the variance of outcomes becomes wildly chaotic. This is just my messy intuition, not my scientifically-informed LLM talking.</p>
+<p>In any case, whether the little guy gets superseded or becomes the big guy, shovel-makers and energy owners will make all the money, in this new gold rush (insert "always have" meme). The big tech acronyms already are… ASML, NVIDIA, FAANGs etc. Energy companies too. At the core of it, this particular AI game is one of raw energy and silicon, same as crypto.</p>
+<p>Also, I am wary about slick demos that all these well-heeled AI players are publishing. Invariably, much behind the scenes production, cherry picking, and air brushing goes into making a demo that "works". Almost as invariably, slick demos of mouse models fail at delivering the future they promise. This is not for lack of trying, or (maybe) not for lack of genuine intention (e.g. who can tell what OpenAI intends any more). This is just how creativity works.</p>
+<p>However sophisticated the output <em>feels</em>, a probabilistic next-token predictor is still exploring a search space. One where the question <em>and</em> the search universe are ill specified, barely constrained, and resist introspection beyond the most cursory.</p>
+<p>Given all this positing and conjecture, and the fact that problem solving complexity explodes with small increases in ambiguity of a problem space, my gut says general-purpose programming ability is a literal black hole of energy consumption.</p>
+<p>The halting problem will permit only a halting AI <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>If you're a human reading this, please be advised you're by my armchair on the Internet, I failed repeatedly at college math and physics, and I am at best a pedestrian critic. Caveat emptor. Also, I armchair riffed about <em><a href="../tools-for-thought/index.html">Tools for Thought</a></em> previously, in which today's crop of AI tools fall into the "memory assistant" category, which is un-flatteringly the most primitive category of three, which of course speaks to my bias. Caveat emptor too.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>The Devin <em>must</em> be a man, yes? Siri is your secretary and Devin is your programmer.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>I do believe we will likely have lots of agents that are world beating at very narrow and specialised domains. Sort of in line with Chess or Go AIs that reduce grand masters to tears, or WMD systems that reduce everything to rubble, or weather models, or long-haul autonomous transport drones on earmarked routes. And definitely a few colossal monopolies that can expend small-European-country-scale energy required to make AI as a service function, along with political power to keep out of any serious trouble should their AI going very very wrong in very very consequential ways (a billion dollar fine that you can contest forever is nothing if you fetch a hundred billion for your troubles). Some places will definitely be able to price that sort of risk. I'm not wearing a tin foil hat. I just feel history tells us that there will always be someone with capacity to really push the boundaries far past the norm, and the smarts to figure out how to fly through the gaps between choice of actions and ownership of consequences.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fhalting-ai%2Findex.html&t=Halting%20AI">discuss at HN</a></span>
+      <span>&rarr; <a href="https://www.evalapply.org/index.html#standing-invitation">email comments</a></span>
+      <span><a class="site-feed"
+       href="https://www.evalapply.org/index.xml">
+       Blog feed</a></span>
+    </nav>
+    <hr>
+    <form class="cluster"
+          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+          method="post" target="popupwindow"
+          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+      <span>Occasional newsletter</span>
+      <input type="email" name="email" id="bd-email">
+      <span>
+        <input type="submit" value="Get the eval/apply dispatch">
+        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+      </span>
+    </form>
+  </footer>
+</article>
+  </main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p>&copy; 2024,
+      <a href="http://adityaathalye.com" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+      Built with
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+    </p>
+  </div>
+</footer>
+      <!-- Cloudflare Web Analytics -->
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+              data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
+      </script>
+      <!-- End Cloudflare Web Analytics -->
+    </div>
+  </body>
+</html>
