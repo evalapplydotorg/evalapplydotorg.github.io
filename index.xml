@@ -6,7 +6,7 @@
     <description>Aditya Athalye writes and works here, at evalapply.org.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 13 Mar 2024 21:13:46 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 05 Apr 2024 20:08:19 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -14,6 +14,13 @@
         <link>https://www.evalapply.org/</link>
     </image>
     <item>
+  <title>Writing maketh the 10x Developer. More so the 10x development team.</title>
+  <link>https://www.evalapply.org/posts/writing-maketh-the-10x-developer/index.html</link>
+  <pubDate>Wed, 13 Mar 2024 00:00:00 +0000</pubDate>
+  <guid>https://www.evalapply.org/posts/writing-maketh-the-10x-developer/</guid>
+  <description>Writing is thinking. Software is peoples' thoughts on repeat. Developers who can pen their thoughts clearly multiply their impact. This matters even more in group work. Common sense rules; no literature major necessary.</description>
+</item>
+<item>
   <title>Halting AI</title>
   <link>https://www.evalapply.org/posts/halting-ai/index.html</link>
   <pubDate>Wed, 13 Mar 2024 00:00:00 +0000</pubDate>
