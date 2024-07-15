@@ -70,7 +70,7 @@
       <div class="cluster post-meta">
         <span class="author">By: Adi</span>
         <span class="date">Published: 2024-07-14</span>
-        <span class="date">Updated: 2024-07-14</span>
+        <span class="date">Updated: 2024-07-15</span>
         <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a> / <a href="https://www.evalapply.org/tags/programming/index.html#main">#programming</a> / <a href="https://www.evalapply.org/tags/clojure/index.html#main">#clojure</a>
         </span>
       </div>
@@ -152,7 +152,7 @@
 </ul>
 <p><em>However</em>…</p>
 <ul>
-<li>The trouble is the agent system has no built-in pause/resume facility.</li>
+<li>The trouble is the agent system is designed to be reactive and has no built-in pause/resume facility.</li>
 <li>To ensure the agent system's sequential execution guarantee, the queue of actions cannot be modified post-hoc.</li>
 </ul>
 <p>So!</p>
@@ -160,6 +160,31 @@
 <li>I had to hack it by making the agent do some navel-gazing.</li>
 <li><a href="https://stackoverflow.com/a/4610972">This StackOverflow answer</a> provided clues key to the solution.</li>
 </ul>
+<p>The problem in pictures, with reference to code in the next section.</p>
+<p>Let's say the following actions are already queued using the agent system's <code>send</code> and <code>send-off</code> functions.</p>
+<pre class="text"><code>|---|send increment3 -----------\
+|--|send-off batch3 ------------\
+|----------|send increment1 ----\
+|---------|send-off batch1 -----\
+                                 #[job-runner agent]
+|-send increment4 --------------/
+|send-off batch4 ---------------/
+|-------|send increment2 -------/
+|------|send-off batch2 --------/
+</code></pre>
+<p>Note: I have visually placed actions on separate thread-like tracks to emphasise that they are independent actions that will be performed asynchronously on a fixed-size thread pool allocated by the agent system. <em>However</em> each action is sequentially ordered, and will be executed in the order it was sent to the agent.</p>
+<p>Now, if I <code>send</code> a <code>:pause</code> action to update the <code>:status</code> of the agent, the agent system will queue this latest action behind all the earlier actions. This means if <code>batch1</code> is in progress and I want to pause the job run, I cannot do it with a <code>send</code>.</p>
+<pre class="text"><code>             |---|send increment3 -----------\
+             |--|send-off batch3 ------------\
+             |----------|send increment1 ----\
+             |---------|send-off batch1 -----\
+                                              #[job-runner agent]
+             |-send increment4 --------------/
+             |send-off batch4 ---------------/
+             |-------|send increment2 -------/
+             |------|send-off batch2 --------/
+|send :pause --------------------------------/
+</code></pre>
 <p>What if I put job <code>:status</code> in an atom, and observe the atom via a validator?</p>
 <ul>
 <li>Any validator attached to an agent is evaluated for every action sent to the agent. The agent halts if the validator returns <code>false</code>. <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
@@ -182,98 +207,98 @@
 <p>The state of atoms and agents is always readable without blocking writers, so one can get away with pretty straightforward lock-free code.</p>
 <h1 id="code-sketch-sketchy-code-same-thing">Code sketch / Sketchy code (same thing)</h1>
 <p>Here's the basic idea. It works on my computer. I also am pleased to report that I finished the book example and have moved on in life.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>(<span class="kw">ns</span> study-htmx.pmjc</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="st">&quot;Poor Man&#39;s Job Control&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> make-initial-job-state</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>  []</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  (<span class="kw">agent</span> {<span class="at">:status</span> (<span class="kw">atom</span> <span class="at">:waiting</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>          <span class="at">:total-batches</span> <span class="dv">0</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>          <span class="at">:progress</span> <span class="dv">0</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>          <span class="at">:job-file</span> <span class="st">&quot;resources/job-log.json&quot;</span>}</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>         <span class="at">:validator</span> (<span class="kw">fn</span> [job-runner]</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>                      (<span class="kw">not=</span> <span class="at">:paused</span> @(<span class="at">:status</span> job-runner)))))</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>(<span class="bu">defonce</span><span class="fu"> job-runner</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  (make-initial-job-state))</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> create-job!</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>  <span class="st">&quot;Queue all the batches for the given job and</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a><span class="st">  keep the job progress current.&quot;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  [job-runner batches batch-executor]</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>  <span class="co">;; Start the job when it is parked in the initial</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>  <span class="co">;; :waiting state. Also rotate the job file.</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>  (<span class="kw">when</span> (<span class="kw">=</span> @(<span class="at">:status</span> <span class="at">@job-runner</span>) <span class="at">:waiting</span>)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>    (<span class="kw">swap!</span> (<span class="at">:status</span> <span class="at">@job-runner</span>)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>           (<span class="kw">constantly</span> <span class="at">:running</span>))</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>    (<span class="kw">send</span> job-runner <span class="kw">assoc</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a>          <span class="at">:total-batches</span> (<span class="kw">count</span> batches))</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a>    (spit (<span class="at">:job-file</span> <span class="at">@job-runner</span>)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a>          <span class="st">&quot;&quot;</span>))</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a>  <span class="co">;; As soon as a job is set to run, queue all batches</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a>  <span class="co">;; and progress updates</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true"></a>  (<span class="kw">when</span> (<span class="kw">=</span> @(<span class="at">:status</span> <span class="at">@job-runner</span>) <span class="at">:running</span>)</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true"></a>    (<span class="kw">doseq</span> [batch batches]</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true"></a>      (<span class="kw">send</span> job-runner <span class="kw">update</span> <span class="at">:progress</span> <span class="kw">inc</span>)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true"></a>      (<span class="kw">send-off</span> job-runner batch-executor batch)))</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true"></a></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true"></a>  <span class="co">;; Queue a final action to mark the job as :done</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true"></a>  (<span class="kw">send-off</span> job-runner</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true"></a>            (<span class="kw">fn</span> [runner]</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true"></a>              (<span class="kw">swap!</span> (<span class="at">:status</span> runner) (<span class="kw">constantly</span> <span class="at">:done</span>))</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true"></a>              runner)))</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> pause-job!</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true"></a>  <span class="st">&quot;Out-of-band job control by reaching into the :status atom.&quot;</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true"></a>  [job-runner]</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true"></a>  (<span class="kw">swap!</span> (<span class="at">:status</span> <span class="at">@job-runner</span>)</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true"></a>         (<span class="kw">constantly</span> <span class="at">:paused</span>))</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true"></a>  job-runner)</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true"></a></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> resume-job!</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true"></a>  <span class="st">&quot;Out-of-band job control by reaching into the :status atom.&quot;</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true"></a>  [job-runner]</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true"></a>  (<span class="kw">when</span> (<span class="kw">=</span> <span class="at">:paused</span> @(<span class="at">:status</span> <span class="at">@job-runner</span>))</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true"></a>    (<span class="kw">swap!</span> (<span class="at">:status</span> <span class="at">@job-runner</span>) (<span class="kw">constantly</span> <span class="at">:running</span>))</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true"></a>    (restart-agent job-runner <span class="at">@job-runner</span>))</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true"></a>  job-runner)</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true"></a></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> reset-job!</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true"></a>  <span class="st">&quot;Cheaping out by resetting the var because we mean to be</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true"></a><span class="st">  destructive and consign the agent to garbage collector.</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true"></a><span class="st">  Wrapping the agent in an atom would be better.&quot;</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true"></a>  [job-runner-var]</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true"></a>  (<span class="kw">alter-var-root</span> job-runner-var</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true"></a>                  (<span class="kw">constantly</span> (make-initial-job-state))))</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true"></a></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> cancel-job!</span></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true"></a>  [job-runner job-runner-var]</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true"></a>  (pause-job! job-runner)</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true"></a>  (reset-job! job-runner-var))</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true"></a></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> do-batch!</span></span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true"></a>  <span class="st">&quot;Presumably a long-running batch. We must always accept</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true"></a><span class="st">  and return the job runner as this is an action sent off</span></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true"></a><span class="st">  to the job runner agent.&quot;</span></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true"></a>  [job-runner batch]</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true"></a>  (Thread/sleep <span class="dv">5000</span>) <span class="co">; the batch is running</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true"></a>  (spit (<span class="at">:job-file</span> job-runner)</span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true"></a>        (<span class="kw">format</span> <span class="st">&quot;Completed batch %s</span><span class="sc">\n</span><span class="st">&quot;</span> batch)</span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true"></a>        <span class="at">:append</span> <span class="va">true</span>)</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true"></a>  job-runner)</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true"></a></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true"></a>(<span class="kw">comment</span></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true"></a>  (create-job! job-runner</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true"></a>               [<span class="st">&quot;ONE&quot;</span> <span class="st">&quot;TWO&quot;</span> <span class="st">&quot;THREE&quot;</span> <span class="st">&quot;FOUR&quot;</span> <span class="st">&quot;FIVE&quot;</span>]</span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true"></a>               do-batch!)</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true"></a></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true"></a>  (pause-job! job-runner)</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true"></a>  (resume-job! job-runner)</span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true"></a>  (reset-job! (var job-runner))</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true"></a>  (cancel-job! job-runner (var job-runner))</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true"></a></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true"></a>  (agent-error job-runner))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>(<span class="kw">ns</span> study-htmx.pmjc</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="st">&quot;Poor Man&#39;s Job Control&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> make-initial-job-state</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  []</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>  (<span class="kw">agent</span> {<span class="at">:status</span> (<span class="kw">atom</span> <span class="at">:waiting</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>          <span class="at">:total-batches</span> <span class="dv">0</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>          <span class="at">:progress</span> <span class="dv">0</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>          <span class="at">:job-file</span> <span class="st">&quot;resources/job-log.json&quot;</span>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>         <span class="at">:validator</span> (<span class="kw">fn</span> [job-runner]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>                      (<span class="kw">not=</span> <span class="at">:paused</span> @(<span class="at">:status</span> job-runner)))))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a>(<span class="bu">defonce</span><span class="fu"> job-runner</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a>  (make-initial-job-state))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> create-job!</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true"></a>  <span class="st">&quot;Queue all the batches for the given job and</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true"></a><span class="st">  keep the job progress current.&quot;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true"></a>  [job-runner batches batch-executor]</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true"></a>  <span class="co">;; Start the job when it is parked in the initial</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true"></a>  <span class="co">;; :waiting state. Also rotate the job file.</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true"></a>  (<span class="kw">when</span> (<span class="kw">=</span> @(<span class="at">:status</span> <span class="at">@job-runner</span>) <span class="at">:waiting</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true"></a>    (<span class="kw">swap!</span> (<span class="at">:status</span> <span class="at">@job-runner</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true"></a>           (<span class="kw">constantly</span> <span class="at">:running</span>))</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true"></a>    (<span class="kw">send</span> job-runner <span class="kw">assoc</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true"></a>          <span class="at">:total-batches</span> (<span class="kw">count</span> batches))</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true"></a>    (spit (<span class="at">:job-file</span> <span class="at">@job-runner</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true"></a>          <span class="st">&quot;&quot;</span>))</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true"></a>  <span class="co">;; As soon as a job is set to run, queue all batches</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true"></a>  <span class="co">;; and progress updates</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true"></a>  (<span class="kw">when</span> (<span class="kw">=</span> @(<span class="at">:status</span> <span class="at">@job-runner</span>) <span class="at">:running</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true"></a>    (<span class="kw">doseq</span> [batch batches]</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true"></a>      (<span class="kw">send</span> job-runner <span class="kw">update</span> <span class="at">:progress</span> <span class="kw">inc</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true"></a>      (<span class="kw">send-off</span> job-runner batch-executor batch)))</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true"></a>  <span class="co">;; Queue a final action to mark the job as :done</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true"></a>  (<span class="kw">send-off</span> job-runner</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true"></a>            (<span class="kw">fn</span> [runner]</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true"></a>              (<span class="kw">swap!</span> (<span class="at">:status</span> runner) (<span class="kw">constantly</span> <span class="at">:done</span>))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true"></a>              runner)))</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> pause-job!</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true"></a>  <span class="st">&quot;Out-of-band job control by reaching into the :status atom.&quot;</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true"></a>  [job-runner]</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true"></a>  (<span class="kw">swap!</span> (<span class="at">:status</span> <span class="at">@job-runner</span>)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true"></a>         (<span class="kw">constantly</span> <span class="at">:paused</span>))</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true"></a>  job-runner)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> resume-job!</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true"></a>  <span class="st">&quot;Out-of-band job control by reaching into the :status atom.&quot;</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true"></a>  [job-runner]</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true"></a>  (<span class="kw">when</span> (<span class="kw">=</span> <span class="at">:paused</span> @(<span class="at">:status</span> <span class="at">@job-runner</span>))</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true"></a>    (<span class="kw">swap!</span> (<span class="at">:status</span> <span class="at">@job-runner</span>) (<span class="kw">constantly</span> <span class="at">:running</span>))</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true"></a>    (restart-agent job-runner <span class="at">@job-runner</span>))</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true"></a>  job-runner)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> reset-job!</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true"></a>  <span class="st">&quot;Cheaping out by resetting the var because we mean to be</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true"></a><span class="st">  destructive and consign the agent to garbage collector.</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true"></a><span class="st">  Wrapping the agent in an atom would be better.&quot;</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true"></a>  [job-runner-var]</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true"></a>  (<span class="kw">alter-var-root</span> job-runner-var</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true"></a>                  (<span class="kw">constantly</span> (make-initial-job-state))))</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> cancel-job!</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true"></a>  [job-runner job-runner-var]</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true"></a>  (pause-job! job-runner)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true"></a>  (reset-job! job-runner-var))</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> do-batch!</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true"></a>  <span class="st">&quot;Presumably a long-running batch. We must always accept</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true"></a><span class="st">  and return the job runner as this is an action sent off</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true"></a><span class="st">  to the job runner agent.&quot;</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true"></a>  [job-runner batch]</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true"></a>  (Thread/sleep <span class="dv">5000</span>) <span class="co">; the batch is running</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true"></a>  (spit (<span class="at">:job-file</span> job-runner)</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true"></a>        (<span class="kw">format</span> <span class="st">&quot;Completed batch %s</span><span class="sc">\n</span><span class="st">&quot;</span> batch)</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true"></a>        <span class="at">:append</span> <span class="va">true</span>)</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true"></a>  job-runner)</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true"></a></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true"></a>(<span class="kw">comment</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true"></a>  (create-job! job-runner</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true"></a>               [<span class="st">&quot;ONE&quot;</span> <span class="st">&quot;TWO&quot;</span> <span class="st">&quot;THREE&quot;</span> <span class="st">&quot;FOUR&quot;</span> <span class="st">&quot;FIVE&quot;</span>]</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true"></a>               do-batch!)</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true"></a>  (pause-job! job-runner)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true"></a>  (resume-job! job-runner)</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true"></a>  (reset-job! (var job-runner))</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true"></a>  (cancel-job! job-runner (var job-runner))</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true"></a>  (agent-error job-runner))</span></code></pre></div>
 <h1 id="pros-cons">Pros / Cons</h1>
 <p>This is proooobably gross misuse of the agent system. <em>But</em> if it is not, I would <a href="#site-header">like to know</a>!</p>
 <p>Pros:</p>
