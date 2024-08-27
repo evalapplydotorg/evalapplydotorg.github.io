@@ -6,7 +6,7 @@
     <description>Aditya Athalye writes and works here, at evalapply.org.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Tue, 27 Aug 2024 18:57:23 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 27 Aug 2024 19:17:27 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -19,6 +19,10 @@
   <pubDate>Sat, 24 Aug 2024 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/clojure-web-app-from-scratch/</guid>
   <description>In a land bereft of a canonical "killer app" web framework or two, one must think about the what, why, how, where of all the moving parts. Out here, one must become a student of web framework architecture in addition to web application architecture. For here, in Clojure-land, the two are one. ☯</description>
+  <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">software_design</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
 </item>
 <item>
   <title>Poor man's job runner with Clojure Agents</title>
@@ -26,6 +30,9 @@
   <pubDate>Sun, 14 Jul 2024 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/poor-mans-job-runner-clojure-agents/</guid>
   <description>On (mis)using Clojure's concurrency features to make an in-memory job runner, because I needed an excuse to use more than atoms for once. Definitely not Rich Hickey's "Ants" demo.</description>
+  <category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">clojure</category>
 </item>
 <item>
   <title>Writing maketh the 10x Developer. More so the 10x development team.</title>
@@ -33,6 +40,13 @@
   <pubDate>Fri, 05 Apr 2024 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/writing-maketh-the-10x-developer/</guid>
   <description>Writing is thinking. Software is peoples' thoughts on repeat. Developers who can pen their thoughts clearly multiply their impact. This matters even more in group work. Common sense rules; no literature major necessary.</description>
+  <category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
+<category domain="https://www.evalapply.org/tags">writing</category>
+<category domain="https://www.evalapply.org/tags">culture</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
+<category domain="https://www.evalapply.org/tags">programming</category>
 </item>
 <item>
   <title>Halting AI</title>
@@ -40,6 +54,11 @@
   <pubDate>Wed, 13 Mar 2024 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/halting-ai/</guid>
   <description>The current wave of AI tools is incredibly cool. I hope more people get distracted by the incredible coolness and bet on this wave of AI, because I'm betting the other way, on the hot mess of human general intelligence.</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">ai</category>
+<category domain="https://www.evalapply.org/tags">intelligence_augmentation</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
 </item>
 <item>
   <title>Riff: A "mycelium-clj" for the Clojure ecosystem?</title>
@@ -47,6 +66,11 @@
   <pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/mycelium-clj/</guid>
   <description>In a world of concrete objects, steel frameworks bring sense and order. In a forest of composable tools, libraries and open-ended schemas, it would be the mycelia. A frustrated yet optimistic man muses "Might such a thing come to be?".</description>
+  <category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
 </item>
 <item>
   <title>Emerging from dotemacs bankruptcy the hard way: integrating the IDE (feat. Clojure(Script))</title>
@@ -54,6 +78,11 @@
   <pubDate>Thu, 07 Sep 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-ide-experience/</guid>
   <description>The one in which we design a rich Integrated Development Environment (IDE) experience, using Clojure as our muse. Featuring Language Server Protocol (lsp-mode + clojure-lsp), clojure-mode, cider, and more! Buckle up and get a coffee.</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
+<category domain="https://www.evalapply.org/tags">clojure</category>
 </item>
 <item>
   <title>Emerging from dotemacs bankruptcy the hard way: getting about</title>
@@ -61,6 +90,10 @@
   <pubDate>Wed, 02 Aug 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-getting-about/</guid>
   <description>We want to maximize our ability to "stay in The Zone". So the aim is to create the fastest, smoothest, tightly integrated, and unobtrusive mechanism to get things done using the keyboard alone.</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
 </item>
 <item>
   <title>Emerging from dotemacs bankruptcy the hard way: the midway refactor</title>
@@ -68,6 +101,10 @@
   <pubDate>Sun, 23 Jul 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-midway-refactor/</guid>
   <description>Or the one in which we confront our elisp n00bishness and try to be better at using it. And we learn new habits to understand our Emacs better. Better late than never.</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
 </item>
 <item>
   <title>Emerging from dotemacs bankruptcy the hard way: package management</title>
@@ -75,6 +112,10 @@
   <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-packages/</guid>
   <description>Elpa, Melpa, git repo. Vendor package straight from source. It compiled? Fetch some more! Elpa, Melpa, git repo. In more adult terms, we learn to use use-package to fetch, install, initialise, configure useful packages that enhance our Emacs experience.</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
 </item>
 <item>
   <title>Emerging from dotemacs bankruptcy the hard way: init begins</title>
@@ -82,6 +123,10 @@
   <pubDate>Tue, 04 Jul 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy-init-begins/</guid>
   <description>The first action must, of course, be to colour the bikeshed and set some decent defaults.</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
 </item>
 <item>
   <title>Emerging from dotemacs bankruptcy the hard way: Prelude</title>
@@ -89,6 +134,10 @@
   <pubDate>Thu, 29 Jun 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/emerging-from-dotemacs-bankruptcy/</guid>
   <description>Or, finally biting the bullet to redesigning my developerly and writerly experience, from the ground up, with Emacs.</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">recurse_center</category>
 </item>
 <item>
   <title>What have you been curious about?</title>
@@ -96,6 +145,8 @@
   <pubDate>Wed, 21 Jun 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/what-have-you-been-curious-about/</guid>
   <description>Arguably a more interesting, revealing, and kinder question than "What are you curious about?"</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
 </item>
 <item>
   <title>Software demos as deliberate acts of serious play</title>
@@ -103,6 +154,11 @@
   <pubDate>Sun, 04 Jun 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/software-demos/</guid>
   <description>Making a software demo is a form of deliberate, serious play. An act that feeds our curiosity, inventiveness, and drive. It enlivens. It enriches. It entertains. And as we asymptotically approach the A.G.I. that's just around the corner, the capacity for deliberate, serious play will remain distinctively, deeply, deliciously human. Career software people like yours truly may please take note!</description>
+  <category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">culture</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
+<category domain="https://www.evalapply.org/tags">software_design</category>
+<category domain="https://www.evalapply.org/tags">meta</category>
 </item>
 <item>
   <title>Cold restart whole system after total outage</title>
@@ -110,6 +166,10 @@
   <pubDate>Fri, 07 Apr 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/cold-restart-total-outage/</guid>
   <description>"What are folks’ views on systems so large where cold-starting the whole system is almost impossible?"... — M'colleague, Shivam, In A Slackroom Next Door.</description>
+  <category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
+<category domain="https://www.evalapply.org/tags">complexity</category>
+<category domain="https://www.evalapply.org/tags">meta</category>
 </item>
 <item>
   <title>Bad Matrix</title>
@@ -117,6 +177,8 @@
   <pubDate>Tue, 14 Feb 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/bad-matrix/</guid>
   <description>A while ago, someone in the Recurse Center nerdiverse decided we needed a "Bad Print". They made one. Things escalated. Bad Matrix happened.</description>
+  <category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">bash</category>
 </item>
 <item>
   <title>Riff: Classifying Tools for Thought</title>
@@ -124,6 +186,11 @@
   <pubDate>Thu, 19 Jan 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/tools-for-thought/</guid>
   <description>Trying out a classification for "Tools for Thought" as a means of augmenting the human intellect, hot on the heels of recent community conversations about ChatGPT, CoPilot, Stable Diffusion etc...</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">ai</category>
+<category domain="https://www.evalapply.org/tags">intelligence_augmentation</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
 </item>
 <item>
   <title>Animating Text Art in JavaScript</title>
@@ -131,6 +198,11 @@
   <pubDate>Mon, 16 Jan 2023 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/animate-text-art-javascript/</guid>
   <description>It is with no small thanks to MDN, StackOverflow, Firefox's support for countless open tabs, JavaScript's support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program "text art animations". Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here's how it went down.</description>
+  <category domain="https://www.evalapply.org/tags">hanukkah_of_data</category>
+<category domain="https://www.evalapply.org/tags">text_art</category>
+<category domain="https://www.evalapply.org/tags">javascript</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
 </item>
 <item>
   <title>A Clojure view of "Mars Rover"</title>
@@ -138,6 +210,10 @@
   <pubDate>Wed, 19 Oct 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/clojure-mars-rover/</guid>
   <description>Here I illustrate how Clojurists (including Yours Truly) like to solve problems and model things using hammocks, pure functions, and the "it's just data" ideology. Also, while the *problem* focuses on "design in the small" of application logic, many ideas in the *solution* can—and do—scale all the way to "design in the large" of whole systems.</description>
+  <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">software_design</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
 </item>
 <item>
   <title>Which Clojure codebases should I read? How and why?</title>
@@ -145,6 +221,9 @@
   <pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/which-clojure-codebases-to-read-how-and-why/</guid>
   <description>Newcomers to Clojure so frequently ask this question that an FAQ/Guide is being discussed, to add to the Clojure website. I struggled a lot with the question too, when starting off in Clojureland. Here are my notes and opinions.</description>
+  <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
 </item>
 <item>
   <title>Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools</title>
@@ -152,6 +231,10 @@
   <pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/</guid>
   <description>Or, the one in which we hand-craft nano Unix tools using Bash functions.</description>
+  <category domain="https://www.evalapply.org/tags">bash</category>
+<category domain="https://www.evalapply.org/tags">unix</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
 </item>
 <item>
   <title>Why and How I use "Org Mode" for my writing and more</title>
@@ -159,6 +242,15 @@
   <pubDate>Tue, 19 Apr 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/why-and-how-i-use-org-mode/</guid>
   <description>I find myself telling people that they will have to pry org-mode from my cold dead hands. Which befuddles me. Why, as an ingrate software nerd who has soured on software technology — talk about biting the hand that feeds — do I evince such strong sentiment about a software program?!</description>
+  <category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
+<category domain="https://www.evalapply.org/tags">writing</category>
+<category domain="https://www.evalapply.org/tags">emacs</category>
+<category domain="https://www.evalapply.org/tags">org_mode</category>
+<category domain="https://www.evalapply.org/tags">local_first</category>
+<category domain="https://www.evalapply.org/tags">notebooks</category>
+<category domain="https://www.evalapply.org/tags">knowledge_management</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
 </item>
 <item>
   <title>n ways to FizzBuzz in Clojure</title>
@@ -166,6 +258,10 @@
   <pubDate>Fri, 25 Mar 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/n-ways-to-fizzbuzz-in-clojure/</guid>
   <description>FizzBuzz is everywhere. Every programmer passes through its rite of passage, or at least bears witness to another. Over the years, many gentlenerds have taken it upon themselves to discover ever new ways to incant those hoary symbols. I hereby enjoin these few drops of Clojure to that roiling ocean of FizzBuzzery.</description>
+  <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
 </item>
 <item>
   <title>Shell ain't a bad place to FP: part 1/N: McIlroy's Pipeline</title>
@@ -173,6 +269,10 @@
   <pubDate>Fri, 11 Mar 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</guid>
   <description>Or, the one in which we "take apart" Douglas McIlroy's pipeline from 1986. Doing so teaches an object lesson about the essence of modular, composable, functional architecture.</description>
+  <category domain="https://www.evalapply.org/tags">bash</category>
+<category domain="https://www.evalapply.org/tags">unix</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
 </item>
 <item>
   <title>shite: static sites from shell (part 1/2) — feeling the html.energy</title>
@@ -180,6 +280,12 @@
   <pubDate>Tue, 08 Mar 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/</guid>
   <description>This primer is for people like me, who long dreamed of lovingly hand-crafting our own home on the Internet. We begin our quest by seeing, feeling, and harnessing pure HTML.energy.</description>
+  <category domain="https://www.evalapply.org/tags">design</category>
+<category domain="https://www.evalapply.org/tags">websites</category>
+<category domain="https://www.evalapply.org/tags">frontend</category>
+<category domain="https://www.evalapply.org/tags">bash</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
 </item>
 <item>
   <title>Dismal Arithmetic in Dyalog APL and Clojure</title>
@@ -187,6 +293,10 @@
   <pubDate>Fri, 25 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/dismal-arithmetic-dyalog-apl-clojure/</guid>
   <description>Dismal arithmetic is just like the arithmetic you learned in school, only simpler: there are no carries, when you add digits you just take the largest, and when you multiply digits you take the smallest. How does code look in the two languages I like a lot; Clojure and APL?</description>
+  <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">apl</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
 </item>
 <item>
   <title>Shell ain't a bad place to FP: part 0/N: Introduction</title>
@@ -194,6 +304,10 @@
   <pubDate>Wed, 23 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</guid>
   <description>Or, *Supremely Functional Bash Programming*, an exploration in N parts...</description>
+  <category domain="https://www.evalapply.org/tags">bash</category>
+<category domain="https://www.evalapply.org/tags">unix</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
 </item>
 <item>
   <title>What makes Functional Programs and Systems "Functional"?</title>
@@ -201,6 +315,10 @@
   <pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/what-makes-functional-programming-systems-functional/</guid>
   <description>In which we ponder the Functional Nature of Life, The Universe, and Everything. Please feel free to follow through the weeds, or jump straight to the bottom for my 2 nano BTC on the matter. (Or my current state of mind, at any rate.)</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
 </item>
 <item>
   <title>Baby don't hurry, don't stop (feat. Melancholy)</title>
@@ -208,6 +326,8 @@
   <pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/dont-hurry-dont-stop-sad-version/</guid>
   <description>Here lies melancholy that I put to paper from a particularly deep hole, not too long ago. It may ruin your day, or it may make you feel a little bit understood about your dark moments. Your mileage will vary.</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">mentalhealth</category>
 </item>
 <item>
   <title>people &gt; culture &gt; values &gt; strategy &gt; technology</title>
@@ -215,6 +335,9 @@
   <pubDate>Fri, 11 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/people-culture-values-strategy-technology/</guid>
   <description>Technology is—and ought to be—the /byproduct/ of far more important, powerful, and deep-rooted aspects of organisations — including wholesale societies. The pandemic of technology-solutionism gleefully embraced and amplified by all and sundry makes me believe that people seem to have decided it's the other way around.</description>
+  <category domain="https://www.evalapply.org/tags">organisation_design</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
+<category domain="https://www.evalapply.org/tags">culture</category>
 </item>
 <item>
   <title>Poor man's Reader App with Pandoc &amp; Bash</title>
@@ -222,6 +345,10 @@
   <pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/reader-app-pandoc-bash/</guid>
   <description>Every so often, I want to avoid opening a website in a browser, for ... reasons.</description>
+  <category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">bash</category>
+<category domain="https://www.evalapply.org/tags">unix</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
 </item>
 <item>
   <title>How To Be a Totally Natural Conference Speaker?</title>
@@ -229,6 +356,9 @@
   <pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/how-to-give-a-conference-talk/</guid>
   <description>Spurred by a conversation with a whip-smart friend and fellow gentlenerd, who unreasonably believed (believes?) they have nothing worth speaking about at the software conferences we like (IN/Clojure, FunctionalConf, local meetups etc).</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">writing</category>
+<category domain="https://www.evalapply.org/tags">speaking</category>
 </item>
 <item>
   <title>Reframe Technical Debt as Software Debt. Treat it like a AAA-rated CDO.</title>
@@ -236,6 +366,10 @@
   <pubDate>Thu, 20 Jan 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/software-debt/</guid>
   <description>I've long struggled with the *Technical* Debt metaphor. It was immediately useful when I first heard it. I still think it is useful, albeit as a starting point. The more I worked with software, the more infuriatingly incomplete it started to feel. So I've reframed it as *Software* Debt, for myself. Here's what I'm thinking.</description>
+  <category domain="https://www.evalapply.org/tags">risk</category>
+<category domain="https://www.evalapply.org/tags">complexity</category>
+<category domain="https://www.evalapply.org/tags">bias</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
 </item>
 <item>
   <title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title>
@@ -243,6 +377,9 @@
   <pubDate>Thu, 20 Jan 2022 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/how-to-not-die-by-a-thousand-cuts/</guid>
   <description>Not a weighty meandering 300 page Zen dialogue on Motorcycle Maintenance. Merely a meandering blog post in which one contemplates /Quality/ of software products.</description>
+  <category domain="https://www.evalapply.org/tags">quality</category>
+<category domain="https://www.evalapply.org/tags">risk</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
 </item>
 <item>
   <title>Systems, Scale, Value</title>
@@ -250,6 +387,9 @@
   <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/systems-scale-value/</guid>
   <description>Creating things is a delicate endeavour, fraught with peril. People struggle forward through crazy marketplace and environmental complexities just to get from one day to the other. Yet I can't shake off the feeling that we make it harder for ourselves than it should be. I've been trying to work out why. There's a lot to unpack. This post is a start at thinking about it in public.</description>
+  <category domain="https://www.evalapply.org/tags">systems</category>
+<category domain="https://www.evalapply.org/tags">scale</category>
+<category domain="https://www.evalapply.org/tags">complexity</category>
 </item>
 <item>
   <title>In the beginning, was the domain name</title>
@@ -257,6 +397,9 @@
   <pubDate>Wed, 10 Nov 2021 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/hello-world/</guid>
   <description>How this blog came to be is a minor miracle. Long story short, I conned myself into believing nobody will find /and/ read it. But you're here, aren't you? And you're reading this. Aren't You? Confucamus. Well, here's how you got here.</description>
+  <category domain="https://www.evalapply.org/tags">hello_world</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
 </item>
   </channel>
 </rss>
