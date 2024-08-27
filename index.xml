@@ -6,7 +6,7 @@
     <description>Aditya Athalye writes and works here, at evalapply.org.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Tue, 27 Aug 2024 18:38:44 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 27 Aug 2024 18:57:23 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -18,7 +18,7 @@
   <link>https://www.evalapply.org/posts/clojure-web-app-from-scratch/index.html</link>
   <pubDate>Sat, 24 Aug 2024 00:00:00 +0000</pubDate>
   <guid>https://www.evalapply.org/posts/clojure-web-app-from-scratch/</guid>
-  <description>In a land bereft of a canonical "killer app" web framework or two, one must think about the what, why, how, where of all the moving parts. Out here, one must become a student of web framework architecture in addition to web application architecture. For out here, the two are one. ☯</description>
+  <description>In a land bereft of a canonical "killer app" web framework or two, one must think about the what, why, how, where of all the moving parts. Out here, one must become a student of web framework architecture in addition to web application architecture. For here, in Clojure-land, the two are one. ☯</description>
 </item>
 <item>
   <title>Poor man's job runner with Clojure Agents</title>
