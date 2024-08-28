@@ -70,7 +70,7 @@
       <div class="cluster post-meta">
         <span class="author">By: Adi</span>
         <span class="date">Published: 2024-07-14</span>
-        <span class="date">Updated: 2024-07-15</span>
+        <span class="date">Updated: 2024-07-28</span>
         <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a> / <a href="https://www.evalapply.org/tags/programming/index.html#main">#programming</a> / <a href="https://www.evalapply.org/tags/clojure/index.html#main">#clojure</a>
         </span>
       </div>
@@ -95,9 +95,10 @@
 </div>
 <hr>
   <p><strong>Author's note:</strong> To run real background jobs like a proper Clojure professional, maybe use one of the proper professional libraries out there, like <a href="https://github.com/nilenso/goose">goose</a>.</p>
+<p>Edit: About a couple of weeks after I posted this, I learned of <em>Lambda Island</em>'s "Coffee Grinder" <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> pattern via Clojurians Slack.</p>
 <h1 id="backstory">Backstory</h1>
-<p>Opportunity to use not just atoms made its way to me a decade after I first watched Rich Hickey's "Ants" demo <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The demo shows off a Java Swing GUI world swarming with ants, driven using all three of Clojure's built-in concurrency features.</p>
-<p>Clojure wants us to be explicit about <em><strong>type of concurrency</strong></em> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, depending on how state is to be shared between threads. We must choose a feature accordingly.</p>
+<p>Opportunity to use not just atoms made its way to me a decade after I first watched Rich Hickey's "Ants" demo <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The demo shows off a Java Swing GUI world swarming with ants, driven using all three of Clojure's built-in concurrency features.</p>
+<p>Clojure wants us to be explicit about <em><strong>type of concurrency</strong></em> <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, depending on how state is to be shared between threads. We must choose a feature accordingly.</p>
 <table>
 <thead>
 <tr class="header">
@@ -119,7 +120,7 @@
 </tr>
 </tbody>
 </table>
-<p>However, like maybe 99% of all Clojure programmers, I've only ever used atoms in practice <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Like maybe some of them, I've always wanted to use the others some day. Because that demo is rad!</p>
+<p>However, like maybe 99% of all Clojure programmers, I've only ever used atoms in practice <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Like maybe some of them, I've always wanted to use the others some day. Because that demo is rad!</p>
 <p>While working through the (very nice!) <a href="https://hypermedia.systems/">hypermedia.systems</a> book, I reached the section where we must code up a <a href="https://hypermedia.systems/a-dynamic-archive-ui/">Dynamic Archive UI</a>, complete with a live progress indicator.</p>
 <p>The scenario requires an <em>Archive</em> job that runs in the background, with basic job control stuff (run, pause, cancel, reset, status, progress, etc.).</p>
 <p>Obviously we must kick jobs off of the main execution thread, to avoid blocking it. Further, if we have many jobs and/or many batches per job, we need to queue them all up for asynchronous evaluation. And job state must be observable at all times without blocking job execution.</p>
@@ -132,7 +133,7 @@
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>        <span class="at">:progress</span> <span class="dv">0</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        <span class="at">:job-file</span> <span class="st">&quot;resources/job-log.json&quot;</span>}</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>       <span class="co">;; the one weird trick</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>       <span class="at">:validator</span> (<span class="kw">fn</span> [self] </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>       <span class="at">:validator</span> (<span class="kw">fn</span> [self]</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>                    (<span class="kw">not=</span> <span class="at">:paused</span> @(<span class="at">:status</span> self))))</span></code></pre></div>
 <p>I modeled a single job runner as a Clojure agent:</p>
 <ul>
@@ -187,7 +188,7 @@
 </code></pre>
 <p>What if I put job <code>:status</code> in an atom, and observe the atom via a validator?</p>
 <ul>
-<li>Any validator attached to an agent is evaluated for every action sent to the agent. The agent halts if the validator returns <code>false</code>. <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
+<li>Any validator attached to an agent is evaluated for every action sent to the agent. The agent halts if the validator returns <code>false</code>. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></li>
 <li>The agent's state is always observable out-of-band.
 <ul>
 <li>Which means I can see the <code>:state</code> atom from the outside.</li>
@@ -339,10 +340,22 @@ This <em><a href="https://imgflip.com/i/8wy4em">HTMX is Boring Technology</a></e
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>Clojure: A Dynamic Programming Language for the JVM. Concurrency Support. <a href="https://www.youtube.com/watch?v=nDAfZK8m5_8">talk video</a>, <a href="https://github.com/juliangamble/clojure-ants-simulation">code archive</a>, <a href="https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/ClojureConcurrency.md">transcript and slides</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Cf. <a href="https://clojure.org/about/concurrent_programming">Concurrent Programming reference page at Clojure.org</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>The opportunity tends not to arise in real life because we end up using futures, or core.async for our asynchronous and/or independent operational needs, and RDBMSes for our coordinated and/or synchronous transactional needs. Plus, present-day Java has a whole host of options for concurrent programming.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Cf. <a href="https://clojure.org/reference/agents ">Agents and Asynchronous Actions</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>If Coffee Grinders are legit, then I guess my <code>pmjc</code> is more legit than I originally believed. Could it be one of those things that "just works" and is practically useful, because it is too basic not to be so?</p>
+<ul>
+<li><p><a href="https://lambdaisland.com/blog/2019-12-16-advent-of-parens-16-coffee-grinders">Advent 2019 part 16, Coffee Grinders</a></p>
+<blockquote>
+<p>Over the last year or so I’ve found myself using some variations on a certain pattern when modelling processes in Clojure. It’s kind of like a event loop, but adapted to the functional, immutable nature of Clojure. For lack of a better name I’m calling these coffee grinders. (The analogy doesn’t even really work but the kid needs to have a name.)</p>
+</blockquote></li>
+<li><p><a href="https://lambdaisland.com/p/coffee-grinders-2">Coffee Grinders, part 2</a></p>
+<blockquote>
+<p>Having continued to encounter and apply this pattern I’d like to present a more concise, semi-formal definition of coffee grinders.</p>
+</blockquote></li>
+</ul>
+<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn2" role="doc-endnote"><p>Clojure: A Dynamic Programming Language for the JVM. Concurrency Support. <a href="https://www.youtube.com/watch?v=nDAfZK8m5_8">talk video</a>, <a href="https://github.com/juliangamble/clojure-ants-simulation">code archive</a>, <a href="https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/ClojureConcurrency.md">transcript and slides</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Cf. <a href="https://clojure.org/about/concurrent_programming">Concurrent Programming reference page at Clojure.org</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>The opportunity tends not to arise in real life because we end up using futures, or core.async for our asynchronous and/or independent operational needs, and RDBMSes for our coordinated and/or synchronous transactional needs. Plus, present-day Java has a whole host of options for concurrent programming.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Cf. <a href="https://clojure.org/reference/agents ">Agents and Asynchronous Actions</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
   </section>
