@@ -6,7 +6,7 @@
     <description>Aditya Athalye writes and works here, at evalapply.org.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Fri, 30 Aug 2024 23:57:29 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 04 Sep 2024 01:16:15 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -20,9 +20,13 @@
   <guid>https://www.evalapply.org/posts/clojure-web-app-from-scratch/</guid>
   <description>In a land bereft of a canonical "killer app" web framework or two, one must think about the what, why, how, where of all the moving parts. Out here, one must become a student of web framework architecture in addition to web application architecture. For here, in Clojure-land, the two are one. ☯</description>
   <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">web_development</category>
+<category domain="https://www.evalapply.org/tags">websites</category>
 <category domain="https://www.evalapply.org/tags">functional_programming</category>
 <category domain="https://www.evalapply.org/tags">software_design</category>
 <category domain="https://www.evalapply.org/tags">architecture</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
 </item>
 <item>
   <title>Poor man's job runner with Clojure Agents</title>
@@ -31,8 +35,9 @@
   <guid>https://www.evalapply.org/posts/poor-mans-job-runner-clojure-agents/</guid>
   <description>On (mis)using Clojure's concurrency features to make an in-memory job runner, because I needed an excuse to use more than atoms for once. Definitely not Rich Hickey's "Ants" demo.</description>
   <category domain="https://www.evalapply.org/tags">riff</category>
-<category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">functional_programming</category>
 <category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">web_development</category>
 </item>
 <item>
   <title>Writing maketh the 10x Developer. More so the 10x development team.</title>
@@ -200,8 +205,12 @@
   <description>It is with no small thanks to MDN, StackOverflow, Firefox's support for countless open tabs, JavaScript's support for first-class functions, and first-class supportive colleagues, I learned it is possible for a web front end novice to program "text art animations". Whatever that is even. Because I thoroughly enjoyed doing just that for Hanukkah of Data 2022. Here's how it went down.</description>
   <category domain="https://www.evalapply.org/tags">hanukkah_of_data</category>
 <category domain="https://www.evalapply.org/tags">text_art</category>
+<category domain="https://www.evalapply.org/tags">design</category>
+<category domain="https://www.evalapply.org/tags">websites</category>
+<category domain="https://www.evalapply.org/tags">frontend</category>
 <category domain="https://www.evalapply.org/tags">javascript</category>
 <category domain="https://www.evalapply.org/tags">functional_programming</category>
+<category domain="https://www.evalapply.org/tags">web_development</category>
 <category domain="https://www.evalapply.org/tags">howto</category>
 </item>
 <item>
@@ -283,6 +292,7 @@
   <category domain="https://www.evalapply.org/tags">design</category>
 <category domain="https://www.evalapply.org/tags">websites</category>
 <category domain="https://www.evalapply.org/tags">frontend</category>
+<category domain="https://www.evalapply.org/tags">web_development</category>
 <category domain="https://www.evalapply.org/tags">bash</category>
 <category domain="https://www.evalapply.org/tags">howto</category>
 <category domain="https://www.evalapply.org/tags">whyto</category>
@@ -370,6 +380,12 @@
 <category domain="https://www.evalapply.org/tags">complexity</category>
 <category domain="https://www.evalapply.org/tags">bias</category>
 <category domain="https://www.evalapply.org/tags">systems</category>
+<category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">architecture</category>
+<category domain="https://www.evalapply.org/tags">culture</category>
+<category domain="https://www.evalapply.org/tags">quality</category>
+<category domain="https://www.evalapply.org/tags">software_design</category>
+<category domain="https://www.evalapply.org/tags">scale</category>
 </item>
 <item>
   <title>How To Not Die By A Thousand Cuts. Or, How To Think About Software Quality.</title>
