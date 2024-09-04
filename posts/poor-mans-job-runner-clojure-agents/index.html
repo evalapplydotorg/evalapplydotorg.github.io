@@ -70,7 +70,7 @@
       <div class="cluster post-meta">
         <span class="author">By: Adi</span>
         <span class="date">Published: 2024-07-14</span>
-        <span class="date">Updated: 2024-07-28</span>
+        <span class="date">Updated: 2024-09-04</span>
         <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a> / <a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://www.evalapply.org/tags/clojure/index.html#main">#clojure</a> / <a href="https://www.evalapply.org/tags/web_development/index.html#main">#web_development</a>
         </span>
       </div>
@@ -94,8 +94,8 @@
   </details>
 </div>
 <hr>
-  <p><strong>Author's note:</strong> To run real background jobs like a proper Clojure professional, maybe use one of the proper professional libraries out there, like <a href="https://github.com/nilenso/goose">goose</a>.</p>
-<p>Edit: About a couple of weeks after I posted this, I learned of <em>Lambda Island</em>'s "Coffee Grinder" <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> pattern via Clojurians Slack.</p>
+  <p><strong>Author's note:</strong> To run real background jobs like a proper Clojure professional, maybe use one of the proper professional libraries out there, like <a href="https://github.com/msolli/proletarian">proleterian</a>, <a href="https://github.com/nilenso/goose">goose</a>, or <a href="https://github.com/ctdean/backtick">backtick</a>.</p>
+<p>Edit: About a couple of weeks after I posted this, I learned of <em>Lambda Island</em>'s "Coffee Grinder" <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> pattern via Clojurians Slack. Maybe your needs are little enough that this "pmjc", or that "grinder" pattern works just fine for your needs.</p>
 <h1 id="backstory">Backstory</h1>
 <p>Opportunity to use not just atoms made its way to me a decade after I first watched Rich Hickey's "Ants" demo <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The demo shows off a Java Swing GUI world swarming with ants, driven using all three of Clojure's built-in concurrency features.</p>
 <p>Clojure wants us to be explicit about <em><strong>type of concurrency</strong></em> <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, depending on how state is to be shared between threads. We must choose a feature accordingly.</p>
