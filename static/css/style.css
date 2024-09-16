@@ -8,7 +8,9 @@
 /* --------------------------------------------------
 /* TYPEFACE DECLARATIONS
 * -------------------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=PT+Sans+Narrow&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=PT+Sans+Narrow&display=swap'); */
+
+@import url('fonts.css');
 
 :root {
     /* --------------------------------------------------
@@ -239,7 +241,6 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
   text-align: left;
-  border: collapse;
 }
 
 thead {
@@ -286,12 +287,6 @@ table > caption {
 
 .box.invert {
   background-color: var(--color-background);
-}
-
-.box.invert.thin {
-  padding: none;
-  border: none;
-  max-height: var(--scale-xxxs);
 }
 
 .cluster {
@@ -447,6 +442,8 @@ table > caption {
 .tag-index-item {
   background-color: var(--color-masthead);
   text-underline-offset: var(--scale-xs);
+  padding-left: var(--scale-xxxxxs);
+  padding-right: var(--scale-xxxxxs);
 }
 
 .tag-index-item\:count {
