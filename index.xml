@@ -6,7 +6,7 @@
     <description>Aditya Athalye writes and works here, at evalapply.org.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Thu, 03 Oct 2024 18:32:43 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jan 2025 17:12:55 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -14,6 +14,15 @@
         <link>https://www.evalapply.org/</link>
     </image>
     <item>
+  <title>Here's to Quarter Two of the 21st century</title>
+  <link>https://www.evalapply.org/posts/hello-quarter-two-of-the-21st-century/index.html</link>
+  <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+  <guid>https://www.evalapply.org/posts/hello-quarter-two-of-the-21st-century/</guid>
+  <description>The first quarter elapsed. Much happened. Much didn’t. We-who-are-reading-this-right-now are perhaps a bit bruised, disheveled, a little worse for the wear, and horribly hung over. But alive. Except you, Mx. LLM. Who knows what’s next?</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
+</item>
+<item>
   <title>Clojuring the web application stack: Meditation One</title>
   <link>https://www.evalapply.org/posts/clojure-web-app-from-scratch/index.html</link>
   <pubDate>Sat, 24 Aug 2024 00:00:00 +0000</pubDate>

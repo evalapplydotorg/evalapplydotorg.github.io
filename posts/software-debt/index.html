@@ -128,7 +128,7 @@
 <h2 id="software-debt-risk-perception-is-muddied-by-personal-bias.">Software debt risk perception is muddied by personal bias.</h2>
 <p>Part of my unease, and I suspect yours, stems from how the idea of debt is anchored in our heads.</p>
 <p>We struggle with this bias when pricing things. We sell to our wallet. If we are used to buying most things for 10 tokens, we balk at the idea that someone else is fine charging 100 tokens for basically the same things, and that others are fine—delighted, even—to fork over the requested quantity of tokens.</p>
-<p>Likewise, the word "debt" is strongly anchored to a <span class="underline">personal</span> sense of financial debt; our <del>credit</del> loan cards, home loans, equated monthly installments. Small, familiar ideas. Safe-sounding numbers. A warm feeling absorbed and internalised through delightfully tempting messages of better lives, buttressed by the approval of friends and family when we get that car or house or desirable object.</p>
+<p>Likewise, the word "debt" is strongly anchored to a <u>personal</u> sense of financial debt; our <del>credit</del> loan cards, home loans, equated monthly installments. Small, familiar ideas. Safe-sounding numbers. A warm feeling absorbed and internalised through delightfully tempting messages of better lives, buttressed by the approval of friends and family when we get that car or house or desirable object.</p>
 <p>Given the sheer amount of personal financial debt, our frequency of involvement with it, and the normalisation of it being <em>fine</em> to always be indebted to one or more financiers, I suspect this anchoring bias is widespread. And it clouds our risk perception when thinking about software debt.</p>
 <h2 id="software-debt-is-rooted-in-complexity.-we-abhor-complexity.">Software debt is rooted in complexity. We abhor complexity.</h2>
 <p>Complexity is to software what mass is to a rocket; the hard limiting factor of growth in any dimension you choose to measure (shipping velocity, headcount, revenue, cash flow, account expansion; anything). This is the sort of thing that demands tree-recursive, networked thinking we are not good at doing explicitly and deliberately. Something that our education actively disables by drilling us to think in simplistic linear terms in which correlation amounts to causation.</p>
@@ -140,14 +140,15 @@
 <p>Most of us don't <em>have</em> to, because we benefit–often unwittingly–from <em>very</em> generous error budgets and low-impact risks. But make no mistake, <em>someone</em> had to, and someone <em>did</em>, which is why you and I can ride the coattails of risk curves all our lives and be paid handsomely for their troubles.</p>
 <h2 id="software-debt-always-compounds.">Software debt always <em>compounds</em>.</h2>
 <p>In simple terms, all debt reduces down to three key components: A principal amount, a rate of interest, and terms of payment (including repayment period, cadence etc.). The combination of interest and terms price the risk for both parties.</p>
-<p>In software terms, we may think of each piece of tech in the stack as raw mass, adding to the principal amount. The more we add, the more we risk, even if the rate of interest remains constant. But really, each decision to add or remove items from <span class="underline">any</span> part of the system changes the principal <em>and</em> the rate of interest <em>and</em> the repayment terms.</p>
+<p>In software terms, we may think of each piece of tech in the stack as raw mass, adding to the principal amount. The more we add, the more we risk, even if the rate of interest remains constant. But really, each decision to add or remove items from <u>any</u> part of the system changes the principal <em>and</em> the rate of interest <em>and</em> the repayment terms.</p>
 <p>This alone should cause sleepless nights. Compounding debt grows and grows. Slowly, creepingly at first, and then very fast. And suddenly you lose everything.</p>
 <h2 id="software-debt-is-layered.">Software debt is <em>layered</em>.</h2>
 <p>Because software parts compose into software "stacks" and hierarchies, and each part mutates/evolves up and down the towers.</p>
 <p>Say we only ever have a fixed set of software parts–say one kind of server-side application, backed by one kind of database, serving one kind of client, via one kind of server, on one kind of operating system. Sooner or later, each part is guaranteed to update in-place, and/or do more work, thus forcing a change in their operating environment.</p>
 <p>The database gets more data. The application handles more edge cases. The server balances more concurrent load. The OS gets security patches. The clients want to do more so everything accrues more features. On and on, mutating forever, exhibiting accretion, sedimentation, erosion, and tectonic upheavals. Not to mention the parallel layers of brains of the people making decisions about these things; the Top Dog, the Fresh Recruit, and the squishy organisational cake between those two.</p>
-<figure>
-<img src="clojure-codebase-introduction-retention-code.png" class="box invert" alt="" /><figcaption>Clojure codebase–Introduction and retention of code. Rich Hickey. 2020. A History of Clojure.</figcaption>
+<figure class="box invert">
+<img src="clojure-codebase-introduction-retention-code.png" />
+<figcaption>Clojure codebase–Introduction and retention of code. Rich Hickey. 2020. A History of Clojure.</figcaption>
 </figure>
 <p>See also: <a href="https://erikbern.com/2016/12/05/the-half-life-of-code.html">The half-life of code &amp; the Ship of Theseus</a></p>
 <h2 id="software-debt-is-networked.">Software debt is <em>networked</em>.</h2>
@@ -163,7 +164,8 @@
 <p>With managed services we effectively add one more level to the <em>Inception</em> world of our software organisation. We outsource nice big chunks of supply chain risk management, but we in-source a <em>different</em> risk of depending <em>critically</em> on entities that we do not control and cannot fix if they fail.</p>
 <p>Not to mention the fact that change ripples through the parallel yet deeply enmeshed dimensions of cyberspace and meatspace. Code running on hardware is inexorably tied to concepts running in wetware. Of course, at this level of abstraction, the notion applies to any field of human endeavour. Yet, it is so much more true of software. Because software is essentially the thoughts of people being played on repeat.</p>
 <figure>
-<img src="STELLAReportFinalFinal_Coping_With_Complexity.png" alt="" /><figcaption>"The System". Page 11, Report from the SNAFUcatchers Workshop on Coping With Complexity. a.k.a. the "Stella report".</figcaption>
+<img src="STELLAReportFinalFinal_Coping_With_Complexity.png" />
+<figcaption>"The System". Page 11, Report from the SNAFUcatchers Workshop on Coping With Complexity. a.k.a. the "Stella report".</figcaption>
 </figure>
 <p>See also: the <a href="https://drive.google.com/file/d/0B7kFkt5WxLeDTml5cTFsWXFCb1U/view?resourcekey=0-0s0iD6n-ctyaB6cGlw6ogw">Stella Report</a> found via John Allspaw's <a href="Https://itrevolution.com/john-allspaw-how-your-systems-keep-running-day-after-day/">How Your Systems Keep Running Day After Day</a>.</p>
 <h2 id="software-debt-is-like-a-complex-opaque-financial-derivative.">Software debt is like a complex opaque financial derivative.</h2>
@@ -174,8 +176,9 @@
 <p>Much as I dislike all this doom-speak, I have to acknowledge it is material, and to side with Andy Grove. Only the paranoid survive.</p>
 <p>The only real hedge we have is the creativity and intelligence of our people.</p>
 <h1 id="words-in-1-picture-xkcd-summarizes-it-best.">1,000 words in 1 picture: xkcd summarizes it best.</h1>
-<figure>
-<img src="https://imgs.xkcd.com/comics/dependency.png" alt="Someday ImageMagick will finally break for good and we&#39;ll have a long period of scrambling as we try to reassemble civilization from the rubble." alt="" /><figcaption><a href="https://xkcd.com/2347">XKCD: Dependency</a></figcaption>
+<figure alt="Someday ImageMagick will finally break for good and we&#39;ll have a long period of scrambling as we try to reassemble civilization from the rubble.">
+<img src="https://imgs.xkcd.com/comics/dependency.png" />
+<figcaption><a href="https://xkcd.com/2347">XKCD: Dependency</a></figcaption>
 </figure>
 <h1 id="stories-of-debt-and-destruction">Stories of Debt and Destruction</h1>
 <ul>
@@ -223,7 +226,7 @@
       <footer id="site-footer">
   <hr>
   <div class="box invert footer stack">
-    <p>&copy; 2024,
+    <p>&copy; 2025,
       <a href="http://adityaathalye.com" target="_blank">Aditya Athalye</a>.
       <span>All content licensed
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">

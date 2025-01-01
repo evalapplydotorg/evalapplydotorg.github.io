@@ -2,11 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.evalapply.org/</loc>
-    <lastmod>2024-10-03T18:32:43+05:30</lastmod>
+    <lastmod>2025-01-01T17:12:55+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <loc>https://www.evalapply.org/posts/clojure-web-app-from-scratch/</loc>
+  <loc>https://www.evalapply.org/posts/hello-quarter-two-of-the-21st-century/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://www.evalapply.org/posts/clojure-web-app-from-scratch/</loc>
 <changefreq>yearly</changefreq>
 <priority>0.8</priority>
 <loc>https://www.evalapply.org/posts/poor-mans-job-runner-clojure-agents/</loc>

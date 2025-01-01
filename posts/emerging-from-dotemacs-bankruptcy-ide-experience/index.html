@@ -116,7 +116,8 @@
 <p>A cool Starry Night</p>
 </blockquote>
 <figure>
-<img src="emacs-clojure-ide-lsp-cider-reveal-gui.jpeg" alt="" /><figcaption>My Clojure IDE experience, built around Emacs <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</figcaption>
+<img src="emacs-clojure-ide-lsp-cider-reveal-gui.jpeg" />
+<figcaption>My Clojure IDE experience, built around Emacs <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</figcaption>
 </figure>
 <h1 id="why-ides">Why IDEs?</h1>
 <p>Programs—even small ones—can be incredibly dense and complex. Beyond a point, they cannot be understood as mere textual entities. Nor can the human mind keep track of a self-updating correct emulation of their live meaning.</p>
@@ -471,35 +472,35 @@ lesser known features for Clojure development</a>.
 </p>
 </figure>
 
-<div class="sourceCode" id="cb5" data-org-language="emacs-lisp"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>(<span class="kw">use-package</span> org</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  :ensure <span class="kw">nil</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  :config</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  (<span class="kw">setq</span> org-export-coding-system &#39;utf<span class="dv">-8</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>        org-babel-clojure-backend &#39;cider)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>  (org-babel-do-load-languages</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>   &#39;org-babel-load-languages</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>   &#39;((shell . <span class="kw">t</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>     (clojure . <span class="kw">t</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>     (clojurescript . <span class="kw">t</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>     (sql .<span class="kw">t</span> )</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>     (sqlite . <span class="kw">t</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>     (plantuml . <span class="kw">t</span>))))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>(<span class="kw">use-package</span> ob-clojurescript</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>  :blackout)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>(<span class="kw">use-package</span> org-tree-slide</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a>  <span class="co">;; Simple org outline based presentation mode</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>  <span class="co">;; ref: https://github.com/takaxp/org-tree-slide</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a>  :ensure <span class="kw">t</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>  :bind ((<span class="st">&quot;&lt;f8&gt;&quot;</span> . &#39;org-tree-slide-mode)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a>         (<span class="st">&quot;S-&lt;f8&gt;&quot;</span> . &#39;org-tree-slide-skip-done-toggle)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true"></a>         :map org-tree-slide-mode-map</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true"></a>         (<span class="st">&quot;&lt;f9&gt;&quot;</span> . &#39;org-tree-slide-move-previous-tree)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true"></a>         (<span class="st">&quot;&lt;f10&gt;&quot;</span> . &#39;org-tree-slide-move-next-tree)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true"></a>         (<span class="st">&quot;&lt;f11&gt;&quot;</span> . &#39;org-tree-slide-content))</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true"></a>  :config</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true"></a>  (<span class="kw">setq</span> org-tree-slide-skip-outline-level <span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5" data-org-language="emacs-lisp"><pre class="sourceCode commonlisp"><code class="sourceCode commonlisp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">use-package</span> org</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  :ensure <span class="kw">nil</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  :config</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">setq</span> org-export-coding-system <span class="dt">&#39;utf-8</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        org-babel-clojure-backend <span class="dt">&#39;cider</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  (org-babel-do-load-languages</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&#39;org-babel-load-languages</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>   &#39;((shell . <span class="kw">t</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>     (clojure . <span class="kw">t</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>     (clojurescript . <span class="kw">t</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>     (sql .<span class="kw">t</span> )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>     (sqlite . <span class="kw">t</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>     (plantuml . <span class="kw">t</span>))))</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>(<span class="kw">use-package</span> ob-clojurescript</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  :blackout)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>(<span class="kw">use-package</span> org-tree-slide</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Simple org outline based presentation mode</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; ref: https://github.com/takaxp/org-tree-slide</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  :ensure <span class="kw">t</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  :bind ((<span class="st">&quot;&lt;f8&gt;&quot;</span> . <span class="dt">&#39;org-tree-slide-mode</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>         (<span class="st">&quot;S-&lt;f8&gt;&quot;</span> . <span class="dt">&#39;org-tree-slide-skip-done-toggle</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>         :map org-tree-slide-mode-map</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>         (<span class="st">&quot;&lt;f9&gt;&quot;</span> . <span class="dt">&#39;org-tree-slide-move-previous-tree</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>         (<span class="st">&quot;&lt;f10&gt;&quot;</span> . <span class="dt">&#39;org-tree-slide-move-next-tree</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>         (<span class="st">&quot;&lt;f11&gt;&quot;</span> . <span class="dt">&#39;org-tree-slide-content</span>))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  :config</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">setq</span> org-tree-slide-skip-outline-level <span class="dv">4</span>))</span></code></pre></div>
 <h2 id="assist-emacs-with-graphical-interactive-development">Assist Emacs with <em>Graphical</em> Interactive Development</h2>
 <p>Clojure programs model the world in terms of composite data structures; hash-maps, vectors, sequences, streams and so forth. <em>And</em> we also access host platform objects, classes, metadata. <em>And</em> we also like to traverse / inspect / visualise any of those entities from different angles, to further our understanding of what's actually going on in the live runtime.</p>
 <p>Emacs is great for text UIs (e.g. magit), but not for rich graphical UIs. CIDER affords navigable views into much of this stuff right inside Emacs. <em>And</em> graphical tools like <em>vlaaad</em>'s <a href="https://vlaaad.github.io/reveal/">Reveal</a>, <a href="https://docs.datomic.com/cloud/other-tools/REBL.html">Cognitect REBL</a> by Datomic Team, or Chris Badahdah's browser-based <a href="https://djblue.github.io/portal/">portal</a> data navigator level up our runtime visualisations and interactions to a whole other level.</p>
@@ -561,94 +562,94 @@ Exit:      Control+D or (exit) or (quit)
 user=&gt;
 </code></pre>
 <p>And below is my global <code>deps.edn</code> configuration that declares an alias I can use to start a development session for any of my full-stack web app projects. This lets our Emacs play well with CIDER middleware, clj-refactor, Reveal etc.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co">;; BASELINE DEVELOPMENT CONFIG</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="co">;;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="co">;; For use across all projects on my machine.</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="co">;;</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="co">;; - Ref. deps configs by Sean Corfield and practicalli, for ideas.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="co">;;   https://github.com/seancorfield/dot-clojure/blob/develop/deps.edn</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a><span class="co">;;   https://github.com/practicalli/clojure-cli-config/blob/main/deps.edn</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a><span class="co">;;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a><span class="co">;; - Query deps in various ways:</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a><span class="co">;;   $ clj -T:deps aliases # Enumerate aliases across resolved deps files</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a><span class="co">;;   $ clj -X:deps find-versions :lib com.example/lib-name</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a><span class="co">;;</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a><span class="co">;; - Start full-stack web development sessions as:</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a><span class="co">;;   $ clj -M:dev/cljx</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a><span class="co">;;</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a><span class="co">;; - Print environment and command parsing info as data</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a><span class="co">;;   $ clj -Sdescribe</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>{<span class="co">;; Provider attributes</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a> <span class="at">:mvn/repos</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a> {<span class="st">&quot;central&quot;</span> {<span class="at">:url</span> <span class="st">&quot;https://repo1.maven.org/maven2/&quot;</span>}</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>  <span class="st">&quot;clojars&quot;</span> {<span class="at">:url</span> <span class="st">&quot;https://repo.clojars.org/&quot;</span>}}</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a> <span class="co">;; Directories in the current project to include in the classpath.</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a> <span class="at">:paths</span> [<span class="st">&quot;src&quot;</span>] <span class="co">; only the last :paths is kept and others are dropped.</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a> <span class="at">:aliases</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a> {<span class="at">:build</span> <span class="co">;; Building the project for dev or prod.</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>  <span class="co">;; Override per project, using a :build alias in project&#39;s deps.edn.</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a>  <span class="co">;; This is a useful baseline default.</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a>  <span class="co">;;</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a>  <span class="co">;; e.g. `clj -T:build jar` will expect a `jar` function defined in a</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a>  <span class="co">;; &quot;build.clj&quot; file at the effective classpath &quot;.&quot; (the project root),</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a>  <span class="co">;; if :paths is not specified for the :build alias. See the tools.build</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a>  <span class="co">;; guide for an example build.clj file.</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a>  <span class="co">;;</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a>  <span class="co">;; ref: https://clojure.org/guides/tools_build</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a>  {<span class="at">:deps</span> {io.github.clojure/tools.build {<span class="at">:mvn/version</span> <span class="st">&quot;0.9.5&quot;</span>}}</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a>   <span class="at">:ns-default</span> build}</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a>  <span class="at">:test</span> <span class="co">;; Testing and debugging tools.</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a>  <span class="co">;; Override per project, using a :test alias in project&#39;s deps.edn.</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a>  <span class="co">;; This is a useful baseline default.</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a>  <span class="co">;; - see https://github.com/cognitect-labs/test-runner</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true"></a>  <span class="co">;; - run your tests: clj -X:test</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true"></a>  {<span class="at">:extra-paths</span> [<span class="st">&quot;test&quot;</span>]</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true"></a>   <span class="at">:extra-deps</span> {io.github.cognitect-labs/test-runner</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true"></a>                {<span class="at">:git/tag</span> <span class="st">&quot;v0.5.1&quot;</span> <span class="at">:git/sha</span> <span class="st">&quot;dfb30dd&quot;</span>}}</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true"></a>   <span class="at">:exec-fn</span> cognitect.test-runner.api/test</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true"></a>   <span class="at">:main-opts</span> [<span class="st">&quot;-m&quot;</span> <span class="st">&quot;cognitect.test-runner&quot;</span>]}</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true"></a></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true"></a>  <span class="co">;; DEVELOPMENT CONFIGURATION</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true"></a>  <span class="co">;; - We want to do fullstack development by default</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true"></a>  <span class="co">;; - Assumes we start a standalone REPL at the terminal, and</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true"></a>  <span class="co">;;   `cider-connect-clj&amp;cljs` from our Emacs.</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true"></a>  <span class="co">;; - nb. To prevent figwheel-main auto compiler output from polluting the</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true"></a>  <span class="co">;;   GUI of vlaaad/reveal, configure figwhell-main&#39;s log level as :error.</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true"></a>  <span class="co">;; - We set nREPL middleware here instead of global ~/.nrepl/nrepl.edn,</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true"></a>  <span class="co">;;   or project-specific .nrepl.edn, to avoid splitting related configs</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true"></a>  <span class="co">;;   in too many places.</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true"></a>  <span class="co">;;   cf. https://nrepl.org/nrepl/1.0/usage/server.html#server-configuration</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true"></a>  <span class="at">:dev/cljx</span></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true"></a>  {<span class="at">:extra-paths</span> [<span class="st">&quot;src&quot;</span> <span class="st">&quot;resources&quot;</span> <span class="st">&quot;target&quot;</span> <span class="st">&quot;dev&quot;</span> <span class="st">&quot;test&quot;</span>]</span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true"></a>   <span class="at">:extra-deps</span> {org.clojure/clojure {<span class="at">:mvn/version</span> <span class="st">&quot;1.11.1&quot;</span>}</span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true"></a>                org.clojure/clojurescript {<span class="at">:mvn/version</span> <span class="st">&quot;1.11.60&quot;</span>}</span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true"></a>                cider/cider-nrepl {<span class="at">:mvn/version</span> <span class="st">&quot;0.37.0&quot;</span>}</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true"></a>                refactor-nrepl/refactor-nrepl {<span class="at">:mvn/version</span> <span class="st">&quot;3.9.0&quot;</span>}</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true"></a>                cider/piggieback {<span class="at">:mvn/version</span> <span class="st">&quot;0.5.3&quot;</span>}</span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true"></a>                com.bhauman/figwheel-main {<span class="at">:mvn/version</span> <span class="st">&quot;0.2.18&quot;</span>}</span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true"></a>                vlaaad/reveal {<span class="at">:mvn/version</span> <span class="st">&quot;1.3.280&quot;</span>}</span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true"></a>                <span class="co">;; Suppress spammy jetty server logs emitted by figwheel&#39;s</span></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true"></a>                <span class="co">;; development server that powers hot reloading. Bleh.</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true"></a>                <span class="co">;; c.f. https://github.com/bhauman/flappy-bird-demo-new/blob/master/project.clj</span></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true"></a>                org.slf4j/slf4j-nop {<span class="at">:mvn/version</span> <span class="st">&quot;2.0.9&quot;</span>}}</span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true"></a>   <span class="at">:main-opts</span> [<span class="st">&quot;-m&quot;</span> <span class="st">&quot;nrepl.cmdline&quot;</span></span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true"></a>               <span class="st">&quot;--middleware&quot;</span></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true"></a>               <span class="st">&quot;[cider.nrepl/cider-middleware,refactor-nrepl.middleware/wrap-refactor,cider.piggieback/wrap-cljs-repl,vlaaad.reveal.nrepl/middleware]&quot;</span></span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true"></a>               <span class="st">&quot;--interactive&quot;</span>]}</span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true"></a></span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true"></a>  <span class="at">:dev/extras</span></span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true"></a>  {<span class="at">:extra-deps</span> {org.clojure/test.check {<span class="at">:mvn/version</span> <span class="st">&quot;1.1.1&quot;</span>}</span>
-<span id="cb7-82"><a href="#cb7-82" aria-hidden="true"></a>                criterium/criterium {<span class="at">:mvn/version</span> <span class="st">&quot;RELEASE&quot;</span>}}}</span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true"></a></span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true"></a>  <span class="co">;; to run clj-kondo as ad-hoc command line dependency, with tools.deps</span></span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true"></a>  <span class="co">;; cf. https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md#toolsdepsalpha</span></span>
-<span id="cb7-86"><a href="#cb7-86" aria-hidden="true"></a>  <span class="co">;; :clj-kondo  {:replace-deps {clj-kondo/clj-kondo {:mvn/version &quot;RELEASE&quot;}}</span></span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true"></a>  <span class="co">;;              :main-opts [&quot;-m&quot; &quot;clj-kondo.main&quot;]}</span></span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true"></a>  }}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">;; BASELINE DEVELOPMENT CONFIG</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">;;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">;; For use across all projects on my machine.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">;;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">;; - Ref. deps configs by Sean Corfield and practicalli, for ideas.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">;;   https://github.com/seancorfield/dot-clojure/blob/develop/deps.edn</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">;;   https://github.com/practicalli/clojure-cli-config/blob/main/deps.edn</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">;;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">;; - Query deps in various ways:</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">;;   $ clj -T:deps aliases # Enumerate aliases across resolved deps files</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">;;   $ clj -X:deps find-versions :lib com.example/lib-name</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">;;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">;; - Start full-stack web development sessions as:</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">;;   $ clj -M:dev/cljx</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">;;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">;; - Print environment and command parsing info as data</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">;;   $ clj -Sdescribe</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>{<span class="co">;; Provider attributes</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a> <span class="at">:mvn/repos</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a> {<span class="st">&quot;central&quot;</span> {<span class="at">:url</span> <span class="st">&quot;https://repo1.maven.org/maven2/&quot;</span>}</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;clojars&quot;</span> {<span class="at">:url</span> <span class="st">&quot;https://repo.clojars.org/&quot;</span>}}</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a> <span class="co">;; Directories in the current project to include in the classpath.</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a> <span class="at">:paths</span> [<span class="st">&quot;src&quot;</span>] <span class="co">; only the last :paths is kept and others are dropped.</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a> <span class="at">:aliases</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a> {<span class="at">:build</span> <span class="co">;; Building the project for dev or prod.</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Override per project, using a :build alias in project&#39;s deps.edn.</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; This is a useful baseline default.</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; e.g. `clj -T:build jar` will expect a `jar` function defined in a</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; &quot;build.clj&quot; file at the effective classpath &quot;.&quot; (the project root),</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; if :paths is not specified for the :build alias. See the tools.build</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; guide for an example build.clj file.</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; ref: https://clojure.org/guides/tools_build</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:deps</span> {io.github.clojure/tools.build {<span class="at">:mvn/version</span> <span class="st">&quot;0.9.5&quot;</span>}}</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>   <span class="at">:ns-default</span> build}</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">:test</span> <span class="co">;; Testing and debugging tools.</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Override per project, using a :test alias in project&#39;s deps.edn.</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; This is a useful baseline default.</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; - see https://github.com/cognitect-labs/test-runner</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; - run your tests: clj -X:test</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:extra-paths</span> [<span class="st">&quot;test&quot;</span>]</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>   <span class="at">:extra-deps</span> {io.github.cognitect-labs/test-runner</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>                {<span class="at">:git/tag</span> <span class="st">&quot;v0.5.1&quot;</span> <span class="at">:git/sha</span> <span class="st">&quot;dfb30dd&quot;</span>}}</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>   <span class="at">:exec-fn</span> cognitect.test-runner.api/test</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>   <span class="at">:main-opts</span> [<span class="st">&quot;-m&quot;</span> <span class="st">&quot;cognitect.test-runner&quot;</span>]}</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; DEVELOPMENT CONFIGURATION</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; - We want to do fullstack development by default</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; - Assumes we start a standalone REPL at the terminal, and</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;   `cider-connect-clj&amp;cljs` from our Emacs.</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; - nb. To prevent figwheel-main auto compiler output from polluting the</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;   GUI of vlaaad/reveal, configure figwhell-main&#39;s log level as :error.</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; - We set nREPL middleware here instead of global ~/.nrepl/nrepl.edn,</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;   or project-specific .nrepl.edn, to avoid splitting related configs</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;   in too many places.</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;   cf. https://nrepl.org/nrepl/1.0/usage/server.html#server-configuration</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">:dev/cljx</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:extra-paths</span> [<span class="st">&quot;src&quot;</span> <span class="st">&quot;resources&quot;</span> <span class="st">&quot;target&quot;</span> <span class="st">&quot;dev&quot;</span> <span class="st">&quot;test&quot;</span>]</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>   <span class="at">:extra-deps</span> {org.clojure/clojure {<span class="at">:mvn/version</span> <span class="st">&quot;1.11.1&quot;</span>}</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>                org.clojure/clojurescript {<span class="at">:mvn/version</span> <span class="st">&quot;1.11.60&quot;</span>}</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>                cider/cider-nrepl {<span class="at">:mvn/version</span> <span class="st">&quot;0.37.0&quot;</span>}</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>                refactor-nrepl/refactor-nrepl {<span class="at">:mvn/version</span> <span class="st">&quot;3.9.0&quot;</span>}</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>                cider/piggieback {<span class="at">:mvn/version</span> <span class="st">&quot;0.5.3&quot;</span>}</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>                com.bhauman/figwheel-main {<span class="at">:mvn/version</span> <span class="st">&quot;0.2.18&quot;</span>}</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>                vlaaad/reveal {<span class="at">:mvn/version</span> <span class="st">&quot;1.3.280&quot;</span>}</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>                <span class="co">;; Suppress spammy jetty server logs emitted by figwheel&#39;s</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>                <span class="co">;; development server that powers hot reloading. Bleh.</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>                <span class="co">;; c.f. https://github.com/bhauman/flappy-bird-demo-new/blob/master/project.clj</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>                org.slf4j/slf4j-nop {<span class="at">:mvn/version</span> <span class="st">&quot;2.0.9&quot;</span>}}</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>   <span class="at">:main-opts</span> [<span class="st">&quot;-m&quot;</span> <span class="st">&quot;nrepl.cmdline&quot;</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;--middleware&quot;</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;[cider.nrepl/cider-middleware,refactor-nrepl.middleware/wrap-refactor,cider.piggieback/wrap-cljs-repl,vlaaad.reveal.nrepl/middleware]&quot;</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;--interactive&quot;</span>]}</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">:dev/extras</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:extra-deps</span> {org.clojure/test.check {<span class="at">:mvn/version</span> <span class="st">&quot;1.1.1&quot;</span>}</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>                criterium/criterium {<span class="at">:mvn/version</span> <span class="st">&quot;RELEASE&quot;</span>}}}</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; to run clj-kondo as ad-hoc command line dependency, with tools.deps</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; cf. https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md#toolsdepsalpha</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; :clj-kondo  {:replace-deps {clj-kondo/clj-kondo {:mvn/version &quot;RELEASE&quot;}}</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;              :main-opts [&quot;-m&quot; &quot;clj-kondo.main&quot;]}</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  }}</span></code></pre></div>
 <h2 id="add-offline-documentation-browsing">Add offline documentation browsing</h2>
 <p>As far as possible, I like to have software documentation available a keystroke away. While Clojure documentation is available in-Emacs, thanks to clojure-lsp, one needs docs for other things like databases or package managers or docker and so forth; things that we use while writing Clojure apps. The awesome <a href="https://kapeli.com/dash">Dash</a> for Mac OS project inspired the <a href="https://zealdocs.org/">Zealdocs</a> project for Linux (which is what I use).</p>
 <p>Nifty little <code>zeal-at-point</code> helps integrate Zeal into my dev workflow.</p>
@@ -674,7 +675,7 @@ user=&gt;
 <h2 id="emacs-is-a-first-rate-c-ide-john">Emacs is a first-rate C++ IDE, John</h2>
 <p>I feel compelled to include this section because I set up this post by quoting famous C++ developer and a lover of great IDEs, John Carmack.</p>
 <p>Even without LSP, Emacs was configurable as a first-rate IDE for large scale codebases: <a href="https://www.youtube.com/watch?v=5FQwQ0QWBTU">CppCon 2015: Emacs as a C++ IDE</a> - Atila Neves.</p>
-<p>Now that we <span class="underline">have</span> LSP, <a href="https://emacs-lsp.github.io/lsp-mode/tutorials/CPP-guide/">the C++ IDE story is even better</a>!</p>
+<p>Now that we <u>have</u> LSP, <a href="https://emacs-lsp.github.io/lsp-mode/tutorials/CPP-guide/">the C++ IDE story is even better</a>!</p>
 <h1 id="our-plan-is-complete">Our plan is complete!</h1>
 <p>We have come a long way!</p>
 <p>All the big pieces are in place, and the general design looks good to me. I will add enhancements, and fix bad ideas and bugs as I go along.</p>
@@ -705,10 +706,10 @@ user=&gt;
 ln -s ~/src/github/adityaathalye/dotemacs ~/.emacs.d
 </code></pre>
 <h1 id="footnotes">Footnotes</h1>
-<section class="footnotes" role="doc-endnotes">
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>The opening screenshot shows my Clojure programming session. Emacs occupies the left vertical half. <em><a href="https://vlaaad.github.io/reveal/">Reveal</a></em>, a separate graphical data inspector (unrelated to reveal.js), occupies the right half of my monitor.</p>
+<li id="fn1"><p>The opening screenshot shows my Clojure programming session. Emacs occupies the left vertical half. <em><a href="https://vlaaad.github.io/reveal/">Reveal</a></em>, a separate graphical data inspector (unrelated to reveal.js), occupies the right half of my monitor.</p>
 <ul>
 <li><p><strong>In the Emacs session</strong>, the lower half has documentation I pulled up using lsp-mode, and the upper part has Clojure code, with a lsp-ui overlay of a "find references" action I executed via lsp-mode.</p></li>
 <li><p><strong>In the Reveal GUI session</strong>, I have a navigable, interactive view of the result of code I evaluated from Emacs, into the live REPL. Reveal captured this for me because it taps into a shared REPL session.</p></li>
@@ -725,13 +726,13 @@ user=&gt;
 </code></pre></li>
 </ul>
 <a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
-<li id="fn2" role="doc-endnote"><p>Yes, colour me skeptical. I think the A.I. tools are cool, but I value thinking about problems and design far more than banging out swaths of code. Less code is better code. The only way I know how to do that is by doing good design, paired with ruthless testing and refactoring — not just of code, but of mental models. So I will conserve my enthusiasm until the AI can help produce + factor kickass software architecture and design.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>And for some people, like m'esteemed colleague, gentleman and scholar, <a href="https://vedang.me/">Vedang</a>, <a href="https://www.youtube.com/watch?v=KZoQ4EkfDPo">their entire life</a>. Few editors can lay claim to this kind of all-integrating integration. Vim, in its text editorial way, also answers to this charge, though I contend the Emacs life is harder to escape from :)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p><a href="https://blog.janestreet.com/putting-the-i-back-in-ide-towards-a-github-explorer/">Putting the I back in IDE: Towards a Github Explorer</a> - Jane Street blog.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>This, I think, is the little secret worth noticing. We <em>do not</em> really learn <strong>an</strong> editor, we learn <strong>a way</strong> (or ways) of working. So any editor that supports our "way" can be our editor. Personally, I chose to learn enough Emacs and Vim to be dangerous. And I hereby profess that all teh editorz r mine.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>I for one certainly can, by fixing my rather poor use of tools like debuggers, profiles, static analysers etc.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>Frequently, new programming languages will gain a major-mode very early in the life of said language (often approximate, but <em>useful</em>). Whereas some programming languages never get good support because their language tools and/or infrastructure remains proprietary, preventing deep and thorough understanding of the language. In those cases, it is pragmatic to use the proprietary IDE, if we must (<a href="#what-does-integrated-mean">but do it our way</a>).<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p><a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/">What is the Language Server Protocol?</a></p>
+<li id="fn2"><p>Yes, colour me skeptical. I think the A.I. tools are cool, but I value thinking about problems and design far more than banging out swaths of code. Less code is better code. The only way I know how to do that is by doing good design, paired with ruthless testing and refactoring — not just of code, but of mental models. So I will conserve my enthusiasm until the AI can help produce + factor kickass software architecture and design.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>And for some people, like m'esteemed colleague, gentleman and scholar, <a href="https://vedang.me/">Vedang</a>, <a href="https://www.youtube.com/watch?v=KZoQ4EkfDPo">their entire life</a>. Few editors can lay claim to this kind of all-integrating integration. Vim, in its text editorial way, also answers to this charge, though I contend the Emacs life is harder to escape from :)<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://blog.janestreet.com/putting-the-i-back-in-ide-towards-a-github-explorer/">Putting the I back in IDE: Towards a Github Explorer</a> - Jane Street blog.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>This, I think, is the little secret worth noticing. We <em>do not</em> really learn <strong>an</strong> editor, we learn <strong>a way</strong> (or ways) of working. So any editor that supports our "way" can be our editor. Personally, I chose to learn enough Emacs and Vim to be dangerous. And I hereby profess that all teh editorz r mine.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>I for one certainly can, by fixing my rather poor use of tools like debuggers, profiles, static analysers etc.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Frequently, new programming languages will gain a major-mode very early in the life of said language (often approximate, but <em>useful</em>). Whereas some programming languages never get good support because their language tools and/or infrastructure remains proprietary, preventing deep and thorough understanding of the language. In those cases, it is pragmatic to use the proprietary IDE, if we must (<a href="#what-does-integrated-mean">but do it our way</a>).<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/">What is the Language Server Protocol?</a></p>
 <blockquote>
 <p>Implementing support for features like autocomplete, goto definition, or documentation on hover for a programming language is a significant effort. Traditionally this work must be repeated for each development tool, as each provides different APIs for implementing the same features.</p>
 <p>The idea behind a Language Server is to provide the language-specific smarts inside a server that can communicate with development tooling over a protocol that enables inter-process communication.</p>
@@ -740,13 +741,13 @@ user=&gt;
 </blockquote>
 <a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></li>
 </ol>
-</section>
+</aside>
   </section>
   <footer id="blog-post-footer" class="footer stack">
     <nav class="cluster">
       <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
       <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-ide-experience%2Findex.html&t=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20integrating%20the%20IDE%20(feat.%20Clojure(Script))">discuss at HN</a></span>
+      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-ide-experience%2Findex.html&t=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20integrating%20the%20IDE%20%28feat.%20Clojure%28Script%29%29">discuss at HN</a></span>
       <span>&rarr; <a href="https://www.evalapply.org/index.html#standing-invitation">email comments</a></span>
       <span><a class="site-feed"
        href="https://www.evalapply.org/index.xml">
@@ -770,7 +771,7 @@ user=&gt;
       <footer id="site-footer">
   <hr>
   <div class="box invert footer stack">
-    <p>&copy; 2024,
+    <p>&copy; 2025,
       <a href="http://adityaathalye.com" target="_blank">Aditya Athalye</a>.
       <span>All content licensed
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">

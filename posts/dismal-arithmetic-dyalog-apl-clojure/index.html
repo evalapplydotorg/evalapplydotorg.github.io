@@ -93,7 +93,7 @@
 </div>
 <hr>
   <p>— <em>Throwback: Jan 2018.</em> —</p>
-<p>I learned of <em><a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic</a></em> from <a href="https://twitter.com/rdivyanshu"><span class="citation" data-cites="rdivyanshu">@rdivyanshu</span></a> who posed it as a programming problem in a Slackroom of local gentlenerds.</p>
+<p>I learned of <em><a href="https://arxiv.org/abs/1107.1130">Dismal Arithmetic</a></em> from <a href="https://twitter.com/rdivyanshu">@rdivyanshu</a> who posed it as a programming problem in a Slackroom of local gentlenerds.</p>
 <p>As the linked paper describes it:</p>
 <blockquote>
 <p>Dismal arithmetic is just like the arithmetic you learned in school, only simpler: there are no carries, when you add digits you just take the largest, and when you multiply digits you take the smallest. This paper studies basic number theory in this world, including analogues of the primes, number of divisors, sum of divisors, and the partition function.</p>
@@ -137,111 +137,111 @@
 </ul>
 <h1 id="dismal-arithmetic-in-clojure">Dismal Arithmetic in Clojure</h1>
 <p>Here I explored the basic properties of addition and multiplication. Yeah, sorry got to slog through some encoding/decoding prerequisites first.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>(<span class="kw">ns</span> dismal-arithmetic)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> n-&gt;digits</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  <span class="st">&quot;Really dismal :sobbing:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="st">   Will turn the number 12345 into the sequence (1 2 3 4 5).&quot;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  [n]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  (<span class="kw">loop</span> [n n</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>         xs (<span class="kw">list</span>)]</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>    (<span class="kw">if</span> (<span class="kw">&lt;</span> n <span class="dv">10</span>) <span class="co">; ensure we split 10 also, into 1 and 0</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>      (<span class="kw">conj</span> xs (<span class="kw">-&gt;</span> n Math/floor Math/round))</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>      (<span class="kw">recur</span> (<span class="kw">/</span> n <span class="dv">10</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>             (<span class="kw">conj</span> xs</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>                   (<span class="kw">-&gt;</span> n (<span class="kw">rem</span> <span class="dv">10</span>) Math/floor Math/round))))))</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a><span class="co">;; Check...</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a><span class="co">#_</span>(<span class="kw">map</span> n-&gt;digits [<span class="dv">169</span> <span class="dv">248</span> <span class="dv">100</span> <span class="dv">10</span> <span class="dv">1</span> <span class="dv">0</span>])</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> digits-&gt;n</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a>  <span class="st">&quot;Will turn the sequence (1 2 3 4 5) into the number 12345.&quot;</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a>  [dxs]</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [r dx] (<span class="kw">+</span> (<span class="kw">*</span> r <span class="dv">10</span>) dx))</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true"></a>          dxs))</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> dismal-add</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true"></a>  <span class="st">&quot;x and y can have any number of digits&quot;</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true"></a>  [x y]</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true"></a>  (<span class="kw">let</span> [nxs (n-&gt;digits x)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true"></a>        nys (n-&gt;digits y)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true"></a>        cxs (<span class="kw">count</span> nxs)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true"></a>        cys (<span class="kw">count</span> nys)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true"></a>        dxys (Math/abs (<span class="kw">-</span> cxs cys))</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true"></a>        dzs (<span class="kw">repeat</span> dxys <span class="dv">0</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true"></a>        [nxs nys] (<span class="kw">if</span> (<span class="kw">&gt;</span> cxs cys)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true"></a>                    [nxs            (<span class="kw">concat</span> dzs nys)]</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true"></a>                    [(<span class="kw">concat</span> dzs nxs) nys])]</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true"></a>    (<span class="kw">-&gt;&gt;</span> nys</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true"></a>         (<span class="kw">map</span> <span class="kw">max</span> nxs)</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true"></a>         digits-&gt;n)))</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true"></a></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true"></a></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true"></a>(<span class="bu">defn</span><span class="fu"> dismal-mul</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true"></a>  <span class="st">&quot;Like politics and war, multiplication is just addition</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true"></a><span class="st">   by other means. No?&quot;</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true"></a>  [x y]</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true"></a>  (<span class="kw">let</span> [nxs (n-&gt;digits x)</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true"></a>        nys (n-&gt;digits y)</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true"></a>        diagonal-summable</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true"></a>        (<span class="kw">reduce</span> (<span class="kw">fn</span> [rs y]</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true"></a>                  (<span class="kw">conj</span> rs (<span class="kw">map</span> #(<span class="kw">min</span> y <span class="va">%</span>) nys)))</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true"></a>                []</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true"></a>                nxs)</span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true"></a>        transpose-matrix (<span class="kw">fn</span> [matrix]</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true"></a>                           (<span class="kw">into</span> []</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true"></a>                                 (<span class="kw">apply</span> <span class="kw">map</span> <span class="kw">vector</span> matrix)))</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true"></a>        summable-matrix (transpose-matrix diagonal-summable)</span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true"></a>        summables (<span class="kw">reverse</span> (<span class="kw">map</span> digits-&gt;n summable-matrix))</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true"></a>        summables (map-indexed (<span class="kw">fn</span> [idx x]</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true"></a>                                 (<span class="kw">*</span> x (Math/round (Math/pow <span class="dv">10</span> idx))))</span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true"></a>                               summables)]</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true"></a>    (<span class="kw">reduce</span> dismal-add summables)))</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true"></a></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true"></a>(<span class="kw">comment</span></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true"></a>  <span class="co">;; Given test cases:</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true"></a>  (<span class="kw">=</span> (dismal-add <span class="dv">169</span> <span class="dv">248</span>)</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true"></a>     <span class="dv">269</span>)</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true"></a>  (<span class="kw">=</span> (dismal-mul <span class="dv">169</span> <span class="dv">248</span>)</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true"></a>     <span class="dv">12468</span>)</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true"></a></span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true"></a>  <span class="co">;; Other numbers:</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true"></a>  (dismal-add <span class="dv">123</span> <span class="dv">45678</span>)</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true"></a>  (dismal-mul <span class="dv">123</span> <span class="dv">45678</span>)</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true"></a></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true"></a></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true"></a>  <span class="co">;; Associative?</span></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true"></a></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true"></a>  (<span class="kw">=</span> (dismal-add <span class="dv">169</span> (dismal-add <span class="dv">248</span> <span class="dv">100</span>))</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true"></a>     (dismal-add (dismal-add <span class="dv">169</span> <span class="dv">248</span>) <span class="dv">100</span>))</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true"></a></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true"></a>  (<span class="kw">=</span> (dismal-mul <span class="dv">169</span> (dismal-mul <span class="dv">248</span> <span class="dv">100</span>))</span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true"></a>     (dismal-mul (dismal-mul <span class="dv">169</span> <span class="dv">248</span>) <span class="dv">100</span>))</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true"></a></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true"></a></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true"></a>  <span class="co">;; Commutative?</span></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true"></a></span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true"></a>  (<span class="kw">=</span> (<span class="kw">reduce</span> dismal-add [<span class="dv">169</span> <span class="dv">248</span> <span class="dv">12345</span>])</span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true"></a>     (<span class="kw">reduce</span> dismal-add [<span class="dv">248</span> <span class="dv">12345</span> <span class="dv">169</span>])</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true"></a>     (<span class="kw">reduce</span> dismal-add [<span class="dv">12345</span> <span class="dv">169</span> <span class="dv">248</span>]))</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true"></a></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true"></a>  (<span class="kw">=</span> (<span class="kw">reduce</span> dismal-mul [<span class="dv">169</span> <span class="dv">248</span> <span class="dv">12345</span>])</span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true"></a>     (<span class="kw">reduce</span> dismal-mul [<span class="dv">248</span> <span class="dv">12345</span> <span class="dv">169</span>])</span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true"></a>     (<span class="kw">reduce</span> dismal-mul [<span class="dv">12345</span> <span class="dv">169</span> <span class="dv">248</span>]))</span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true"></a></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true"></a></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true"></a>  <span class="co">;; Distributive?</span></span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true"></a></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true"></a>  (<span class="kw">=</span> (dismal-mul <span class="dv">100</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true"></a>                 (dismal-add <span class="dv">169</span> <span class="dv">248</span>))</span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true"></a></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true"></a>     (dismal-add (dismal-mul <span class="dv">100</span> <span class="dv">169</span>)</span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true"></a>                 (dismal-mul <span class="dv">100</span> <span class="dv">248</span>)))</span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> dismal-arithmetic)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> n-&gt;digits</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Really dismal :sobbing:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">   Will turn the number 12345 into the sequence (1 2 3 4 5).&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  [n]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">loop</span> [n n</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         xs (<span class="kw">list</span>)]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">if</span> (<span class="kw">&lt;</span> n <span class="dv">10</span>) <span class="co">; ensure we split 10 also, into 1 and 0</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">conj</span> xs (<span class="kw">-&gt;</span> n Math/floor Math/round))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      (<span class="kw">recur</span> (<span class="kw">/</span> n <span class="dv">10</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">conj</span> xs</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                   (<span class="kw">-&gt;</span> n (<span class="kw">rem</span> <span class="dv">10</span>) Math/floor Math/round))))))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">;; Check...</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#_</span>(<span class="kw">map</span> n-&gt;digits [<span class="dv">169</span> <span class="dv">248</span> <span class="dv">100</span> <span class="dv">10</span> <span class="dv">1</span> <span class="dv">0</span>])</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> digits-&gt;n</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Will turn the sequence (1 2 3 4 5) into the number 12345.&quot;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  [dxs]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [r dx] (<span class="kw">+</span> (<span class="kw">*</span> r <span class="dv">10</span>) dx))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>          dxs))</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> dismal-add</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;x and y can have any number of digits&quot;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  [x y]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [nxs (n-&gt;digits x)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        nys (n-&gt;digits y)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        cxs (<span class="kw">count</span> nxs)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        cys (<span class="kw">count</span> nys)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        dxys (Math/abs (<span class="kw">-</span> cxs cys))</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        dzs (<span class="kw">repeat</span> dxys <span class="dv">0</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        [nxs nys] (<span class="kw">if</span> (<span class="kw">&gt;</span> cxs cys)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>                    [nxs            (<span class="kw">concat</span> dzs nys)]</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>                    [(<span class="kw">concat</span> dzs nxs) nys])]</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;&gt;</span> nys</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>         (<span class="kw">map</span> <span class="kw">max</span> nxs)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>         digits-&gt;n)))</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> dismal-mul</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Like politics and war, multiplication is just addition</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="st">   by other means. No?&quot;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  [x y]</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [nxs (n-&gt;digits x)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        nys (n-&gt;digits y)</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        diagonal-summable</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        (<span class="kw">reduce</span> (<span class="kw">fn</span> [rs y]</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>                  (<span class="kw">conj</span> rs (<span class="kw">map</span> #(<span class="kw">min</span> y <span class="va">%</span>) nys)))</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>                []</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>                nxs)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        transpose-matrix (<span class="kw">fn</span> [matrix]</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>                           (<span class="kw">into</span> []</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>                                 (<span class="kw">apply</span> <span class="kw">map</span> <span class="kw">vector</span> matrix)))</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>        summable-matrix (transpose-matrix diagonal-summable)</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        summables (<span class="kw">reverse</span> (<span class="kw">map</span> digits-&gt;n summable-matrix))</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        summables (map-indexed (<span class="kw">fn</span> [idx x]</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>                                 (<span class="kw">*</span> x (Math/round (Math/pow <span class="dv">10</span> idx))))</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>                               summables)]</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">reduce</span> dismal-add summables)))</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Given test cases:</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (dismal-add <span class="dv">169</span> <span class="dv">248</span>)</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>     <span class="dv">269</span>)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (dismal-mul <span class="dv">169</span> <span class="dv">248</span>)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>     <span class="dv">12468</span>)</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Other numbers:</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  (dismal-add <span class="dv">123</span> <span class="dv">45678</span>)</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  (dismal-mul <span class="dv">123</span> <span class="dv">45678</span>)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Associative?</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (dismal-add <span class="dv">169</span> (dismal-add <span class="dv">248</span> <span class="dv">100</span>))</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>     (dismal-add (dismal-add <span class="dv">169</span> <span class="dv">248</span>) <span class="dv">100</span>))</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (dismal-mul <span class="dv">169</span> (dismal-mul <span class="dv">248</span> <span class="dv">100</span>))</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>     (dismal-mul (dismal-mul <span class="dv">169</span> <span class="dv">248</span>) <span class="dv">100</span>))</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Commutative?</span></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (<span class="kw">reduce</span> dismal-add [<span class="dv">169</span> <span class="dv">248</span> <span class="dv">12345</span>])</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">reduce</span> dismal-add [<span class="dv">248</span> <span class="dv">12345</span> <span class="dv">169</span>])</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">reduce</span> dismal-add [<span class="dv">12345</span> <span class="dv">169</span> <span class="dv">248</span>]))</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (<span class="kw">reduce</span> dismal-mul [<span class="dv">169</span> <span class="dv">248</span> <span class="dv">12345</span>])</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">reduce</span> dismal-mul [<span class="dv">248</span> <span class="dv">12345</span> <span class="dv">169</span>])</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">reduce</span> dismal-mul [<span class="dv">12345</span> <span class="dv">169</span> <span class="dv">248</span>]))</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Distributive?</span></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">=</span> (dismal-mul <span class="dv">100</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>                 (dismal-add <span class="dv">169</span> <span class="dv">248</span>))</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>     (dismal-add (dismal-mul <span class="dv">100</span> <span class="dv">169</span>)</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>                 (dismal-mul <span class="dv">100</span> <span class="dv">248</span>)))</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h1 id="dismal-arithmetic-in-dyalog-apl">Dismal Arithmetic in Dyalog APL</h1>
 <p>Here, I managed to implement addition, discovered how to write "inverse of a function" and my mind melted.</p>
 <pre class="dyalog"><code>      da ← 10⊥(⌈/10⊥⍣¯1⊢)
@@ -303,7 +303,7 @@ encode reducemax decode 169 248
       <footer id="site-footer">
   <hr>
   <div class="box invert footer stack">
-    <p>&copy; 2024,
+    <p>&copy; 2025,
       <a href="http://adityaathalye.com" target="_blank">Aditya Athalye</a>.
       <span>All content licensed
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
