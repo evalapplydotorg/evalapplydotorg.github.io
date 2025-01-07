@@ -356,7 +356,7 @@ Though popular language ecosystems have a canonical web framework or two, all ha
 </ol>
 <h3 id="bare-minimum-live-application">Bare minimum live application</h3>
 <p>Here is how we can run it from the terminal using <a href="https://clojure.org/reference/clojure_cli">Clojure CLI</a>.</p>
-<p>Compile and run as a Java process.</p>
+<p>Compile and run as a Java process. <a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
 <pre class="shell"><code>$ clj # in the root directory of our project
 Clojure 1.11.3
 user=&gt; (compile &#39;first-principles.core)
@@ -655,7 +655,7 @@ echo request: {:ssl-client-cert nil,
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; captured in its scope, on the response that it receives.</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">if</span> (response? response)</span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>      (handler response))))</span></code></pre></div>
-<p>The category of functions that accept functions as arguments and/or return functions as responses are "higher order functions" (HoFs) <a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p>
+<p>The category of functions that accept functions as arguments and/or return functions as responses are "higher order functions" (HoFs) <a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
 <p><em>Order of invocation matters. Wrapping your head around a stack of HoFs can get a little freaky.</em> It is fine to just <em>believe</em> and simply follow the usual pattern of Ring projects one sees in examples and tutorials. One will find said <em>belief</em> handy even if, with some labour, one convinces oneself that the model <em>works</em> by walking down the middleware stack of function calls and returns.</p>
 <p>Here is a step-by-step expansion of our aforementioned "barebones" middleware stack. We use the "substitution principle" of function evaluation.</p>
 <ol>
@@ -701,7 +701,7 @@ echo request: {:ssl-client-cert nil,
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [response]</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    (generic-handler response)))</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
-<li><p>Simplify the resulting function call because any expression of the form <code>(fn [x] (some-func x))</code> is equivalent to just <code>some-func</code> <a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>:</p>
+<li><p>Simplify the resulting function call because any expression of the form <code>(fn [x] (some-func x))</code> is equivalent to just <code>some-func</code> <a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  generic-handler)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
@@ -735,7 +735,7 @@ echo request: {:ssl-client-cert nil,
 </ol>
 <p>There is one final core-to-web-apps functionality that the Ring project <em>does not</em> include, which is polymorphic dispatch mechanism, which is "Routing". Routers like compojure, reitit, bidi, pedestal exist, but we still need a first-principles understanding of Routing. So, we round things up with…</p>
 <h2 id="bare-minimum-router---the-polymorphic-dispatcher-appears">Bare minimum router - the polymorphic dispatcher appears</h2>
-<p>The Ring project is focused on being a very good HTTP abstraction and toolkit, based on the Ring specification. It does <em>not</em> offer a router, even though it is a critical piece of the web stack <a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>. Many routing libraries exist, each with their own particular design choices, feature sets, and performance goals. It is just fine to use <a href="https://github.com/weavejester/compojure">compojure</a> in your first little web app or three. Swap it out for another library later, to explore other ways of routing.</p>
+<p>The Ring project is focused on being a very good HTTP abstraction and toolkit, based on the Ring specification. It does <em>not</em> offer a router, even though it is a critical piece of the web stack <a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>. Many routing libraries exist, each with their own particular design choices, feature sets, and performance goals. It is just fine to use <a href="https://github.com/weavejester/compojure">compojure</a> in your first little web app or three. Swap it out for another library later, to explore other ways of routing.</p>
 <p>Here is the bare minimum intuition for routing.</p>
 <p>We pull apart our monolithic <code>generic-handler</code> into little handlers and wire them back together with our poor man's router using something more flexible than a plain old <code>case</code> expression.</p>
 <p>First, a copy of the <code>generic-handler</code> for quick reference.</p>
@@ -815,7 +815,7 @@ echo request: {:ssl-client-cert nil,
 <li><p>Watch <a href="https://www.youtube.com/watch?v=LcpbBth7FaQ">Nir Rubinstein live code</a> a similar tiny demo web app at Wix Engineering Tech Talk. He walks us through his thinking, various little details of the Clojure web development workflow, as well as some comparisons with the more popular Object-oriented approaches.</p></li>
 </ul>
 <h2 id="do-more-hands-on-practice">Do more hands-on practice</h2>
-<p>I like to copy example apps (type them out from scratch in my own words) <a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>. Here are some good options.</p>
+<p>I like to copy example apps (type them out from scratch in my own words) <a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>. Here are some good options.</p>
 <ul>
 <li><p>Sean Corfield's <a href="https://github.com/seancorfield/usermanager-example">usermanager-example</a> demo app, and its variants linked in the README.</p></li>
 <li><p>Learn the tricks of web development workflows used by Clojurians, by watching them code example apps using real-world workflows.</p>
@@ -873,8 +873,9 @@ Spring, summer, rain, fall, winter, spring.</p>
 <li id="fn9"><p>To run as a Servlet container , we package the application code into a WAR file, minus the Jetty server, because we "load" the WAR into a Jetty instance running in "standalone" mode. In "embedded Jetty" mode, the server is packaged in a single JAR file along with our application code. We run this all-inclusive JAR as a normal Java process, and make it talk to the private end of a public-Internet-facing Web server like nginx. A separate standalone Jetty instance can also be used as a web server instead of nginx. We tend to prefer nginx because it has a lower resource footprint than Jetty, plus some other useful admin and performance properties. <a href="https://webhostinggeeks.com/blog/what-is-jetty-web-server/">What is Jetty Web Server?</a> by <em>web hosting geeks</em> is a nice primer. Among other things, they contrast jetty with nginx.</p>
 <p>Embedded Application Server v/s Servlet Container present different sysadmin/devops tradeoffs and somewhat different developer experience while programming and testing. Not a rabbit hole to go down right now.</p>
 <p>In any case, the Ring project has us covered. It supports both application runtime models. Altering our deployment model for the servlet runtime is a matter of changing our build procedure, and perhaps altering a few lines of our <code>main</code> entry-point, to use Jetty's Servlet interface.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>A middleware function capture the given handler (and any other arguments passed to it), within a strict lexical scope. Only the returned handler function has access to the captured values. This is a function "closure". As the MIT Scheme mailing list documents, <a href="https://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html">closures are nothing but the poor man's objects</a> (see also meta-discussion at this <a href="https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean">SO thread</a>). On similar lines, our middleware pattern is nothing but the poor man's object-oriented factory pattern.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11"><p>This is an eta-reduction in Lambda Calculus terms. From a type signature <em>and behavioural</em> point of view, these two functions are exactly equivalent, even when some-func has side-effects.</p>
+<li id="fn10"><p>We're using JVM Clojure, which is ultimately "just Java". So, at the end of the day, there must exist a compiled Java Class that the JVM can read and bootstrap our java app. This would be the "entry point" to our web application. See more at the <a href="https://clojure.org/reference/compilation#_gen_class_examples">Clojure Compilation reference</a>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>A middleware function capture the given handler (and any other arguments passed to it), within a strict lexical scope. Only the returned handler function has access to the captured values. This is a function "closure". As the MIT Scheme mailing list documents, <a href="https://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html">closures are nothing but the poor man's objects</a> (see also meta-discussion at this <a href="https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean">SO thread</a>). On similar lines, our middleware pattern is nothing but the poor man's object-oriented factory pattern.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>This is an eta-reduction in Lambda Calculus terms. From a type signature <em>and behavioural</em> point of view, these two functions are exactly equivalent, even when some-func has side-effects.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">fn</span> [x] (some-func x))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">;; is equivalent to</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">;; =&gt; some-func</span></span></code></pre></div>
@@ -884,9 +885,9 @@ Spring, summer, rain, fall, winter, spring.</p>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>generic-handler</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">;; We don&#39;t have to care what the word</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">;; &quot;response&quot; means. It could be any &#39;x&#39;.</span></span></code></pre></div>
-<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></li>
-<li id="fn12"><p>I think this is partly because that's a completely different concern from core HTTP work, partly because there are many ways to solve for routing, and partly because it can become a rather nasty problem needing special treatment.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13"><p>Ideally I also like to swap out key libraries that solve the same problem in different ways (e.g. Ring handlers and middleware model versus Pedestal Interceptor model).<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn13"><p>I think this is partly because that's a completely different concern from core HTTP work, partly because there are many ways to solve for routing, and partly because it can become a rather nasty problem needing special treatment.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>Ideally I also like to swap out key libraries that solve the same problem in different ways (e.g. Ring handlers and middleware model versus Pedestal Interceptor model).<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
   </section>
