@@ -6,7 +6,7 @@
     <description>Aditya Athalye writes and works here, at evalapply.org.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Tue, 18 Feb 2025 17:17:21 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 28 Feb 2025 22:08:53 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -14,6 +14,21 @@
         <link>https://www.evalapply.org/</link>
     </image>
     <item>
+  <title>Becoming a software A-Team via writing culture</title>
+  <link>https://www.evalapply.org/posts/writing-practices-to-10x-engineering/index.html</link>
+  <pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate>
+  <guid>https://www.evalapply.org/posts/writing-practices-to-10x-engineering/</guid>
+  <description>Strong writing culture transforms merely competent software teams into elite ones; those proverbial 10x product builders. Although creating high-leverage  writing culture requries mindful effort, it is not rocket science and one can start small. So... why, when, and how to do it? Personal opinions ahead. Take what is useful, discard the rest.</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">writing</category>
+<category domain="https://www.evalapply.org/tags">systems</category>
+<category domain="https://www.evalapply.org/tags">culture</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
+<category domain="https://www.evalapply.org/tags">programming</category>
+</item>
+<item>
   <title>Systematically Terraforming a Brownfield of Cloud Infrastructure</title>
   <link>https://www.evalapply.org/posts/systems-approach-to-infrastructure-as-code/index.html</link>
   <pubDate>Tue, 18 Feb 2025 00:00:00 +0000</pubDate>
