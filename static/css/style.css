@@ -292,7 +292,7 @@ table > caption {
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space, var(--scale-base));
+  gap: var(--space, var(--scale-xs));
   justify-content: flex-start;
   align-items: center;
 }
@@ -400,38 +400,33 @@ table > caption {
 .toc-heading\:h2,
 .toc-heading\:h3 {
   margin: 0;
+  line-height: var(--scale-l);
 }
 
 .toc-heading\:h1 {
   font-size: var(--scale-base);
-  line-height: var(--scale-l);
-  font-weight: bold;
 }
 
 .toc-heading\:h2 {
-  font-weight: bold;
   font-size: var(--scale-s);
-  line-height: var(--scale-base);
   padding-left: var(--scale-base);
 }
 
 .toc-heading\:h3 {
-  font-weight: bold;
   font-style: italic;
   font-size: var(--scale-s);
-  line-height: var(--scale-base);
-  padding-left: var(--scale-l);
+  padding-left: var(--scale-xxl);
 }
 
 .summary {
   font-style: italic;
 }
 
-.post-meta {
+.post-meta,
+.post-meta * {
   font-family: var(--headings-font-family);
   font-size: var(--scale-s);
   line-height: var(--scale-base);
-  font-weight: bold;
 }
 
 .tag-index-items {
@@ -496,10 +491,6 @@ p.post-index-item\:summary {
   color: var(--color-dark);
 }
 
-.footer {
-  text-align: center;
-}
-
 .email {
   font-family: var(--headings-font-family);
   font-weight: bold;
@@ -514,6 +505,7 @@ p.post-index-item\:summary {
 .site-header hr,
 .work-header hr,
 .footer hr,
+.post-meta hr,
 section.footnotes hr {
   height: 0;
   color: var(--color-light);

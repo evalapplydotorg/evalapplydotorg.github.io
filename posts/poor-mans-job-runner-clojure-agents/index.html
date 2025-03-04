@@ -61,26 +61,53 @@
 </header>
   <main id="main">
     <article id="blog-post" class="stack">
-  <header>
-    <div class="stack">
-      <div class="title">Poor man's job runner with Clojure Agents</div>
-      <div class="cluster post-meta">
-           <span>&darr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-           <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-           <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
-           <span>> <a href="../../hire.html">hire</a> ></span>
-      </div>
-      <div class="summary">On (mis)using Clojure's concurrency features to make an in-memory job runner, because I needed an excuse to use more than atoms for once. Definitely not Rich Hickey's "Ants" demo.</div>
-      <div class="cluster post-meta">
-        <span class="author">By: Adi</span>
+  <header class="stack">
+      <p class="title">Poor man's job runner with Clojure Agents</p>
+
+      <p class="cluster post-meta">
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark">toc</a> ]</span>
         <span class="date">Published: 2024-07-14</span>
         <span class="date">Updated: 2024-09-04</span>
-        <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a> / <a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://www.evalapply.org/tags/clojure/index.html#main">#clojure</a> / <a href="https://www.evalapply.org/tags/web_development/index.html#main">#web_development</a>
-        </span>
-      </div>
-      <hr>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        On (mis)using Clojure's concurrency features to make an in-memory job runner, because I needed an excuse to use more than atoms for once. Definitely not Rich Hickey's "Ants" demo.
+      </p>
+
+     <div class="post-meta">
+
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a><a href="https://www.evalapply.org/tags/clojure/index.html#main">#clojure</a><a href="https://www.evalapply.org/tags/web_development/index.html#main">#web_development</a>
+      </nav>
+
+      <p><hr></p>
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Poor man's job runner with Clojure Agents" rel="bookmark">&#x2709; email me</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&t=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&title=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+      </nav>
+            <p>
+        <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+              method="post" target="popupwindow"
+              onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+          <input type="email" name="email" id="bd-email">
+          <span>
+            <input type="submit" value="Subscribe">
+            to the Eval/Apply Dispatch
+            <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+          </span>
+        </form>
+      </p>
     </div>
   </header>
+  <hr>
   <section class="stack">
       <div id="blog-post-toc" class="stack table-of-contents">
   <details class="box invert stack" open>
@@ -363,28 +390,36 @@ This <em><a href="https://imgflip.com/i/8wy4em">HTMX is Boring Technology</a></e
 </ol>
 </aside>
   </section>
-  <footer id="blog-post-footer" class="footer stack">
+  <footer id="blog-post-footer" class="footer">
+    <p><hr></p>
     <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
       <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
       <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&t=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents">discuss at HN</a></span>
-      <span>&rarr; <a href="https://www.evalapply.org/index.html#standing-invitation">email comments</a></span>
-      <span><a class="site-feed"
-       href="https://www.evalapply.org/index.xml">
-       Blog feed</a></span>
     </nav>
-    <hr>
-    <form class="cluster"
-          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-          method="post" target="popupwindow"
-          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-      <span>Occasional newsletter</span>
-      <input type="email" name="email" id="bd-email">
-      <span>
-        <input type="submit" value="Get the eval/apply dispatch">
-        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-      </span>
-    </form>
+    <p><hr></p>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Poor man's job runner with Clojure Agents" rel="bookmark">&#x2709; email me</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&t=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&title=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+      </nav>
+          <p>
+        <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+              method="post" target="popupwindow"
+              onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+          <input type="email" name="email" id="bd-email">
+          <span>
+            <input type="submit" value="Subscribe">
+            to the Eval/Apply Dispatch
+            <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+          </span>
+        </form>
+      </p>
   </footer>
 </article>
   </main>
@@ -403,11 +438,6 @@ This <em><a href="https://imgflip.com/i/8wy4em">HTMX is Boring Technology</a></e
     </p>
   </div>
 </footer>
-      <!-- Cloudflare Web Analytics -->
-      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-              data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
-      </script>
-      <!-- End Cloudflare Web Analytics -->
     </div>
   </body>
 </html>

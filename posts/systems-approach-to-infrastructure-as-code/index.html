@@ -61,26 +61,53 @@
 </header>
   <main id="main">
     <article id="blog-post" class="stack">
-  <header>
-    <div class="stack">
-      <div class="title">Systematically Terraforming a Brownfield of Cloud Infrastructure</div>
-      <div class="cluster post-meta">
-           <span>&darr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-           <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-           <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
-           <span>> <a href="../../hire.html">hire</a> ></span>
-      </div>
-      <div class="summary">Some thinking, trade-offs, theory building, and method-making one might ended up doing, in the course of bringing Infrastructure as Code (IaC) discipline to brownfield (and greenfield) services, at a small regulated fintech company, having a smaller engineering team that serves several business units, including one of India's largest national tax gateways. Only somewhat easier than reading a long compound sentence without pausing for breath. Phew.</div>
-      <div class="cluster post-meta">
-        <span class="author">By: Adi</span>
+  <header class="stack">
+      <p class="title">Systematically Terraforming a Brownfield of Cloud Infrastructure</p>
+
+      <p class="cluster post-meta">
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark">toc</a> ]</span>
         <span class="date">Published: 2025-02-18</span>
         <span class="date">Updated: 2025-02-18</span>
-        <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/howto/index.html#main">#howto</a> / <a href="https://www.evalapply.org/tags/systems/index.html#main">#systems</a> / <a href="https://www.evalapply.org/tags/infrastructure/index.html#main">#infrastructure</a> / <a href="https://www.evalapply.org/tags/devops/index.html#main">#devops</a> / <a href="https://www.evalapply.org/tags/architecture/index.html#main">#architecture</a>
-        </span>
-      </div>
-      <hr>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        Some thinking, trade-offs, theory building, and method-making one might ended up doing, in the course of bringing Infrastructure as Code (IaC) discipline to brownfield (and greenfield) services, at a small regulated fintech company, having a smaller engineering team that serves several business units, including one of India's largest national tax gateways. Only somewhat easier than reading a long compound sentence without pausing for breath. Phew.
+      </p>
+
+     <div class="post-meta">
+
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/howto/index.html#main">#howto</a><a href="https://www.evalapply.org/tags/systems/index.html#main">#systems</a><a href="https://www.evalapply.org/tags/infrastructure/index.html#main">#infrastructure</a><a href="https://www.evalapply.org/tags/devops/index.html#main">#devops</a><a href="https://www.evalapply.org/tags/architecture/index.html#main">#architecture</a>
+      </nav>
+
+      <p><hr></p>
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Systematically Terraforming a Brownfield of Cloud Infrastructure" rel="bookmark">&#x2709; email me</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html&t=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html&title=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+      </nav>
+            <p>
+        <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+              method="post" target="popupwindow"
+              onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+          <input type="email" name="email" id="bd-email">
+          <span>
+            <input type="submit" value="Subscribe">
+            to the Eval/Apply Dispatch
+            <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+          </span>
+        </form>
+      </p>
     </div>
   </header>
+  <hr>
   <section class="stack">
       <div id="blog-post-toc" class="stack table-of-contents">
   <details class="box invert stack" open>
@@ -206,7 +233,36 @@
 <ul>
 <li><p><strong>Design sensibilities:</strong> My first devops role (we called our practice "production engineering") shaped my thinking about infrastructure automation. My former colleague and team lead explains in his talk.<br />
 <strong>Automation Principles at Helpshift</strong> (<a href="https://www.youtube.com/watch?v=9aWclomg4d0">video</a>, <a href="https://speakerdeck.com/rags/automation-principles-at-helpshift">slides</a>)</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9aWclomg4d0?si=sNMjqDHgRJF0Oqfl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<figure class="box invert stack">
+  <p class="title">Automation Principles at Helpshift - Raghu Udiyar</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/9aWclomg4d0" title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <div class="footnotes">
+    <p>
+      Everyone knows automation in operations is necessary, and is a key
+      objective of any DevOps practice. But if not started on the right
+      foot, or with the right objective in mind, can often leads to
+      false starts and bad design choices. Building and extending to
+      incorporate new requirements gets increasingly difficult leading
+      to hacks and rewrites.
+    </p>
+    <p>
+      At Helpshift we follow certain principles and guidelines that have
+      helped us avoid these pitfalls, and allow us to build a stable and
+      extensible automations framework using Ansible.
+    </p>
+    <p>
+      I will walk through these principles, the thought process behind
+      them, and the results through demos.
+    </p>
+    <p>
+      Raghu is a Production engineering manager at Helpshift. Leading a team
+      responsible for the Helpshift infrastructure; doing Operations,
+      Systems Architecture, Performance engineering, etc
+    </p>
+  </div>
+</figure>
 </li>
 <li><p><strong>Terraform mastery:</strong> advanced users sharing how they solved various real-world problems; simple as well as sophisticated.</p>
 <ul>
@@ -526,28 +582,36 @@ project-repo-root
 </ol>
 </aside>
   </section>
-  <footer id="blog-post-footer" class="footer stack">
+  <footer id="blog-post-footer" class="footer">
+    <p><hr></p>
     <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
       <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
       <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html&t=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure">discuss at HN</a></span>
-      <span>&rarr; <a href="https://www.evalapply.org/index.html#standing-invitation">email comments</a></span>
-      <span><a class="site-feed"
-       href="https://www.evalapply.org/index.xml">
-       Blog feed</a></span>
     </nav>
-    <hr>
-    <form class="cluster"
-          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-          method="post" target="popupwindow"
-          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-      <span>Occasional newsletter</span>
-      <input type="email" name="email" id="bd-email">
-      <span>
-        <input type="submit" value="Get the eval/apply dispatch">
-        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-      </span>
-    </form>
+    <p><hr></p>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Systematically Terraforming a Brownfield of Cloud Infrastructure" rel="bookmark">&#x2709; email me</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html&t=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fsystems-approach-to-infrastructure-as-code%2Findex.html&title=Systematically%20Terraforming%20a%20Brownfield%20of%20Cloud%20Infrastructure" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+      </nav>
+          <p>
+        <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+              method="post" target="popupwindow"
+              onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+          <input type="email" name="email" id="bd-email">
+          <span>
+            <input type="submit" value="Subscribe">
+            to the Eval/Apply Dispatch
+            <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+          </span>
+        </form>
+      </p>
   </footer>
 </article>
   </main>
@@ -566,11 +630,6 @@ project-repo-root
     </p>
   </div>
 </footer>
-      <!-- Cloudflare Web Analytics -->
-      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-              data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
-      </script>
-      <!-- End Cloudflare Web Analytics -->
     </div>
   </body>
 </html>

@@ -61,26 +61,53 @@
 </header>
   <main id="main">
     <article id="blog-post" class="stack">
-  <header>
-    <div class="stack">
-      <div class="title">Emerging from dotemacs bankruptcy the hard way: getting about</div>
-      <div class="cluster post-meta">
-           
-           <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-           <span>&darr; <a href="#blog-post-footer" rel="bookmark">discuss</a></span>
-           <span>> <a href="../../hire.html">hire</a> ></span>
-      </div>
-      <div class="summary">We want to maximize our ability to "stay in The Zone". So the aim is to create the fastest, smoothest, tightly integrated, and unobtrusive mechanism to get things done using the keyboard alone.</div>
-      <div class="cluster post-meta">
-        <span class="author">By: Adi</span>
+  <header class="stack">
+      <p class="title">Emerging from dotemacs bankruptcy the hard way: getting about</p>
+
+      <p class="cluster post-meta">
+        
         <span class="date">Published: 2023-08-02</span>
         <span class="date">Updated: 2023-08-05</span>
-        <span class="tags">Tags:  / <a href="https://www.evalapply.org/tags/programming/index.html#main">#programming</a> / <a href="https://www.evalapply.org/tags/emacs/index.html#main">#emacs</a> / <a href="https://www.evalapply.org/tags/howto/index.html#main">#howto</a> / <a href="https://www.evalapply.org/tags/recurse_center/index.html#main">#recurse_center</a>
-        </span>
-      </div>
-      <hr>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        We want to maximize our ability to "stay in The Zone". So the aim is to create the fastest, smoothest, tightly integrated, and unobtrusive mechanism to get things done using the keyboard alone.
+      </p>
+
+     <div class="post-meta">
+
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/programming/index.html#main">#programming</a><a href="https://www.evalapply.org/tags/emacs/index.html#main">#emacs</a><a href="https://www.evalapply.org/tags/howto/index.html#main">#howto</a><a href="https://www.evalapply.org/tags/recurse_center/index.html#main">#recurse_center</a>
+      </nav>
+
+      <p><hr></p>
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Emerging from dotemacs bankruptcy the hard way: getting about" rel="bookmark">&#x2709; email me</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html&t=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html&title=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+      </nav>
+            <p>
+        <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+              method="post" target="popupwindow"
+              onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+          <input type="email" name="email" id="bd-email">
+          <span>
+            <input type="submit" value="Subscribe">
+            to the Eval/Apply Dispatch
+            <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+          </span>
+        </form>
+      </p>
     </div>
   </header>
+  <hr>
   <section class="stack">
       <div class="footnotes box invert">
 <p>Series: <a href="../emerging-from-dotemacs-bankruptcy/index.html#main">prelude</a> → <a href="../emerging-from-dotemacs-bankruptcy-init-begins/index.html#main">init begins</a> → <a href="../emerging-from-dotemacs-bankruptcy-packages/index.html#main">packages</a> → <a href="../emerging-from-dotemacs-bankruptcy-midway-refactor/index.html#main">midway refactor</a> → <strong>(<a href="../emerging-from-dotemacs-bankruptcy-getting-about/index.html#main">getting about</a>)</strong> → <a href="../emerging-from-dotemacs-bankruptcy-ide-experience/index.html#main">IDE (ft. Clojure)</a> → <a href="https://github.com/adityaathalye/dotemacs">.emacs.d</a></p>
@@ -725,28 +752,36 @@ Usually customisations made from the UI go into `custom-file&#39;.&quot;)
 </ol>
 </aside>
   </section>
-  <footer id="blog-post-footer" class="footer stack">
+  <footer id="blog-post-footer" class="footer">
+    <p><hr></p>
     <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
       <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
       <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
-      <span><b>Y</b> <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html&t=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about">discuss at HN</a></span>
-      <span>&rarr; <a href="https://www.evalapply.org/index.html#standing-invitation">email comments</a></span>
-      <span><a class="site-feed"
-       href="https://www.evalapply.org/index.xml">
-       Blog feed</a></span>
     </nav>
-    <hr>
-    <form class="cluster"
-          action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
-          method="post" target="popupwindow"
-          onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
-      <span>Occasional newsletter</span>
-      <input type="email" name="email" id="bd-email">
-      <span>
-        <input type="submit" value="Get the eval/apply dispatch">
-        <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
-      </span>
-    </form>
+    <p><hr></p>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Emerging from dotemacs bankruptcy the hard way: getting about" rel="bookmark">&#x2709; email me</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html&t=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Femerging-from-dotemacs-bankruptcy-getting-about%2Findex.html&title=Emerging%20from%20dotemacs%20bankruptcy%20the%20hard%20way%3A%20getting%20about" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+      </nav>
+          <p>
+        <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+              method="post" target="popupwindow"
+              onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+          <input type="email" name="email" id="bd-email">
+          <span>
+            <input type="submit" value="Subscribe">
+            to the Eval/Apply Dispatch
+            <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+          </span>
+        </form>
+      </p>
   </footer>
 </article>
   </main>
@@ -765,11 +800,6 @@ Usually customisations made from the UI go into `custom-file&#39;.&quot;)
     </p>
   </div>
 </footer>
-      <!-- Cloudflare Web Analytics -->
-      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-              data-cf-beacon='{"token": "2a55df7e78f941c29a35207cedd0f66c"}'>
-      </script>
-      <!-- End Cloudflare Web Analytics -->
     </div>
   </body>
 </html>
