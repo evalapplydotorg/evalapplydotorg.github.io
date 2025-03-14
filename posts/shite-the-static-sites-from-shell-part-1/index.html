@@ -20,43 +20,45 @@
       title="Aditya Athalye writes and works here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/shite-the-static-sites-from-shell-part-1/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
 </head>
   <body>
     <div id="the-very-top" class="stack center box">
         <header id="site-header">
   <div class="box invert stack">
     <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
         <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
       </a>
       <div class="stack">
         <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html">
-   &lambda; know
+          <a href="https://www.evalapply.org/hire.html#main" target="_self">
+  $ work
 </a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; read
+<a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &#9753; read
 </a>
-<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank">
-&#10086; see
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#10087; see
 </a>
-<a href="https://www.evalapply.org/index.html#standing-invitation">
-   &nbsp;&#x2709; mail
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
 </a>
-<a href="https://www.evalapply.org/hire.html#main">
-   $ hire
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &lambda; self
 </a>
-<a href="https://www.evalapply.org/now.html#main">
-   &raquo; now
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
 </a>
 <a href="https://www.evalapply.org/index.xml" target="_blank">
-   &asymp; feed
+  &asymp; feed
 </a>
         </nav>
-        <p class="post-meta">
-          Small B2B SaaS team? Want to scale <em>without</em> dilution and burnout? <a href="https://www.evalapply.org/hire.html#main">I want you to win</a>!</sup>
+        <p class="footnotes"> Coming soon (April 2025): "Project
+          <a href="https://www.evalapply.org/index.html#writing-for-nerds">
+            Writing for nerds"</a>.
         </p>
       </div>
     </div>
@@ -68,7 +70,7 @@
       <p class="title">shite: static sites from shell (part 1/2) — feeling the html.energy</p>
 
       <p class="cluster post-meta">
-        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark">toc</a> ]</span>
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark" target=_self>toc</a> ]</span>
         <span class="date">Published: 2022-03-08</span>
         <span class="date">Updated: 2022-03-08</span>
         <span class="author">By: Aditya Athalye</span>
@@ -81,14 +83,14 @@
      <div class="post-meta">
       <p><hr></p>
             <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN shite: static sites from shell (part 1/2) — feeling the html.energy" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN shite: static sites from shell (part 1/2) — feeling the html.energy" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=shite%3A%20static%20sites%20from%20shell%20%28part%201%2F2%29%20%E2%80%94%20feeling%20the%20html.energy%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html&t=shite%3A%20static%20sites%20from%20shell%20%28part%201%2F2%29%20%E2%80%94%20feeling%20the%20html.energy" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html&title=shite%3A%20static%20sites%20from%20shell%20%28part%201%2F2%29%20%E2%80%94%20feeling%20the%20html.energy" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
             <p>
@@ -106,7 +108,7 @@
       <p><hr></p>
       <nav class="cluster">
         <span>Tags:</span>
-        <a href="https://www.evalapply.org/tags/design/index.html#main">#design</a><a href="https://www.evalapply.org/tags/websites/index.html#main">#websites</a><a href="https://www.evalapply.org/tags/frontend/index.html#main">#frontend</a><a href="https://www.evalapply.org/tags/web_development/index.html#main">#web_development</a><a href="https://www.evalapply.org/tags/bash/index.html#main">#bash</a><a href="https://www.evalapply.org/tags/howto/index.html#main">#howto</a><a href="https://www.evalapply.org/tags/whyto/index.html#main">#whyto</a>
+        <a href="https://www.evalapply.org/tags/design/index.html#main" target="_self">#design</a><a href="https://www.evalapply.org/tags/websites/index.html#main" target="_self">#websites</a><a href="https://www.evalapply.org/tags/frontend/index.html#main" target="_self">#frontend</a><a href="https://www.evalapply.org/tags/web_development/index.html#main" target="_self">#web_development</a><a href="https://www.evalapply.org/tags/bash/index.html#main" target="_self">#bash</a><a href="https://www.evalapply.org/tags/howto/index.html#main" target="_self">#howto</a><a href="https://www.evalapply.org/tags/whyto/index.html#main" target="_self">#whyto</a>
       </nav>
     </div>
   </header>
@@ -118,22 +120,22 @@
       <strong>Contents</strong>
     </summary>
     <nav class="stack">
-      <a href="#screw-that-gimme-a-site-already" class="toc-heading:h1">"Screw that, gimme a site already"</a>
-<a href="#whats-the-plan" class="toc-heading:h1">What's the plan?</a>
-<a href="#what-is-a-static-website" class="toc-heading:h1">What is a static website?</a>
-<a href="#hello-world." class="toc-heading:h1">Hello, world.</a>
-<a href="#peeking-under-the-browsers-hood" class="toc-heading:h1">Peeking under the browser's hood</a>
-<a href="#the-hello-world-is-not-enough" class="toc-heading:h1">The hello-world is not enough</a>
-<a href="#harness-html.energy-to-model-our-would-be-site" class="toc-heading:h1">Harness html.energy to model our would-be site</a>
-<a href="#flip-the-model-into-a-full-website" class="toc-heading:h1">Flip the model into a full website</a>
-<a href="#what-next" class="toc-heading:h1">What next?</a>
-<a href="#footnotes" class="toc-heading:h1">Footnotes</a>
+      <a href="#screw-that-gimme-a-site-already" target="_self" class="toc-heading:h1">"Screw that, gimme a site already"</a>
+<a href="#whats-the-plan" target="_self" class="toc-heading:h1">What's the plan?</a>
+<a href="#what-is-a-static-website" target="_self" class="toc-heading:h1">What is a static website?</a>
+<a href="#hello-world." target="_self" class="toc-heading:h1">Hello, world.</a>
+<a href="#peeking-under-the-browsers-hood" target="_self" class="toc-heading:h1">Peeking under the browser's hood</a>
+<a href="#the-hello-world-is-not-enough" target="_self" class="toc-heading:h1">The hello-world is not enough</a>
+<a href="#harness-html.energy-to-model-our-would-be-site" target="_self" class="toc-heading:h1">Harness html.energy to model our would-be site</a>
+<a href="#flip-the-model-into-a-full-website" target="_self" class="toc-heading:h1">Flip the model into a full website</a>
+<a href="#what-next" target="_self" class="toc-heading:h1">What next?</a>
+<a href="#footnotes" target="_self" class="toc-heading:h1">Footnotes</a>
     </nav>
   </details>
 </div>
 <hr>
   <p>We've long dreamed of lovingly hand-crafting our wee home on the Internet, you and I. We would make it ultramodern yet ultralight, simple yet beautiful. Something <em>not</em> WordPress because that's so last century. (Seriously, just go to WordPress.)</p>
-<p>No. We were committed. We would do it for the sake of craftsmanship and the environment and World Peace. And that's how we found ourselves awake at 2 A.M., having absurd conversations <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> with Distant Internet Strangers…</p>
+<p>No. We were committed. We would do it for the sake of craftsmanship and the environment and World Peace. And that's how we found ourselves awake at 2 A.M., having absurd conversations <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> with Distant Internet Strangers…</p>
 <blockquote>
 <p>You (loudly): <em>"BOOTSTRAP? Yes, I want to bootstrap my website."</em></p>
 <p>D.I.S. (miming): <em>"No, no. You. <strong>Need.</strong> Bootstrap."</em></p>
@@ -163,7 +165,7 @@
 <ul>
 <li><p>grasp the problem space of making a static website (or, a website),</p></li>
 <li><p>make <em>shite: the website generator from Shell</em>, to automate the boring parts,</p></li>
-<li><p>do nothing that will surprise a Perl/PHP gentleperson hacker from the last century. 'twas a far more civilized time <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. I know because I'm from the last century.</p></li>
+<li><p>do nothing that will surprise a Perl/PHP gentleperson hacker from the last century. 'twas a far more civilized time <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. I know because I'm from the last century.</p></li>
 </ul>
 <blockquote>
 <p><em>"Be water, my friend."</em></p>
@@ -171,7 +173,7 @@
 </blockquote>
 <h1 id="what-is-a-static-website">What is a static website?</h1>
 <p>Static simply means <em>as-is</em>. Its inverse is "dynamic", meaning in-transit. The "static" part of "static website" corresponds to stored information. The "website" part corresponds to where from and <em>how</em>, the information gets to one's computer. A web-site is literally a place (site) on the World Wide Web, whence our computer has to fetch the information we want.</p>
-<p>Fetching information, such as a web page, over the Internet is "dynamic" by definition. Even just opening a file on your own computer's disk is "dynamic". The very act of reading a digital file, and/or transmitting it, means copying its bits from one place and showing them in another place <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>Fetching information, such as a web page, over the Internet is "dynamic" by definition. Even just opening a file on your own computer's disk is "dynamic". The very act of reading a digital file, and/or transmitting it, means copying its bits from one place and showing them in another place <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 <p>The <em>Ultimate Static Site</em>, is a file that once written never changes. Thus, once-received we never have to fetch it again (unless we lose it). Reality is of course not so simple. But we will work with the "static means never changing" mental model, because we can go pretty far with just that.</p>
 <p>We explore the <em>making</em> of the "static" part; viz. the web pages. What could these web pages convey? Well, any collection of words. A blog series. A resume. A single essay. A tutorial. A presentation. A collection of books. A portfolio. An artist's statement. Or even a simple "Hello, world" message. Your site, you choose!</p>
 <h1 id="hello-world.">Hello, world.</h1>
@@ -180,7 +182,7 @@
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>and LinkedIn. Look me up!</span></code></pre></div>
 <p>If we put hello.html on a web server and have it serve the file as-is, well, we just published a static website on the Internet.</p>
 <p>Some people enjoy these simple joys of life.</p>
-<p>For example, Adam Kelly <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, m'colleague from the <a href="./#footer">Recurse Center</a> community, thinks their website <a href="https://www.cthulahoops.org/">cthulahoops.org</a> is just fine.</p>
+<p>For example, Adam Kelly <a href="#fn4" target="_self" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, m'colleague from the <a href="./#footer">Recurse Center</a> community, thinks their website <a href="https://www.cthulahoops.org/">cthulahoops.org</a> is just fine.</p>
 <p>And it is.</p>
 <figure>
 <img src="plain-static-website-cthulahoops.png" />
@@ -228,7 +230,7 @@
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin-inline-start</span>: <span class="dv">0</span><span class="dt">px</span><span class="op">;</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">margin-inline-end</span>: <span class="dv">0</span><span class="dt">px</span><span class="op">;</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>It's not magic. Have a look at the default style sheets to render HTML <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
+<p>It's not magic. Have a look at the default style sheets to render HTML <a href="#fn5" target="_self" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
 <ul>
 <li>in the Chromium project: <a href="https://chromium.googlesource.com/chromium/blink/+/master/Source/core/css/html.css">core/css/html.css</a></li>
 <li>in the Firefox project: <a href="https://searchfox.org/mozilla-central/source/layout/style/res/html.css">layout/style/res/html.css</a></li>
@@ -242,7 +244,7 @@
 <figcaption>A model page for the shite</figcaption>
 </figure>
 <p>The web is meant to be a publishing medium. HTML, its lingua franca, has become a highly standardized, feature-rich, and expressive language.</p>
-<p>Modern HTML aims to be "semantic", i.e. it allows us to organize and describe various parts of our website in HTML tags that are well-accepted <strong>and</strong> machine- friendly <strong>and</strong> meaningful to humans. A lot can be done with very little <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+<p>Modern HTML aims to be "semantic", i.e. it allows us to organize and describe various parts of our website in HTML tags that are well-accepted <strong>and</strong> machine- friendly <strong>and</strong> meaningful to humans. A lot can be done with very little <a href="#fn6" target="_self" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 <p>CSS too has evolved a lot. But we will focus more on the HTML bits, because that's at the heart of all web layouts and we can rely on browsers to supply reasonable styling information automatically.</p>
 <p>So, we may rifle through the HTML reference page and come up with some sort of a model of our would-be site. See the <a href="demo/index.html">live demo</a> and compare with the markup anatomy described below.</p>
 <details class="box invert stack">
@@ -398,7 +400,7 @@
 <li>write a pleasantly styled private diary that lives just on your computer, or</li>
 <li>email any page, or the whole thing to anyone you like, or</li>
 <li>share the site via dropbox or suchlike, with close friends and family, or</li>
-<li>publish it to the WWW <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> for all to behold</li>
+<li>publish it to the WWW <a href="#fn7" target="_self" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> for all to behold</li>
 </ul>
 <p>But why stop here? I wish you and your site grow ever richer. And why stop at one? I wish your ambition grows to make many sites of all shapes and sizes.</p>
 <p>Either way, may the copy pasta stop being cute very fast. May it cause you to seek ways to automate away the tedious bits of site-building. Because it's too much fun!</p>
@@ -407,33 +409,33 @@
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Even Joe Armstrong <a href="https://www.youtube.com/watch?v=lKXe3HUG2l4">gave up after "the local Grunt" wouldn't work</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Recently, a friend told me matter-of-fact-ly that they know people who were spinning up a Kubernetes cluster for their static website. For scale and all, you know. (If you don't know what any of that means, it's fine. I don't either.)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p><a href="https://wesleyac.com/">Wesley A-C.</a>, m'colleague from the Recurse Center community, has more to say about the <a href="https://blog.wesleyac.com/posts/no-static-websites">static/dynamic divide</a>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Thanks to <a href="https://github.com/cthulahoops">Adam Kelly</a>, for permission to use their site as example.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Someone on the html.energy discord pointed to this truth buried in The Source.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>Visit <a href="https://html.energy/home.html">html.energy</a> to learn the truth, <a href="https://gossipsweb.net/">gossipsweb</a> to experience it, and the <a href="https://512kb.club/">512KB Club</a> to meet the lightweight elite.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>This blog post <a href="https://alignedleft.com/resources/cheap-web-hosting">Cheap or Free Static Website Hosting</a> suggests several options. The neocities.org way seems easiest for a simple website like ours. You'll also find plenty of help for <a href="https://pages.github.com/">publishing with github pages</a>. Alternatively, there seems to be a way to publish direct from your Google Drive or Dropbox etc. <a href="https://www.freecodecamp.org/news/how-to-deploy-a-static-website-for-free-in-only-3-minutes-with-google-drive/">using Fast.io</a>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Even Joe Armstrong <a href="https://www.youtube.com/watch?v=lKXe3HUG2l4">gave up after "the local Grunt" wouldn't work</a>.<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Recently, a friend told me matter-of-fact-ly that they know people who were spinning up a Kubernetes cluster for their static website. For scale and all, you know. (If you don't know what any of that means, it's fine. I don't either.)<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://wesleyac.com/">Wesley A-C.</a>, m'colleague from the Recurse Center community, has more to say about the <a href="https://blog.wesleyac.com/posts/no-static-websites">static/dynamic divide</a>.<a href="#fnref3" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Thanks to <a href="https://github.com/cthulahoops">Adam Kelly</a>, for permission to use their site as example.<a href="#fnref4" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Someone on the html.energy discord pointed to this truth buried in The Source.<a href="#fnref5" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Visit <a href="https://html.energy/home.html">html.energy</a> to learn the truth, <a href="https://gossipsweb.net/">gossipsweb</a> to experience it, and the <a href="https://512kb.club/">512KB Club</a> to meet the lightweight elite.<a href="#fnref6" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>This blog post <a href="https://alignedleft.com/resources/cheap-web-hosting">Cheap or Free Static Website Hosting</a> suggests several options. The neocities.org way seems easiest for a simple website like ours. You'll also find plenty of help for <a href="https://pages.github.com/">publishing with github pages</a>. Alternatively, there seems to be a way to publish direct from your Google Drive or Dropbox etc. <a href="https://www.freecodecamp.org/news/how-to-deploy-a-static-website-for-free-in-only-3-minutes-with-google-drive/">using Fast.io</a>.<a href="#fnref7" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
   </section>
   <footer id="blog-post-footer" class="footer">
     <p><hr></p>
     <nav class="cluster">
-      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
-      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
     </nav>
     <p><hr></p>
           <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN shite: static sites from shell (part 1/2) — feeling the html.energy" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN shite: static sites from shell (part 1/2) — feeling the html.energy" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=shite%3A%20static%20sites%20from%20shell%20%28part%201%2F2%29%20%E2%80%94%20feeling%20the%20html.energy%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html&t=shite%3A%20static%20sites%20from%20shell%20%28part%201%2F2%29%20%E2%80%94%20feeling%20the%20html.energy" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshite-the-static-sites-from-shell-part-1%2Findex.html&title=shite%3A%20static%20sites%20from%20shell%20%28part%201%2F2%29%20%E2%80%94%20feeling%20the%20html.energy" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
           <p>
         <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"

@@ -20,43 +20,45 @@
       title="Aditya Athalye writes and works here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/poor-mans-job-runner-clojure-agents/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
 </head>
   <body>
     <div id="the-very-top" class="stack center box">
         <header id="site-header">
   <div class="box invert stack">
     <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
         <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
       </a>
       <div class="stack">
         <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html">
-   &lambda; know
+          <a href="https://www.evalapply.org/hire.html#main" target="_self">
+  $ work
 </a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; read
+<a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &#9753; read
 </a>
-<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank">
-&#10086; see
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#10087; see
 </a>
-<a href="https://www.evalapply.org/index.html#standing-invitation">
-   &nbsp;&#x2709; mail
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
 </a>
-<a href="https://www.evalapply.org/hire.html#main">
-   $ hire
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &lambda; self
 </a>
-<a href="https://www.evalapply.org/now.html#main">
-   &raquo; now
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
 </a>
 <a href="https://www.evalapply.org/index.xml" target="_blank">
-   &asymp; feed
+  &asymp; feed
 </a>
         </nav>
-        <p class="post-meta">
-          Small B2B SaaS team? Want to scale <em>without</em> dilution and burnout? <a href="https://www.evalapply.org/hire.html#main">I want you to win</a>!</sup>
+        <p class="footnotes"> Coming soon (April 2025): "Project
+          <a href="https://www.evalapply.org/index.html#writing-for-nerds">
+            Writing for nerds"</a>.
         </p>
       </div>
     </div>
@@ -68,7 +70,7 @@
       <p class="title">Poor man's job runner with Clojure Agents</p>
 
       <p class="cluster post-meta">
-        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark">toc</a> ]</span>
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark" target=_self>toc</a> ]</span>
         <span class="date">Published: 2024-07-14</span>
         <span class="date">Updated: 2024-09-04</span>
         <span class="author">By: Aditya Athalye</span>
@@ -81,14 +83,14 @@
      <div class="post-meta">
       <p><hr></p>
             <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Poor man's job runner with Clojure Agents" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Poor man's job runner with Clojure Agents" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&t=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&title=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
             <p>
@@ -106,7 +108,7 @@
       <p><hr></p>
       <nav class="cluster">
         <span>Tags:</span>
-        <a href="https://www.evalapply.org/tags/riff/index.html#main">#riff</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a><a href="https://www.evalapply.org/tags/clojure/index.html#main">#clojure</a><a href="https://www.evalapply.org/tags/web_development/index.html#main">#web_development</a>
+        <a href="https://www.evalapply.org/tags/riff/index.html#main" target="_self">#riff</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main" target="_self">#functional_programming</a><a href="https://www.evalapply.org/tags/clojure/index.html#main" target="_self">#clojure</a><a href="https://www.evalapply.org/tags/web_development/index.html#main" target="_self">#web_development</a>
       </nav>
     </div>
   </header>
@@ -118,21 +120,21 @@
       <strong>Contents</strong>
     </summary>
     <nav class="stack">
-      <a href="#backstory" class="toc-heading:h1">Backstory</a>
-<a href="#the-hack" class="toc-heading:h1">The hack</a>
-<a href="#code-sketch-sketchy-code-same-thing" class="toc-heading:h1">Code sketch / Sketchy code (same thing)</a>
-<a href="#pros-cons" class="toc-heading:h1">Pros / Cons</a>
-<a href="#obligatory-htmx-meme" class="toc-heading:h1">Obligatory HTMX meme</a>
-<a href="#footnotes" class="toc-heading:h1">Footnotes</a>
+      <a href="#backstory" target="_self" class="toc-heading:h1">Backstory</a>
+<a href="#the-hack" target="_self" class="toc-heading:h1">The hack</a>
+<a href="#code-sketch-sketchy-code-same-thing" target="_self" class="toc-heading:h1">Code sketch / Sketchy code (same thing)</a>
+<a href="#pros-cons" target="_self" class="toc-heading:h1">Pros / Cons</a>
+<a href="#obligatory-htmx-meme" target="_self" class="toc-heading:h1">Obligatory HTMX meme</a>
+<a href="#footnotes" target="_self" class="toc-heading:h1">Footnotes</a>
     </nav>
   </details>
 </div>
 <hr>
   <p><strong>Author's note:</strong> To run real background jobs like a proper Clojure professional, maybe use one of the proper professional libraries out there, like <a href="https://github.com/msolli/proletarian">proleterian</a>, <a href="https://github.com/nilenso/goose">goose</a>, or <a href="https://github.com/ctdean/backtick">backtick</a>.</p>
-<p>Edit: About a couple of weeks after I posted this, I learned of <em>Lambda Island</em>'s "Coffee Grinder" <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> pattern via Clojurians Slack. Maybe your needs are little enough that this "pmjc", or that "grinder" pattern works just fine for your needs.</p>
+<p>Edit: About a couple of weeks after I posted this, I learned of <em>Lambda Island</em>'s "Coffee Grinder" <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> pattern via Clojurians Slack. Maybe your needs are little enough that this "pmjc", or that "grinder" pattern works just fine for your needs.</p>
 <h1 id="backstory">Backstory</h1>
-<p>Opportunity to use not just atoms made its way to me a decade after I first watched Rich Hickey's "Ants" demo <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The demo shows off a Java Swing GUI world swarming with ants, driven using all three of Clojure's built-in concurrency features.</p>
-<p>Clojure wants us to be explicit about <em><strong>type of concurrency</strong></em> <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, depending on how state is to be shared between threads. We must choose a feature accordingly.</p>
+<p>Opportunity to use not just atoms made its way to me a decade after I first watched Rich Hickey's "Ants" demo <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The demo shows off a Java Swing GUI world swarming with ants, driven using all three of Clojure's built-in concurrency features.</p>
+<p>Clojure wants us to be explicit about <em><strong>type of concurrency</strong></em> <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, depending on how state is to be shared between threads. We must choose a feature accordingly.</p>
 <table>
 <thead>
 <tr class="header">
@@ -154,7 +156,7 @@
 </tr>
 </tbody>
 </table>
-<p>However, like maybe 99% of all Clojure programmers, I've only ever used atoms in practice <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Like maybe some of them, I've always wanted to use the others some day. Because that demo is rad!</p>
+<p>However, like maybe 99% of all Clojure programmers, I've only ever used atoms in practice <a href="#fn4" target="_self" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Like maybe some of them, I've always wanted to use the others some day. Because that demo is rad!</p>
 <p>While working through the (very nice!) <a href="https://hypermedia.systems/">hypermedia.systems</a> book, I reached the section where we must code up a <a href="https://hypermedia.systems/a-dynamic-archive-ui/">Dynamic Archive UI</a>, complete with a live progress indicator.</p>
 <p>The scenario requires an <em>Archive</em> job that runs in the background, with basic job control stuff (run, pause, cancel, reset, status, progress, etc.).</p>
 <p>Obviously we must kick jobs off of the main execution thread, to avoid blocking it. Further, if we have many jobs and/or many batches per job, we need to queue them all up for asynchronous evaluation. And job state must be observable at all times without blocking job execution.</p>
@@ -222,7 +224,7 @@
 </code></pre>
 <p>What if I put job <code>:status</code> in an atom, and observe the atom via a validator?</p>
 <ul>
-<li>Any validator attached to an agent is evaluated for every action sent to the agent. The agent halts if the validator returns <code>false</code>. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></li>
+<li>Any validator attached to an agent is evaluated for every action sent to the agent. The agent halts if the validator returns <code>false</code>. <a href="#fn5" target="_self" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></li>
 <li>The agent's state is always observable out-of-band.
 <ul>
 <li>Which means I can see the <code>:state</code> atom from the outside.</li>
@@ -385,31 +387,31 @@ This <em><a href="https://imgflip.com/i/8wy4em">HTMX is Boring Technology</a></e
 <p>Having continued to encounter and apply this pattern I’d like to present a more concise, semi-formal definition of coffee grinders.</p>
 </blockquote></li>
 </ul>
-<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
-<li id="fn2"><p>Clojure: A Dynamic Programming Language for the JVM. Concurrency Support. <a href="https://www.youtube.com/watch?v=nDAfZK8m5_8">talk video</a>, <a href="https://github.com/juliangamble/clojure-ants-simulation">code archive</a>, <a href="https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/ClojureConcurrency.md">transcript and slides</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Cf. <a href="https://clojure.org/about/concurrent_programming">Concurrent Programming reference page at Clojure.org</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>The opportunity tends not to arise in real life because we end up using futures, or core.async for our asynchronous and/or independent operational needs, and RDBMSes for our coordinated and/or synchronous transactional needs. Plus, present-day Java has a whole host of options for concurrent programming.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Cf. <a href="https://clojure.org/reference/agents ">Agents and Asynchronous Actions</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn2"><p>Clojure: A Dynamic Programming Language for the JVM. Concurrency Support. <a href="https://www.youtube.com/watch?v=nDAfZK8m5_8">talk video</a>, <a href="https://github.com/juliangamble/clojure-ants-simulation">code archive</a>, <a href="https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/ClojureConcurrency.md">transcript and slides</a>.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Cf. <a href="https://clojure.org/about/concurrent_programming">Concurrent Programming reference page at Clojure.org</a><a href="#fnref3" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>The opportunity tends not to arise in real life because we end up using futures, or core.async for our asynchronous and/or independent operational needs, and RDBMSes for our coordinated and/or synchronous transactional needs. Plus, present-day Java has a whole host of options for concurrent programming.<a href="#fnref4" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Cf. <a href="https://clojure.org/reference/agents ">Agents and Asynchronous Actions</a><a href="#fnref5" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
   </section>
   <footer id="blog-post-footer" class="footer">
     <p><hr></p>
     <nav class="cluster">
-      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
-      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
     </nav>
     <p><hr></p>
           <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Poor man's job runner with Clojure Agents" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Poor man's job runner with Clojure Agents" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&t=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-job-runner-clojure-agents%2Findex.html&title=Poor%20man%27s%20job%20runner%20with%20Clojure%20Agents" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
           <p>
         <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"

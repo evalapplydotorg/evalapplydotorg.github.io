@@ -20,43 +20,45 @@
       title="Aditya Athalye writes and works here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
 </head>
   <body>
     <div id="the-very-top" class="stack center box">
         <header id="site-header">
   <div class="box invert stack">
     <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
         <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
       </a>
       <div class="stack">
         <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html">
-   &lambda; know
+          <a href="https://www.evalapply.org/hire.html#main" target="_self">
+  $ work
 </a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; read
+<a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &#9753; read
 </a>
-<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank">
-&#10086; see
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#10087; see
 </a>
-<a href="https://www.evalapply.org/index.html#standing-invitation">
-   &nbsp;&#x2709; mail
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
 </a>
-<a href="https://www.evalapply.org/hire.html#main">
-   $ hire
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &lambda; self
 </a>
-<a href="https://www.evalapply.org/now.html#main">
-   &raquo; now
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
 </a>
 <a href="https://www.evalapply.org/index.xml" target="_blank">
-   &asymp; feed
+  &asymp; feed
 </a>
         </nav>
-        <p class="post-meta">
-          Small B2B SaaS team? Want to scale <em>without</em> dilution and burnout? <a href="https://www.evalapply.org/hire.html#main">I want you to win</a>!</sup>
+        <p class="footnotes"> Coming soon (April 2025): "Project
+          <a href="https://www.evalapply.org/index.html#writing-for-nerds">
+            Writing for nerds"</a>.
         </p>
       </div>
     </div>
@@ -68,7 +70,7 @@
       <p class="title">Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools</p>
 
       <p class="cluster post-meta">
-        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark">toc</a> ]</span>
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark" target=_self>toc</a> ]</span>
         <span class="date">Published: 2022-04-27</span>
         <span class="date">Updated: 2022-04-27</span>
         <span class="author">By: Aditya Athalye</span>
@@ -81,14 +83,14 @@
      <div class="post-meta">
       <p><hr></p>
             <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&t=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&title=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
             <p>
@@ -106,7 +108,7 @@
       <p><hr></p>
       <nav class="cluster">
         <span>Tags:</span>
-        <a href="https://www.evalapply.org/tags/bash/index.html#main">#bash</a><a href="https://www.evalapply.org/tags/unix/index.html#main">#unix</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a><a href="https://www.evalapply.org/tags/architecture/index.html#main">#architecture</a>
+        <a href="https://www.evalapply.org/tags/bash/index.html#main" target="_self">#bash</a><a href="https://www.evalapply.org/tags/unix/index.html#main" target="_self">#unix</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main" target="_self">#functional_programming</a><a href="https://www.evalapply.org/tags/architecture/index.html#main" target="_self">#architecture</a>
       </nav>
     </div>
   </header>
@@ -118,22 +120,22 @@
       <strong>Contents</strong>
     </summary>
     <nav class="stack">
-      <a href="#previously-in-this-series" class="toc-heading:h1">Previously in this series…</a>
-<a href="#what-bash-functions-are" class="toc-heading:h1">What Bash functions are</a>
-<a href="#bash-functions-are-compound-commands" class="toc-heading:h2">Bash functions are compound commands</a>
-<a href="#function-definitions-live-in-a-global-namespace" class="toc-heading:h2">Function definitions live in a global namespace</a>
-<a href="#how-to-design-good-functions" class="toc-heading:h1">How to design good functions</a>
-<a href="#wrap-domain-concepts-in-single-purpose-functions" class="toc-heading:h2">Wrap domain concepts in single-purpose functions</a>
-<a href="#use-parameter-substitutions-and-local-scope-variables" class="toc-heading:h2">Use parameter substitutions and local scope variables</a>
-<a href="#partial-application-of-functions" class="toc-heading:h2">Partial application of functions</a>
-<a href="#dependency-injection-with-functions" class="toc-heading:h2">Dependency injection with functions</a>
-<a href="#keeping-functions-pure" class="toc-heading:h2">Keeping Functions pure</a>
-<a href="#program-design-with-functions" class="toc-heading:h1">Program design with functions</a>
-<a href="#writing-pipeline-friendly-functions" class="toc-heading:h2">Writing Pipeline-friendly Functions</a>
-<a href="#separating-return-values-and-non-values" class="toc-heading:h2">Separating return values and non-values</a>
-<a href="#functions-to-delay-evaluation" class="toc-heading:h2">Functions to delay evaluation</a>
-<a href="#functional-core-imperative-shell" class="toc-heading:h2">Functional core, imperative shell</a>
-<a href="#naming-conventions" class="toc-heading:h1">Naming conventions</a>
+      <a href="#previously-in-this-series" target="_self" class="toc-heading:h1">Previously in this series…</a>
+<a href="#what-bash-functions-are" target="_self" class="toc-heading:h1">What Bash functions are</a>
+<a href="#bash-functions-are-compound-commands" target="_self" class="toc-heading:h2">Bash functions are compound commands</a>
+<a href="#function-definitions-live-in-a-global-namespace" target="_self" class="toc-heading:h2">Function definitions live in a global namespace</a>
+<a href="#how-to-design-good-functions" target="_self" class="toc-heading:h1">How to design good functions</a>
+<a href="#wrap-domain-concepts-in-single-purpose-functions" target="_self" class="toc-heading:h2">Wrap domain concepts in single-purpose functions</a>
+<a href="#use-parameter-substitutions-and-local-scope-variables" target="_self" class="toc-heading:h2">Use parameter substitutions and local scope variables</a>
+<a href="#partial-application-of-functions" target="_self" class="toc-heading:h2">Partial application of functions</a>
+<a href="#dependency-injection-with-functions" target="_self" class="toc-heading:h2">Dependency injection with functions</a>
+<a href="#keeping-functions-pure" target="_self" class="toc-heading:h2">Keeping Functions pure</a>
+<a href="#program-design-with-functions" target="_self" class="toc-heading:h1">Program design with functions</a>
+<a href="#writing-pipeline-friendly-functions" target="_self" class="toc-heading:h2">Writing Pipeline-friendly Functions</a>
+<a href="#separating-return-values-and-non-values" target="_self" class="toc-heading:h2">Separating return values and non-values</a>
+<a href="#functions-to-delay-evaluation" target="_self" class="toc-heading:h2">Functions to delay evaluation</a>
+<a href="#functional-core-imperative-shell" target="_self" class="toc-heading:h2">Functional core, imperative shell</a>
+<a href="#naming-conventions" target="_self" class="toc-heading:h1">Naming conventions</a>
     </nav>
   </details>
 </div>
@@ -216,7 +218,7 @@ phew!
 </code></pre>
 <p>This namespacing is certainly merciful, but it is not quite enough. As you may have guessed, it can get very confusing if we reuse names willy-nilly. If there was one thing I could improve about Bash, it would be adding "real" namespaces. That would help write modular code. Alas, that ship sailed long ago.</p>
 <p>Anyway, I drop Bash after the code starts getting too involved; beyond about 1,000 LoC (of clean FP-style Bash). In large scripts, the sharp corners of Ye Olde Shell start poking holes and forcing bugs (quoting, expansion, trap/error handling etc.).</p>
-<p>That said (or um, sed), under 1K LoC clean FP-style Bash can do a crazy amount of work sufficiently fast <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. That sweet spot is what this series is all about. Like <a href="https://github.com/adityaathalye/shite">shite</a> and <a href="https://github.com/adityaathalye/oxo">oxo</a>.</p>
+<p>That said (or um, sed), under 1K LoC clean FP-style Bash can do a crazy amount of work sufficiently fast <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. That sweet spot is what this series is all about. Like <a href="https://github.com/adityaathalye/shite">shite</a> and <a href="https://github.com/adityaathalye/oxo">oxo</a>.</p>
 <h1 id="how-to-design-good-functions">How to design good functions</h1>
 <p>Bash functions provide certain highly functional features like obeying stdio, thus being streaming-friendly units of program design. Several other creature comforts of functional style are not automatic. <em>However</em> we can get plenty functional with <em>some</em> care and manual effort.</p>
 <p>Here are things I do to keep my functions, well, functional.</p>
@@ -297,7 +299,7 @@ git_branch_current() {
     __with_git_dir &quot;${repo_dir}&quot; rev-parse --abbrev-ref=strict HEAD
 }
 </code></pre>
-<p>These functions <a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh#L99">belong to some git utilities</a> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> that help me conveniently run git commands against any repo on my file system, without cd-ing to the repo.</p>
+<p>These functions <a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh#L99">belong to some git utilities</a> <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> that help me conveniently run git commands against any repo on my file system, without cd-ing to the repo.</p>
 <p>See? Functions can be dead-simple yet super useful. If you accumulate wee functions for your git needs, you get executable documentation. You can <code>source</code> them in your Bash terminal on any computer and be on your way. Likewise, any other command-line-y need of yours.</p>
 <h2 id="dependency-injection-with-functions">Dependency injection with functions</h2>
 <p>The previous section brought us close to dependency injection. We passed in git subcommands as argument to the <code>__with_git_dir</code> utility. <em><strong>We can do the same with our own functions.</strong></em> This is a form of "higher order" Functional Programming; viz. making functions that accept functions as arguments.</p>
@@ -390,7 +392,7 @@ EOF
     gen_html_posts_from_md
 </code></pre>
 <p>A reader may complain that our HTML posts generator function is too specific to the markdown format, and knows too much about how to transform markdown to HTML, as well as where to put it. Its job ought to be just to describe the transform process.</p>
-<p>The reader would be right, and may like to solve the problem at home <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> :)</p>
+<p>The reader would be right, and may like to solve the problem at home <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> :)</p>
 <h1 id="program-design-with-functions">Program design with functions</h1>
 <p>Now, how do we apply functional programming principles to the next level up, viz. to design our programs?</p>
 <p>If you've seen shell scripts in the wild, you'd have observed they are often written as sequences of statements and imperative control flow that evaluates top to bottom. I think that practice is a bit tragic, because it produces needlessly complex code, because people reach for flags and global variables and traps and suchlike.</p>
@@ -486,7 +488,7 @@ proc_repos() {
     done
 }
 </code></pre>
-<p>This way a downstream consumer can rely on always receiving a legal value at stdin, and <em>optionally</em> access non-values (like logs), if it wants to, via stderr <a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p>This way a downstream consumer can rely on always receiving a legal value at stdin, and <em>optionally</em> access non-values (like logs), if it wants to, via stderr <a href="#fn4" target="_self" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
 <p>I casually name-dropped <em>idempotence</em>. It needs its own blog post. Maybe the next one!</p>
 <h2 id="functions-to-delay-evaluation">Functions to delay evaluation</h2>
 <p>I like to write my code in groups and sequences that help a reader acquire context easily, and I call it in sequences that make sense from a process point of view. Functions help me do this, because they group statements in the scope of the script, <em>without</em> causing the interpreter to evaluate them.</p>
@@ -559,30 +561,30 @@ namespace-funcname() {
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>And if you use awk, I hear that it is known to outperform hand optimized C for a variety of data processing problems. Apparently genomics people awk a lot.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>You may particularly enjoy those if you sometimes (or often) have to do bulk maintenance on many repos. Fetch and update them, or at least identify stale repos before deciding what to do etc.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Hint: Partial application and/or dependency injection may be appropriate.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Monads. There, I said it.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>And if you use awk, I hear that it is known to outperform hand optimized C for a variety of data processing problems. Apparently genomics people awk a lot.<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>You may particularly enjoy those if you sometimes (or often) have to do bulk maintenance on many repos. Fetch and update them, or at least identify stale repos before deciding what to do etc.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Hint: Partial application and/or dependency injection may be appropriate.<a href="#fnref3" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Monads. There, I said it.<a href="#fnref4" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
   </section>
   <footer id="blog-post-footer" class="footer">
     <p><hr></p>
     <nav class="cluster">
-      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
-      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
     </nav>
     <p><hr></p>
           <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 2/N: Functions as Unix Tools" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&t=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&title=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
           <p>
         <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"

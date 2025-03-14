@@ -20,43 +20,45 @@
       title="Aditya Athalye writes and works here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-0-intro/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
 </head>
   <body>
     <div id="the-very-top" class="stack center box">
         <header id="site-header">
   <div class="box invert stack">
     <div class="with-sidebar site-header">
-      <a class="box icon" href="https://www.evalapply.org/index.html">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
         <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
       </a>
       <div class="stack">
         <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
-          <a href="https://www.evalapply.org/index.html">
-   &lambda; know
+          <a href="https://www.evalapply.org/hire.html#main" target="_self">
+  $ work
 </a>
-<a href="https://www.evalapply.org/posts/index.html">
-   &#9753; read
+<a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &#9753; read
 </a>
-<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank">
-&#10086; see
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#10087; see
 </a>
-<a href="https://www.evalapply.org/index.html#standing-invitation">
-   &nbsp;&#x2709; mail
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
 </a>
-<a href="https://www.evalapply.org/hire.html#main">
-   $ hire
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &lambda; self
 </a>
-<a href="https://www.evalapply.org/now.html#main">
-   &raquo; now
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
 </a>
 <a href="https://www.evalapply.org/index.xml" target="_blank">
-   &asymp; feed
+  &asymp; feed
 </a>
         </nav>
-        <p class="post-meta">
-          Small B2B SaaS team? Want to scale <em>without</em> dilution and burnout? <a href="https://www.evalapply.org/hire.html#main">I want you to win</a>!</sup>
+        <p class="footnotes"> Coming soon (April 2025): "Project
+          <a href="https://www.evalapply.org/index.html#writing-for-nerds">
+            Writing for nerds"</a>.
         </p>
       </div>
     </div>
@@ -68,7 +70,7 @@
       <p class="title">Shell ain't a bad place to FP: part 0/N: Introduction</p>
 
       <p class="cluster post-meta">
-        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark">toc</a> ]</span>
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark" target=_self>toc</a> ]</span>
         <span class="date">Published: 2022-02-23</span>
         <span class="date">Updated: 2022-02-23</span>
         <span class="author">By: Aditya Athalye</span>
@@ -81,14 +83,14 @@
      <div class="post-meta">
       <p><hr></p>
             <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 0/N: Introduction" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 0/N: Introduction" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%200%2FN%3A%20Introduction%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html&t=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%200%2FN%3A%20Introduction" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html&title=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%200%2FN%3A%20Introduction" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
             <p>
@@ -106,7 +108,7 @@
       <p><hr></p>
       <nav class="cluster">
         <span>Tags:</span>
-        <a href="https://www.evalapply.org/tags/bash/index.html#main">#bash</a><a href="https://www.evalapply.org/tags/unix/index.html#main">#unix</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main">#functional_programming</a><a href="https://www.evalapply.org/tags/architecture/index.html#main">#architecture</a>
+        <a href="https://www.evalapply.org/tags/bash/index.html#main" target="_self">#bash</a><a href="https://www.evalapply.org/tags/unix/index.html#main" target="_self">#unix</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main" target="_self">#functional_programming</a><a href="https://www.evalapply.org/tags/architecture/index.html#main" target="_self">#architecture</a>
       </nav>
     </div>
   </header>
@@ -118,13 +120,13 @@
       <strong>Contents</strong>
     </summary>
     <nav class="stack">
-      <a href="#obligatory-mea-culpa" class="toc-heading:h1">Obligatory mea culpa</a>
-<a href="#nothing-here-will-be-novel." class="toc-heading:h2">Nothing here will be novel.</a>
-<a href="#your-mileage-may-vary." class="toc-heading:h2">Your Mileage May Vary.</a>
-<a href="#fp-suffuses-my-very-being." class="toc-heading:h2">FP suffuses my very being.</a>
-<a href="#an-outline-of-the-n-parts" class="toc-heading:h1">An outline of the "N" parts</a>
-<a href="#prelude-seeing-the-unix-tools-philosophy-as-a-functional-design-philosophy" class="toc-heading:h1">Prelude: Seeing the UNIX tools philosophy as a functional design philosophy</a>
-<a href="#screw-that-show-me-your-code" class="toc-heading:h1">"Screw that, show me your code"</a>
+      <a href="#obligatory-mea-culpa" target="_self" class="toc-heading:h1">Obligatory mea culpa</a>
+<a href="#nothing-here-will-be-novel." target="_self" class="toc-heading:h2">Nothing here will be novel.</a>
+<a href="#your-mileage-may-vary." target="_self" class="toc-heading:h2">Your Mileage May Vary.</a>
+<a href="#fp-suffuses-my-very-being." target="_self" class="toc-heading:h2">FP suffuses my very being.</a>
+<a href="#an-outline-of-the-n-parts" target="_self" class="toc-heading:h1">An outline of the "N" parts</a>
+<a href="#prelude-seeing-the-unix-tools-philosophy-as-a-functional-design-philosophy" target="_self" class="toc-heading:h1">Prelude: Seeing the UNIX tools philosophy as a functional design philosophy</a>
+<a href="#screw-that-show-me-your-code" target="_self" class="toc-heading:h1">"Screw that, show me your code"</a>
     </nav>
   </details>
 </div>
@@ -153,7 +155,7 @@
 <li>But it's possible I've lived my life all wrong.</li>
 </ul>
 <h1 id="an-outline-of-the-n-parts">An outline of the "N" parts</h1>
-<p>This (zeroth) post is about why the UNIX Way is the way of functional-style design <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. <em><code>N</code></em> more posts are brewing, with examples and techniques. Likely one per topic:</p>
+<p>This (zeroth) post is about why the UNIX Way is the way of functional-style design <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. <em><code>N</code></em> more posts are brewing, with examples and techniques. Likely one per topic:</p>
 <ul>
 <li><p>A <em>rad</em> example from 1986 to motivate the rest of the series.</p></li>
 <li><p>Deep-dive into bash functions and function design techniques</p>
@@ -191,7 +193,7 @@
 </ul></li>
 <li><p>Maybe parallelism</p>
 <ul>
-<li>Mainly because I haven't <em>had to</em> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> write parallel Bash, but it will be fun to mess with.</li>
+<li>Mainly because I haven't <em>had to</em> <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> write parallel Bash, but it will be fun to mess with.</li>
 </ul></li>
 <li><p>Maybe sundry topics like associative arrays (Bash-only), job control, namespacing, metaprogramming, flame-bait like "pipes are monads" etc.</p></li>
 </ul>
@@ -222,28 +224,28 @@
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Recently I went on for a bit in general about <a href="https://www.evalapply.org/posts/what-makes-functional-programming-systems-functional/">what does it even mean to be "functional"?</a> Read that if it pleases you, because it informs my approach to <em>Supremely Functional</em> Bash programming.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>There was the one time I could have, at a $DAYJOB, but I was quite green, and had deadline, and it was a one time log analysis thing, and I a large EC2 box to waste, which I hogged for half a day, and came away stunned that my crappy shell pipeline chewed through ~600 GiB (gzipped) without crashing anything.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Recently I went on for a bit in general about <a href="https://www.evalapply.org/posts/what-makes-functional-programming-systems-functional/">what does it even mean to be "functional"?</a> Read that if it pleases you, because it informs my approach to <em>Supremely Functional</em> Bash programming.<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>There was the one time I could have, at a $DAYJOB, but I was quite green, and had deadline, and it was a one time log analysis thing, and I a large EC2 box to waste, which I hogged for half a day, and came away stunned that my crappy shell pipeline chewed through ~600 GiB (gzipped) without crashing anything.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
   </section>
   <footer id="blog-post-footer" class="footer">
     <p><hr></p>
     <nav class="cluster">
-      <span>&uarr; <a href="#blog-post-toc" rel="bookmark">toc</a></span>
-      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
-      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
     </nav>
     <p><hr></p>
           <nav class="cluster">
-        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 0/N: Introduction" rel="bookmark">&#x2709; email me</a>
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Shell ain't a bad place to FP: part 0/N: Introduction" rel="bookmark">&#x2709; email me comments</a>
         <span>&raquo; share &rarr;</span>
         <a href="https://bsky.app/intent/compose?text=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%200%2FN%3A%20Introduction%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html" target="_blank">[bsky]</a>
         <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html" target="_blank">[in]</a>
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html&t=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%200%2FN%3A%20Introduction" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-0-intro%2Findex.html&title=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%200%2FN%3A%20Introduction" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml">feed</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
           <p>
         <form action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
