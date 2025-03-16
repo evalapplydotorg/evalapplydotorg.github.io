@@ -83,7 +83,7 @@
     --color-mid: #dfd3c3;
     --color-dark: #1a2639;
     --color-emphasis: black;
-    --color-masthead:  #ef9f2c;
+    --color-masthead:  #efbf4f;  /* Yellowish on parchment-ish */
     --color-background: var(--color-light);
     --color-links: var(--color-emphasis);
     --color-body-text: var(--color-dark);
