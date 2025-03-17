@@ -10,7 +10,10 @@
 * -------------------------------------------------- */
 /* @import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Gentium+Book+Plus:ital,wght@0,400;0,700;1,400&family=PT+Sans+Narrow&display=swap'); */
 
-@import url('fonts.css');
+/* Don't use this import as it seems to force a layout repaint.
+ * Lighthouse says it's a blocking resource. So, instead, fetch
+ * the fonts css before our main style css, in the HTML head.
+ * @import url('fonts.css'); */
 
 :root {
     /* --------------------------------------------------

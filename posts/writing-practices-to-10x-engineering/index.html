@@ -14,7 +14,9 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.evalapply.org/posts/writing-practices-to-10x-engineering/index.html">
-    <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+    <!-- Preload font styles to reduce layout shift -->
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/fonts.css">
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
 <link href="https://www.evalapply.org/index.xml"
       rel="alternate" type="application/rss+xml"
       title="Aditya Athalye writes and works here.">
@@ -28,7 +30,7 @@
   <div class="box invert stack">
     <div class="with-sidebar site-header">
       <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here.">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" loading="lazy" alt="Aditya Athalye writes and works here." width="60" height="60">
       </a>
       <div class="stack">
         <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
@@ -482,18 +484,27 @@ Only I will remain.<br />
       <footer id="site-footer">
   <hr>
   <div class="box invert footer stack">
-    <p>&copy; 2025,
+    <p class="center">&copy; 2025,
       <a href="https://www.linkedin.com/in/adityaathalye/" target="_blank">Aditya Athalye</a>.
       <span>All content licensed
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
           CC BY-SA 4.0
         </a>, except where noted otherwise.
       </span>
-      Built with
-      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>.
-      Newsletter <a href="https://buttondown.com/refer/evalapply" target="_blank">Powered by Buttondown</a>.
     </p>
-    <div class="rc-scout-wrapper">
+    <p class="center">
+      Built with
+      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>,
+      GNU <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>,
+      <a href="https://orgmode.org" target="_blank">org-mode</a>, and &#x1F5A4;.
+</p>
+    <p class="center">
+      My
+      <a href="https://buttondown.com/evalapply" target="_blank">newsletter</a>
+      is powered by
+      <a href="https://buttondown.com/refer/evalapply" target="_blank">Buttondown</a>.
+    </p>
+    <div class="rc-scout-wrapper center">
       <div class="rc-scout" data-scout-rendered="true">
         <p class="rc-scout__text">
           <i class="rc-scout__logo"></i>

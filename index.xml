@@ -6,12 +6,14 @@
     <description>Hi, I'm Aditya Athalye. Welcome to evalapply.org. I blog here. I also help small B2B SaaS teams scale without diluting.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 16 Mar 2025 21:55:56 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 18 Mar 2025 00:54:07 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
         <url>https://www.evalapply.org/static/img/Lisp_logo.svg</url>
         <link>https://www.evalapply.org/</link>
+        <width>128</width>
+        <height>128</height>
     </image>
     <item>
   <title>Becoming a software A-Team via writing culture</title>
