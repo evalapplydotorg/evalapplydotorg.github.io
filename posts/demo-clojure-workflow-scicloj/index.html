@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Keeping it Old-Tool: REPL habits of a grug-brained Clojurist</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="Is demo of Grug code vibe. He no catch onto cloud LLM magics for some reason. Still prefer program with only brain-muscles. Make + use all byte on local disk. Prefer use Grug language standard library and standard dev tools. Maybe luddite, maybe obsolete. Grug no mind. Fine with how he code. Besides, Grug like muscles. Hope maybe you see tip, trick, tactic to steal. Take what can use, no take what no can use.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure,B2B Micro SaaS">
+<meta property="og:title" content="Keeping it Old-Tool: REPL habits of a grug-brained Clojurist">
+<meta property="og:description" content="Is demo of Grug code vibe. He no catch onto cloud LLM magics for some reason. Still prefer program with only brain-muscles. Make + use all byte on local disk. Prefer use Grug language standard library and standard dev tools. Maybe luddite, maybe obsolete. Grug no mind. Fine with how he code. Besides, Grug like muscles. Hope maybe you see tip, trick, tactic to steal. Take what can use, no take what no can use.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/index.html">
+    <!-- Preload logo as it is on all pages -->
+<link rel="preload" href="https://www.evalapply.org/static/img/Lisp_logo.svg" as="image" type="image/svg+xml" />
+<!-- Preload font files and font styles, before layout styles to reduce layout shift -->
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Ng.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFN2-RHBgUK5fbjKxRpbBtJPyRpocKdT7HmqQ.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFL2-RHBgUK5fbjKxRpbBtJPyRpocKYf7M.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/ptsansnarrow/v18/BngRUXNadjH0qYEzV7ab-oWlsbCGwR0.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/fonts.css">
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Aditya Athalye writes and works here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Aditya Athalye writes and works here." width="60" height="60">
+      </a>
+      <div class="stack">
+        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        
+        <nav class="cluster site-header site-header:nav-items">
+          <a href="https://www.evalapply.org/hire.html#main" target="_self">
+  $ work
+</a>
+<a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &#9753; read
+</a>
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#10087; see
+</a>
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
+</a>
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &lambda; self
+</a>
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
+</a>
+<a href="https://www.evalapply.org/index.xml" target="_blank">
+  &asymp; feed
+</a>
+        </nav>
+        <p class="footnotes"> Coming soon (April 2025): "Project
+          <a href="https://www.evalapply.org/index.html#writing-for-nerds">
+            Writing for nerds"</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+  <main id="main">
+    <article id="blog-post" class="stack">
+  <header class="stack">
+      <p class="title">Keeping it Old-Tool: REPL habits of a grug-brained Clojurist</p>
+
+      <p class="cluster post-meta">
+        
+        <span class="date">Published: 2025-03-28</span>
+        <span class="date">Updated: 2025-03-28</span>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        Is demo of Grug code vibe. He no catch onto cloud LLM magics for some reason. Still prefer program with only brain-muscles. Make + use all byte on local disk. Prefer use Grug language standard library and standard dev tools. Maybe luddite, maybe obsolete. Grug no mind. Fine with how he code. Besides, Grug like muscles. Hope maybe you see tip, trick, tactic to steal. Take what can use, no take what no can use.
+      </p>
+
+     <div class="post-meta">
+      <p><hr></p>
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Keeping it Old-Tool: REPL habits of a grug-brained Clojurist" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Keeping%20it%20Old-Tool%3A%20REPL%20habits%20of%20a%20grug-brained%20Clojurist%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html&t=Keeping%20it%20Old-Tool%3A%20REPL%20habits%20of%20a%20grug-brained%20Clojurist" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html&title=Keeping%20it%20Old-Tool%3A%20REPL%20habits%20of%20a%20grug-brained%20Clojurist" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
+      </nav>
+      <p><hr></p>
+      <form
+  class="footer cluster"
+  action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+  method="post"
+  target="popupwindow"
+  autocomplete="on"
+  onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')"
+  >
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+</form>
+      <p><hr></p>
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/meta/index.html#main" target="_self">#meta</a><a href="https://www.evalapply.org/tags/riff/index.html#main" target="_self">#riff</a><a href="https://www.evalapply.org/tags/howto/index.html#main" target="_self">#howto</a><a href="https://www.evalapply.org/tags/whyto/index.html#main" target="_self">#whyto</a><a href="https://www.evalapply.org/tags/clojure/index.html#main" target="_self">#clojure</a><a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main" target="_self">#tools_for_thought</a><a href="https://www.evalapply.org/tags/programming/index.html#main" target="_self">#programming</a><a href="https://www.evalapply.org/tags/ai/index.html#main" target="_self">#ai</a><a href="https://www.evalapply.org/tags/intelligence_augmentation/index.html#main" target="_self">#intelligence_augmentation</a>
+      </nav>
+    </div>
+  </header>
+  <hr>
+  <section class="stack">
+      <p><strong>Notes for my workflow demo at the SciCloj visual-tools meeting #32</strong> (video below, <a href="https://clojureverse.org/t/visual-tools-meeting-32-workflow-demos-6-old-school-tools-repl-emacs-org-mode-ai-mcp-more/11289">more at clojureverse</a>).</p>
+<p>Mine is a complete contrast to the other one by m'friend, colleague, Clojure nerd, and all-round mensch, <a href="https://kapilreddy.me/">Kapil Reddy</a>.</p>
+<ul>
+<li>First Kapil: How he LLMs / MCPs with ClojureScript and Clojure</li>
+<li>Me: Keeping it Old-Tool: REPL habits of a grug-brained Clojurist</li>
+</ul>
+<figure>
+  <iframe width="640" height="480"
+          src="https://www.youtube.com/embed/oV9F9bmPr58?si=QU3cIBANcdmMlCGv"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <div class="footnotes">
+    <p>
+      <strong>Clojure visual-tools 32 - Workflow Demos 6: old-school
+      tools, REPL, Emacs, Org-mode, AI, MCP, & more.</strong>  This
+      2025-03-26 meeting was the sixth of a series of meetings where
+      people would demonstrate their Clojure workflows with different
+      tools.
+    </p>
+  </div>
+</figure>
+
+<h1 id="summary-opinion-for-my-demo">Summary opinion for my demo</h1>
+<p><strong>nb. Somewhat biased toward JVM Clojure, which I use.</strong></p>
+<ul>
+<li>Build a core muscle memory of manipulating the live Clojure runtime that does <em>not</em> depend on any editor or third-party tool.</li>
+<li>Lean on the <a href="https://clojuredocs.org/core-library">Clojure standard library</a> as much as possible, especially for <a href="https://clojuredocs.org/quickref#namespaces">namespaces</a>, clojure.pprint, clojure.repl, clojure.reflect, clojure.datafy.</li>
+<li>Prefer using the out-of-the-box <a href="https://clojure.org/guides/deps_and_cli">deps and cli</a> and <a href="https://clojure.org/guides/tools_build">build</a> tools, even though they pose a more effortful learning curve <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> than, say, Leiningen.</li>
+<li>Compose a notebook <em>on top of</em> your workflow, like <a href="https://clerk.vision/">Clerk</a> or <a href="https://scicloj.github.io/clay/">Clay</a> or <a href="https://gorilla-repl.org/">Gorilla REPL</a>, or <a href="https://calva.io/notebooks/">Calva's Clojure Notebooks</a> feature. Or my all-time ultimate favourite, org-mode with org-babel.</li>
+<li>Port and use this dynamic workflow to other (not-Clojure) contexts, e.g. orchestrating multiple LLMs using structured prompting techniques. For more about that see what m'colleague Kapil is doing (same video), and listen to the discussion. That's above my pay grade.</li>
+</ul>
+<h1 id="slide-deck">"Slide deck"…</h1>
+<p>… which is just a plain old org-mode file that you will see being used to deliver the live-coded demo, which I've rendered into this blog post.</p>
+<h2 id="whoami">whoami</h2>
+<ul>
+<li>walking paradox of mechanical sympathy
+<ul>
+<li>rapidly becoming obsolete</li>
+</ul></li>
+<li>severely allergic to dependencies</li>
+<li>half a slot of working memory
+<ul>
+<li><em>have</em> to write to think</li>
+<li>unable to LLM, smol brain no handle big context <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+</ul></li>
+<li>"Writing for nerds" (on a hammock) &gt;&gt; "Vibe coding for nerds"</li>
+</ul>
+<h2 id="whereami">whereami</h2>
+<ul>
+<li><a href="https://www.evalapply.org/tags/clojure">evalapply.org/tags/clojure</a></li>
+<li><a href="https://www.youtube.com/@evalapplydotorg">youtube.com/@evalapplydotorg</a></li>
+<li><a href="https://www.github.com/adityaathalye">github.com/adityaathalye</a></li>
+<li><a href="https://www.linkedin.com/in/adityaathalye">linkedin.com/in/adityaathalye</a></li>
+</ul>
+<h2 id="polyglot-notebook-ftw-sales-pitch-for-org-mode">Polyglot notebook FTW (sales pitch for org-mode :)</h2>
+<div class="sourceCode" id="cb1" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> user</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> jetty])</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> echo-handler </span>[request]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/html;charset=utf-8&quot;</span>}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> (<span class="kw">pr-str</span> request)})</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> run-jetty</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  [port]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">println</span> <span class="st">&quot;Starting Jetty server at port:&quot;</span> port)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  (jetty/run-jetty echo-handler</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                   {<span class="at">:port</span> port <span class="at">:join</span>? <span class="va">false</span>}))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main </span>[]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  (run-jetty <span class="dv">3000</span>))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span> <span class="co">; &quot;&#39;Rich&#39; comment form&quot;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; clojure -M -m org.evalapply.catchall-app</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; OR:</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  (<span class="bu">def</span><span class="fu"> server </span>(run-jetty <span class="dv">3001</span>))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  (.stop server)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>And check…</p>
+<div class="sourceCode" id="cb2" data-results="output"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="st">&quot;localhost:3001&quot;</span></span></code></pre></div>
+<p>And pipeline…</p>
+<div class="sourceCode" id="cb3" data-results="output"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="st">&quot;localhost:3001&quot;</span> <span class="kw">|</span> <span class="ex">bb</span> <span class="at">-e</span> <span class="st">&#39;(-&gt; *input* :headers)&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clj-http.client <span class="at">:as</span> http])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(http/get <span class="st">&quot;http://localhost:3001&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> <span class="at">&#39;clojure.pprint</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+<h2 id="inspect-live-object">Inspect live object</h2>
+<div class="sourceCode" id="cb6" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> server</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    clojure.reflect/reflect</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; alt: cider pprint from edit buffer</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    clojure.pprint/pprint)</span></code></pre></div>
+<h2 id="capture-values-to-inspect-them-at-will">Capture values to inspect them at will</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defonce</span><span class="fu"> responses </span>(<span class="kw">atom</span> []))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> capture-response</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  [response]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">swap!</span> responses <span class="kw">conj</span> response))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>(add-tap capture-response)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>(tap&gt; {<span class="at">:status</span> <span class="dv">200</span> <span class="at">:body</span> <span class="st">&quot;hi&quot;</span>})</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="at">@responses</span></span></code></pre></div>
+<p>Tabulate</p>
+<div class="sourceCode" id="cb8" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(clojure.pprint/print-table [<span class="at">:status</span> <span class="at">:body</span>] <span class="at">@responses</span>)</span></code></pre></div>
+<p>Visual inspector</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clojure.inspector <span class="at">:as</span> inspector])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>(inspector/inspect-tree (clojure.reflect/reflect server))</span></code></pre></div>
+<h2 id="try-out-dependencies">Try Out dependencies</h2>
+<ul>
+<li>Add without modifying deps.edn file</li>
+<li>refactor echo-handler to handle json=true query parameter</li>
+<li>copy down and replace body (dynamic REPL-driven dev.)</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> <span class="at">&#39;clojure.repl.deps</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>(clojure.<span class="kw">repl</span>.deps/add-libs</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> {<span class="at">&#39;org.clojure/data.json</span> {<span class="at">:mvn/version</span> <span class="st">&quot;2.5.1&quot;</span>}})</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clojure.data.json <span class="at">:as</span> json])</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> TODO-override-echo-handler </span>[])</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clj-http.client <span class="at">:as</span> http])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [base-uri <span class="st">&quot;http://localhost:3001&quot;</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  (http/get (<span class="kw">str</span> base-uri <span class="st">&quot;/foobar?json=true&quot;</span>)))</span></code></pre></div>
+<h1 id="footnotes">Footnotes</h1>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Leiningen offers a nice easy-to-use "UI". Whereas tools built into the Clojure distribution are "low level" machinery. Learning them will require a day or so of trial and error and reading. Maybe we will get an easy wrapper over these at some point. Until then, it's worth the trouble to adopt the model of "your builds are programs", because</p>
+<ol>
+<li>it is general-purpose b) it is always available wherever Clojure is</li>
+</ol>
+<p>available.<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Grug process no look like Hollywood Hacker Movie. Look like silent art film of many hour… read-think, try-think, write-think, walk-think, sleep, hammock-read-think, do fast REPL things, test, make commit, deploy, loop.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <hr>
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
+    </nav>
+    <hr>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Keeping it Old-Tool: REPL habits of a grug-brained Clojurist" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Keeping%20it%20Old-Tool%3A%20REPL%20habits%20of%20a%20grug-brained%20Clojurist%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html&t=Keeping%20it%20Old-Tool%3A%20REPL%20habits%20of%20a%20grug-brained%20Clojurist" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fdemo-clojure-workflow-scicloj%2Findex.html&title=Keeping%20it%20Old-Tool%3A%20REPL%20habits%20of%20a%20grug-brained%20Clojurist" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
+      </nav>
+    <form
+  class="footer cluster"
+  action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+  method="post"
+  target="popupwindow"
+  autocomplete="on"
+  onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')"
+  >
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+</form>
+  </footer>
+</article>
+  </main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p class="center">&copy; 2025,
+      <a href="https://www.linkedin.com/in/adityaathalye/" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+    </p>
+    <p class="center">
+      Built with
+      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>,
+      GNU <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>,
+      <a href="https://orgmode.org" target="_blank">org-mode</a>, and &#x1F5A4;.
+    </p>
+    <p class="center">
+      My
+      <a href="https://buttondown.com/evalapply" target="_blank">newsletter</a>
+      is powered by
+      <a href="https://buttondown.com/refer/evalapply" target="_blank">Buttondown</a>.
+    </p>
+    <div class="rc-scout-wrapper center">
+      <div class="rc-scout" data-scout-rendered="true">
+        <p class="rc-scout__text">
+          <i class="rc-scout__logo"></i>
+          Want to become a better programmer?
+          <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=40533398b8c93bb4f3323a170e032e91" target="_blank">Join the Recurse Center!</a>
+        </p>
+      </div>
+      <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: var(--color-dark); text-decoration: underline; text-underline-offset: var(--scale-xxxs); } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }
+      </style>
+    </div>
+  </div>
+</footer>
+    </div>
+  </body>
+</html>

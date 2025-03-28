@@ -6,7 +6,7 @@
     <description>Hi, I'm Aditya Athalye. Welcome to evalapply.org. I blog here. I also help small B2B SaaS teams scale without diluting.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Thu, 20 Mar 2025 13:59:16 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 28 Mar 2025 15:34:44 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -16,6 +16,22 @@
         <height>128</height>
     </image>
     <item>
+  <title>Keeping it Old-Tool: REPL habits of a grug-brained Clojurist</title>
+  <link>https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/index.html</link>
+  <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>
+  <guid>https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/</guid>
+  <description>Is demo of Grug code vibe. He no catch onto cloud LLM magics for some reason. Still prefer program with only brain-muscles. Make + use all byte on local disk. Prefer use Grug language standard library and standard dev tools. Maybe luddite, maybe obsolete. Grug no mind. Fine with how he code. Besides, Grug like muscles. Hope maybe you see tip, trick, tactic to steal. Take what can use, no take what no can use.</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">howto</category>
+<category domain="https://www.evalapply.org/tags">whyto</category>
+<category domain="https://www.evalapply.org/tags">clojure</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
+<category domain="https://www.evalapply.org/tags">programming</category>
+<category domain="https://www.evalapply.org/tags">ai</category>
+<category domain="https://www.evalapply.org/tags">intelligence_augmentation</category>
+</item>
+<item>
   <title>Becoming a software A-Team via writing culture</title>
   <link>https://www.evalapply.org/posts/writing-practices-to-10x-engineering/index.html</link>
   <pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate>
