@@ -380,10 +380,8 @@ table > caption {
   background-color: var(--color-masthead);
 }
 
-.site-header,
-.site-header *,
-.work-header,
-.work-header * {
+.site-header, .site-header *,
+.work-header, .work-header * {
   font-family: var(--headings-font-family);
   color: var(--color-dark);
 }
@@ -394,10 +392,6 @@ table > caption {
   font-size: var(--scale-s);
   line-height: var(--scale-xs);
   text-align: center;
-}
-
-.work-header {
-  padding-top: var(--scale-base);
 }
 
 .title {
