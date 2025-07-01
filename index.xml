@@ -6,7 +6,7 @@
     <description>Hi, I'm Aditya Athalye. Welcome to evalapply.org. I write, think, and work here.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 09 Apr 2025 23:51:11 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 01 Jul 2025 20:52:10 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye writes and works here.</title>
@@ -16,6 +16,18 @@
         <height>128</height>
     </image>
     <item>
+  <title>Riff: LLMs are Software Diamonds</title>
+  <link>https://www.evalapply.org/posts/llms-are-diamonds/index.html</link>
+  <pubDate>Tue, 01 Jul 2025 00:00:00 +0000</pubDate>
+  <guid>https://www.evalapply.org/posts/llms-are-diamonds/</guid>
+  <description>The making of a diamond is a repeatable, but naturally non-reproducible process. The exact same input of carbon subject to the exact same configuration of pressure, temperature, forge, time, process control will never produce the exact same diamond twice. Once made, a diamond is unique. And once made, a diamond is forever.</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">riff</category>
+<category domain="https://www.evalapply.org/tags">ai</category>
+<category domain="https://www.evalapply.org/tags">intelligence_augmentation</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
+</item>
+<item>
   <title>Keeping it Old-Tool: REPL habits of a grug-brained Clojure programmer</title>
   <link>https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/index.html</link>
   <pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate>

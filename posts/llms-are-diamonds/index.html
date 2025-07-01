@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Riff: LLMs are Software Diamonds</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="The making of a diamond is a repeatable, but naturally non-reproducible process. The exact same input of carbon subject to the exact same configuration of pressure, temperature, forge, time, process control will never produce the exact same diamond twice. Once made, a diamond is unique. And once made, a diamond is forever.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure,B2B Micro SaaS">
+<meta property="og:title" content="Riff: LLMs are Software Diamonds">
+<meta property="og:description" content="The making of a diamond is a repeatable, but naturally non-reproducible process. The exact same input of carbon subject to the exact same configuration of pressure, temperature, forge, time, process control will never produce the exact same diamond twice. Once made, a diamond is unique. And once made, a diamond is forever.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/llms-are-diamonds/index.html">
+    <!-- Preload logo as it is on all pages -->
+<link rel="preload" href="https://www.evalapply.org/static/img/Lisp_logo.svg" as="image" type="image/svg+xml" />
+<!-- Preload font files and font styles, before layout styles to reduce layout shift -->
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Ng.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFN2-RHBgUK5fbjKxRpbBtJPyRpocKdT7HmqQ.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFL2-RHBgUK5fbjKxRpbBtJPyRpocKYf7M.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/ptsansnarrow/v18/BngRUXNadjH0qYEzV7ab-oWlsbCGwR0.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/fonts.css">
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Aditya Athalye writes and works here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/llms-are-diamonds/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Aditya Athalye writes and works here." width="60" height="60">
+      </a>
+      <div class="stack">
+        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        
+        <nav class="cluster site-header site-header:nav-items">
+          <a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &#9753; read
+</a>
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#10087; see
+</a>
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
+</a>
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &lambda; self
+</a>
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
+</a>
+<a href="https://www.evalapply.org/index.xml" target="_blank">
+  &asymp; feed
+</a>
+        </nav>
+        <p class="footnotes">Cooking right now: "Project
+          <a href="https://www.evalapply.org/index.html#writing-for-nerds">
+            Writing for nerds"</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+  <main id="main">
+    <article id="blog-post" class="stack">
+  <header class="stack">
+      <p class="title">Riff: LLMs are Software Diamonds</p>
+
+      <p class="cluster post-meta">
+        
+        <span class="date">Published: 2025-07-01</span>
+        <span class="date">Updated: 2025-07-01</span>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        The making of a diamond is a repeatable, but naturally non-reproducible process. The exact same input of carbon subject to the exact same configuration of pressure, temperature, forge, time, process control will never produce the exact same diamond twice. Once made, a diamond is unique. And once made, a diamond is forever.
+      </p>
+     <div class="post-meta"><hr></div>
+     <div class="post-meta">
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Riff: LLMs are Software Diamonds" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Riff%3A%20LLMs%20are%20Software%20Diamonds%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html&t=Riff%3A%20LLMs%20are%20Software%20Diamonds" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html&title=Riff%3A%20LLMs%20are%20Software%20Diamonds" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
+      </nav>
+      <p><hr></p>
+      <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+</form>
+      <p><hr></p>
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/meta/index.html#main" target="_self">#meta</a><a href="https://www.evalapply.org/tags/riff/index.html#main" target="_self">#riff</a><a href="https://www.evalapply.org/tags/ai/index.html#main" target="_self">#ai</a><a href="https://www.evalapply.org/tags/intelligence_augmentation/index.html#main" target="_self">#intelligence_augmentation</a><a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main" target="_self">#tools_for_thought</a>
+      </nav>
+    </div>
+  </header>
+  <hr>
+  <section class="stack">
+      <figure>
+<img src="screenrant.com-star-trek-lower-decks-geordi-leah-brahms-tng.png" />
+<figcaption>Lt. Cdr. La Forge and Dr. Brahms. (image source: <a href="https://screenrant.com/star-trek-lower-decks-geordi-leah-brahms-tng/">screenrant</a>)</figcaption>
+</figure>
+<p>Every Large Language Model is a spectacularly faceted diamond.</p>
+<p>LLM training is a repeatable, but naturally non-reproducible process <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The exact same corpus of data processed in the exact same data center on the exact same hardware and software configuration using the exact same training program will <em>never</em> produce identical LLMs across training runs.</p>
+<p>To continue the analogy, a diamond is a fixed relationship of carbon atoms (tokens). It will refract light in a myriad bewildering and surprising ways. <em>However</em>, in its now-set crystalline form, the rearranged carbon atoms will <em>always</em> refract the exact same incident light into the exact same multi-spectral beauty every single time <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<p>An LLM too, once-created, is a pure function; an impossibly fine crystalline next-token computer. The spectral catalogue we make by studying an unadorned diamond in vacuum will only ever be a partial reflection of said untouched diamond. We can spend entire lifetimes and fail to catalogue all the rearrangements of incident light a single diamond can effect. <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Can an inert diamond be useful, beautiful, expensive, unique, surprising, delightful, and endlessly entertaining?</p>
+<p>Of course it can. Industrially, personally, <em>and</em> aesthetically!</p>
+<p>Degree of intelligence and aliveness is a whole other ballgame.</p>
+<p>An unadorned LLM can "think" only to the extent that it is a calculating <em>function</em>; it is not itself a stateful <em>process</em>.</p>
+<p>Thinking requires the thinker to mutate; record new information, alter its system state and capabilities, adapt and/or respond to the environment. The thought and the change of the thinker are concomitant processes.</p>
+<p>This is why, to make diamond-based pattern generators <em>behave</em> we must prefix and suffix <em>dynamic</em> optical middleware—gates, filters, polarisers, gravity, lenses, surrounding media, vacuum etc. For more dynamism and new capabilities, we can compose various arrangements of such augmented diamond-based pattern generators.</p>
+<p>In case of LLMs the LLM hosts, third-party orchestrators, and, we the users, provide the prefix and postfix middleware… our prompts and tacked-on labels and post-training "fine-tuning" and augmented memories and trampoline API calls etc… Our very minds are the middleware; modulating, interpreting, interrogating, manipulating the ephemeral stateful mind-context in which an LLM-diamond is submerged and operates, by continually experimenting with, and fine-tuning prompts and process (LLM chaining etc.). <a href="#fn4" target="_self" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>A reader may object saying these are human-centric criteria. Why are LLMs not "alive"?</p>
+<p>As far as I'm concerned, we are <em>already</em> ubiquitously using reliable AI <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, and LLMs certainly are a kind of mind <a href="#fn6" target="_self" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> on <em>the contiguous spectrum</em> of intelligence… surprising, unexpected, novel, shockingly useful…</p>
+<p>Just not <em>alive</em> in the sense of even a virus… I find it difficult to equate stunningly high degree of surprise to <em>emergent behaviour</em>. Even of the sort we can observe in the simplest arrangement of mechanical parts, governed by universal laws. The three body problem eludes a general solution because of <em>process</em>… it is, generally, a dynamic system tending to chaos. The best we can do is calculate approximate solutions on a case-by-case basis (there is no one-size-fits-all solution).</p>
+<p>Meanwhile, LLM technology has been used to remarkably accelerate computing protein folds, attacking Fields Medal-level proofs, and other research-hard problem statements.</p>
+<p>What does this mean?</p>
+<ul>
+<li>Is it a property of the LLM? viz. that the LLM is itself an intelligent problem-solver in the anthropocentric sense, or at least biological sense (spontaneously auto-introspecting auto-adapting)?</li>
+<li>Is it the property of those particular problem spaces? Were they always vulnerable to LLM-style brute-forcing; a sort of "permute through a search space until the output parts fit <em>just so</em>"?</li>
+<li>Is it a property of those incredibly sophisticated users of LLM technology; veritable Geordi La Forges <a href="#fn7" target="_self" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>? Is it because <em>they already <strong>know</strong></em> how to tell when parts fit; viz. when the completely novel-to-them solution satisfies an internally consistent system of axioms, and/or obeys well-understood rules and laws of chemistry and physics, and/or long-term stable, convergent behaviour of biological evolution itself.</li>
+</ul>
+<p>A pure function can only <em>approximately model</em> a process. A process itself is a <em>live</em>, non-fungible phenomena. It is much more than the sum total of its model-as-equations or functions. Framed this way…</p>
+<ul>
+<li>Rocks are more alive than diamonds, and contain more intelligence than the latter because rocks mutate over time and encode within themselves a story of whatever was going on — did a river flow, and then became a desert, and then a test nuclear bomb detonated near it, which put the location of the rock in Nevada, but now it gives mute company to its nameless faceless kin in a wall far from its original home? <a href="#fn8" target="_self" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> etc. etc. etc.</li>
+<li>A fly-by-wire system is <em>way smarter</em> than human pilots, capable of governing a control loop in an impossibly dynamic environment. It reconfigures the aircraft itself, compensating for atmospheric effects, passenger movement, fuel sloshing about, to keep the whole system within the envelope of control. We can trust this evolution of the humble thermostat with our lives.</li>
+<li>Aristotle's writing is dead because it's just inert data, same as the computed LLM. A <em>snapshot</em> of a moment frozen in time. Completely devoid of any subtext or context. Which we must rely on other people to supply, to varying degrees of detail, completeness, fidelity / truth etc. The writing and the LLM live through other real-world processes <a href="#fn9" target="_self" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</li>
+</ul>
+<p>Speech patterns (text, audio, visual) generated by LLM tech, simultaneously <em>blow my mind</em> and sober me up… Surprisingly sensible-looking to me, while making it painfully clear that humans are boringly predictable creatures as a collective.</p>
+<p>We are tribal and each tribe and sub tribe and sub sub tribe vocalises in distinct but relatively stable echo chambers. Echo chambers that are littered across the corpus of the Internet. Putting them all inside one giant search construct exposes us to thoughts we never had, but a hell of a lot of other people did. Alive context-imbued thoughts whose very rough textual approximations were frozen in time. And then were number-crunched into a <em>pattern space</em> of set ways of thinking, that are networked inside the forever unchanging pre-computed graph of probabilities inside the LLM.</p>
+<p>We are also (predictably) surprised because we get to know what we didn't, because we didn't even know where to look, because we had no way to interpolate connections. What's going on with LLMs from a user's point of view is that they are search tech that autocomplete pattern spaces. LLM technology cannot <em>extrapolate</em> holes outside the training set. It <em>can</em> interpolate novel connections <em>within</em> the training set. <a href="#fn10" target="_self" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p>
+<p>Further, our degree of surprise and incredulity is heavily tainted by our overwhelmingly anthropocentric conditioning. We are perpetually amazed by the crazy stuff an octopus can do. Or the tool-making felicity of Corvids.</p>
+<p>Anyway, this has gone on long enough…</p>
+<p>Let's just say I just finished reading SB Divya's <u>Meru</u> and I wouldn't mind that future at all; where alloys and megaconstructs keep us way too happy to shoot each other any more.</p>
+<figure>
+<img src="soapboxing-credit_culture-club_and_getty-images.png" />
+<figcaption>Soapboxing. (Credit: Culture Club and Getty Images. Image source: <a href="https://www.grunge.com/668929/the-origin-behind-the-phrase-get-on-your-soapbox/">grunge.com</a>).</figcaption>
+</figure>
+<p><code>~Fin~</code></p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Floating point math is imprecise, and the calculation of weights is an optimisation problem, which must converge to a "good enough" minima, kind of like Newton-Rhapson on steroids. (Thanks you-know-who for the mental model correction.)<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Sure, quantum effects will create subtle variations, but once discovered, a refraction pattern is nearly 100% reproducible. That is, a diamond is a waveguide set in stone.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Finite and countable, but just too big to characterise completely. The Travelling Salesman problem from hell.<a href="#fnref3" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>I think <a href="https://ferd.ca/the-gap-through-which-we-praise-the-machine.html">Fred Hebert is on to something</a>.<a href="#fnref4" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>… but we just call it "engineering" or "technology"…</p>
+<ul>
+<li>Automated assembly lines and factories</li>
+<li>Traffic grids</li>
+<li>National-scale power grid balancing</li>
+<li>Drive by wire and fly by wire systems (autopilots can land aircraft in zero-visibility, and bad weather, with pilot incapacitated)</li>
+<li>Self driving tech (behemoth container ships make safe trans-oceanic passages in the care of crews of well under 50 people)</li>
+<li>Large Vision Models can spot subtle anomalies in radiology, bloodwork, graphs and charts</li>
+<li>The computerised paralegal</li>
+<li>Not to mention gameplay A.I.s</li>
+<li>etc. etc. etc.</li>
+</ul>
+<a href="#fnref5" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn6"><p><a href="https://m.youtube.com/watch?v=OD5TOsPZIQY">Against Mind-Blindness: recognizing and communicating with diverse intelligences</a></p>
+<blockquote>
+<p>This is a ~35 minute talk about diverse intelligence and our efforts to establish formalisms and methods for communicating with unconventional biological intelligences.</p>
+<p>— Michael Levin</p>
+</blockquote>
+<a href="#fnref6" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn7"><p>Geordi La Forge is the Gen AI-using Engineer Archetype. He uses the Ship's LLM all the time, not infrequently to solve novel one-off problems (sometimes under life-and-death pressure). However, he is such a successful user only because he can spot incredibly subtle errors and compensate/augment with his own elite training combined with years and years of hands-on field experience. Essentially, he has <em>hard-earned specialist tacit knowledge</em>, which is <em>entirely absent</em> from any static data corpus, no matter how detailed the corpus is.<a href="#fnref7" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><a href="https://www.youtube.com/watch?v=HOPwXNFU7oU">Rocks - Animated short film (2001)</a></p>
+<blockquote>
+<p>As time passes, the two rocks Hew and Kew watch the world around them change rapidly. But there is nothing really that can disturb their calm…</p>
+<p>German title: Das Rad<br />
+Directors: Chris Stenner, Heidi Wittlinger, Arvid Uibel<br />
+Screenplay: Chris Stenner, Heidi Wittlinger, Arvid Uibel<br />
+Producer: Georg Gruber<br />
+Production: Filmakademie Baden-Württemberg<br />
+Music: Roland Hackl</p>
+</blockquote>
+<a href="#fnref8" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn9"><p>For example… LLM-owners <em>continually</em> feeding their almost-here singularity (pinky promise) with a nuclear reactor, and injecting ever-changing "system prompts" that mash up unpredictably with user prompts to "guide" the calculation away from converging to speech emitted by a genocidal demagogue, or sycophant, or racist or whatever spectrum of speech 4chan, twitter, yellow journalism and so forth have stuffed into its vector space.<a href="#fnref9" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>An analogy of interpolation that strikes me as relevant… In the search for matter distribution in space, dark matter was maddeningly inadequate, and filament theory was not even popular speculation. But now we have observations of filaments between galaxies. Evidence of most of the "missing" matter content of the universe being concentrated in filaments connecting galaxies. LLMs feel a lot like that… constructs that materialise the previously unseeable filaments in a universe-graph of clumpy knowledge matter.<a href="#fnref10" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <hr>
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
+    </nav>
+    <hr>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Riff: LLMs are Software Diamonds" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Riff%3A%20LLMs%20are%20Software%20Diamonds%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html&t=Riff%3A%20LLMs%20are%20Software%20Diamonds" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fllms-are-diamonds%2Findex.html&title=Riff%3A%20LLMs%20are%20Software%20Diamonds" target="_blank">[reddit]</a>
+        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
+      </nav>
+    <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+</form>
+  </footer>
+</article>
+  </main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p class="center">&copy; 2025,
+      <a href="https://www.linkedin.com/in/adityaathalye/" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+    </p>
+    <p class="center">
+      Built with
+      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>,
+      GNU <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>,
+      <a href="https://orgmode.org" target="_blank">org-mode</a>, and &#x1F5A4;.
+    </p>
+    <p class="center">
+      My
+      <a href="https://buttondown.com/evalapply" target="_blank">newsletter</a>
+      is powered by
+      <a href="https://buttondown.com/refer/evalapply" target="_blank">Buttondown</a>.
+    </p>
+    <div class="rc-scout-wrapper center">
+      <div class="rc-scout" data-scout-rendered="true">
+        <p class="rc-scout__text">
+          <i class="rc-scout__logo"></i>
+          Want to become a better programmer?
+          <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=40533398b8c93bb4f3323a170e032e91" target="_blank">Join the Recurse Center!</a>
+        </p>
+      </div>
+      <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: var(--color-dark); text-decoration: underline; text-underline-offset: var(--scale-xxxs); } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }
+      </style>
+    </div>
+  </div>
+</footer>
+    </div>
+  </body>
+</html>

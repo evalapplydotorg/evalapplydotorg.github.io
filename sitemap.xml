@@ -2,11 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.evalapply.org/</loc>
-    <lastmod>2025-04-09T23:51:11+05:30</lastmod>
+    <lastmod>2025-07-01T20:52:11+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <loc>https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/</loc>
+  <loc>https://www.evalapply.org/posts/llms-are-diamonds/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://www.evalapply.org/posts/demo-clojure-workflow-scicloj/</loc>
 <changefreq>yearly</changefreq>
 <priority>0.8</priority>
 <loc>https://www.evalapply.org/posts/writing-practices-to-10x-engineering/</loc>
