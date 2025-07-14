@@ -170,8 +170,8 @@
 <hr>
   <h1 id="getting-about-this-post">Getting about (this post)</h1>
 <ul>
-<li><p>This post is big! Skip whatever bores… Follow the <a href="#blog-post-toc">nice ToC</a>!</p></li>
-<li><p>It is an "I to I" explanation I wish I had long ago. I've referenced <a href="#getting-started-and-tutored">getting started material</a> and <a href="#review-the-current-state-of-the-art">"batteries included" Clojure web stacks</a> toward the end, which may be the most practically useful section of this post.</p>
+<li><p>This post is big! Skip whatever bores… Follow the <a href="#blog-post-toc" target="_self">nice ToC</a>!</p></li>
+<li><p>It is an "I to I" explanation I wish I had long ago. I've referenced <a href="#getting-started-and-tutored">getting started material</a> and <a href="#review-the-current-state-of-the-art" target="_self">"batteries included" Clojure web stacks</a> toward the end, which may be the most practically useful section of this post.</p>
 <ul>
 <li><p><strong>Update (2025-02-18):</strong> Links to my talk at Functional Conf 2025: <strong><em>Composing (Clojure) Web Stacks using Functional First Principles</em></strong> (<a href="https://www.youtube.com/watch?v=YEHVEId-utY&amp;list=PLG4-zNACPCsNVwz3ohXKeoeQjRLoFsc7F">video</a>, <a href="./deck.html">slides</a>).</p></li>
 <li><p><strong>Update (2024-09-04):</strong> I just published a complete project that follows up the concepts set up in this post. <a href="https://github.com/adityaathalye/usermanager-first-principles">adityaathalye/usermanager-first-principles</a> is a stripped-down variant of <a href="https://github.com/seancorfield/usermanager-example">seancorfield/usermanager-example</a>. The project README explains all.</p></li>
@@ -322,7 +322,7 @@ Though popular language ecosystems have a canonical web framework or two, all ha
 <p>This fact deeply influences everything, including making web apps. So, although freshly-minted intrepid Clojurians will do well to pick the Ring stack, or one of the popular "starter kits", we must consciously become students of web framework architecture too.</p>
 <p>For out here, the problem of making a web application is also the meta-problem of composing a bespoke web stack.</p>
 <h1 id="getting-first-principled">Getting First-Principled</h1>
-<p>Many wonderful resources teach Clojure/ClojureScript web development. However, I struggled to build a coherent picture, until I worked out a first-principles model, upon which to build my understanding. So here are the bare essentials, to motivate further learning, using material I <a href="#getting-started-and-tutored">reference later</a>.</p>
+<p>Many wonderful resources teach Clojure/ClojureScript web development. However, I struggled to build a coherent picture, until I worked out a first-principles model, upon which to build my understanding. So here are the bare essentials, to motivate further learning, using material I <a href="#getting-started-and-tutored" target="_self">reference later</a>.</p>
 <h2 id="a-web-app-is-just-a-polymorphic-dispatcher">A web app is just a polymorphic dispatcher</h2>
 <p>Think… what does a web app reeeeeally do?</p>
 <pre class="text"><code>HTTP request -&gt;
@@ -345,7 +345,7 @@ Though popular language ecosystems have a canonical web framework or two, all ha
 <p>We build our polymorphic <em>systems</em> using Functional Programming <em>parts</em>.</p>
 <p>With this in mind, we construct the core intuition of the anatomy of Clojure web apps, which lives in the heart of ring-clojure…</p>
 <h2 id="ring-with-jetty-is-the-classic-combo">Ring with Jetty is the classic combo</h2>
-<p>Refer back to the <a href="#getting-the-big-picture">Big Picture</a>.</p>
+<p>Refer back to the <a href="#getting-the-big-picture" target="_self">Big Picture</a>.</p>
 <p><strong>The Ring project</strong> is a crowd favourite for production Clojure <a href="#fn8" target="_self" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> web apps. It established <a href="https://github.com/ring-clojure/ring/blob/master/SPEC.md">the Ring specification</a> along with the request / response handling model that many other Clojure web libraries support, or complement.</p>
 <p><strong>Jetty</strong> is a popular server of choice in the Clojure community. It is generally used as an "Application Server" in "embedded" mode, i.e. we put the server inside our web application, as a regular library dependency. We can alternately invert the model and run Jetty in "standalone" mode, as a "container" runtime, i.e. we put our application inside the Jetty server.</p>
 <p>We will briefly peek at the Servlet API in a later section, as that is the common base for both modes of operation. <em>But</em> this post assumes we <em>run</em> our app in the community-preferred way. By and large, Clojurians prefer the embedded jetty way over the servlet container way <a href="#fn9" target="_self" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
@@ -362,27 +362,27 @@ Though popular language ecosystems have a canonical web framework or two, all ha
 </code></pre>
 <h3 id="bare-minimum-library-dependencies">Bare minimum library dependencies</h3>
 <p>Our <code>deps.edn</code> file contains this configuration; only Clojure and the Jetty adapter library from the Ring project. We use the Jetty adapter as-provided, to avoid rewriting a whole bunch of code to do Java interop and implement the Ring specification. We rely on these as <em>standards</em>, so we can assume they are available as a given.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:paths</span> [<span class="st">&quot;src&quot;</span> <span class="st">&quot;classes&quot;</span>]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> <span class="at">:deps</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> {org.clojure/clojure {<span class="at">:mvn/version</span> <span class="st">&quot;1.11.3&quot;</span>}</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ring/ring-jetty-adapter {<span class="at">:mvn/version</span> <span class="st">&quot;1.12.1&quot;</span>}}}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a>{<span class="at">:paths</span> [<span class="st">&quot;src&quot;</span> <span class="st">&quot;classes&quot;</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="at">:deps</span></span>
+<span id="cb5-3"><a href="#cb5-3" target="_self" aria-hidden="true" tabindex="-1"></a> {org.clojure/clojure {<span class="at">:mvn/version</span> <span class="st">&quot;1.11.3&quot;</span>}</span>
+<span id="cb5-4"><a href="#cb5-4" target="_self" aria-hidden="true" tabindex="-1"></a>  ring/ring-jetty-adapter {<span class="at">:mvn/version</span> <span class="st">&quot;1.12.1&quot;</span>}}}</span></code></pre></div>
 <h3 id="bare-minimum-code">Bare minimum code</h3>
 <p>The lone <code>-main</code> function in <code>src/first_principles/core.clj</code> is the entry point of our web application. It contains a catch-all "handler" function that takes any incoming request and "echoes" it back as a string in the response. We compile and run this little web app as a Java process.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> first-principles.core</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> adapter])</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>   (<span class="kw">fn</span> [request]     <span class="co">; [2.] Handler function (required).</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     {<span class="at">:status</span> <span class="dv">200</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">:body</span> (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request)})</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> first-principles.core</span>
+<span id="cb6-2"><a href="#cb6-2" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> adapter])</span>
+<span id="cb6-3"><a href="#cb6-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
+<span id="cb6-6"><a href="#cb6-6" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
+<span id="cb6-7"><a href="#cb6-7" target="_self" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
+<span id="cb6-8"><a href="#cb6-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" target="_self" aria-hidden="true" tabindex="-1"></a>   (<span class="kw">fn</span> [request]     <span class="co">; [2.] Handler function (required).</span></span>
+<span id="cb6-10"><a href="#cb6-10" target="_self" aria-hidden="true" tabindex="-1"></a>     {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb6-11"><a href="#cb6-11" target="_self" aria-hidden="true" tabindex="-1"></a>      <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
+<span id="cb6-12"><a href="#cb6-12" target="_self" aria-hidden="true" tabindex="-1"></a>      <span class="at">:body</span> (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request)})</span>
+<span id="cb6-13"><a href="#cb6-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
+<span id="cb6-15"><a href="#cb6-15" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
 <p>In the code above:</p>
 <ol>
 <li>The Jetty adapter's public API expects:
@@ -458,7 +458,7 @@ echo request: {:ssl-client-cert nil,
 <p>Though small, our "barebones" app is still doing a lot of stuff. To figure out what's going on, let's deconstruct it further.</p>
 <h2 id="bare-minimum-ring-project-derived-from-first-principles">Bare minimum Ring project derived from first principles</h2>
 <p><em><strong>Hint:</strong></em> It's functions all the way down.</p>
-<p>Continuing with reference to the <a href="#getting-the-big-picture">Big Picture</a>, I feel like a minimal web application stack must, <strong><em>at the very least</em></strong>, facilitate the following:</p>
+<p>Continuing with reference to the <a href="#getting-the-big-picture" target="_self">Big Picture</a>, I feel like a minimal web application stack must, <strong><em>at the very least</em></strong>, facilitate the following:</p>
 <ul>
 <li><em><strong>Interface with the outside world</strong></em>, relative to our application.</li>
 <li><em><strong>Interface with us</strong></em>, in the language / domain of said app.</li>
@@ -466,48 +466,48 @@ echo request: {:ssl-client-cert nil,
 <li><em><strong>Provide some mechanism to orchestrate and control handler execution</strong></em>. It turns out that the mechanism of handlers alone is not enough to cater to all our request/response needs. We use another mechanism called "middleware".</li>
 </ul>
 <h3 id="interface-with-the-outside-world">Interface with the outside world</h3>
-<p><a href="https://github.com/ring-clojure/ring/tree/master/ring-jetty-adapter">ring-jetty-adapter</a> is our interface (ref: <a href="#getting-the-big-picture">Big Picture</a>). It is a Clojure wrapper over Jetty's Java APIs.</p>
+<p><a href="https://github.com/ring-clojure/ring/tree/master/ring-jetty-adapter">ring-jetty-adapter</a> is our interface (ref: <a href="#getting-the-big-picture" target="_self">Big Picture</a>). It is a Clojure wrapper over Jetty's Java APIs.</p>
 <p>For us "outside" is the land of Java objects, viz. Jetty's HTTP object model, Servlet interface, and server configuration interface. These bits of the library's "outside-facing" code illustrate how it "adapts" between Jetty and Clojure:</p>
 <ul>
-<li><p><strong>A Ring request</strong> can have a lot of stuff in it. For example, here is <a href="https://github.com/ring-clojure/ring/blob/7d54a32425da4a0933656128a6b0bbfae2f43374/ring-jakarta-servlet/src/ring/util/jakarta/servlet.clj#L30">the function</a> that moves HTTP request information from the Jetty server's request object into the corresponding Clojure hash-map that conforms to the Ring specification. Compare this with the response of the echo handler we saw <a href="#bare-minimum-http-requests">a few paragraphs earlier</a>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> build-request-map</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Create the request map from the HttpServletRequest object.&quot;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  [^HttpServletRequest request]</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:server-port</span>        (.getServerPort request)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>   <span class="at">:server-name</span>        (.getServerName request)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">:remote-addr</span>        (.getRemoteAddr request)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">:uri</span>                (.getRequestURI request)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">:query-string</span>       (.getQueryString request)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>   <span class="at">:scheme</span>             (<span class="kw">keyword</span> (.getScheme request))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>   <span class="at">:request-method</span>     (<span class="kw">keyword</span> (.toLowerCase (.getMethod request) Locale/ENGLISH))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">:protocol</span>           (.getProtocol request)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span>            (get-headers request)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>   <span class="at">:content-type</span>       (.getContentType request)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>   <span class="at">:content-length</span>     (get-content-length request)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>   <span class="at">:character-encoding</span> (.getCharacterEncoding request)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>   <span class="at">:ssl-client-cert</span>    (get-client-cert request)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span>               (.getInputStream request)})</span></code></pre></div></li>
+<li><p><strong>A Ring request</strong> can have a lot of stuff in it. For example, here is <a href="https://github.com/ring-clojure/ring/blob/7d54a32425da4a0933656128a6b0bbfae2f43374/ring-jakarta-servlet/src/ring/util/jakarta/servlet.clj#L30">the function</a> that moves HTTP request information from the Jetty server's request object into the corresponding Clojure hash-map that conforms to the Ring specification. Compare this with the response of the echo handler we saw <a href="#bare-minimum-http-requests" target="_self">a few paragraphs earlier</a>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> build-request-map</span></span>
+<span id="cb10-2"><a href="#cb10-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Create the request map from the HttpServletRequest object.&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" target="_self" aria-hidden="true" tabindex="-1"></a>  [^HttpServletRequest request]</span>
+<span id="cb10-4"><a href="#cb10-4" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:server-port</span>        (.getServerPort request)</span>
+<span id="cb10-5"><a href="#cb10-5" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:server-name</span>        (.getServerName request)</span>
+<span id="cb10-6"><a href="#cb10-6" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:remote-addr</span>        (.getRemoteAddr request)</span>
+<span id="cb10-7"><a href="#cb10-7" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:uri</span>                (.getRequestURI request)</span>
+<span id="cb10-8"><a href="#cb10-8" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:query-string</span>       (.getQueryString request)</span>
+<span id="cb10-9"><a href="#cb10-9" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:scheme</span>             (<span class="kw">keyword</span> (.getScheme request))</span>
+<span id="cb10-10"><a href="#cb10-10" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:request-method</span>     (<span class="kw">keyword</span> (.toLowerCase (.getMethod request) Locale/ENGLISH))</span>
+<span id="cb10-11"><a href="#cb10-11" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:protocol</span>           (.getProtocol request)</span>
+<span id="cb10-12"><a href="#cb10-12" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span>            (get-headers request)</span>
+<span id="cb10-13"><a href="#cb10-13" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:content-type</span>       (.getContentType request)</span>
+<span id="cb10-14"><a href="#cb10-14" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:content-length</span>     (get-content-length request)</span>
+<span id="cb10-15"><a href="#cb10-15" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:character-encoding</span> (.getCharacterEncoding request)</span>
+<span id="cb10-16"><a href="#cb10-16" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:ssl-client-cert</span>    (get-client-cert request)</span>
+<span id="cb10-17"><a href="#cb10-17" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span>               (.getInputStream request)})</span></code></pre></div></li>
 <li><p><strong>A Ring response</strong> contains the HTTP status code, headers, and optional body. The adapter uses <a href="https://github.com/ring-clojure/ring/blob/7d54a32425da4a0933656128a6b0bbfae2f43374/ring-jakarta-servlet/src/ring/util/jakarta/servlet.clj#L62">these functions</a> to move information from a response hash-map, into the corresponding Jetty servlet response object.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> update-servlet-response</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Update the HttpServletResponse using a response map. Takes an optional</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">  AsyncContext.&quot;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  ([response response-map]</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>   (update-servlet-response response <span class="va">nil</span> response-map))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  ([^HttpServletResponse response context response-map]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>   (<span class="kw">let</span> [{<span class="at">:keys</span> [status headers body]} response-map]</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">when</span> (<span class="kw">nil?</span> response)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">throw</span> (NullPointerException. <span class="st">&quot;HttpServletResponse is nil&quot;</span>)))</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">when</span> (<span class="kw">nil?</span> response-map)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">throw</span> (NullPointerException. <span class="st">&quot;Response map is nil&quot;</span>)))</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">when</span> status</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>       (.setStatus response status))</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>     (set-headers response headers)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">let</span> [output-stream (make-output-stream response context)]</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>       (protocols/write-body-to-stream body response-map output-stream)))))</span></code></pre></div></li>
+<div class="sourceCode" id="cb11"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> update-servlet-response</span></span>
+<span id="cb11-2"><a href="#cb11-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Update the HttpServletResponse using a response map. Takes an optional</span></span>
+<span id="cb11-3"><a href="#cb11-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">  AsyncContext.&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" target="_self" aria-hidden="true" tabindex="-1"></a>  ([response response-map]</span>
+<span id="cb11-5"><a href="#cb11-5" target="_self" aria-hidden="true" tabindex="-1"></a>   (update-servlet-response response <span class="va">nil</span> response-map))</span>
+<span id="cb11-6"><a href="#cb11-6" target="_self" aria-hidden="true" tabindex="-1"></a>  ([^HttpServletResponse response context response-map]</span>
+<span id="cb11-7"><a href="#cb11-7" target="_self" aria-hidden="true" tabindex="-1"></a>   (<span class="kw">let</span> [{<span class="at">:keys</span> [status headers body]} response-map]</span>
+<span id="cb11-8"><a href="#cb11-8" target="_self" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">when</span> (<span class="kw">nil?</span> response)</span>
+<span id="cb11-9"><a href="#cb11-9" target="_self" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">throw</span> (NullPointerException. <span class="st">&quot;HttpServletResponse is nil&quot;</span>)))</span>
+<span id="cb11-10"><a href="#cb11-10" target="_self" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">when</span> (<span class="kw">nil?</span> response-map)</span>
+<span id="cb11-11"><a href="#cb11-11" target="_self" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">throw</span> (NullPointerException. <span class="st">&quot;Response map is nil&quot;</span>)))</span>
+<span id="cb11-12"><a href="#cb11-12" target="_self" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">when</span> status</span>
+<span id="cb11-13"><a href="#cb11-13" target="_self" aria-hidden="true" tabindex="-1"></a>       (.setStatus response status))</span>
+<span id="cb11-14"><a href="#cb11-14" target="_self" aria-hidden="true" tabindex="-1"></a>     (set-headers response headers)</span>
+<span id="cb11-15"><a href="#cb11-15" target="_self" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">let</span> [output-stream (make-output-stream response context)]</span>
+<span id="cb11-16"><a href="#cb11-16" target="_self" aria-hidden="true" tabindex="-1"></a>       (protocols/write-body-to-stream body response-map output-stream)))))</span></code></pre></div></li>
 </ul>
 <p>Thankfully, weavejester has done all the heavy lifting for us, so we only have to care about the public API of this adapter library, which is a single function, <code>run-jetty</code>. Take a gander at its <a href="https://ring-clojure.github.io/ring/ring.adapter.jetty.html">API doc</a>.</p>
 <h3 id="interface-with-us">Interface with us</h3>
-<p><code>ring-jetty-adapter</code> is, again, our interface (ref: <a href="#getting-the-big-picture">Big Picture</a>).</p>
+<p><code>ring-jetty-adapter</code> is, again, our interface (ref: <a href="#getting-the-big-picture" target="_self">Big Picture</a>).</p>
 <p>For Clojure programmers, generic Clojure data is our programming model, not custom objects. So the adapter's Clojure facing side lets us:</p>
 <ul>
 <li>Configure Jetty from our Clojure app, using plain Clojure hash-maps.</li>
@@ -518,9 +518,9 @@ echo request: {:ssl-client-cert nil,
 <ul>
 <li><p><strong>A Ring Request map</strong> has a lot of stuff in it, as seen in the <code>build-request-map</code> function featured above.</p></li>
 <li><p><strong>The Ring response map</strong> is much simpler. A valid response is just the following hash-map.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>{<span class="at">:status</span> <span class="dv">200</span> <span class="co">; [1.]</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a> <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/html;charset=UTF-8&quot;</span>} <span class="co">; [2.]</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> <span class="at">:body</span> <span class="st">&quot;&lt;h1&gt;optional&lt;/h1&gt;&quot;</span>} <span class="co">; [3.]</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" target="_self" aria-hidden="true" tabindex="-1"></a>{<span class="at">:status</span> <span class="dv">200</span> <span class="co">; [1.]</span></span>
+<span id="cb12-2"><a href="#cb12-2" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/html;charset=UTF-8&quot;</span>} <span class="co">; [2.]</span></span>
+<span id="cb12-3"><a href="#cb12-3" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="at">:body</span> <span class="st">&quot;&lt;h1&gt;optional&lt;/h1&gt;&quot;</span>} <span class="co">; [3.]</span></span></code></pre></div>
 <ol>
 <li><code>:status</code> is mandatory, and must be an Integer.</li>
 <li><code>:header</code> is mandatory, and must be a map of type <code>{String String}</code>.</li>
@@ -531,21 +531,21 @@ echo request: {:ssl-client-cert nil,
 <h3 id="provide-http-creature-comforts">Provide HTTP creature comforts</h3>
 <p>… to automate the drudgery of interpreting HTTP requests and creating HTTP responses. Illustrating this will require a bit of set up.</p>
 <p>First, I'll copy down our barebones app code, and slightly refactor it so <code>-main</code> looks more like it would in a production Clojure app.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> first-principles.core</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> adapter])</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> echo-handler </span>[request]</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request)})</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>   echo-handler      <span class="co">; [2.] Handler function (required).</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> first-principles.core</span>
+<span id="cb13-2"><a href="#cb13-2" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> adapter])</span>
+<span id="cb13-3"><a href="#cb13-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> echo-handler </span>[request]</span>
+<span id="cb13-6"><a href="#cb13-6" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb13-7"><a href="#cb13-7" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
+<span id="cb13-8"><a href="#cb13-8" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request)})</span>
+<span id="cb13-9"><a href="#cb13-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
+<span id="cb13-11"><a href="#cb13-11" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
+<span id="cb13-12"><a href="#cb13-12" target="_self" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
+<span id="cb13-13"><a href="#cb13-13" target="_self" aria-hidden="true" tabindex="-1"></a>   echo-handler      <span class="co">; [2.] Handler function (required).</span></span>
+<span id="cb13-14"><a href="#cb13-14" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
+<span id="cb13-15"><a href="#cb13-15" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
 <p>Now, I'll modify <code>echo-handler</code> to a generic <code>handler</code> that:</p>
 <ul>
 <li>Redirects the root URI <code>"/"</code> to a new <code>"/echo"</code> URI.</li>
@@ -553,35 +553,35 @@ echo request: {:ssl-client-cert nil,
 <li>Returns a "pong" for a <code>"/health-check"</code> URI.</li>
 <li>Returns 404 for all other routes.</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> generic-handler</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">case</span> (<span class="at">:uri</span> request)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/&quot;</span> <span class="co">; Try: curl -L localhost:3000 # -L means follow redirects</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">303</span> <span class="co">; &quot;See Other&quot;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {<span class="st">&quot;Location&quot;</span> <span class="st">&quot;/echo&quot;</span>}</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> <span class="st">&quot;&quot;</span>}</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/echo&quot;</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">200</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request)}`</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/health-check&quot;</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">200</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> <span class="st">&quot;Pong&quot;</span>}</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; Default case is not found.</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">404</span> <span class="co">; &quot;Not Found&quot;</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {}</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> <span class="st">&quot;Not Found.&quot;</span>}))</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    [&amp; args]</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>     generic-handler   <span class="co">; [2.] Handler function (required).</span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>     {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb14-1"><a href="#cb14-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> generic-handler</span></span>
+<span id="cb14-2"><a href="#cb14-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb14-3"><a href="#cb14-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">case</span> (<span class="at">:uri</span> request)</span>
+<span id="cb14-4"><a href="#cb14-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/&quot;</span> <span class="co">; Try: curl -L localhost:3000 # -L means follow redirects</span></span>
+<span id="cb14-5"><a href="#cb14-5" target="_self" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">303</span> <span class="co">; &quot;See Other&quot;</span></span>
+<span id="cb14-6"><a href="#cb14-6" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {<span class="st">&quot;Location&quot;</span> <span class="st">&quot;/echo&quot;</span>}</span>
+<span id="cb14-7"><a href="#cb14-7" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> <span class="st">&quot;&quot;</span>}</span>
+<span id="cb14-8"><a href="#cb14-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/echo&quot;</span></span>
+<span id="cb14-10"><a href="#cb14-10" target="_self" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb14-11"><a href="#cb14-11" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
+<span id="cb14-12"><a href="#cb14-12" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request)}`</span>
+<span id="cb14-13"><a href="#cb14-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/health-check&quot;</span></span>
+<span id="cb14-15"><a href="#cb14-15" target="_self" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb14-16"><a href="#cb14-16" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>}</span>
+<span id="cb14-17"><a href="#cb14-17" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> <span class="st">&quot;Pong&quot;</span>}</span>
+<span id="cb14-18"><a href="#cb14-18" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; Default case is not found.</span></span>
+<span id="cb14-20"><a href="#cb14-20" target="_self" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:status</span> <span class="dv">404</span> <span class="co">; &quot;Not Found&quot;</span></span>
+<span id="cb14-21"><a href="#cb14-21" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:headers</span> {}</span>
+<span id="cb14-22"><a href="#cb14-22" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:body</span> <span class="st">&quot;Not Found.&quot;</span>}))</span>
+<span id="cb14-23"><a href="#cb14-23" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
+<span id="cb14-25"><a href="#cb14-25" target="_self" aria-hidden="true" tabindex="-1"></a>    [&amp; args]</span>
+<span id="cb14-26"><a href="#cb14-26" target="_self" aria-hidden="true" tabindex="-1"></a>    (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
+<span id="cb14-27"><a href="#cb14-27" target="_self" aria-hidden="true" tabindex="-1"></a>     generic-handler   <span class="co">; [2.] Handler function (required).</span></span>
+<span id="cb14-28"><a href="#cb14-28" target="_self" aria-hidden="true" tabindex="-1"></a>     {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
+<span id="cb14-29"><a href="#cb14-29" target="_self" aria-hidden="true" tabindex="-1"></a>      <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
 <p>Now, it's totally fine to hand-write maps the way I just did, <em>but</em> well-chosen utility functions will help us reduce some repetition <em>and</em> do things like:</p>
 <ul>
 <li>Easily construct Ring spec-compliant requests/responses.</li>
@@ -590,72 +590,72 @@ echo request: {:ssl-client-cert nil,
 <li>Check constraints when it matters, etc.</li>
 </ul>
 <p>So, finally, lets refactor <code>handler</code> and pull out utility functions. This is just the seed of intuition for a whole set of utilities designed around the ring spec. See the official API docs for <a href="https://ring-clojure.github.io/ring/ring.util.response.html">ring.util.response</a> functions, for example. Also check out its sibling <code>ring.util.*</code> namespaces. These utilities address i/o, requests, mime-type, parsing etc.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">;; Ring-compliant HTTP utilities</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> status</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Set or override status of response.&quot;</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  [response status-code]</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">assoc</span> response <span class="at">:status</span> status-code))</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> header</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  [response header-name header-value]</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">assoc-in</span> response [<span class="at">:headers</span> header-name] header-value))</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> content-type</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  [response content-type]</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  (header response <span class="st">&quot;Content-Type&quot;</span> content-type))</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> response</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Skeleton response with status 200 OK.&quot;</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  [body]</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {}</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> body})</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> not-found</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  [body]</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">404</span></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {}</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> body})</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> see-other</span></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  [uri]</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">303</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Location&quot;</span> uri}</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> <span class="st">&quot;&quot;</span>})</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co">;; Handler(s)</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> generic-handler</span></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; It is trivial to look up information in hash-maps.</span></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">case</span> (<span class="at">:uri</span> request)</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/&quot;</span></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    (see-other <span class="st">&quot;/echo&quot;</span>)</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/echo&quot;</span></span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request))</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))`</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/health-check&quot;</span></span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response <span class="st">&quot;Pong&quot;</span>)</span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))</span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; Default case is not found.</span></span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>    (not-found <span class="st">&quot;Not Found.&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb15-1"><a href="#cb15-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
+<span id="cb15-2"><a href="#cb15-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Ring-compliant HTTP utilities</span></span>
+<span id="cb15-3"><a href="#cb15-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
+<span id="cb15-4"><a href="#cb15-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> status</span></span>
+<span id="cb15-6"><a href="#cb15-6" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Set or override status of response.&quot;</span></span>
+<span id="cb15-7"><a href="#cb15-7" target="_self" aria-hidden="true" tabindex="-1"></a>  [response status-code]</span>
+<span id="cb15-8"><a href="#cb15-8" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">assoc</span> response <span class="at">:status</span> status-code))</span>
+<span id="cb15-9"><a href="#cb15-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> header</span></span>
+<span id="cb15-11"><a href="#cb15-11" target="_self" aria-hidden="true" tabindex="-1"></a>  [response header-name header-value]</span>
+<span id="cb15-12"><a href="#cb15-12" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">assoc-in</span> response [<span class="at">:headers</span> header-name] header-value))</span>
+<span id="cb15-13"><a href="#cb15-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> content-type</span></span>
+<span id="cb15-15"><a href="#cb15-15" target="_self" aria-hidden="true" tabindex="-1"></a>  [response content-type]</span>
+<span id="cb15-16"><a href="#cb15-16" target="_self" aria-hidden="true" tabindex="-1"></a>  (header response <span class="st">&quot;Content-Type&quot;</span> content-type))</span>
+<span id="cb15-17"><a href="#cb15-17" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> response</span></span>
+<span id="cb15-19"><a href="#cb15-19" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Skeleton response with status 200 OK.&quot;</span></span>
+<span id="cb15-20"><a href="#cb15-20" target="_self" aria-hidden="true" tabindex="-1"></a>  [body]</span>
+<span id="cb15-21"><a href="#cb15-21" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb15-22"><a href="#cb15-22" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {}</span>
+<span id="cb15-23"><a href="#cb15-23" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> body})</span>
+<span id="cb15-24"><a href="#cb15-24" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> not-found</span></span>
+<span id="cb15-26"><a href="#cb15-26" target="_self" aria-hidden="true" tabindex="-1"></a>  [body]</span>
+<span id="cb15-27"><a href="#cb15-27" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">404</span></span>
+<span id="cb15-28"><a href="#cb15-28" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {}</span>
+<span id="cb15-29"><a href="#cb15-29" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> body})</span>
+<span id="cb15-30"><a href="#cb15-30" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> see-other</span></span>
+<span id="cb15-32"><a href="#cb15-32" target="_self" aria-hidden="true" tabindex="-1"></a>  [uri]</span>
+<span id="cb15-33"><a href="#cb15-33" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">303</span></span>
+<span id="cb15-34"><a href="#cb15-34" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Location&quot;</span> uri}</span>
+<span id="cb15-35"><a href="#cb15-35" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> <span class="st">&quot;&quot;</span>})</span>
+<span id="cb15-36"><a href="#cb15-36" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
+<span id="cb15-38"><a href="#cb15-38" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Handler(s)</span></span>
+<span id="cb15-39"><a href="#cb15-39" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span>
+<span id="cb15-40"><a href="#cb15-40" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> generic-handler</span></span>
+<span id="cb15-42"><a href="#cb15-42" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb15-43"><a href="#cb15-43" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; It is trivial to look up information in hash-maps.</span></span>
+<span id="cb15-44"><a href="#cb15-44" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">case</span> (<span class="at">:uri</span> request)</span>
+<span id="cb15-45"><a href="#cb15-45" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/&quot;</span></span>
+<span id="cb15-46"><a href="#cb15-46" target="_self" aria-hidden="true" tabindex="-1"></a>    (see-other <span class="st">&quot;/echo&quot;</span>)</span>
+<span id="cb15-47"><a href="#cb15-47" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-48"><a href="#cb15-48" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/echo&quot;</span></span>
+<span id="cb15-49"><a href="#cb15-49" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request))</span>
+<span id="cb15-50"><a href="#cb15-50" target="_self" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))`</span>
+<span id="cb15-51"><a href="#cb15-51" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-52"><a href="#cb15-52" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/health-check&quot;</span></span>
+<span id="cb15-53"><a href="#cb15-53" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response <span class="st">&quot;Pong&quot;</span>)</span>
+<span id="cb15-54"><a href="#cb15-54" target="_self" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))</span>
+<span id="cb15-55"><a href="#cb15-55" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-56"><a href="#cb15-56" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; Default case is not found.</span></span>
+<span id="cb15-57"><a href="#cb15-57" target="_self" aria-hidden="true" tabindex="-1"></a>    (not-found <span class="st">&quot;Not Found.&quot;</span>)))</span></code></pre></div>
 <p>In production code, we either directly use Ring-provided utility functions, and/or use utility libraries by other people, and/or design our own high-level utilities using any of those as building blocks.</p>
 <p>Ring request/response utilities and our handlers are not enough, because we also need to…</p>
 <h3 id="orchestrate-and-control-handler-execution-using-middleware">Orchestrate and control handler execution using middleware</h3>
 <p>In OOP terms, Ring middleware are a functional mechanism to use handlers as visitors. They also can perform dependency injection. Since middleware accept handlers and return handlers, the Ring middleware pattern is akin to the factory pattern of OOP.</p>
 <p>This section sets up the intuition for actual Ring middleware (see official <a href="https://ring-clojure.github.io/ring/ring.middleware.content-type.html">ring.middleware.* API docs</a>). These are also "just functions", like the one below. We will see how and why such middleware work, but first a bit on why we need this mechanism at all.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> wrap-request-barebones-middleware</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  [handler]</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [request]</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    (handler request)))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb16-1"><a href="#cb16-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> wrap-request-barebones-middleware</span></span>
+<span id="cb16-2"><a href="#cb16-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [handler]</span>
+<span id="cb16-3"><a href="#cb16-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [request]</span>
+<span id="cb16-4"><a href="#cb16-4" target="_self" aria-hidden="true" tabindex="-1"></a>    (handler request)))</span></code></pre></div>
 <p>Remember the notion that a web app is just a ploymorphic dispatcher?</p>
 <p>Real-world Ring handlers are specialised functions, unlike our barebones handler, which is a monolithic function tasked with handling all requests and responses. The single responsibility principle directs us to (typically) dedicate one handler function per dispatch case, yielding us isolated, maintainable, testable, composable parts.</p>
 <p>This means handlers ought not handle shared or cross-cutting concerns, and ought not be aware of each other either. This means they cannot cooperate to manage their own control flow. Shared dependencies and/or behaviours need to sit elsewhere and be passed into or interleaved with handlers. These interventions happen anywhere "in the middle" of request/response processing. Thus we call such logic "middleware", in the Ring world.</p>
@@ -684,101 +684,101 @@ echo request: {:ssl-client-cert nil,
 </ul></li>
 </ul>
 <p>We can write "request" middleware to exercise control over the behaviour of the inbound path of our app, and "response" middleware to manage behaviour of the outbound path. The simplest middleware ("no-op" or identity function of middleware) looks like this:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> wrap-barebones-request-handler</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Uses a request handler as a visitor.&quot;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  [handler] <span class="co">; expects a request-handling function</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; returns a new function that expects a request map</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [request]</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; This in turn calls the handler function, that it has</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; captured in its scope, on the request that it receives.</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    (handler request)))</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> wrap-barebonse-response-handler</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Uses a response handler as a visitor.&quot;</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  [handler] <span class="co">; expects a response-handling function</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; returns a new function that expects a response map</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [response]</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; This in turn calls the handler function, that it has</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; captured in its scope, on the response that it receives.</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">if</span> (response? response)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>      (handler response))))</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb17-1"><a href="#cb17-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> wrap-barebones-request-handler</span></span>
+<span id="cb17-2"><a href="#cb17-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Uses a request handler as a visitor.&quot;</span></span>
+<span id="cb17-3"><a href="#cb17-3" target="_self" aria-hidden="true" tabindex="-1"></a>  [handler] <span class="co">; expects a request-handling function</span></span>
+<span id="cb17-4"><a href="#cb17-4" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; returns a new function that expects a request map</span></span>
+<span id="cb17-5"><a href="#cb17-5" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [request]</span>
+<span id="cb17-6"><a href="#cb17-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; This in turn calls the handler function, that it has</span></span>
+<span id="cb17-7"><a href="#cb17-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; captured in its scope, on the request that it receives.</span></span>
+<span id="cb17-8"><a href="#cb17-8" target="_self" aria-hidden="true" tabindex="-1"></a>    (handler request)))</span>
+<span id="cb17-9"><a href="#cb17-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> wrap-barebonse-response-handler</span></span>
+<span id="cb17-11"><a href="#cb17-11" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Uses a response handler as a visitor.&quot;</span></span>
+<span id="cb17-12"><a href="#cb17-12" target="_self" aria-hidden="true" tabindex="-1"></a>  [handler] <span class="co">; expects a response-handling function</span></span>
+<span id="cb17-13"><a href="#cb17-13" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; returns a new function that expects a response map</span></span>
+<span id="cb17-14"><a href="#cb17-14" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [response]</span>
+<span id="cb17-15"><a href="#cb17-15" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; This in turn calls the handler function, that it has</span></span>
+<span id="cb17-16"><a href="#cb17-16" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; captured in its scope, on the response that it receives.</span></span>
+<span id="cb17-17"><a href="#cb17-17" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">if</span> (response? response)</span>
+<span id="cb17-18"><a href="#cb17-18" target="_self" aria-hidden="true" tabindex="-1"></a>      (handler response))))</span></code></pre></div>
 <p>The category of functions that accept functions as arguments and/or return functions as responses are "higher order functions" (HoFs) <a href="#fn11" target="_self" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
 <p><em>Order of invocation matters. Wrapping your head around a stack of HoFs can get a little freaky.</em> It is fine to just <em>believe</em> and simply follow the usual pattern of Ring projects one sees in examples and tutorials. One will find said <em>belief</em> handy even if, with some labour, one convinces oneself that the model <em>works</em> by walking down the middleware stack of function calls and returns.</p>
 <p>Here is a step-by-step expansion of our aforementioned "barebones" middleware stack. We use the "substitution principle" of function evaluation.</p>
 <ol>
 <li><p>Pass our <code>generic-handler</code> function to our barebones middleware stack, and call the resulting handler on the request map we expect from the ring-jetty-adapter's <code>run-jetty</code> interface. We are evaluating a single invocation, and so we can lift our web app's absolute minimal core functionality out of the <code>-main</code> entry point.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>   generic-handler   <span class="co">; [2.] Handler function (required).</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">:join</span>? <span class="va">false</span>}))</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">;; Can be stripped down to just run-jetty</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">;; without the optional config. map...</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>(adapter/run-jetty</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a> generic-handler)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">;; This creates a live server that calls our</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">;; generic-handler on every inbound request.</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>(generic-handler</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
+<div class="sourceCode" id="cb18"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb18-1"><a href="#cb18-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
+<span id="cb18-2"><a href="#cb18-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
+<span id="cb18-3"><a href="#cb18-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty <span class="co">; [1.] Jetty adapter&#39;s public API</span></span>
+<span id="cb18-4"><a href="#cb18-4" target="_self" aria-hidden="true" tabindex="-1"></a>   generic-handler   <span class="co">; [2.] Handler function (required).</span></span>
+<span id="cb18-5"><a href="#cb18-5" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:port</span> <span class="dv">3000</span>       <span class="co">; [3.] Jetty server config. (optional)</span></span>
+<span id="cb18-6"><a href="#cb18-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:join</span>? <span class="va">false</span>}))</span>
+<span id="cb18-7"><a href="#cb18-7" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Can be stripped down to just run-jetty</span></span>
+<span id="cb18-9"><a href="#cb18-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; without the optional config. map...</span></span>
+<span id="cb18-10"><a href="#cb18-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" target="_self" aria-hidden="true" tabindex="-1"></a>(adapter/run-jetty</span>
+<span id="cb18-12"><a href="#cb18-12" target="_self" aria-hidden="true" tabindex="-1"></a> generic-handler)</span>
+<span id="cb18-13"><a href="#cb18-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; This creates a live server that calls our</span></span>
+<span id="cb18-15"><a href="#cb18-15" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; generic-handler on every inbound request.</span></span>
+<span id="cb18-16"><a href="#cb18-16" target="_self" aria-hidden="true" tabindex="-1"></a>(generic-handler</span>
+<span id="cb18-17"><a href="#cb18-17" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
 <li><p>Now, what if we wrap <code>generic-handler</code> in our barebones middleware stack? How and <em>why</em> would this even work?</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  (wrap-barebones-response-handler</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>   generic-handler))</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
+<div class="sourceCode" id="cb19"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb19-1"><a href="#cb19-1" target="_self" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
+<span id="cb19-2"><a href="#cb19-2" target="_self" aria-hidden="true" tabindex="-1"></a>  (wrap-barebones-response-handler</span>
+<span id="cb19-3"><a href="#cb19-3" target="_self" aria-hidden="true" tabindex="-1"></a>   generic-handler))</span>
+<span id="cb19-4"><a href="#cb19-4" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
 <li><p>We know any middleware must return a Ring compliant handler function, <em>because we designed it that way</em>. The cumulative result of calling more than one middleware on a handler, also reduces down to a Ring handler.</p>
 <p>Abstractly, our barebones middleware would evaluate this way:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>((middleware<span class="dv">-2</span> (middleware<span class="dv">-1</span> handler-fn)) request-map)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>((middleware<span class="dv">-2</span> handler-fn&#39;) request-map)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>(handler-fn<span class="at">&#39;&#39;</span> request-map)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">;; =&gt; response-map</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb20"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb20-1"><a href="#cb20-1" target="_self" aria-hidden="true" tabindex="-1"></a>((middleware<span class="dv">-2</span> (middleware<span class="dv">-1</span> handler-fn)) request-map)</span>
+<span id="cb20-2"><a href="#cb20-2" target="_self" aria-hidden="true" tabindex="-1"></a>((middleware<span class="dv">-2</span> handler-fn&#39;) request-map)</span>
+<span id="cb20-3"><a href="#cb20-3" target="_self" aria-hidden="true" tabindex="-1"></a>(handler-fn<span class="at">&#39;&#39;</span> request-map)</span>
+<span id="cb20-4"><a href="#cb20-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; =&gt; response-map</span></span></code></pre></div></li>
 <li><p>So, concretely, we can take our "barebones middleware stack" from point 2. above, and use the insight from point 3. to evaluate the stack down to a response, as follows.</p>
 <ol>
 <li><p>Substitute the name <code>wrap-barebones-response-handler</code> with its corresponding function body.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  ((<span class="kw">fn</span> [handler]</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">fn</span> [response]</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>       (handler response))) generic-handler))</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
+<div class="sourceCode" id="cb21"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb21-1"><a href="#cb21-1" target="_self" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
+<span id="cb21-2"><a href="#cb21-2" target="_self" aria-hidden="true" tabindex="-1"></a>  ((<span class="kw">fn</span> [handler]</span>
+<span id="cb21-3"><a href="#cb21-3" target="_self" aria-hidden="true" tabindex="-1"></a>     (<span class="kw">fn</span> [response]</span>
+<span id="cb21-4"><a href="#cb21-4" target="_self" aria-hidden="true" tabindex="-1"></a>       (handler response))) generic-handler))</span>
+<span id="cb21-5"><a href="#cb21-5" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
 <li><p>Pass <code>generic-handler</code> to the just-substituted function body of the response handler and replace the whole with the resulting handler function (a middleware accepts a handler and returns a handler… quite like the Factory pattern).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [response]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    (generic-handler response)))</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
+<div class="sourceCode" id="cb22"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb22-1"><a href="#cb22-1" target="_self" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
+<span id="cb22-2"><a href="#cb22-2" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [response]</span>
+<span id="cb22-3"><a href="#cb22-3" target="_self" aria-hidden="true" tabindex="-1"></a>    (generic-handler response)))</span>
+<span id="cb22-4"><a href="#cb22-4" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
 <li><p>Simplify the resulting function call because any expression of the form <code>(fn [x] (some-func x))</code> is equivalent to just <code>some-func</code> <a href="#fn12" target="_self" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  generic-handler)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
+<div class="sourceCode" id="cb25"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb25-1"><a href="#cb25-1" target="_self" aria-hidden="true" tabindex="-1"></a>((wrap-barebones-request-handler</span>
+<span id="cb25-2"><a href="#cb25-2" target="_self" aria-hidden="true" tabindex="-1"></a>  generic-handler)</span>
+<span id="cb25-3"><a href="#cb25-3" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
 <li><p>Repeat the same type of function body substitution done in step 4.1, except now for the barebones request handler.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(((<span class="kw">fn</span> [handler]</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">fn</span> [request]</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>      (handler request))) generic-handler)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
+<div class="sourceCode" id="cb26"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb26-1"><a href="#cb26-1" target="_self" aria-hidden="true" tabindex="-1"></a>(((<span class="kw">fn</span> [handler]</span>
+<span id="cb26-2"><a href="#cb26-2" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">fn</span> [request]</span>
+<span id="cb26-3"><a href="#cb26-3" target="_self" aria-hidden="true" tabindex="-1"></a>      (handler request))) generic-handler)</span>
+<span id="cb26-4"><a href="#cb26-4" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div></li>
 <li><p>Repeat the simplification operation of steps 4.2 and 4.3.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>((<span class="kw">fn</span> [request]</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>   (generic-handler request))</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb27-1"><a href="#cb27-1" target="_self" aria-hidden="true" tabindex="-1"></a>((<span class="kw">fn</span> [request]</span>
+<span id="cb27-2"><a href="#cb27-2" target="_self" aria-hidden="true" tabindex="-1"></a>   (generic-handler request))</span>
+<span id="cb27-3"><a href="#cb27-3" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div>
 <p>Simplifies to…</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(generic-handler</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb28-1"><a href="#cb28-1" target="_self" aria-hidden="true" tabindex="-1"></a>(generic-handler</span>
+<span id="cb28-2"><a href="#cb28-2" target="_self" aria-hidden="true" tabindex="-1"></a> inbound-request-map-from-jetty-adapter)</span></code></pre></div>
 <p>Which ought to return us a <code>response</code>, because that is how we have constructed <code>generic-handler</code>.</p></li>
 </ol></li>
 <li><p>This chain makes sense because both our "barebones" middleware apply their incoming handler argument <em>as-is</em>.</p>
 <p>Even so, reading and understanding code with real-world middleware requires <em>belief</em> that it does :-)</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> generic-handler</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      wrap-keyword-params</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>      wrap-params</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>      wrap-multipart-params</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>      wrap-cookies</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>      wrap-session</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>      wrap-resource)</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:port</span> <span class="dv">3000</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">:join</span>? <span class="va">false</span>})</span></code></pre></div></li>
+<div class="sourceCode" id="cb29"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb29-1"><a href="#cb29-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
+<span id="cb29-2"><a href="#cb29-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; args]</span>
+<span id="cb29-3"><a href="#cb29-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> generic-handler</span>
+<span id="cb29-4"><a href="#cb29-4" target="_self" aria-hidden="true" tabindex="-1"></a>      wrap-keyword-params</span>
+<span id="cb29-5"><a href="#cb29-5" target="_self" aria-hidden="true" tabindex="-1"></a>      wrap-params</span>
+<span id="cb29-6"><a href="#cb29-6" target="_self" aria-hidden="true" tabindex="-1"></a>      wrap-multipart-params</span>
+<span id="cb29-7"><a href="#cb29-7" target="_self" aria-hidden="true" tabindex="-1"></a>      wrap-cookies</span>
+<span id="cb29-8"><a href="#cb29-8" target="_self" aria-hidden="true" tabindex="-1"></a>      wrap-session</span>
+<span id="cb29-9"><a href="#cb29-9" target="_self" aria-hidden="true" tabindex="-1"></a>      wrap-resource)</span>
+<span id="cb29-10"><a href="#cb29-10" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:port</span> <span class="dv">3000</span></span>
+<span id="cb29-11"><a href="#cb29-11" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:join</span>? <span class="va">false</span>})</span></code></pre></div></li>
 </ol>
 <p>There is one final core-to-web-apps functionality that the Ring project <em>does not</em> include, which is polymorphic dispatch mechanism, which is "Routing". Routers like compojure, reitit, bidi, pedestal exist, but we still need a first-principles understanding of Routing. So, we round things up with…</p>
 <h2 id="bare-minimum-router---the-polymorphic-dispatcher-appears">Bare minimum router - the polymorphic dispatcher appears</h2>
@@ -786,67 +786,67 @@ echo request: {:ssl-client-cert nil,
 <p>Here is the bare minimum intuition for routing.</p>
 <p>We pull apart our monolithic <code>generic-handler</code> into little handlers and wire them back together with our poor man's router using something more flexible than a plain old <code>case</code> expression.</p>
 <p>First, a copy of the <code>generic-handler</code> for quick reference.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> generic-handler</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">case</span> (<span class="at">:uri</span> request)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/&quot;</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    (see-other <span class="st">&quot;/echo&quot;</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/echo&quot;</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request))</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/health-check&quot;</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response <span class="st">&quot;Pong&quot;</span>)</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; Default case</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    (not-found <span class="st">&quot;Not Found.&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb30-1"><a href="#cb30-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> generic-handler</span></span>
+<span id="cb30-2"><a href="#cb30-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb30-3"><a href="#cb30-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">case</span> (<span class="at">:uri</span> request)</span>
+<span id="cb30-4"><a href="#cb30-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/&quot;</span></span>
+<span id="cb30-5"><a href="#cb30-5" target="_self" aria-hidden="true" tabindex="-1"></a>    (see-other <span class="st">&quot;/echo&quot;</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/echo&quot;</span></span>
+<span id="cb30-8"><a href="#cb30-8" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response (<span class="kw">str</span> <span class="st">&quot;echo request: &quot;</span> request))</span>
+<span id="cb30-9"><a href="#cb30-9" target="_self" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))</span>
+<span id="cb30-10"><a href="#cb30-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/health-check&quot;</span></span>
+<span id="cb30-12"><a href="#cb30-12" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">-&gt;</span> (response <span class="st">&quot;Pong&quot;</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" target="_self" aria-hidden="true" tabindex="-1"></a>        (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))</span>
+<span id="cb30-14"><a href="#cb30-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; Default case</span></span>
+<span id="cb30-16"><a href="#cb30-16" target="_self" aria-hidden="true" tabindex="-1"></a>    (not-found <span class="st">&quot;Not Found.&quot;</span>)))</span></code></pre></div>
 <p>Since we want <em>open-ended</em> polymorphic dispatch, we can use Clojure multimethods and dispatch over a much richer pattern space. Here we combine HTTP verb <em>and</em> URI, for example. But our dispatch function is almost unlimited in the pattern space it can generate.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmulti</span><span class="fu"> generic-handler</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [{<span class="at">:keys</span> [request-method uri] <span class="at">:as</span> _request}]</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    [request-method uri]))</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span><span class="at">:default</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  [_request]</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  (not-found <span class="st">&quot;Not Found.&quot;</span>))</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:get</span> <span class="st">&quot;/health-check&quot;</span>]</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  [_request]</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> (response <span class="st">&quot;Pong&quot;</span>)</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>      (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))  )</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn-</span><span class="fu"> echo</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Helper function to handle Echo requests.&quot;</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> (response (<span class="kw">format</span> <span class="st">&quot;%s: %s</span><span class="sc">\n</span><span class="st">&quot;</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>                        (<span class="at">:request-method</span> request)</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>                        (<span class="at">:uri</span> request)))</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>      (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>)))</span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:get</span> <span class="st">&quot;/echo&quot;</span>]</span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:post</span> <span class="st">&quot;/echo&quot;</span>]</span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:put</span> <span class="st">&quot;/echo&quot;</span>]</span>
-<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
-<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:delete</span> <span class="st">&quot;/echo&quot;</span>]</span>
-<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>  [request]</span>
-<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
-<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="co">;; Let&#39;s not support PATCH for echo. It should 404.</span></span>
-<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
-<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>  [&amp; _args]</span>
-<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty generic-handler</span>
-<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>                     {<span class="at">:port</span> <span class="dv">3000</span></span>
-<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>                      <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb31-1"><a href="#cb31-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmulti</span><span class="fu"> generic-handler</span></span>
+<span id="cb31-2"><a href="#cb31-2" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [{<span class="at">:keys</span> [request-method uri] <span class="at">:as</span> _request}]</span>
+<span id="cb31-3"><a href="#cb31-3" target="_self" aria-hidden="true" tabindex="-1"></a>    [request-method uri]))</span>
+<span id="cb31-4"><a href="#cb31-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span><span class="at">:default</span></span>
+<span id="cb31-6"><a href="#cb31-6" target="_self" aria-hidden="true" tabindex="-1"></a>  [_request]</span>
+<span id="cb31-7"><a href="#cb31-7" target="_self" aria-hidden="true" tabindex="-1"></a>  (not-found <span class="st">&quot;Not Found.&quot;</span>))</span>
+<span id="cb31-8"><a href="#cb31-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:get</span> <span class="st">&quot;/health-check&quot;</span>]</span>
+<span id="cb31-10"><a href="#cb31-10" target="_self" aria-hidden="true" tabindex="-1"></a>  [_request]</span>
+<span id="cb31-11"><a href="#cb31-11" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> (response <span class="st">&quot;Pong&quot;</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" target="_self" aria-hidden="true" tabindex="-1"></a>      (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>))  )</span>
+<span id="cb31-13"><a href="#cb31-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn-</span><span class="fu"> echo</span></span>
+<span id="cb31-15"><a href="#cb31-15" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Helper function to handle Echo requests.&quot;</span></span>
+<span id="cb31-16"><a href="#cb31-16" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb31-17"><a href="#cb31-17" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;</span> (response (<span class="kw">format</span> <span class="st">&quot;%s: %s</span><span class="sc">\n</span><span class="st">&quot;</span></span>
+<span id="cb31-18"><a href="#cb31-18" target="_self" aria-hidden="true" tabindex="-1"></a>                        (<span class="at">:request-method</span> request)</span>
+<span id="cb31-19"><a href="#cb31-19" target="_self" aria-hidden="true" tabindex="-1"></a>                        (<span class="at">:uri</span> request)))</span>
+<span id="cb31-20"><a href="#cb31-20" target="_self" aria-hidden="true" tabindex="-1"></a>      (content-type <span class="st">&quot;text/plain;charset=UTF-8&quot;</span>)))</span>
+<span id="cb31-21"><a href="#cb31-21" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:get</span> <span class="st">&quot;/echo&quot;</span>]</span>
+<span id="cb31-23"><a href="#cb31-23" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb31-24"><a href="#cb31-24" target="_self" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
+<span id="cb31-25"><a href="#cb31-25" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-26"><a href="#cb31-26" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:post</span> <span class="st">&quot;/echo&quot;</span>]</span>
+<span id="cb31-27"><a href="#cb31-27" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb31-28"><a href="#cb31-28" target="_self" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
+<span id="cb31-29"><a href="#cb31-29" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-30"><a href="#cb31-30" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:put</span> <span class="st">&quot;/echo&quot;</span>]</span>
+<span id="cb31-31"><a href="#cb31-31" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb31-32"><a href="#cb31-32" target="_self" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
+<span id="cb31-33"><a href="#cb31-33" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="#cb31-34" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> generic-handler </span>[<span class="at">:delete</span> <span class="st">&quot;/echo&quot;</span>]</span>
+<span id="cb31-35"><a href="#cb31-35" target="_self" aria-hidden="true" tabindex="-1"></a>  [request]</span>
+<span id="cb31-36"><a href="#cb31-36" target="_self" aria-hidden="true" tabindex="-1"></a>  (echo request))</span>
+<span id="cb31-37"><a href="#cb31-37" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-38"><a href="#cb31-38" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Let&#39;s not support PATCH for echo. It should 404.</span></span>
+<span id="cb31-39"><a href="#cb31-39" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-40"><a href="#cb31-40" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main</span></span>
+<span id="cb31-41"><a href="#cb31-41" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; _args]</span>
+<span id="cb31-42"><a href="#cb31-42" target="_self" aria-hidden="true" tabindex="-1"></a>  (adapter/run-jetty generic-handler</span>
+<span id="cb31-43"><a href="#cb31-43" target="_self" aria-hidden="true" tabindex="-1"></a>                     {<span class="at">:port</span> <span class="dv">3000</span></span>
+<span id="cb31-44"><a href="#cb31-44" target="_self" aria-hidden="true" tabindex="-1"></a>                      <span class="at">:join</span>? <span class="va">false</span>}))</span></code></pre></div>
 <p>Given a HTTP abstraction like Ring, and some robust non-icky way to do routing, we can potentially build the rest of the web app like they did in the last century… string-bash HTML and SQL for the UI and the DB. But we can do better, and use more of the web stack.</p>
 <h1 id="getting-started-and-tutored">Getting Started and Tutored</h1>
 <blockquote>
@@ -923,15 +923,15 @@ Spring, summer, rain, fall, winter, spring.</p>
 <li id="fn10"><p>We're using JVM Clojure, which is ultimately "just Java". So, at the end of the day, there must exist a compiled Java Class that the JVM can read and bootstrap our java app. This would be the "entry point" to our web application. See more at the <a href="https://clojure.org/reference/compilation#_gen_class_examples">Clojure Compilation reference</a>.<a href="#fnref10" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn11"><p>A middleware function capture the given handler (and any other arguments passed to it), within a strict lexical scope. Only the returned handler function has access to the captured values. This is a function "closure". As the MIT Scheme mailing list documents, <a href="https://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html">closures are nothing but the poor man's objects</a> (see also meta-discussion at this <a href="https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean">SO thread</a>). On similar lines, our middleware pattern is nothing but the poor man's object-oriented factory pattern.<a href="#fnref11" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn12"><p>This is an eta-reduction in Lambda Calculus terms. From a type signature <em>and behavioural</em> point of view, these two functions are exactly equivalent, even when some-func has side-effects.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">fn</span> [x] (some-func x))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">;; is equivalent to</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">;; =&gt; some-func</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb23-1"><a href="#cb23-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">fn</span> [x] (some-func x))</span>
+<span id="cb23-2"><a href="#cb23-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; is equivalent to</span></span>
+<span id="cb23-3"><a href="#cb23-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; =&gt; some-func</span></span></code></pre></div>
 <p>So we can safely perform this substitution:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">fn</span> [response] (generic-handler response))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">;; Becomes, simply...</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>generic-handler</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">;; We don&#39;t have to care what the word</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">;; &quot;response&quot; means. It could be any &#39;x&#39;.</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb24-1"><a href="#cb24-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">fn</span> [response] (generic-handler response))</span>
+<span id="cb24-2"><a href="#cb24-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Becomes, simply...</span></span>
+<span id="cb24-3"><a href="#cb24-3" target="_self" aria-hidden="true" tabindex="-1"></a>generic-handler</span>
+<span id="cb24-4"><a href="#cb24-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; We don&#39;t have to care what the word</span></span>
+<span id="cb24-5"><a href="#cb24-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; &quot;response&quot; means. It could be any &#39;x&#39;.</span></span></code></pre></div>
 <a href="#fnref12" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
 <li id="fn13"><p>I think this is partly because that's a completely different concern from core HTTP work, partly because there are many ways to solve for routing, and partly because it can become a rather nasty problem needing special treatment.<a href="#fnref13" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn14"><p>Ideally I also like to swap out key libraries that solve the same problem in different ways (e.g. Ring handlers and middleware model versus Pedestal Interceptor model).<a href="#fnref14" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

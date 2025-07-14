@@ -202,79 +202,79 @@
 <li><a href="https://www.linkedin.com/in/adityaathalye">linkedin.com/in/adityaathalye</a></li>
 </ul>
 <h2 id="polyglot-notebook-ftw-sales-pitch-for-org-mode">Polyglot notebook FTW (sales pitch for org-mode :)</h2>
-<div class="sourceCode" id="cb1" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> user</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> jetty])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> echo-handler </span>[request]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/html;charset=utf-8&quot;</span>}</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> (<span class="kw">pr-str</span> request)})</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> run-jetty</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  [port]</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">println</span> <span class="st">&quot;Starting Jetty server at port:&quot;</span> port)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  (jetty/run-jetty echo-handler</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                   {<span class="at">:port</span> port <span class="at">:join</span>? <span class="va">false</span>}))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main </span>[]</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  (run-jetty <span class="dv">3000</span>))</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span> <span class="co">; &quot;&#39;Rich&#39; comment form&quot;</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; clojure -M -m org.evalapply.catchall-app</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; OR:</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  (<span class="bu">def</span><span class="fu"> server </span>(run-jetty <span class="dv">3001</span>))</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  (.stop server)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb1" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb1-1"><a href="#cb1-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> user</span>
+<span id="cb1-2"><a href="#cb1-2" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:require</span> [ring.adapter.jetty <span class="at">:as</span> jetty])</span>
+<span id="cb1-3"><a href="#cb1-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="at">:gen-class</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> echo-handler </span>[request]</span>
+<span id="cb1-6"><a href="#cb1-6" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:status</span> <span class="dv">200</span></span>
+<span id="cb1-7"><a href="#cb1-7" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:headers</span> {<span class="st">&quot;Content-Type&quot;</span> <span class="st">&quot;text/html;charset=utf-8&quot;</span>}</span>
+<span id="cb1-8"><a href="#cb1-8" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:body</span> (<span class="kw">pr-str</span> request)})</span>
+<span id="cb1-9"><a href="#cb1-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> run-jetty</span></span>
+<span id="cb1-11"><a href="#cb1-11" target="_self" aria-hidden="true" tabindex="-1"></a>  [port]</span>
+<span id="cb1-12"><a href="#cb1-12" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">println</span> <span class="st">&quot;Starting Jetty server at port:&quot;</span> port)</span>
+<span id="cb1-13"><a href="#cb1-13" target="_self" aria-hidden="true" tabindex="-1"></a>  (jetty/run-jetty echo-handler</span>
+<span id="cb1-14"><a href="#cb1-14" target="_self" aria-hidden="true" tabindex="-1"></a>                   {<span class="at">:port</span> port <span class="at">:join</span>? <span class="va">false</span>}))</span>
+<span id="cb1-15"><a href="#cb1-15" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> -main </span>[]</span>
+<span id="cb1-17"><a href="#cb1-17" target="_self" aria-hidden="true" tabindex="-1"></a>  (run-jetty <span class="dv">3000</span>))</span>
+<span id="cb1-18"><a href="#cb1-18" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span> <span class="co">; &quot;&#39;Rich&#39; comment form&quot;</span></span>
+<span id="cb1-20"><a href="#cb1-20" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; clojure -M -m org.evalapply.catchall-app</span></span>
+<span id="cb1-21"><a href="#cb1-21" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; OR:</span></span>
+<span id="cb1-22"><a href="#cb1-22" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="bu">def</span><span class="fu"> server </span>(run-jetty <span class="dv">3001</span>))</span>
+<span id="cb1-23"><a href="#cb1-23" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" target="_self" aria-hidden="true" tabindex="-1"></a>  (.stop server)</span>
+<span id="cb1-25"><a href="#cb1-25" target="_self" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>And check…</p>
-<div class="sourceCode" id="cb2" data-results="output"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="st">&quot;localhost:3001&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2" data-results="output"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="st">&quot;localhost:3001&quot;</span></span></code></pre></div>
 <p>And pipeline…</p>
-<div class="sourceCode" id="cb3" data-results="output"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="st">&quot;localhost:3001&quot;</span> <span class="kw">|</span> <span class="ex">bb</span> <span class="at">-e</span> <span class="st">&#39;(-&gt; *input* :headers)&#39;</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clj-http.client <span class="at">:as</span> http])</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(http/get <span class="st">&quot;http://localhost:3001&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> <span class="at">&#39;clojure.pprint</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+<div class="sourceCode" id="cb3" data-results="output"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="st">&quot;localhost:3001&quot;</span> <span class="kw">|</span> <span class="ex">bb</span> <span class="at">-e</span> <span class="st">&#39;(-&gt; *input* :headers)&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clj-http.client <span class="at">:as</span> http])</span>
+<span id="cb4-2"><a href="#cb4-2" target="_self" aria-hidden="true" tabindex="-1"></a>(http/get <span class="st">&quot;http://localhost:3001&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> <span class="at">&#39;clojure.pprint</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
 <h2 id="inspect-live-object">Inspect live object</h2>
-<div class="sourceCode" id="cb6" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> server</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    clojure.reflect/reflect</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; alt: cider pprint from edit buffer</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    clojure.pprint/pprint)</span></code></pre></div>
+<div class="sourceCode" id="cb6" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">-&gt;</span> server</span>
+<span id="cb6-2"><a href="#cb6-2" target="_self" aria-hidden="true" tabindex="-1"></a>    clojure.reflect/reflect</span>
+<span id="cb6-3"><a href="#cb6-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">;; alt: cider pprint from edit buffer</span></span>
+<span id="cb6-4"><a href="#cb6-4" target="_self" aria-hidden="true" tabindex="-1"></a>    clojure.pprint/pprint)</span></code></pre></div>
 <h2 id="capture-values-to-inspect-them-at-will">Capture values to inspect them at will</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defonce</span><span class="fu"> responses </span>(<span class="kw">atom</span> []))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> capture-response</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  [response]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">swap!</span> responses <span class="kw">conj</span> response))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>(add-tap capture-response)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>(tap&gt; {<span class="at">:status</span> <span class="dv">200</span> <span class="at">:body</span> <span class="st">&quot;hi&quot;</span>})</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="at">@responses</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defonce</span><span class="fu"> responses </span>(<span class="kw">atom</span> []))</span>
+<span id="cb7-2"><a href="#cb7-2" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> capture-response</span></span>
+<span id="cb7-4"><a href="#cb7-4" target="_self" aria-hidden="true" tabindex="-1"></a>  [response]</span>
+<span id="cb7-5"><a href="#cb7-5" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">swap!</span> responses <span class="kw">conj</span> response))</span>
+<span id="cb7-6"><a href="#cb7-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" target="_self" aria-hidden="true" tabindex="-1"></a>(add-tap capture-response)</span>
+<span id="cb7-8"><a href="#cb7-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" target="_self" aria-hidden="true" tabindex="-1"></a>(tap&gt; {<span class="at">:status</span> <span class="dv">200</span> <span class="at">:body</span> <span class="st">&quot;hi&quot;</span>})</span>
+<span id="cb7-10"><a href="#cb7-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="at">@responses</span></span></code></pre></div>
 <p>Tabulate</p>
-<div class="sourceCode" id="cb8" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(clojure.pprint/print-table [<span class="at">:status</span> <span class="at">:body</span>] <span class="at">@responses</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8" data-results="output"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" target="_self" aria-hidden="true" tabindex="-1"></a>(clojure.pprint/print-table [<span class="at">:status</span> <span class="at">:body</span>] <span class="at">@responses</span>)</span></code></pre></div>
 <p>Visual inspector</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clojure.inspector <span class="at">:as</span> inspector])</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>(inspector/inspect-tree (clojure.reflect/reflect server))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clojure.inspector <span class="at">:as</span> inspector])</span>
+<span id="cb9-2"><a href="#cb9-2" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" target="_self" aria-hidden="true" tabindex="-1"></a>(inspector/inspect-tree (clojure.reflect/reflect server))</span></code></pre></div>
 <h2 id="try-out-dependencies">Try Out dependencies</h2>
 <ul>
 <li>Add without modifying deps.edn file</li>
 <li>refactor echo-handler to handle json=true query parameter</li>
 <li>copy down and replace body (dynamic REPL-driven dev.)</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> <span class="at">&#39;clojure.repl.deps</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>(clojure.<span class="kw">repl</span>.deps/add-libs</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> {<span class="at">&#39;org.clojure/data.json</span> {<span class="at">:mvn/version</span> <span class="st">&quot;2.5.1&quot;</span>}})</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clojure.data.json <span class="at">:as</span> json])</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> TODO-override-echo-handler </span>[])</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clj-http.client <span class="at">:as</span> http])</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [base-uri <span class="st">&quot;http://localhost:3001&quot;</span>]</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  (http/get (<span class="kw">str</span> base-uri <span class="st">&quot;/foobar?json=true&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> <span class="at">&#39;clojure.repl.deps</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" target="_self" aria-hidden="true" tabindex="-1"></a>(clojure.<span class="kw">repl</span>.deps/add-libs</span>
+<span id="cb10-4"><a href="#cb10-4" target="_self" aria-hidden="true" tabindex="-1"></a> {<span class="at">&#39;org.clojure/data.json</span> {<span class="at">:mvn/version</span> <span class="st">&quot;2.5.1&quot;</span>}})</span>
+<span id="cb10-5"><a href="#cb10-5" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clojure.data.json <span class="at">:as</span> json])</span>
+<span id="cb10-7"><a href="#cb10-7" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> TODO-override-echo-handler </span>[])</span>
+<span id="cb10-8"><a href="#cb10-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">require</span> &#39;[clj-http.client <span class="at">:as</span> http])</span>
+<span id="cb10-10"><a href="#cb10-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">let</span> [base-uri <span class="st">&quot;http://localhost:3001&quot;</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" target="_self" aria-hidden="true" tabindex="-1"></a>  (http/get (<span class="kw">str</span> base-uri <span class="st">&quot;/foobar?json=true&quot;</span>)))</span></code></pre></div>
 <h1 id="footnotes">Footnotes</h1>
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />

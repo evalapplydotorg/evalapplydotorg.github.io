@@ -179,7 +179,7 @@
 <li>This post was salvaged from draft hell <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Parts of it may not have aged well. Other parts may be repetitive and repetitive.</li>
 <li>It is <em>not</em> specifically about Hashicorp's Terraform <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> (or about me <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>), though both of us are players on the board.</li>
 <li>Follow the ToC for a quick topical summary.</li>
-<li>The sample Terraform <a href="#use-a-mono-repo-for-great-good">monorepo layout here</a> illustrates what I ended up making.</li>
+<li>The sample Terraform <a href="#use-a-mono-repo-for-great-good" target="_self">monorepo layout here</a> illustrates what I ended up making.</li>
 </ul>
 <p>This is a <em>long</em> read.</p>
 <p>Suit up!</p>
@@ -383,7 +383,7 @@
 <h2 id="think-like-terraform-when-laying-out-code">Think like Terraform when laying out code</h2>
 <p>Terraform's programming and state model firmly dictated directory layout, entity naming convention, coding convention, etc. All of this is version controlled under git, of course, which in turn allows us to safely run tooling that modifies code en-mass (e.g. recreate auto-generated files as needed).</p>
 <h2 id="use-a-mono-repo-for-great-good">Use a mono-repo for great good</h2>
-<p>A single repository can contain a directory for each department. It's always possible to split out each department into its own repo later, if some hard constraint dictates it be so. Absent that, it's far better to put it all in one repo. Doing this well is invaluable in helping departments <a href="#share-practices-protect-secrets">share practices while protecting secrets</a>.</p>
+<p>A single repository can contain a directory for each department. It's always possible to split out each department into its own repo later, if some hard constraint dictates it be so. Absent that, it's far better to put it all in one repo. Doing this well is invaluable in helping departments <a href="#share-practices-protect-secrets" target="_self">share practices while protecting secrets</a>.</p>
 <pre class="text"><code># Each &quot;department&quot; runs / owns its own infrastructure,
 # but benefit from shared tooling.
 project-repo-root

@@ -158,7 +158,7 @@
   <h1 id="reading-guide">Reading guide</h1>
 <ul>
 <li><p>Follow the post for a detailed breakdown of my Clojurish thought process, and the resulting code at each step.</p></li>
-<li><p>Or, <a href="#recap">skip here to read the whole code at one go</a>.</p></li>
+<li><p>Or, <a href="#recap" target="_self">skip here to read the whole code at one go</a>.</p></li>
 <li><p>I assume basic familiarity with Clojure (functions, hashmaps, namespaces, multimethods, code naming and calling conventions etc.).</p></li>
 </ul>
 <h1 id="the-problem-statement">The Problem Statement</h1>
@@ -251,26 +251,26 @@ The core problem is defined as:
 <p>That's it. It's <em>boring</em>. Boring is good.</p>
 <h2 id="rotations">Rotations</h2>
 <p>We can define rotations in terms of pre-calculated hash-tables, because we know exactly how the rover must rotate.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> mars.rover)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">;; Each rotation is 90 degrees. Thus we can define the</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">;; meaning of left-rotation and right-rotation like so:</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> rot-L </span>{<span class="at">:N</span> <span class="at">:W</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">:S</span> <span class="at">:E</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">:W</span> <span class="at">:S</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">:E</span> <span class="at">:N</span>})</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> rot-R </span>{<span class="at">:N</span> <span class="at">:E</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">:S</span> <span class="at">:W</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">:W</span> <span class="at">:N</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">:E</span> <span class="at">:S</span>})</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  (rot-L <span class="at">:N</span>) <span class="co">; =&gt; :W</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  (rot-L (rot-L <span class="at">:N</span>)) <span class="co">; =&gt; :S</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  ((<span class="kw">comp</span> rot-L rot-L rot-R rot-R) <span class="at">:N</span>) <span class="co">; =&gt; :N</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">ns</span> mars.rover)</span>
+<span id="cb4-2"><a href="#cb4-2" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Each rotation is 90 degrees. Thus we can define the</span></span>
+<span id="cb4-4"><a href="#cb4-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; meaning of left-rotation and right-rotation like so:</span></span>
+<span id="cb4-5"><a href="#cb4-5" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> rot-L </span>{<span class="at">:N</span> <span class="at">:W</span></span>
+<span id="cb4-7"><a href="#cb4-7" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:S</span> <span class="at">:E</span></span>
+<span id="cb4-8"><a href="#cb4-8" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:W</span> <span class="at">:S</span></span>
+<span id="cb4-9"><a href="#cb4-9" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:E</span> <span class="at">:N</span>})</span>
+<span id="cb4-10"><a href="#cb4-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> rot-R </span>{<span class="at">:N</span> <span class="at">:E</span></span>
+<span id="cb4-12"><a href="#cb4-12" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:S</span> <span class="at">:W</span></span>
+<span id="cb4-13"><a href="#cb4-13" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:W</span> <span class="at">:N</span></span>
+<span id="cb4-14"><a href="#cb4-14" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:E</span> <span class="at">:S</span>})</span>
+<span id="cb4-15"><a href="#cb4-15" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb4-17"><a href="#cb4-17" target="_self" aria-hidden="true" tabindex="-1"></a>  (rot-L <span class="at">:N</span>) <span class="co">; =&gt; :W</span></span>
+<span id="cb4-18"><a href="#cb4-18" target="_self" aria-hidden="true" tabindex="-1"></a>  (rot-L (rot-L <span class="at">:N</span>)) <span class="co">; =&gt; :S</span></span>
+<span id="cb4-19"><a href="#cb4-19" target="_self" aria-hidden="true" tabindex="-1"></a>  ((<span class="kw">comp</span> rot-L rot-L rot-R rot-R) <span class="at">:N</span>) <span class="co">; =&gt; :N</span></span>
+<span id="cb4-20"><a href="#cb4-20" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>What if we had a precision stepper motor capable of 0.1° turns, you ask? Well, we could <em>still</em> pre-calculate all L-side and R-side rotations as hard-coded hash-tables.</p>
 <p>Think about it.</p>
 <p>Once we send a stepper motor into space, we can't swap it out for a better motor. So we can even hard-wire the rotations lookup table in a ROM. The fastest function call is no function call.</p>
@@ -281,35 +281,35 @@ The core problem is defined as:
 <p>Our model has just three explicit operations: rotate left, rotate right, and move. The functions that calculate the result of the operations almost write themselves, because of the way we set up our core data.</p>
 <h2 id="rotate-in-place">Rotate in place</h2>
 <p>We can calculate rotation in terms of position <code>{:x X :y Y :d D}</code> , like so.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> L</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return a left-rotate relative to the current direction</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">   at the current coordinates.&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  [position]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:d</span> rot-L))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> R</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return a right-rotate relative to the current direction</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">   at the current coordinates.&quot;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  [position]</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:d</span> rot-R))</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  (L {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1 :y 3 :d :W}</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  (R (L {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}))</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1 :y 3 :d :N}</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  ((<span class="kw">comp</span> R R L L) {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1 :y 3 :d :N}</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> L</span></span>
+<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return a left-rotate relative to the current direction</span></span>
+<span id="cb5-3"><a href="#cb5-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">   at the current coordinates.&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" target="_self" aria-hidden="true" tabindex="-1"></a>  [position]</span>
+<span id="cb5-5"><a href="#cb5-5" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:d</span> rot-L))</span>
+<span id="cb5-6"><a href="#cb5-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> R</span></span>
+<span id="cb5-8"><a href="#cb5-8" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return a right-rotate relative to the current direction</span></span>
+<span id="cb5-9"><a href="#cb5-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">   at the current coordinates.&quot;</span></span>
+<span id="cb5-10"><a href="#cb5-10" target="_self" aria-hidden="true" tabindex="-1"></a>  [position]</span>
+<span id="cb5-11"><a href="#cb5-11" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:d</span> rot-R))</span>
+<span id="cb5-12"><a href="#cb5-12" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb5-14"><a href="#cb5-14" target="_self" aria-hidden="true" tabindex="-1"></a>  (L {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb5-15"><a href="#cb5-15" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1 :y 3 :d :W}</span></span>
+<span id="cb5-16"><a href="#cb5-16" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" target="_self" aria-hidden="true" tabindex="-1"></a>  (R (L {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}))</span>
+<span id="cb5-18"><a href="#cb5-18" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1 :y 3 :d :N}</span></span>
+<span id="cb5-19"><a href="#cb5-19" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" target="_self" aria-hidden="true" tabindex="-1"></a>  ((<span class="kw">comp</span> R R L L) {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb5-21"><a href="#cb5-21" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1 :y 3 :d :N}</span></span>
+<span id="cb5-22"><a href="#cb5-22" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>A reader might complain that the word <code>position</code> doesn't convey the fact that it is written as a hashmap. We can address this complaint in one or more ways:</p>
 <ul>
 <li><p>Provide handy "Rich Comment" blocks <a href="#fn5" target="_self" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> along with the code, as I've done here, and everywhere else.</p></li>
 <li><p>Write the function signature with destructuring:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> R</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:keys</span> [x y d] <span class="at">:as</span> position}]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:d</span> rot-R))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> R</span></span>
+<span id="cb6-2"><a href="#cb6-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:keys</span> [x y d] <span class="at">:as</span> position}]</span>
+<span id="cb6-3"><a href="#cb6-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:d</span> rot-R))</span></code></pre></div>
 <p>This can be useful, but can also be a matter of taste.</p>
 <p>In this case, I find destructuring <em>extra</em>. Mainly because we don't use <code>x, y, d</code> in the function body, and slightly because bindings are created, for <code>x, y, d</code>, which adds some overhead (however negligible) at runtime and I don't like to make my program do throwaway work.</p></li>
 <li><p>Write a specification for <code>positon</code>. This would be my preferred option, as compared to destructuring. A specification is more general-purpose, complete, and useful—we can use in tests and validations.</p></li>
@@ -317,77 +317,77 @@ The core problem is defined as:
 </ul>
 <h2 id="move-one-step">Move one step</h2>
 <p>To move is to advance one step in the current direction. This means we have to choose to either increment or decrement either x or y. We are also told to assume "move north" means to go from <code>x,y</code> to <code>x,y+1</code>. Thus, the plateau is laid out south to north, with the south-west corner at 0,0, and north-east corner at max-x,max-y. So <code>M</code> can be defined like this, in terms of our <code>{:x X :y Y :d D}</code> <em>position</em>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmulti</span><span class="fu"> M</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return a position one unit farther in the</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  current direction.&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">:d</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:N</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  [position]</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:y</span> <span class="kw">inc</span>))</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:S</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  [position]</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:y</span> <span class="kw">dec</span>))</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:E</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  [position]</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:x</span> <span class="kw">inc</span>))</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:W</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  [position]</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:x</span> <span class="kw">dec</span>))</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}) <span class="co">; =&gt; {:x 1 :y 4 :d :N}</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:S</span>}) <span class="co">; =&gt; {:x 1 :y 2 :d :S}</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:E</span>}) <span class="co">; =&gt; {:x 2 :y 3 :d :E}</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:W</span>}) <span class="co">; =&gt; {:x 0 :y 3 :d :W}</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmulti</span><span class="fu"> M</span></span>
+<span id="cb7-2"><a href="#cb7-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return a position one unit farther in the</span></span>
+<span id="cb7-3"><a href="#cb7-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">  current direction.&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="at">:d</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:N</span></span>
+<span id="cb7-7"><a href="#cb7-7" target="_self" aria-hidden="true" tabindex="-1"></a>  [position]</span>
+<span id="cb7-8"><a href="#cb7-8" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:y</span> <span class="kw">inc</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:S</span></span>
+<span id="cb7-11"><a href="#cb7-11" target="_self" aria-hidden="true" tabindex="-1"></a>  [position]</span>
+<span id="cb7-12"><a href="#cb7-12" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:y</span> <span class="kw">dec</span>))</span>
+<span id="cb7-13"><a href="#cb7-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:E</span></span>
+<span id="cb7-15"><a href="#cb7-15" target="_self" aria-hidden="true" tabindex="-1"></a>  [position]</span>
+<span id="cb7-16"><a href="#cb7-16" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:x</span> <span class="kw">inc</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> M </span><span class="at">:W</span></span>
+<span id="cb7-19"><a href="#cb7-19" target="_self" aria-hidden="true" tabindex="-1"></a>  [position]</span>
+<span id="cb7-20"><a href="#cb7-20" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">update</span> position <span class="at">:x</span> <span class="kw">dec</span>))</span>
+<span id="cb7-21"><a href="#cb7-21" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb7-23"><a href="#cb7-23" target="_self" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}) <span class="co">; =&gt; {:x 1 :y 4 :d :N}</span></span>
+<span id="cb7-24"><a href="#cb7-24" target="_self" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:S</span>}) <span class="co">; =&gt; {:x 1 :y 2 :d :S}</span></span>
+<span id="cb7-25"><a href="#cb7-25" target="_self" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:E</span>}) <span class="co">; =&gt; {:x 2 :y 3 :d :E}</span></span>
+<span id="cb7-26"><a href="#cb7-26" target="_self" aria-hidden="true" tabindex="-1"></a>  (M {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:W</span>}) <span class="co">; =&gt; {:x 0 :y 3 :d :W}</span></span>
+<span id="cb7-27"><a href="#cb7-27" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h2 id="move-many-steps-safely">Move Many Steps Safely</h2>
 <p>The problem with <code>M</code> above is that it could help us increment or decrement our way out of the grid all the way off a cliff. Like, what if we get a bad insruction sequence?</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">;; Say our given area of operation is 0,0 to 5,5, and our</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">;; rover starts at 0,0, facing East. This sequence will</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">;; drive us off-grid:</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>((<span class="kw">comp</span> M M M M M M M R M M M M M M M L)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a> {<span class="at">:x</span> <span class="dv">0</span> <span class="at">:y</span> <span class="dv">0</span> <span class="at">:d</span> <span class="at">:E</span>})</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Say our given area of operation is 0,0 to 5,5, and our</span></span>
+<span id="cb8-2"><a href="#cb8-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; rover starts at 0,0, facing East. This sequence will</span></span>
+<span id="cb8-3"><a href="#cb8-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; drive us off-grid:</span></span>
+<span id="cb8-4"><a href="#cb8-4" target="_self" aria-hidden="true" tabindex="-1"></a>((<span class="kw">comp</span> M M M M M M M R M M M M M M M L)</span>
+<span id="cb8-5"><a href="#cb8-5" target="_self" aria-hidden="true" tabindex="-1"></a> {<span class="at">:x</span> <span class="dv">0</span> <span class="at">:y</span> <span class="dv">0</span> <span class="at">:d</span> <span class="at">:E</span>})</span></code></pre></div>
 <p>Well one answer is to <em>throw</em> or <em>panic</em> when we see the badness. A nicer answer is to <em>stay put</em>. Do nothing. Nada. One way to say "nothing" is to clip all out-of-bounds calculations to the edges of the grid.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> clip-to-bounds</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Clip the given position to at most the boundary of</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  the given max/min x,y coordinates of operation.&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:keys</span> [max-x max-y min-x min-y]</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">:or</span> {min-x <span class="dv">0</span> min-y <span class="dv">0</span>} <span class="at">:as</span> _bounds}</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:keys</span> [x y] <span class="at">:as</span> position}]</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">assoc</span> position</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">:x</span> (<span class="kw">min</span> (<span class="kw">max</span> min-x x) max-x)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">:y</span> (<span class="kw">min</span> (<span class="kw">max</span> min-y y) max-y)))</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">0</span> <span class="at">:y</span> <span class="dv">6</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 0, :y 5, :d :N}</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> -<span class="dv">1</span> <span class="at">:y</span> <span class="dv">6</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 0, :y 5, :d :N}</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">6</span> <span class="at">:y</span> <span class="dv">0</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 0, :d :N}</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">6</span> <span class="at">:y</span> -<span class="dv">1</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 0, :d :N}</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">6</span> <span class="at">:y</span> <span class="dv">6</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 5, :d :N}</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>                  ((<span class="kw">comp</span> M M M M M M M R M M M M M M M L)</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                   {<span class="at">:x</span> <span class="dv">0</span> <span class="at">:y</span> <span class="dv">0</span> <span class="at">:d</span> <span class="at">:E</span>}))</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 5, :d :E}</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> clip-to-bounds</span></span>
+<span id="cb9-2"><a href="#cb9-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Clip the given position to at most the boundary of</span></span>
+<span id="cb9-3"><a href="#cb9-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">  the given max/min x,y coordinates of operation.&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" target="_self" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:keys</span> [max-x max-y min-x min-y]</span>
+<span id="cb9-5"><a href="#cb9-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:or</span> {min-x <span class="dv">0</span> min-y <span class="dv">0</span>} <span class="at">:as</span> _bounds}</span>
+<span id="cb9-6"><a href="#cb9-6" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:keys</span> [x y] <span class="at">:as</span> position}]</span>
+<span id="cb9-7"><a href="#cb9-7" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">assoc</span> position</span>
+<span id="cb9-8"><a href="#cb9-8" target="_self" aria-hidden="true" tabindex="-1"></a>         <span class="at">:x</span> (<span class="kw">min</span> (<span class="kw">max</span> min-x x) max-x)</span>
+<span id="cb9-9"><a href="#cb9-9" target="_self" aria-hidden="true" tabindex="-1"></a>         <span class="at">:y</span> (<span class="kw">min</span> (<span class="kw">max</span> min-y y) max-y)))</span>
+<span id="cb9-10"><a href="#cb9-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb9-12"><a href="#cb9-12" target="_self" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb9-13"><a href="#cb9-13" target="_self" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">0</span> <span class="at">:y</span> <span class="dv">6</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb9-14"><a href="#cb9-14" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 0, :y 5, :d :N}</span></span>
+<span id="cb9-15"><a href="#cb9-15" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" target="_self" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb9-17"><a href="#cb9-17" target="_self" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> -<span class="dv">1</span> <span class="at">:y</span> <span class="dv">6</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb9-18"><a href="#cb9-18" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 0, :y 5, :d :N}</span></span>
+<span id="cb9-19"><a href="#cb9-19" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" target="_self" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb9-21"><a href="#cb9-21" target="_self" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">6</span> <span class="at">:y</span> <span class="dv">0</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb9-22"><a href="#cb9-22" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 0, :d :N}</span></span>
+<span id="cb9-23"><a href="#cb9-23" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" target="_self" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb9-25"><a href="#cb9-25" target="_self" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">6</span> <span class="at">:y</span> -<span class="dv">1</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb9-26"><a href="#cb9-26" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 0, :d :N}</span></span>
+<span id="cb9-27"><a href="#cb9-27" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" target="_self" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb9-29"><a href="#cb9-29" target="_self" aria-hidden="true" tabindex="-1"></a>                  {<span class="at">:x</span> <span class="dv">6</span> <span class="at">:y</span> <span class="dv">6</span> <span class="at">:d</span> <span class="at">:N</span>})</span>
+<span id="cb9-30"><a href="#cb9-30" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 5, :d :N}</span></span>
+<span id="cb9-31"><a href="#cb9-31" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" target="_self" aria-hidden="true" tabindex="-1"></a>  (clip-to-bounds {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb9-33"><a href="#cb9-33" target="_self" aria-hidden="true" tabindex="-1"></a>                  ((<span class="kw">comp</span> M M M M M M M R M M M M M M M L)</span>
+<span id="cb9-34"><a href="#cb9-34" target="_self" aria-hidden="true" tabindex="-1"></a>                   {<span class="at">:x</span> <span class="dv">0</span> <span class="at">:y</span> <span class="dv">0</span> <span class="at">:d</span> <span class="at">:E</span>}))</span>
+<span id="cb9-35"><a href="#cb9-35" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 5, :y 5, :d :E}</span></span>
+<span id="cb9-36"><a href="#cb9-36" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h2 id="move-safely-around-other-rovers-and-sundry-insurmountable-objects">Move Safely Around Other Rovers and Sundry Insurmountable Objects</h2>
 <p>We will just ignore collision detection.</p>
 <p>Our rovers are dumb and only follow outside instructions on a pre-planned route. So if mission control botches it, well, we will probably end up with <em>far</em> fewer rovers and maybe no mission to control anymore.</p>
@@ -400,51 +400,51 @@ The core problem is defined as:
 <p>So the job is to update the <code>{:x X :y Y :d D} position</code> in some way (or not).</p>
 <p>We could potentially get unknown or garbled commands. In which case the sanest thing to do may be do nothing. Stay put. We also want to make sure we are always within <code>xy-bounds</code>.</p>
 <p>We can express it like this:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmulti</span><span class="fu"> command-interpreter</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return updated position given a known set of commands,</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">  or current position given unknown commands.&quot;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [xy-bounds position command]</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    command))</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:L</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  (L position))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:R</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  (R position))</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:M</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;&gt;</span> position</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>       M</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>       (clip-to-bounds xy-bounds)))</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:default</span></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  position)</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:M</span>)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 4, :d :N}</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:L</span>)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 3, :d :W}</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:R</span>)</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 3, :d :E}</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:LOL</span>)</span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 3, :d :N}</span></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmulti</span><span class="fu"> command-interpreter</span></span>
+<span id="cb10-2"><a href="#cb10-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Return updated position given a known set of commands,</span></span>
+<span id="cb10-3"><a href="#cb10-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">  or current position given unknown commands.&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">fn</span> [xy-bounds position command]</span>
+<span id="cb10-5"><a href="#cb10-5" target="_self" aria-hidden="true" tabindex="-1"></a>    command))</span>
+<span id="cb10-6"><a href="#cb10-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:L</span></span>
+<span id="cb10-8"><a href="#cb10-8" target="_self" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
+<span id="cb10-9"><a href="#cb10-9" target="_self" aria-hidden="true" tabindex="-1"></a>  (L position))</span>
+<span id="cb10-10"><a href="#cb10-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:R</span></span>
+<span id="cb10-12"><a href="#cb10-12" target="_self" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
+<span id="cb10-13"><a href="#cb10-13" target="_self" aria-hidden="true" tabindex="-1"></a>  (R position))</span>
+<span id="cb10-14"><a href="#cb10-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:M</span></span>
+<span id="cb10-16"><a href="#cb10-16" target="_self" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
+<span id="cb10-17"><a href="#cb10-17" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">-&gt;&gt;</span> position</span>
+<span id="cb10-18"><a href="#cb10-18" target="_self" aria-hidden="true" tabindex="-1"></a>       M</span>
+<span id="cb10-19"><a href="#cb10-19" target="_self" aria-hidden="true" tabindex="-1"></a>       (clip-to-bounds xy-bounds)))</span>
+<span id="cb10-20"><a href="#cb10-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defmethod</span><span class="fu"> command-interpreter </span><span class="at">:default</span></span>
+<span id="cb10-22"><a href="#cb10-22" target="_self" aria-hidden="true" tabindex="-1"></a>  [xy-bounds position command]</span>
+<span id="cb10-23"><a href="#cb10-23" target="_self" aria-hidden="true" tabindex="-1"></a>  position)</span>
+<span id="cb10-24"><a href="#cb10-24" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb10-26"><a href="#cb10-26" target="_self" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb10-27"><a href="#cb10-27" target="_self" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
+<span id="cb10-28"><a href="#cb10-28" target="_self" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:M</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 4, :d :N}</span></span>
+<span id="cb10-30"><a href="#cb10-30" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" target="_self" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb10-32"><a href="#cb10-32" target="_self" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
+<span id="cb10-33"><a href="#cb10-33" target="_self" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:L</span>)</span>
+<span id="cb10-34"><a href="#cb10-34" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 3, :d :W}</span></span>
+<span id="cb10-35"><a href="#cb10-35" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" target="_self" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb10-37"><a href="#cb10-37" target="_self" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
+<span id="cb10-38"><a href="#cb10-38" target="_self" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:R</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 3, :d :E}</span></span>
+<span id="cb10-40"><a href="#cb10-40" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-41"><a href="#cb10-41" target="_self" aria-hidden="true" tabindex="-1"></a>  (command-interpreter {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb10-42"><a href="#cb10-42" target="_self" aria-hidden="true" tabindex="-1"></a>                       {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
+<span id="cb10-43"><a href="#cb10-43" target="_self" aria-hidden="true" tabindex="-1"></a>                       <span class="at">:LOL</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; {:x 1, :y 3, :d :N}</span></span>
+<span id="cb10-45"><a href="#cb10-45" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h1 id="move-4-can-we-pretty-please-move-the-rover-already">Move 4: Can we pretty please move the rover already?</h1>
 <p>Ok it seems we can calculate updated position. Now can we move the rover?</p>
 <p>Arguably, this is a decent place to implement movement, but that means changing the state of the world (moving the rover on the planet). Whenever Clojurists sense the prospect of state and mutation, we head back to our hammocks and ask ourselves if we can turn state into data.</p>
@@ -454,165 +454,165 @@ The core problem is defined as:
 <li>Happily, we also get back some safety: a chance to do collision avoidance (not detection), by comparing plans across rovers.</li>
 <li>Further, we can also ensure the locally-calculated plan obeys some ground rules (pun-intended), like <em>"Each position must differ from its predecessor in <strong>exactly</strong> one dimension; <code>:x</code>, or <code>:y</code>, or <code>:d</code>. If it differs in any</em> <em>other way, abort, because it means something is wrong. Either a command failed to arrive in the transmit sequence, or a bug has occurred onboard."</em>.</li>
 </ol>
-<div class="sourceCode" id="cb11"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> calculate-path</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:keys</span> [xy-bounds start-pos commands]}]</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  (reductions (<span class="kw">partial</span> command-interpreter xy-bounds)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>              start-pos</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>              commands))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  (calculate-path</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:xy-bounds</span> {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">:start-pos</span> {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">2</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">:commands</span> [<span class="at">:L</span> <span class="at">:M</span> <span class="at">:L</span> <span class="at">:M</span> <span class="at">:L</span> <span class="at">:M</span> <span class="at">:L</span> <span class="at">:M</span> <span class="at">:M</span>]})</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; ({:x 1, :y 2, :d :N}</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 2, :d :W}</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 2, :d :W}</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 2, :d :S}</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 1, :d :S}</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 1, :d :E}</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 1, :d :E}</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 1, :d :N}</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 2, :d :N}</span></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 3, :d :N})</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  (calculate-path</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:xy-bounds</span> {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">:start-pos</span> {<span class="at">:x</span> <span class="dv">3</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:E</span>}</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">:commands</span> [<span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:R</span> <span class="at">:M</span>]})</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; ({:x 3, :y 3, :d :E}</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 3, :d :E}</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 3, :d :E}</span></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 3, :d :S}</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 2, :d :S}</span></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 1, :d :S}</span></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 1, :d :W}</span></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 1, :d :W}</span></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 1, :d :N}</span></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 1, :d :E}</span></span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 1, :d :E})</span></span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb11-1"><a href="#cb11-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> calculate-path</span></span>
+<span id="cb11-2"><a href="#cb11-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [{<span class="at">:keys</span> [xy-bounds start-pos commands]}]</span>
+<span id="cb11-3"><a href="#cb11-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (reductions (<span class="kw">partial</span> command-interpreter xy-bounds)</span>
+<span id="cb11-4"><a href="#cb11-4" target="_self" aria-hidden="true" tabindex="-1"></a>              start-pos</span>
+<span id="cb11-5"><a href="#cb11-5" target="_self" aria-hidden="true" tabindex="-1"></a>              commands))</span>
+<span id="cb11-6"><a href="#cb11-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb11-8"><a href="#cb11-8" target="_self" aria-hidden="true" tabindex="-1"></a>  (calculate-path</span>
+<span id="cb11-9"><a href="#cb11-9" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:xy-bounds</span> {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb11-10"><a href="#cb11-10" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:start-pos</span> {<span class="at">:x</span> <span class="dv">1</span> <span class="at">:y</span> <span class="dv">2</span> <span class="at">:d</span> <span class="at">:N</span>}</span>
+<span id="cb11-11"><a href="#cb11-11" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:commands</span> [<span class="at">:L</span> <span class="at">:M</span> <span class="at">:L</span> <span class="at">:M</span> <span class="at">:L</span> <span class="at">:M</span> <span class="at">:L</span> <span class="at">:M</span> <span class="at">:M</span>]})</span>
+<span id="cb11-12"><a href="#cb11-12" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; ({:x 1, :y 2, :d :N}</span></span>
+<span id="cb11-13"><a href="#cb11-13" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 2, :d :W}</span></span>
+<span id="cb11-14"><a href="#cb11-14" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 2, :d :W}</span></span>
+<span id="cb11-15"><a href="#cb11-15" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 2, :d :S}</span></span>
+<span id="cb11-16"><a href="#cb11-16" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 1, :d :S}</span></span>
+<span id="cb11-17"><a href="#cb11-17" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 0, :y 1, :d :E}</span></span>
+<span id="cb11-18"><a href="#cb11-18" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 1, :d :E}</span></span>
+<span id="cb11-19"><a href="#cb11-19" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 1, :d :N}</span></span>
+<span id="cb11-20"><a href="#cb11-20" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 2, :d :N}</span></span>
+<span id="cb11-21"><a href="#cb11-21" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 1, :y 3, :d :N})</span></span>
+<span id="cb11-22"><a href="#cb11-22" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" target="_self" aria-hidden="true" tabindex="-1"></a>  (calculate-path</span>
+<span id="cb11-24"><a href="#cb11-24" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:xy-bounds</span> {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb11-25"><a href="#cb11-25" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:start-pos</span> {<span class="at">:x</span> <span class="dv">3</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:E</span>}</span>
+<span id="cb11-26"><a href="#cb11-26" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:commands</span> [<span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:R</span> <span class="at">:M</span>]})</span>
+<span id="cb11-27"><a href="#cb11-27" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; ({:x 3, :y 3, :d :E}</span></span>
+<span id="cb11-28"><a href="#cb11-28" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 3, :d :E}</span></span>
+<span id="cb11-29"><a href="#cb11-29" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 3, :d :E}</span></span>
+<span id="cb11-30"><a href="#cb11-30" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 3, :d :S}</span></span>
+<span id="cb11-31"><a href="#cb11-31" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 2, :d :S}</span></span>
+<span id="cb11-32"><a href="#cb11-32" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 1, :d :S}</span></span>
+<span id="cb11-33"><a href="#cb11-33" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 1, :d :W}</span></span>
+<span id="cb11-34"><a href="#cb11-34" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 1, :d :W}</span></span>
+<span id="cb11-35"><a href="#cb11-35" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 1, :d :N}</span></span>
+<span id="cb11-36"><a href="#cb11-36" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 4, :y 1, :d :E}</span></span>
+<span id="cb11-37"><a href="#cb11-37" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;;     {:x 5, :y 1, :d :E})</span></span>
+<span id="cb11-38"><a href="#cb11-38" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h1 id="move-5-ok-now-we-can-move-it.">Move 5: Ok, <em>now</em> we can move it.</h1>
 <p>Or more like model the motion of the rover, because I don't know systems programming :D</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> rover-one</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  ^{<span class="at">:doc</span> <span class="do">&quot;A rover contains information about mission</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">objectives... where it was, what it&#39;s been told to do,</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">where it&#39;s headed, where it&#39;s allowed to operate etc.&quot;</span>}</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">atom</span> {<span class="at">:xy-bounds</span> <span class="va">nil</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">:start-pos</span> <span class="va">nil</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">:commands</span> <span class="va">nil</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">:path</span> <span class="va">nil</span>}))</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> init-rover!</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Initialise rover with info. about its current mission,</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">  viz. bounds of operation, start location, and full path</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="st">  to traverse.&quot;</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  [rover</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:keys</span> [xy-bounds start-pos commands]</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">:as</span> rover-plan}]</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reset!</span> rover</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>          {<span class="at">:xy-bounds</span> xy-bounds</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">:start-pos</span> start-pos</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">:commands</span> commands</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">:path</span> (calculate-path rover-plan)}))</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> advance-rover!</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Keep moving the rover along the calculated path sequence until</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="st">      no more path remains. The path reduces as the rover advances.&quot;</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  [rover]</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [pos-before-move (<span class="kw">first</span> (<span class="at">:path</span> <span class="at">@rover</span>))]</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">swap!</span> rover</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>           <span class="kw">update</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>           <span class="at">:path</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>           <span class="kw">rest</span>)</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">println</span> <span class="st">&quot;Rover moved from&quot;</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>             pos-before-move</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;to&quot;</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">first</span> (<span class="at">:path</span> <span class="at">@rover</span>)))))</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  (init-rover! rover-one</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>               {<span class="at">:xy-bounds</span> {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>                <span class="at">:start-pos</span> {<span class="at">:x</span> <span class="dv">3</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:E</span>}</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>                <span class="at">:commands</span> [<span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:R</span> <span class="at">:M</span>]})</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>  (advance-rover! rover-one)</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb12-1"><a href="#cb12-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> rover-one</span></span>
+<span id="cb12-2"><a href="#cb12-2" target="_self" aria-hidden="true" tabindex="-1"></a>  ^{<span class="at">:doc</span> <span class="do">&quot;A rover contains information about mission</span></span>
+<span id="cb12-3"><a href="#cb12-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="do">objectives... where it was, what it&#39;s been told to do,</span></span>
+<span id="cb12-4"><a href="#cb12-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="do">where it&#39;s headed, where it&#39;s allowed to operate etc.&quot;</span>}</span>
+<span id="cb12-5"><a href="#cb12-5" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">atom</span> {<span class="at">:xy-bounds</span> <span class="va">nil</span></span>
+<span id="cb12-6"><a href="#cb12-6" target="_self" aria-hidden="true" tabindex="-1"></a>         <span class="at">:start-pos</span> <span class="va">nil</span></span>
+<span id="cb12-7"><a href="#cb12-7" target="_self" aria-hidden="true" tabindex="-1"></a>         <span class="at">:commands</span> <span class="va">nil</span></span>
+<span id="cb12-8"><a href="#cb12-8" target="_self" aria-hidden="true" tabindex="-1"></a>         <span class="at">:path</span> <span class="va">nil</span>}))</span>
+<span id="cb12-9"><a href="#cb12-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> init-rover!</span></span>
+<span id="cb12-11"><a href="#cb12-11" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Initialise rover with info. about its current mission,</span></span>
+<span id="cb12-12"><a href="#cb12-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">  viz. bounds of operation, start location, and full path</span></span>
+<span id="cb12-13"><a href="#cb12-13" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">  to traverse.&quot;</span></span>
+<span id="cb12-14"><a href="#cb12-14" target="_self" aria-hidden="true" tabindex="-1"></a>  [rover</span>
+<span id="cb12-15"><a href="#cb12-15" target="_self" aria-hidden="true" tabindex="-1"></a>   {<span class="at">:keys</span> [xy-bounds start-pos commands]</span>
+<span id="cb12-16"><a href="#cb12-16" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="at">:as</span> rover-plan}]</span>
+<span id="cb12-17"><a href="#cb12-17" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reset!</span> rover</span>
+<span id="cb12-18"><a href="#cb12-18" target="_self" aria-hidden="true" tabindex="-1"></a>          {<span class="at">:xy-bounds</span> xy-bounds</span>
+<span id="cb12-19"><a href="#cb12-19" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="at">:start-pos</span> start-pos</span>
+<span id="cb12-20"><a href="#cb12-20" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="at">:commands</span> commands</span>
+<span id="cb12-21"><a href="#cb12-21" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="at">:path</span> (calculate-path rover-plan)}))</span>
+<span id="cb12-22"><a href="#cb12-22" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> advance-rover!</span></span>
+<span id="cb12-24"><a href="#cb12-24" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Keep moving the rover along the calculated path sequence until</span></span>
+<span id="cb12-25"><a href="#cb12-25" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">      no more path remains. The path reduces as the rover advances.&quot;</span></span>
+<span id="cb12-26"><a href="#cb12-26" target="_self" aria-hidden="true" tabindex="-1"></a>  [rover]</span>
+<span id="cb12-27"><a href="#cb12-27" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [pos-before-move (<span class="kw">first</span> (<span class="at">:path</span> <span class="at">@rover</span>))]</span>
+<span id="cb12-28"><a href="#cb12-28" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">swap!</span> rover</span>
+<span id="cb12-29"><a href="#cb12-29" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="kw">update</span></span>
+<span id="cb12-30"><a href="#cb12-30" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="at">:path</span></span>
+<span id="cb12-31"><a href="#cb12-31" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="kw">rest</span>)</span>
+<span id="cb12-32"><a href="#cb12-32" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">println</span> <span class="st">&quot;Rover moved from&quot;</span></span>
+<span id="cb12-33"><a href="#cb12-33" target="_self" aria-hidden="true" tabindex="-1"></a>             pos-before-move</span>
+<span id="cb12-34"><a href="#cb12-34" target="_self" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;to&quot;</span></span>
+<span id="cb12-35"><a href="#cb12-35" target="_self" aria-hidden="true" tabindex="-1"></a>             (<span class="kw">first</span> (<span class="at">:path</span> <span class="at">@rover</span>)))))</span>
+<span id="cb12-36"><a href="#cb12-36" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-37"><a href="#cb12-37" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb12-38"><a href="#cb12-38" target="_self" aria-hidden="true" tabindex="-1"></a>  (init-rover! rover-one</span>
+<span id="cb12-39"><a href="#cb12-39" target="_self" aria-hidden="true" tabindex="-1"></a>               {<span class="at">:xy-bounds</span> {<span class="at">:max-x</span> <span class="dv">5</span> <span class="at">:max-y</span> <span class="dv">5</span>}</span>
+<span id="cb12-40"><a href="#cb12-40" target="_self" aria-hidden="true" tabindex="-1"></a>                <span class="at">:start-pos</span> {<span class="at">:x</span> <span class="dv">3</span> <span class="at">:y</span> <span class="dv">3</span> <span class="at">:d</span> <span class="at">:E</span>}</span>
+<span id="cb12-41"><a href="#cb12-41" target="_self" aria-hidden="true" tabindex="-1"></a>                <span class="at">:commands</span> [<span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:M</span> <span class="at">:R</span> <span class="at">:R</span> <span class="at">:M</span>]})</span>
+<span id="cb12-42"><a href="#cb12-42" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" target="_self" aria-hidden="true" tabindex="-1"></a>  (advance-rover! rover-one)</span>
+<span id="cb12-44"><a href="#cb12-44" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h1 id="finally-imperative-shell-to-parse-incoming-signal">Finally: "Imperative shell" to parse incoming signal</h1>
 <p>By now, I hope you're sold on the idea that parsing is incidental complexity.</p>
 <p>Seasoned programmers will recognise the usual icky, tricky, finicky code that must absorb the insanity of data inbound from the wild. Someone has to do it. Might as well be us. There are many ways to do it. Here is one way.</p>
 <p>That said, even though we have to do I/O, the general technique is to solve small pieces of the problem <em>ideally as pure functions</em>, and compose them into the full solution. Stave off actual state management or I/O to the very end.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-max-bounds</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  [max-bounds-line]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [[x y] (clojure.string/split max-bounds-line</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                    <span class="ss">#&quot;\s+&quot;</span>)]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:max-x</span> (Integer/parseInt x)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">:max-y</span> (Integer/parseInt y)}))</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-start-position</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  [start-position-line]</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [[x y d] (clojure.string/split start-position-line</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                                      <span class="ss">#&quot;\s+&quot;</span>)]</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:x</span> (Integer/parseInt x)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">:y</span> (Integer/parseInt y)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">:d</span> (<span class="kw">keyword</span> d)}))</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-commands-line</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  [commands-line]</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">map</span> (<span class="kw">comp</span> <span class="kw">keyword</span> <span class="kw">str</span>)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>       commands-line))</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-command-input</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  [[start-position-raw commands-raw]]</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:start-pos</span> (parse-start-position start-position-raw)</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>   <span class="at">:commands</span> (parse-commands-line commands-raw)})</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> ingest-command-data</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  [command-data-file]</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [raw-data (<span class="kw">-&gt;&gt;</span> command-data-file</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>                      <span class="kw">slurp</span></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>                      clojure.string/split-lines</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">mapv</span> clojure.string/trim))</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        max-xy-bounds (parse-max-bounds (<span class="kw">first</span> raw-data))</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        xy-bounds (<span class="kw">assoc</span> max-xy-bounds</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>                         <span class="at">:min-x</span> <span class="dv">0</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>                         <span class="at">:min-y</span> <span class="dv">0</span>)</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        start-pos-commands-pairs-raw (<span class="kw">partition</span> <span class="dv">2</span> (<span class="kw">rest</span> raw-data))]</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">map</span> (<span class="kw">fn</span> [[start-position-raw commands-raw]]</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>           {<span class="at">:start-pos</span> (parse-start-position start-position-raw)</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>            <span class="at">:commands</span> (parse-commands-line commands-raw)</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>            <span class="at">:xy-bounds</span> xy-bounds})</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>         start-pos-commands-pairs-raw)))</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Test Input, as per problem statement:</span></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 5 5</span></span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 1 2 N</span></span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; LMLMLMLMM</span></span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 3 3 E</span></span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; MMRMMRMRRM</span></span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Expected Output:</span></span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 1 3 N</span></span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 5 1 E</span></span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [_ (spit <span class="st">&quot;rover-commands.txt&quot;</span></span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;5 5</span></span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="st">            1 2 N</span></span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="st">            LMLMLMLMM</span></span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="st">            3 3 E</span></span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a><span class="st">            MMRMMRMRRM&quot;</span>)</span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>        input-command-data (ingest-command-data <span class="st">&quot;rover-commands.txt&quot;</span>)</span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>        final-position-as-str (<span class="kw">comp</span> (<span class="kw">partial</span> clojure.string/join <span class="st">&quot; &quot;</span>)</span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>                                    (<span class="kw">juxt</span> <span class="at">:x</span> <span class="at">:y</span> (<span class="kw">comp</span> <span class="kw">name</span> <span class="at">:d</span>))</span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>                                    <span class="kw">last</span></span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>                                    calculate-path)]</span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">map</span> final-position-as-str</span>
-<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>         input-command-data))</span>
-<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; (&quot;1 3 N&quot; &quot;5 1 E&quot;)</span></span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb13-1"><a href="#cb13-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-max-bounds</span></span>
+<span id="cb13-2"><a href="#cb13-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [max-bounds-line]</span>
+<span id="cb13-3"><a href="#cb13-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [[x y] (clojure.string/split max-bounds-line</span>
+<span id="cb13-4"><a href="#cb13-4" target="_self" aria-hidden="true" tabindex="-1"></a>                                    <span class="ss">#&quot;\s+&quot;</span>)]</span>
+<span id="cb13-5"><a href="#cb13-5" target="_self" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:max-x</span> (Integer/parseInt x)</span>
+<span id="cb13-6"><a href="#cb13-6" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:max-y</span> (Integer/parseInt y)}))</span>
+<span id="cb13-7"><a href="#cb13-7" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-start-position</span></span>
+<span id="cb13-9"><a href="#cb13-9" target="_self" aria-hidden="true" tabindex="-1"></a>  [start-position-line]</span>
+<span id="cb13-10"><a href="#cb13-10" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [[x y d] (clojure.string/split start-position-line</span>
+<span id="cb13-11"><a href="#cb13-11" target="_self" aria-hidden="true" tabindex="-1"></a>                                      <span class="ss">#&quot;\s+&quot;</span>)]</span>
+<span id="cb13-12"><a href="#cb13-12" target="_self" aria-hidden="true" tabindex="-1"></a>    {<span class="at">:x</span> (Integer/parseInt x)</span>
+<span id="cb13-13"><a href="#cb13-13" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:y</span> (Integer/parseInt y)</span>
+<span id="cb13-14"><a href="#cb13-14" target="_self" aria-hidden="true" tabindex="-1"></a>     <span class="at">:d</span> (<span class="kw">keyword</span> d)}))</span>
+<span id="cb13-15"><a href="#cb13-15" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-commands-line</span></span>
+<span id="cb13-17"><a href="#cb13-17" target="_self" aria-hidden="true" tabindex="-1"></a>  [commands-line]</span>
+<span id="cb13-18"><a href="#cb13-18" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">map</span> (<span class="kw">comp</span> <span class="kw">keyword</span> <span class="kw">str</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" target="_self" aria-hidden="true" tabindex="-1"></a>       commands-line))</span>
+<span id="cb13-20"><a href="#cb13-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> parse-command-input</span></span>
+<span id="cb13-22"><a href="#cb13-22" target="_self" aria-hidden="true" tabindex="-1"></a>  [[start-position-raw commands-raw]]</span>
+<span id="cb13-23"><a href="#cb13-23" target="_self" aria-hidden="true" tabindex="-1"></a>  {<span class="at">:start-pos</span> (parse-start-position start-position-raw)</span>
+<span id="cb13-24"><a href="#cb13-24" target="_self" aria-hidden="true" tabindex="-1"></a>   <span class="at">:commands</span> (parse-commands-line commands-raw)})</span>
+<span id="cb13-25"><a href="#cb13-25" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> ingest-command-data</span></span>
+<span id="cb13-27"><a href="#cb13-27" target="_self" aria-hidden="true" tabindex="-1"></a>  [command-data-file]</span>
+<span id="cb13-28"><a href="#cb13-28" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [raw-data (<span class="kw">-&gt;&gt;</span> command-data-file</span>
+<span id="cb13-29"><a href="#cb13-29" target="_self" aria-hidden="true" tabindex="-1"></a>                      <span class="kw">slurp</span></span>
+<span id="cb13-30"><a href="#cb13-30" target="_self" aria-hidden="true" tabindex="-1"></a>                      clojure.string/split-lines</span>
+<span id="cb13-31"><a href="#cb13-31" target="_self" aria-hidden="true" tabindex="-1"></a>                      (<span class="kw">mapv</span> clojure.string/trim))</span>
+<span id="cb13-32"><a href="#cb13-32" target="_self" aria-hidden="true" tabindex="-1"></a>        max-xy-bounds (parse-max-bounds (<span class="kw">first</span> raw-data))</span>
+<span id="cb13-33"><a href="#cb13-33" target="_self" aria-hidden="true" tabindex="-1"></a>        xy-bounds (<span class="kw">assoc</span> max-xy-bounds</span>
+<span id="cb13-34"><a href="#cb13-34" target="_self" aria-hidden="true" tabindex="-1"></a>                         <span class="at">:min-x</span> <span class="dv">0</span></span>
+<span id="cb13-35"><a href="#cb13-35" target="_self" aria-hidden="true" tabindex="-1"></a>                         <span class="at">:min-y</span> <span class="dv">0</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" target="_self" aria-hidden="true" tabindex="-1"></a>        start-pos-commands-pairs-raw (<span class="kw">partition</span> <span class="dv">2</span> (<span class="kw">rest</span> raw-data))]</span>
+<span id="cb13-37"><a href="#cb13-37" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">map</span> (<span class="kw">fn</span> [[start-position-raw commands-raw]]</span>
+<span id="cb13-38"><a href="#cb13-38" target="_self" aria-hidden="true" tabindex="-1"></a>           {<span class="at">:start-pos</span> (parse-start-position start-position-raw)</span>
+<span id="cb13-39"><a href="#cb13-39" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:commands</span> (parse-commands-line commands-raw)</span>
+<span id="cb13-40"><a href="#cb13-40" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="at">:xy-bounds</span> xy-bounds})</span>
+<span id="cb13-41"><a href="#cb13-41" target="_self" aria-hidden="true" tabindex="-1"></a>         start-pos-commands-pairs-raw)))</span>
+<span id="cb13-42"><a href="#cb13-42" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">comment</span></span>
+<span id="cb13-44"><a href="#cb13-44" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Test Input, as per problem statement:</span></span>
+<span id="cb13-45"><a href="#cb13-45" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 5 5</span></span>
+<span id="cb13-47"><a href="#cb13-47" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 1 2 N</span></span>
+<span id="cb13-48"><a href="#cb13-48" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; LMLMLMLMM</span></span>
+<span id="cb13-49"><a href="#cb13-49" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 3 3 E</span></span>
+<span id="cb13-50"><a href="#cb13-50" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; MMRMMRMRRM</span></span>
+<span id="cb13-51"><a href="#cb13-51" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-52"><a href="#cb13-52" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; Expected Output:</span></span>
+<span id="cb13-53"><a href="#cb13-53" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-54"><a href="#cb13-54" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 1 3 N</span></span>
+<span id="cb13-55"><a href="#cb13-55" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; 5 1 E</span></span>
+<span id="cb13-56"><a href="#cb13-56" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-57"><a href="#cb13-57" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">let</span> [_ (spit <span class="st">&quot;rover-commands.txt&quot;</span></span>
+<span id="cb13-58"><a href="#cb13-58" target="_self" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;5 5</span></span>
+<span id="cb13-59"><a href="#cb13-59" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">            1 2 N</span></span>
+<span id="cb13-60"><a href="#cb13-60" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">            LMLMLMLMM</span></span>
+<span id="cb13-61"><a href="#cb13-61" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">            3 3 E</span></span>
+<span id="cb13-62"><a href="#cb13-62" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">            MMRMMRMRRM&quot;</span>)</span>
+<span id="cb13-63"><a href="#cb13-63" target="_self" aria-hidden="true" tabindex="-1"></a>        input-command-data (ingest-command-data <span class="st">&quot;rover-commands.txt&quot;</span>)</span>
+<span id="cb13-64"><a href="#cb13-64" target="_self" aria-hidden="true" tabindex="-1"></a>        final-position-as-str (<span class="kw">comp</span> (<span class="kw">partial</span> clojure.string/join <span class="st">&quot; &quot;</span>)</span>
+<span id="cb13-65"><a href="#cb13-65" target="_self" aria-hidden="true" tabindex="-1"></a>                                    (<span class="kw">juxt</span> <span class="at">:x</span> <span class="at">:y</span> (<span class="kw">comp</span> <span class="kw">name</span> <span class="at">:d</span>))</span>
+<span id="cb13-66"><a href="#cb13-66" target="_self" aria-hidden="true" tabindex="-1"></a>                                    <span class="kw">last</span></span>
+<span id="cb13-67"><a href="#cb13-67" target="_self" aria-hidden="true" tabindex="-1"></a>                                    calculate-path)]</span>
+<span id="cb13-68"><a href="#cb13-68" target="_self" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">map</span> final-position-as-str</span>
+<span id="cb13-69"><a href="#cb13-69" target="_self" aria-hidden="true" tabindex="-1"></a>         input-command-data))</span>
+<span id="cb13-70"><a href="#cb13-70" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="co">;; =&gt; (&quot;1 3 N&quot; &quot;5 1 E&quot;)</span></span>
+<span id="cb13-71"><a href="#cb13-71" target="_self" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <h1 id="recap">Recap</h1>
 <p>The complete code at one go…</p>
 <script src="https://gist.github.com/adityaathalye/cefe71a5cd5b729102d6adfcd7a6ab77.js"></script>

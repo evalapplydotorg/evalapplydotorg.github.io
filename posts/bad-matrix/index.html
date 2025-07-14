@@ -170,70 +170,70 @@ st at&#39;hmore likei t
 <p>Yours truly contributed their very forgettable version of <em>bad print</em>. Which is why it does not feature here. <em>However</em> for equally forgettable reasons — a large volume of coffee may have been involved — in a fit of wild fancy, that guy flew off on a completely uncalled for tangent and brought forth <em>Bad Matrix</em>. And this guy is not one to shy away from nerdsniping you into code riffing your own bad whatever.</p>
 <p>So here it is — <em>Bad Matrix</em> as a function — copied below in its entirety to enjoy safely in your own home, in your own jammies, in your own terminal emulator.</p>
 <h1 id="bad-matrix-1">Bad Matrix</h1>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bad_matrix()</span> <span class="kw">{</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">cols</span><span class="op">=</span><span class="va">$(</span><span class="fu">tput</span> cols<span class="va">)</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">rows</span><span class="op">=</span><span class="va">$(</span><span class="fu">tput</span> lines<span class="va">)</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__parse_chars()</span> <span class="kw">{</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">LANG</span><span class="op">=</span><span class="st">&quot;en_US.UTF-8&quot;</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&#39;s/\(.\)/\1\n/g&#39;</span> <span class="kw">&amp;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__maybe_dim()</span> <span class="kw">{</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="dv">3</span> <span class="va">))</span> <span class="ot">==</span> 0 <span class="kw">]]</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="fu">tput</span> dim</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="fu">tput</span> sgr0</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__colour_me_matrix()</span> <span class="kw">{</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="ex">__maybe_dim</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tput</span> setaf 2</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__maybe_goto_Y()</span> <span class="kw">{</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">y_pos</span><span class="op">=</span><span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="va">${rows}</span> <span class="va">))</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="dv">2</span> <span class="va">))</span> <span class="ot">==</span> 0 <span class="kw">]]</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="fu">tput</span> cup <span class="va">${y_pos}</span> 0</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__print_chars_slowly()</span> <span class="kw">{</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">read</span> <span class="va">char</span><span class="kw">;</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">do</span> <span class="bu">printf</span> <span class="st">&quot;%q&quot;</span> <span class="st">&quot;</span><span class="va">$char</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&#39;&#39;/ /g&quot;</span> <span class="kw">&amp;</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">done</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__inject_matrix()</span> <span class="kw">{</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">__hundred_common_kanji_apparently</span><span class="op">=</span><span class="st">&quot;日 一 大 年 中 会 人 本 月 長 国 出 上 十 生 子 分 東 三 行 同 今 高 金 時 手 見 市 力 米 自 前 円 合 立 内 二 事 社 者 地 京 間 田 体 学 下 目 五 後 新 明 方 部 .女 八 心 四 民 対 主 正 代 言 九 小 思 七 山 実 入 回 場 野 開 万 全 定 家 北 六 問 話 文 動 度 県 水 安 氏 和 政 保 表 道 相 意 発 不 党&quot;</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">__rand_chars</span><span class="op">=</span><span class="va">$((</span> <span class="dv">1</span> <span class="op">+</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="va">${cols}</span> <span class="va">))</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="dv">3</span> <span class="va">))</span> <span class="ot">==</span> 0 <span class="kw">]]</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="fu">tput</span> el</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="ex">__maybe_goto_Y</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>             <span class="ex">__colour_me_matrix</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>             <span class="bu">read</span> <span class="at">-n</span> <span class="va">${__rand_chars}</span> <span class="va">__character_fragment</span> <span class="op">&lt;&lt;&lt;</span><span class="va">${__hundred_common_kanji_apparently}</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>             <span class="cf">for</span> c <span class="kw">in</span> <span class="va">${__character_fragment}</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>             <span class="cf">do</span> <span class="fu">sleep</span> 0.05</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>                <span class="bu">printf</span> <span class="st">&quot;%s &quot;</span> <span class="st">&quot;</span><span class="va">${c}</span><span class="st">&quot;</span> <span class="op">&gt;</span> /dev/tty <span class="kw">&amp;</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>             <span class="cf">done</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__print_line_fragment()</span> <span class="kw">{</span></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">__rand_chars</span><span class="op">=</span><span class="va">$((</span> <span class="dv">1</span> <span class="op">+</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="va">${cols}</span> <span class="va">))</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">read</span> <span class="at">-n</span> <span class="va">${__rand_chars}</span> <span class="va">line</span> <span class="kw">;</span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">do</span> <span class="fu">sleep</span> 0.5</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>           <span class="ex">__maybe_goto_Y</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>           <span class="ex">__inject_matrix</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>           <span class="fu">tput</span> dim</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>           <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">$(</span> <span class="ex">__parse_chars</span> <span class="op">&lt;&lt;&lt;</span><span class="st">&quot;</span><span class="va">${line}</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">__print_chars_slowly</span> <span class="va">)</span><span class="st">&quot;</span> <span class="kw">&amp;</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">done</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> /dev/urandom  <span class="kw">|</span> <span class="ex">__print_line_fragment</span></span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">bad_matrix()</span> <span class="kw">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">cols</span><span class="op">=</span><span class="va">$(</span><span class="fu">tput</span> cols<span class="va">)</span></span>
+<span id="cb2-3"><a href="#cb2-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">rows</span><span class="op">=</span><span class="va">$(</span><span class="fu">tput</span> lines<span class="va">)</span></span>
+<span id="cb2-4"><a href="#cb2-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__parse_chars()</span> <span class="kw">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="va">LANG</span><span class="op">=</span><span class="st">&quot;en_US.UTF-8&quot;</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&#39;s/\(.\)/\1\n/g&#39;</span> <span class="kw">&amp;</span></span>
+<span id="cb2-7"><a href="#cb2-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__maybe_dim()</span> <span class="kw">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="dv">3</span> <span class="va">))</span> <span class="ot">==</span> 0 <span class="kw">]]</span></span>
+<span id="cb2-11"><a href="#cb2-11" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="fu">tput</span> dim</span>
+<span id="cb2-12"><a href="#cb2-12" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="fu">tput</span> sgr0</span>
+<span id="cb2-13"><a href="#cb2-13" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb2-14"><a href="#cb2-14" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__colour_me_matrix()</span> <span class="kw">{</span></span>
+<span id="cb2-17"><a href="#cb2-17" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="ex">__maybe_dim</span></span>
+<span id="cb2-18"><a href="#cb2-18" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tput</span> setaf 2</span>
+<span id="cb2-19"><a href="#cb2-19" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-20"><a href="#cb2-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__maybe_goto_Y()</span> <span class="kw">{</span></span>
+<span id="cb2-22"><a href="#cb2-22" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">y_pos</span><span class="op">=</span><span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="va">${rows}</span> <span class="va">))</span></span>
+<span id="cb2-23"><a href="#cb2-23" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="dv">2</span> <span class="va">))</span> <span class="ot">==</span> 0 <span class="kw">]]</span></span>
+<span id="cb2-24"><a href="#cb2-24" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="fu">tput</span> cup <span class="va">${y_pos}</span> 0</span>
+<span id="cb2-25"><a href="#cb2-25" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb2-26"><a href="#cb2-26" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-27"><a href="#cb2-27" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__print_chars_slowly()</span> <span class="kw">{</span></span>
+<span id="cb2-29"><a href="#cb2-29" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">read</span> <span class="va">char</span><span class="kw">;</span></span>
+<span id="cb2-30"><a href="#cb2-30" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">do</span> <span class="bu">printf</span> <span class="st">&quot;%q&quot;</span> <span class="st">&quot;</span><span class="va">$char</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&quot;s/&#39;&#39;/ /g&quot;</span> <span class="kw">&amp;</span></span>
+<span id="cb2-31"><a href="#cb2-31" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">done</span></span>
+<span id="cb2-32"><a href="#cb2-32" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-33"><a href="#cb2-33" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__inject_matrix()</span> <span class="kw">{</span></span>
+<span id="cb2-35"><a href="#cb2-35" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">__hundred_common_kanji_apparently</span><span class="op">=</span><span class="st">&quot;日 一 大 年 中 会 人 本 月 長 国 出 上 十 生 子 分 東 三 行 同 今 高 金 時 手 見 市 力 米 自 前 円 合 立 内 二 事 社 者 地 京 間 田 体 学 下 目 五 後 新 明 方 部 .女 八 心 四 民 対 主 正 代 言 九 小 思 七 山 実 入 回 場 野 開 万 全 定 家 北 六 問 話 文 動 度 県 水 安 氏 和 政 保 表 道 相 意 発 不 党&quot;</span></span>
+<span id="cb2-36"><a href="#cb2-36" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">__rand_chars</span><span class="op">=</span><span class="va">$((</span> <span class="dv">1</span> <span class="op">+</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="va">${cols}</span> <span class="va">))</span></span>
+<span id="cb2-37"><a href="#cb2-37" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$((</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="dv">3</span> <span class="va">))</span> <span class="ot">==</span> 0 <span class="kw">]]</span></span>
+<span id="cb2-39"><a href="#cb2-39" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="fu">tput</span> el</span>
+<span id="cb2-40"><a href="#cb2-40" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="ex">__maybe_goto_Y</span></span>
+<span id="cb2-41"><a href="#cb2-41" target="_self" aria-hidden="true" tabindex="-1"></a>             <span class="ex">__colour_me_matrix</span></span>
+<span id="cb2-42"><a href="#cb2-42" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" target="_self" aria-hidden="true" tabindex="-1"></a>             <span class="bu">read</span> <span class="at">-n</span> <span class="va">${__rand_chars}</span> <span class="va">__character_fragment</span> <span class="op">&lt;&lt;&lt;</span><span class="va">${__hundred_common_kanji_apparently}</span></span>
+<span id="cb2-44"><a href="#cb2-44" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" target="_self" aria-hidden="true" tabindex="-1"></a>             <span class="cf">for</span> c <span class="kw">in</span> <span class="va">${__character_fragment}</span></span>
+<span id="cb2-46"><a href="#cb2-46" target="_self" aria-hidden="true" tabindex="-1"></a>             <span class="cf">do</span> <span class="fu">sleep</span> 0.05</span>
+<span id="cb2-47"><a href="#cb2-47" target="_self" aria-hidden="true" tabindex="-1"></a>                <span class="bu">printf</span> <span class="st">&quot;%s &quot;</span> <span class="st">&quot;</span><span class="va">${c}</span><span class="st">&quot;</span> <span class="op">&gt;</span> /dev/tty <span class="kw">&amp;</span></span>
+<span id="cb2-48"><a href="#cb2-48" target="_self" aria-hidden="true" tabindex="-1"></a>             <span class="cf">done</span></span>
+<span id="cb2-49"><a href="#cb2-49" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb2-50"><a href="#cb2-50" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-51"><a href="#cb2-51" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">__print_line_fragment()</span> <span class="kw">{</span></span>
+<span id="cb2-53"><a href="#cb2-53" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">__rand_chars</span><span class="op">=</span><span class="va">$((</span> <span class="dv">1</span> <span class="op">+</span> <span class="va">${RANDOM}</span> <span class="op">%</span> <span class="va">${cols}</span> <span class="va">))</span></span>
+<span id="cb2-54"><a href="#cb2-54" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">read</span> <span class="at">-n</span> <span class="va">${__rand_chars}</span> <span class="va">line</span> <span class="kw">;</span></span>
+<span id="cb2-55"><a href="#cb2-55" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">do</span> <span class="fu">sleep</span> 0.5</span>
+<span id="cb2-56"><a href="#cb2-56" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="ex">__maybe_goto_Y</span></span>
+<span id="cb2-57"><a href="#cb2-57" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="ex">__inject_matrix</span></span>
+<span id="cb2-58"><a href="#cb2-58" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="fu">tput</span> dim</span>
+<span id="cb2-59"><a href="#cb2-59" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">$(</span> <span class="ex">__parse_chars</span> <span class="op">&lt;&lt;&lt;</span><span class="st">&quot;</span><span class="va">${line}</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">__print_chars_slowly</span> <span class="va">)</span><span class="st">&quot;</span> <span class="kw">&amp;</span></span>
+<span id="cb2-60"><a href="#cb2-60" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">done</span></span>
+<span id="cb2-61"><a href="#cb2-61" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">}</span></span>
+<span id="cb2-62"><a href="#cb2-62" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> /dev/urandom  <span class="kw">|</span> <span class="ex">__print_line_fragment</span></span>
+<span id="cb2-64"><a href="#cb2-64" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <h1 id="epilogue">Epilogue</h1>
 <p>The resurrected thread caused a fellow Recurser to emit a <code>bad_cat</code> in Rust. I'm not sure of this choice of tool. Being a famously memory safe language, I worry they will be unable to write a truly bad bad cat. But I could be wrong. Interested parties may <a href="https://github.com/MikkelPaulson/badcat/issues">peruse of their issues</a> on Github.</p>
 <p><em>Fin.</em></p>
