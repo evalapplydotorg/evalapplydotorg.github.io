@@ -388,7 +388,7 @@ table > caption {
 
 .site-header\:nav-items * {
   background-color: var(--color-masthead);
-  padding: var(--scale-xxxxxs);
+  padding: var(--scale-xxxxxxs);
   font-size: var(--scale-s);
   line-height: var(--scale-xs);
   text-align: center;
