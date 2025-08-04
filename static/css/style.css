@@ -19,7 +19,7 @@
     /* --------------------------------------------------
      * MEASURE: Basis for all proportions.
      * -------------------------------------------------- */
-    --measure: 72ch;            /* Max character width of a line. */
+    --measure: 84ch;            /* Max character width of a line. */
 
     /* --------------------------------------------------
      * MODULAR SCALE: Measures for rows and columns.
@@ -128,15 +128,53 @@ pre {
   padding: var(--scale-s);
   border-radius: var(--scale-xxxxs);
   background-color: var(--color-light);
+  line-height: var(--scale-l);
   overflow-x: auto;
 }
 
 code {
   color: var(--color-code) !important;
   font-size: var(--scale-s);
-  line-height: var(--scale-l);
   font-family: var(--body-code-family);
-  font-weight: bold;
+  overflow-x: auto;
+}
+
+pre code .bu,
+pre code .ex {
+    color: darkred;
+}
+
+pre code .fu {
+    color: indigo;
+}
+
+pre code .at,
+pre code .dt,
+pre code .op,
+pre code .ot,
+pre code .cf,
+pre code .kw {
+    color: darkblue;
+}
+
+pre code .dv,
+pre code .sc {
+    font-style: italic;
+}
+
+pre code .do,
+pre code .co {
+    color: darkslategrey;
+}
+
+pre code .st,
+pre code .ch,
+pre code .ss {
+    color: darkgreen;
+}
+
+pre code span span.ss {
+    color: darkslategrey;
 }
 
 figure {
@@ -148,9 +186,12 @@ figure {
   overflow-x: auto;
 }
 
-figure > img {
+figure > img,
+figure > iframe {
   border: thin solid;
   border-color: var(--color-mid);
+  width: 100%;
+  max-width: var(--col-w-full-bleed);
 }
 
 figure > figcaption {
@@ -237,6 +278,7 @@ nav {
 }
 
 img {
+  width: var(--col-w-full-bleed);
   max-width: 100%;
 }
 
@@ -245,6 +287,7 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
   text-align: left;
+  overflow-x: auto;
 }
 
 thead {
