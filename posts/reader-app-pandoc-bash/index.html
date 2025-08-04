@@ -8,10 +8,13 @@
 <meta name="author" content="Aditya Athalye">
 <meta name="description"
       content="Every so often, I want to avoid opening a website in a browser, for ... reasons.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure,B2B Micro SaaS">
+<meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
+<meta property="og:site_name" content="EvalApply.org">
 <meta property="og:title" content="Poor man&apos;s Reader App with Pandoc &amp; Bash">
 <meta property="og:description" content="Every so often, I want to avoid opening a website in a browser, for ... reasons.">
 <meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="en_IN">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html">
     <!-- Preload logo as it is on all pages -->
@@ -29,7 +32,7 @@
 <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
 <link href="https://www.evalapply.org/index.xml"
       rel="alternate" type="application/rss+xml"
-      title="Aditya Athalye writes and works here.">
+      title="Hi, I'm Aditya Athalye. I make, learn, teach here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/reader-app-pandoc-bash/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
     <base target="_blank">
@@ -40,10 +43,10 @@
   <div class="box invert stack">
     <div class="with-sidebar site-header">
       <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Aditya Athalye writes and works here." width="60" height="60">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Hi, I'm Aditya Athalye. I make, learn, teach here." width="60" height="60">
       </a>
       <div class="stack">
-        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        <h1 class="site-header title">Hi, I'm Aditya Athalye. I make, learn, teach here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
           <a href="https://www.evalapply.org/posts/index.html" target="_self">
@@ -125,7 +128,6 @@
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Freader-app-pandoc-bash%2Findex.html&t=Poor%20man%27s%20Reader%20App%20with%20Pandoc%20%26%20Bash" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Freader-app-pandoc-bash%2Findex.html&title=Poor%20man%27s%20Reader%20App%20with%20Pandoc%20%26%20Bash" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
       <form class="footer cluster"
@@ -141,6 +143,7 @@
     <input type="hidden" name="tag" value="everyone" />
 <input type="hidden" name="tag" value="via-blog-post" />
   </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
 </form>
       <p><hr></p>
       <nav class="cluster">
@@ -158,50 +161,48 @@
 <p>"WAIT, there's pandoc, what if I just … "</p>
 <p>—</p>
 <p>… … … and an hour later… a terrible idea manifested itself.</p>
-<pre class="shell"><code>www_to_md() {
-    pandoc --wrap=none -f html -t markdown &quot;${1}&quot;
-}
-
-drop_noise() {
-    # remove pesky divs
-    grep -v -E &quot;(&lt;div|&lt;/div).*[&gt;]?|*.&gt;&quot; |
-        # squeeze multiple blank lines into one
-        cat -s
-}
-
-cache_site() {
-    local sitecache=&quot;${1:?&#39;Fail. Path to create cache.&#39;}&quot;
-    local mdfilename=&quot;${2:-&#39;this.md&#39;}&quot;
-    local evict_cache_qmark=&quot;${3:-no}&quot;
-
-    mkdir -p &quot;${sitecache}&quot;
-
-    if [[ -f &quot;${sitecache}/${mdfilename}&quot; &amp;&amp; &quot;${evict_cache_qmark}&quot; == &quot;no&quot; ]]
-    then tee
-    else tee &quot;${sitecache}/${mdfilename}&quot;
-    fi
-}
-
-panwww() {
-    local siteurl=&quot;${1}&quot;
-    local evict_cache_qmark=&quot;${2:-no}&quot;
-    local sitename=&quot;${siteurl/http*:\/\//www.}&quot;
-    local sitecache=&quot;/tmp/panwwwcache/${sitename}&quot;
-    local mdfilename=&quot;this.md&quot;
-
-    if [[ -f &quot;${sitecache}/${mdfilename}&quot; &amp;&amp; &quot;${evict_cache_qmark}&quot; == &quot;no&quot; ]]
-    then local cmd=&quot;cat ${sitecache}/${mdfilename}&quot;
-    else local cmd=&quot;www_to_md ${siteurl}&quot;
-    fi
-
-    $cmd | drop_noise | cache_site &quot;${sitecache}&quot; &quot;${mdfilename}&quot; &quot;${evict_cache_qmark}&quot;
-}
-</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">www_to_md()</span> <span class="kw">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">pandoc</span> <span class="at">--wrap</span><span class="op">=</span>none <span class="at">-f</span> html <span class="at">-t</span> markdown <span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb1-4"><a href="#cb1-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">drop_noise()</span> <span class="kw">{</span></span>
+<span id="cb1-6"><a href="#cb1-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remove pesky divs</span></span>
+<span id="cb1-7"><a href="#cb1-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grep</span> <span class="at">-v</span> <span class="at">-E</span> <span class="st">&quot;(&lt;div|&lt;/div).*[&gt;]?|*.&gt;&quot;</span> <span class="kw">|</span></span>
+<span id="cb1-8"><a href="#cb1-8" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="co"># squeeze multiple blank lines into one</span></span>
+<span id="cb1-9"><a href="#cb1-9" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cat</span> <span class="at">-s</span></span>
+<span id="cb1-10"><a href="#cb1-10" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">cache_site()</span> <span class="kw">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">sitecache</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:?</span><span class="st">&#39;Fail. Path to create cache.&#39;</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb1-14"><a href="#cb1-14" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">mdfilename</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:-</span><span class="st">&#39;this.md&#39;</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">evict_cache_qmark</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${3</span><span class="op">:-</span>no<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb1-16"><a href="#cb1-16" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">${sitecache}</span><span class="st">&quot;</span></span>
+<span id="cb1-18"><a href="#cb1-18" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">${sitecache}</span><span class="st">/</span><span class="va">${mdfilename}</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="st">&quot;</span><span class="va">${evict_cache_qmark}</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;no&quot;</span> <span class="kw">]]</span></span>
+<span id="cb1-20"><a href="#cb1-20" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">then</span> <span class="fu">tee</span></span>
+<span id="cb1-21"><a href="#cb1-21" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="fu">tee</span> <span class="st">&quot;</span><span class="va">${sitecache}</span><span class="st">/</span><span class="va">${mdfilename}</span><span class="st">&quot;</span></span>
+<span id="cb1-22"><a href="#cb1-22" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb1-23"><a href="#cb1-23" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb1-24"><a href="#cb1-24" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">panwww()</span> <span class="kw">{</span></span>
+<span id="cb1-26"><a href="#cb1-26" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">siteurl</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb1-27"><a href="#cb1-27" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">evict_cache_qmark</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:-</span>no<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb1-28"><a href="#cb1-28" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">sitename</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${siteurl</span><span class="op">/</span><span class="ss">http</span><span class="pp">*</span><span class="ss">:</span><span class="dt">\/\/</span><span class="op">/</span>www.<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb1-29"><a href="#cb1-29" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">sitecache</span><span class="op">=</span><span class="st">&quot;/tmp/panwwwcache/</span><span class="va">${sitename}</span><span class="st">&quot;</span></span>
+<span id="cb1-30"><a href="#cb1-30" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">mdfilename</span><span class="op">=</span><span class="st">&quot;this.md&quot;</span></span>
+<span id="cb1-31"><a href="#cb1-31" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">${sitecache}</span><span class="st">/</span><span class="va">${mdfilename}</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="st">&quot;</span><span class="va">${evict_cache_qmark}</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;no&quot;</span> <span class="kw">]]</span></span>
+<span id="cb1-33"><a href="#cb1-33" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">then</span> <span class="bu">local</span> <span class="va">cmd</span><span class="op">=</span><span class="st">&quot;cat </span><span class="va">${sitecache}</span><span class="st">/</span><span class="va">${mdfilename}</span><span class="st">&quot;</span></span>
+<span id="cb1-34"><a href="#cb1-34" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="bu">local</span> <span class="va">cmd</span><span class="op">=</span><span class="st">&quot;www_to_md </span><span class="va">${siteurl}</span><span class="st">&quot;</span></span>
+<span id="cb1-35"><a href="#cb1-35" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb1-36"><a href="#cb1-36" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="va">$cmd</span> <span class="kw">|</span> <span class="ex">drop_noise</span> <span class="kw">|</span> <span class="ex">cache_site</span> <span class="st">&quot;</span><span class="va">${sitecache}</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${mdfilename}</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${evict_cache_qmark}</span><span class="st">&quot;</span></span>
+<span id="cb1-38"><a href="#cb1-38" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>so that …</p>
-<pre class="shell"><code>panwww &quot;https://www.recurse.com/&quot; | less # fetches site the first time
-panwww &quot;https://www.recurse.com/&quot; | less # looks up &quot;cache&quot;
-panwww &quot;https://www.recurse.com/&quot; &quot;refetch&quot; | less
-</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">panwww</span> <span class="st">&quot;https://www.recurse.com/&quot;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="co"># fetches site the first time</span></span>
+<span id="cb2-2"><a href="#cb2-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">panwww</span> <span class="st">&quot;https://www.recurse.com/&quot;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="co"># looks up &quot;cache&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">panwww</span> <span class="st">&quot;https://www.recurse.com/&quot;</span> <span class="st">&quot;refetch&quot;</span> <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
   </section>
   <footer id="blog-post-footer" class="footer stack">
     <hr>
@@ -219,7 +220,6 @@ panwww &quot;https://www.recurse.com/&quot; &quot;refetch&quot; | less
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Freader-app-pandoc-bash%2Findex.html&t=Poor%20man%27s%20Reader%20App%20with%20Pandoc%20%26%20Bash" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Freader-app-pandoc-bash%2Findex.html&title=Poor%20man%27s%20Reader%20App%20with%20Pandoc%20%26%20Bash" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
     <form class="footer cluster"
       action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
@@ -234,6 +234,7 @@ panwww &quot;https://www.recurse.com/&quot; &quot;refetch&quot; | less
     <input type="hidden" name="tag" value="everyone" />
 <input type="hidden" name="tag" value="via-blog-post" />
   </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
 </form>
   </footer>
 </article>

@@ -8,10 +8,13 @@
 <meta name="author" content="Aditya Athalye">
 <meta name="description"
       content="Or, the one in which we hand-craft nano Unix tools using Bash functions.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure,B2B Micro SaaS">
+<meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
+<meta property="og:site_name" content="EvalApply.org">
 <meta property="og:title" content="Shell ain&apos;t a bad place to FP: part 2/N: Functions as Unix Tools">
 <meta property="og:description" content="Or, the one in which we hand-craft nano Unix tools using Bash functions.">
 <meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="en_IN">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/index.html">
     <!-- Preload logo as it is on all pages -->
@@ -29,7 +32,7 @@
 <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
 <link href="https://www.evalapply.org/index.xml"
       rel="alternate" type="application/rss+xml"
-      title="Aditya Athalye writes and works here.">
+      title="Hi, I'm Aditya Athalye. I make, learn, teach here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
     <base target="_blank">
@@ -40,10 +43,10 @@
   <div class="box invert stack">
     <div class="with-sidebar site-header">
       <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Aditya Athalye writes and works here." width="60" height="60">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Hi, I'm Aditya Athalye. I make, learn, teach here." width="60" height="60">
       </a>
       <div class="stack">
-        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        <h1 class="site-header title">Hi, I'm Aditya Athalye. I make, learn, teach here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
           <a href="https://www.evalapply.org/posts/index.html" target="_self">
@@ -125,7 +128,6 @@
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&t=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&title=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
       <form class="footer cluster"
@@ -141,6 +143,7 @@
     <input type="hidden" name="tag" value="everyone" />
 <input type="hidden" name="tag" value="via-blog-post" />
   </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
 </form>
       <p><hr></p>
       <nav class="cluster">
@@ -193,10 +196,9 @@
 </ul>
 <h1 id="what-bash-functions-are">What Bash functions are</h1>
 <p>Last time, we wrote functions like this:</p>
-<pre class="shell"><code>flatten_paragraphs() {
-    tr -cs A-Za-z &#39;\n&#39;
-}
-</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">flatten_paragraphs()</span> <span class="kw">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tr</span> <span class="at">-cs</span> A-Za-z <span class="st">&#39;\n&#39;</span></span>
+<span id="cb1-3"><a href="#cb1-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>The syntax may look familiar, but their behaviour and semantics differ in many ways from functions in the more modern languages like Python or JS etc.</p>
 <h2 id="bash-functions-are-compound-commands">Bash functions are compound commands</h2>
 <p><code>man bash</code> describes functions as follows (online manpage: <a href="https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html">shell functions</a>).</p>
@@ -220,39 +222,36 @@
 <h2 id="function-definitions-live-in-a-global-namespace">Function definitions live in a global namespace</h2>
 <p>This means function definitions are isolated, and don't override any alias, builtin, variable, or reserved keyword of the same name.</p>
 <p>To see what that means, let's bind the same name to different things.</p>
-<pre class="shell"><code>$ sed() { echo lol; } # will the function override the sed built-in?
-
-$ sed=&quot;phew!&quot; # will the variable override the function we defined?
-
-$ alias sed=cat # will the alias override everything?
-</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed<span class="er">(</span><span class="kw">)</span> <span class="kw">{</span> <span class="bu">echo</span> lol<span class="kw">;</span> <span class="kw">}</span> <span class="co"># will the function override the sed built-in?</span></span>
+<span id="cb2-2"><a href="#cb2-2" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed=<span class="st">&quot;phew!&quot;</span> <span class="co"># will the variable override the function we defined?</span></span>
+<span id="cb2-4"><a href="#cb2-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> alias sed=cat <span class="co"># will the alias override everything?</span></span></code></pre></div>
 <p>We can query all objects that the name <code>sed</code> is bound to. (Note: the variable meaning won't show up in this listing.)</p>
-<pre class="shell"><code>$ type -a sed
-sed is aliased to &#39;cat&#39;
-sed is a function
-sed ()
-{
-    echo lol
-}
-sed is /bin/sed
-</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> type <span class="at">-a</span> sed</span>
+<span id="cb3-2"><a href="#cb3-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> is aliased to <span class="st">&#39;cat&#39;</span></span>
+<span id="cb3-3"><a href="#cb3-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> is a function</span>
+<span id="cb3-4"><a href="#cb3-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">sed ()</span></span>
+<span id="cb3-5"><a href="#cb3-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> lol</span>
+<span id="cb3-7"><a href="#cb3-7" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb3-8"><a href="#cb3-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> is /bin/sed</span></code></pre></div>
 <p>And we can invoke or evaluate each meaning of the word <code>sed</code>.</p>
-<pre class="shell"><code>$ man bash | sed # Oops. Boy, are we in trouble now.
-# Bash interprets the unquoted word as an alias, which is &#39;cat&#39;.
-
-$ man bash | command sed 1q # execute as a command (not function, or alias)
-BASH(1)           General Commands Manual              BASH(1)
-
-
-$ &#39;sed&#39; # quoting prevents interpretation as alias. Function meaning gets used.
-lol
-
-$ echo foo | &#39;sed&#39; # works fine in pipes too
-lol
-
-$ echo $sed # the variable remains intact too
-phew!
-</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> man bash <span class="kw">|</span> <span class="fu">sed</span> <span class="co"># Oops. Boy, are we in trouble now.</span></span>
+<span id="cb4-2"><a href="#cb4-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co"># Bash interprets the unquoted word as an alias, which is &#39;cat&#39;.</span></span>
+<span id="cb4-3"><a href="#cb4-3" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> man bash <span class="kw">|</span> <span class="bu">command</span> sed 1q <span class="co"># execute as a command (not function, or alias)</span></span>
+<span id="cb4-5"><a href="#cb4-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">BASH</span><span class="er">(</span><span class="ex">1</span><span class="kw">)</span>           <span class="ex">General</span> Commands Manual              BASH<span class="er">(</span><span class="ex">1</span><span class="kw">)</span></span>
+<span id="cb4-6"><a href="#cb4-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> <span class="st">&#39;sed&#39;</span> <span class="co"># quoting prevents interpretation as alias. Function meaning gets used.</span></span>
+<span id="cb4-9"><a href="#cb4-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">lol</span></span>
+<span id="cb4-10"><a href="#cb4-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo foo <span class="kw">|</span> <span class="st">&#39;sed&#39;</span> <span class="co"># works fine in pipes too</span></span>
+<span id="cb4-12"><a href="#cb4-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">lol</span></span>
+<span id="cb4-13"><a href="#cb4-13" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="va">$sed</span> <span class="co"># the variable remains intact too</span></span>
+<span id="cb4-15"><a href="#cb4-15" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">phew!</span></span></code></pre></div>
 <p>This namespacing is certainly merciful, but it is not quite enough. As you may have guessed, it can get very confusing if we reuse names willy-nilly. If there was one thing I could improve about Bash, it would be adding "real" namespaces. That would help write modular code. Alas, that ship sailed long ago.</p>
 <p>Anyway, I drop Bash after the code starts getting too involved; beyond about 1,000 LoC (of clean FP-style Bash). In large scripts, the sharp corners of Ye Olde Shell start poking holes and forcing bugs (quoting, expansion, trap/error handling etc.).</p>
 <p>That said (or um, sed), under 1K LoC clean FP-style Bash can do a crazy amount of work sufficiently fast <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. That sweet spot is what this series is all about. Like <a href="https://github.com/adityaathalye/shite">shite</a> and <a href="https://github.com/adityaathalye/oxo">oxo</a>.</p>
@@ -262,14 +261,13 @@ phew!
 <h2 id="wrap-domain-concepts-in-single-purpose-functions">Wrap domain concepts in single-purpose functions</h2>
 <p>Previously, we wrapped invocations of Unix tools and pipelines in functions, gave them domain-specific names, to achieve domain-specific compositional power.</p>
 <p>For example:</p>
-<pre class="shell"><code>sort_dictionary() {
-    sort -b -d -k2
-}
-
-sort_rhyme() {
-    rev | sort -b -d | rev
-}
-</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">sort_dictionary()</span> <span class="kw">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sort</span> <span class="at">-b</span> <span class="at">-d</span> <span class="at">-k2</span></span>
+<span id="cb5-3"><a href="#cb5-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb5-4"><a href="#cb5-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">sort_rhyme()</span> <span class="kw">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rev</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-b</span> <span class="at">-d</span> <span class="kw">|</span> <span class="fu">rev</span></span>
+<span id="cb5-7"><a href="#cb5-7" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Small functions are absolutely fine! In fact, we prefer our functions be small, single-purpose, and as general as possible, just like any other Unix tool.</p>
 <h2 id="use-parameter-substitutions-and-local-scope-variables">Use parameter substitutions and local scope variables</h2>
 <p>Functions only accept positional parameters, like regular shell scripts. And like regular scripts, we can send input for evaluation as well as to control behaviour of the function, as well will see later in this post.</p>
@@ -282,60 +280,57 @@ sort_rhyme() {
 </ul>
 <p>Most of my parameter-accepting functions are designed with just one optional parameter. Here is a motivating example from my little <a href="https://github.com/adityaathalye/bash-toolkit">bash-toolkit</a> library. The ones copied here help with ad-hoc log analysis tasks.</p>
 <p>Accept optional parameter, with a sane default.</p>
-<pre class="shell"><code>drop_first_n() {
-    local lines=&quot;${1:-0}&quot;
-    local offset=&quot;$(( lines + 1 ))&quot;
-
-    tail -n +&quot;${offset}&quot;
-}
-
-drop_last_n() {
-    local lines=&quot;${1:-0}&quot;
-    head -n -&quot;${lines}&quot;
-}
-</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">drop_first_n()</span> <span class="kw">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">lines</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:-</span>0<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">offset</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$((</span> <span class="va">lines</span> <span class="op">+</span> <span class="dv">1</span> <span class="va">))</span><span class="st">&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span> <span class="at">-n</span> +<span class="st">&quot;</span><span class="va">${offset}</span><span class="st">&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb6-7"><a href="#cb6-7" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">drop_last_n()</span> <span class="kw">{</span></span>
+<span id="cb6-9"><a href="#cb6-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">lines</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:-</span>0<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb6-10"><a href="#cb6-10" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span> <span class="at">-n</span> <span class="at">-</span><span class="st">&quot;</span><span class="va">${lines}</span><span class="st">&quot;</span></span>
+<span id="cb6-11"><a href="#cb6-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Enforce all parameters, as these functions are meaningless without them.</p>
-<pre class="shell"><code>drop_header_footer() {
-    local header_lines=&quot;${1:?&#39;FAIL. Header line count required, 1-indexed.&#39;}&quot;
-    local footer_lines=&quot;${2:?&#39;FAIL. Footer line count required, 1-indexed.&#39;}&quot;
-
-    drop_first_n &quot;${header_lines}&quot; |
-        drop_last_n &quot;${footer_lines}&quot;
-}
-
-window_from_to_lines() {
-    local from_line=&quot;${1:?&#39;FAIL. \&quot;FROM\&quot; line number required, 1-indexed.&#39;}&quot;
-    local to_line=&quot;${2:?&#39;FAIL. \&quot;TO\&quot; line number required, 1-indexed.&#39;}&quot;
-
-    drop_first_n &quot;${from_line}&quot; |
-        head -n &quot;${to_line}&quot;
-}
-</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">drop_header_footer()</span> <span class="kw">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">header_lines</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:?</span><span class="st">&#39;FAIL. Header line count required, 1-indexed.&#39;</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">footer_lines</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:?</span><span class="st">&#39;FAIL. Footer line count required, 1-indexed.&#39;</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">drop_first_n</span> <span class="st">&quot;</span><span class="va">${header_lines}</span><span class="st">&quot;</span> <span class="kw">|</span></span>
+<span id="cb7-6"><a href="#cb7-6" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="ex">drop_last_n</span> <span class="st">&quot;</span><span class="va">${footer_lines}</span><span class="st">&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-8"><a href="#cb7-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">window_from_to_lines()</span> <span class="kw">{</span></span>
+<span id="cb7-10"><a href="#cb7-10" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">from_line</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:?</span><span class="st">&#39;FAIL. \&quot;FROM\&quot; line number required, 1-indexed.&#39;</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb7-11"><a href="#cb7-11" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">to_line</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:?</span><span class="st">&#39;FAIL. \&quot;TO\&quot; line number required, 1-indexed.&#39;</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb7-12"><a href="#cb7-12" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">drop_first_n</span> <span class="st">&quot;</span><span class="va">${from_line}</span><span class="st">&quot;</span> <span class="kw">|</span></span>
+<span id="cb7-14"><a href="#cb7-14" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="fu">head</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">${to_line}</span><span class="st">&quot;</span></span>
+<span id="cb7-15"><a href="#cb7-15" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Notice how the latter two functions reuse the earlier functions to create completely different log processing tools, yet retain flexibility to deal with arbitrary parts of log files, as well as compose together any way we please (not all of which will be sensible, but that's besides the point :).</p>
 <p>There are many ways to do <a href="https://wiki.bash-hackers.org/scripting/posparams">parameter handling</a>; a whole topic of its own. Play around to get a sense for it, but keep your actual usage simple.</p>
 <h2 id="partial-application-of-functions">Partial application of functions</h2>
 <p><a href="https://en.wikipedia.org/wiki/Partial_application">Partial application</a> is not automatic in Bash, but that does not mean we can't do it.</p>
 <p>In the example below, a utility function <code>__with_git_dir</code> knows something about a git directory, but nothing about a git subcommand that we wish to run.</p>
-<pre class="shell"><code>__with_git_dir() {
-    local repo_dir=&quot;${1}&quot;
-    shift
-    git --git-dir=&quot;${repo_dir}/.git&quot; &quot;$@&quot;
-}
-
-git_fetch() {
-    local repo_dir=&quot;${1}&quot;
-    __with_git_dir &quot;${repo_dir}&quot; fetch -q
-}
-
-git_status() {
-    __with_git_dir &quot;${1}&quot; status
-}
-
-git_branch_current() {
-    local repo_dir=&quot;${1}&quot;
-    __with_git_dir &quot;${repo_dir}&quot; rev-parse --abbrev-ref=strict HEAD
-}
-</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">__with_git_dir()</span> <span class="kw">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">shift</span></span>
+<span id="cb8-4"><a href="#cb8-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> <span class="at">--git-dir</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">/.git&quot;</span> <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">git_fetch()</span> <span class="kw">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb8-9"><a href="#cb8-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">__with_git_dir</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span> fetch <span class="at">-q</span></span>
+<span id="cb8-10"><a href="#cb8-10" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb8-11"><a href="#cb8-11" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">git_status()</span> <span class="kw">{</span></span>
+<span id="cb8-13"><a href="#cb8-13" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">__with_git_dir</span> <span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span> status</span>
+<span id="cb8-14"><a href="#cb8-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb8-15"><a href="#cb8-15" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">git_branch_current()</span> <span class="kw">{</span></span>
+<span id="cb8-17"><a href="#cb8-17" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb8-18"><a href="#cb8-18" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">__with_git_dir</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span> rev-parse <span class="at">--abbrev-ref</span><span class="op">=</span>strict HEAD</span>
+<span id="cb8-19"><a href="#cb8-19" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>These functions <a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh#L99">belong to some git utilities</a> <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> that help me conveniently run git commands against any repo on my file system, without cd-ing to the repo.</p>
 <p>See? Functions can be dead-simple yet super useful. If you accumulate wee functions for your git needs, you get executable documentation. You can <code>source</code> them in your Bash terminal on any computer and be on your way. Likewise, any other command-line-y need of yours.</p>
 <h2 id="dependency-injection-with-functions">Dependency injection with functions</h2>
@@ -343,91 +338,83 @@ git_branch_current() {
 <p>For example, <a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh">see the same git utilities file</a> for usages such as these:</p>
 <ul>
 <li><p>Use the <code>xgit</code> utility fn to apply simple git commands to the given repos.</p>
-<pre class="shell"><code>ls_git_projects ~/src/bitbucket | xgit fetch # bitbucket-hosted repos
-</code></pre></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">ls_git_projects</span> ~/src/bitbucket <span class="kw">|</span> <span class="ex">xgit</span> fetch <span class="co"># bitbucket-hosted repos</span></span></code></pre></div></li>
 <li><p>Use <code>proc_repos</code> to apply custom functions to the given repos.</p>
-<pre class="shell"><code>ls_git_projects ~/src/bitbucket |
-    proc_repos git_fetch # all repos
-
-ls_git_projects ~/src/bitbucket |
-    take_stale |
-    proc_repos git_fetch # only stale repos
-
-ls_git_projects ~/src/bitbucket |
-    take_active |
-    proc_repos git_fetch # only active repos
-</code></pre></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">ls_git_projects</span> ~/src/bitbucket <span class="kw">|</span></span>
+<span id="cb10-2"><a href="#cb10-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">proc_repos</span> git_fetch <span class="co"># all repos</span></span>
+<span id="cb10-3"><a href="#cb10-3" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">ls_git_projects</span> ~/src/bitbucket <span class="kw">|</span></span>
+<span id="cb10-5"><a href="#cb10-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">take_stale</span> <span class="kw">|</span></span>
+<span id="cb10-6"><a href="#cb10-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">proc_repos</span> git_fetch <span class="co"># only stale repos</span></span>
+<span id="cb10-7"><a href="#cb10-7" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">ls_git_projects</span> ~/src/bitbucket <span class="kw">|</span></span>
+<span id="cb10-9"><a href="#cb10-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">take_active</span> <span class="kw">|</span></span>
+<span id="cb10-10"><a href="#cb10-10" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">proc_repos</span> git_fetch <span class="co"># only active repos</span></span></code></pre></div></li>
 <li><p>What's the current branch?</p>
-<pre class="shell"><code>ls_git_projects ~/src/bitbucket |
-    proc_repos git_branch_current
-</code></pre></li>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="ex">ls_git_projects</span> ~/src/bitbucket <span class="kw">|</span></span>
+<span id="cb11-2"><a href="#cb11-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">proc_repos</span> git_branch_current</span></code></pre></div></li>
 </ul>
 <p>I've also used this design technique in <a href="https://github.com/adityaathalye/shite">shite</a> (the little static site generator from shell :). This is baaasically what its <a href="https://github.com/adityaathalye/shite/blob/f8d2d22316a8c2fc04c92c1390abb77c69377f6f/shite_utils.sh#L237">"main" function</a> does.</p>
-<pre class="shell"><code># Build page and tee it into the public directory, namespaced by the slug
-cat ${body_content_file} |
-    ${content_proc_fn} |
-    # We have only one page builder today, but
-    # we could have a variable number tomorrow.
-    shite_build_page  |
-    ${html_formatter_fn} |
-    tee &quot;${shite_global_data[publish_dir]}/${html_output_file_name}&quot;
-</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co"># Build page and tee it into the public directory, namespaced by the slug</span></span>
+<span id="cb12-2"><a href="#cb12-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${body_content_file}</span> <span class="kw">|</span></span>
+<span id="cb12-3"><a href="#cb12-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="va">${content_proc_fn}</span> <span class="kw">|</span></span>
+<span id="cb12-4"><a href="#cb12-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We have only one page builder today, but</span></span>
+<span id="cb12-5"><a href="#cb12-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># we could have a variable number tomorrow.</span></span>
+<span id="cb12-6"><a href="#cb12-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shite_build_page</span>  <span class="kw">|</span></span>
+<span id="cb12-7"><a href="#cb12-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="va">${html_formatter_fn}</span> <span class="kw">|</span></span>
+<span id="cb12-8"><a href="#cb12-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tee</span> <span class="st">&quot;</span><span class="va">${shite_global_data</span><span class="op">[</span>publish_dir<span class="op">]</span><span class="va">}</span><span class="st">/</span><span class="va">${html_output_file_name}</span><span class="st">&quot;</span></span></code></pre></div>
 <p>All the <code>_fn</code>-suffixed variables are locals in the "main" fn, that are assigned to function names we pass from the outside. Also notice the use of sane fallbacks for the positional params in this case.</p>
 <h2 id="keeping-functions-pure">Keeping Functions pure</h2>
 <p>The <code>return</code> statement in Bash returns exit codes, not values. So we have to pause a bit to figure out how to "return" values. Well, we have to rely on stdio, and the fact that the Unix tools philosophy encourages us to emit data in the same format as we receive it.</p>
 <p>The <code>identity</code> function is the simplest example. By definition, it returns its input unchanged. That's just <code>cat</code>! Thus we can write this streaming <em>identity</em> function.</p>
-<pre class="shell"><code>identity() {
-    cat -
-}
-</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">identity()</span> <span class="kw">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> <span class="at">-</span></span>
+<span id="cb13-3"><a href="#cb13-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>This definition of <em>identity</em> is surprisingly useful, as we will see below.</p>
 <p>Note that I strongly favour pipeline-friendly domain modeling and functional programming, to profit from the naturally streaming nature of Unix.</p>
 <p>Under such architecture, <em>map</em>, <em>filter</em>, and <em>reduce</em> are automatic, and I only need to write a pure "step" or single-item processing function.</p>
 <p>My "step" functions are simply transforms of input text (or data structure) to output text (or data structure). This can be anything; in case of plain text lines I do line transforms with <code>sed</code> or <code>printf</code>, or line selects with <code>grep</code>, or line-munging with <code>tr</code> etc. I do the equivalent with <code>jq</code> for JSON-formatted lines. <a href="http://evalapply.org/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/">The previous post</a> featured such "step" functions for <em>map</em> (<code>tokenise_lowercase</code>, <code>bigram</code>), <em>filter</em> (<code>drop_stopwords</code>), and <em>reduce</em> (<code>frequencies</code>, <code>sort_dictionary</code>).</p>
 <p><em>shite</em> has a <a href="https://github.com/adityaathalye/shite/blob/f8d2d22316a8c2fc04c92c1390abb77c69377f6f/shite_utils.sh#L89">more interesting example</a>.</p>
 <p>Suppose we want to make a blog site. For each blog post, only the content changes. The surrounding HTML wrapper remains constant (head, body, header, footer etc.). If we tease apart wrapper HTML construction and body HTML construction, then we can write a "page builder" function like this. Note the <code>cat -</code> in the middle. Our identity function appears!</p>
-<pre class="shell"><code>shite_build_page() {
-    cat &lt;&lt;EOF
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;!-- Some basic hygiene meta-data --&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;title&gt;My Blog&lt;/title&gt;
-        &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;header id=&quot;site-header&quot;&gt;
-          &lt;h1&gt;My Blog&lt;/h1&gt;
-          &lt;hr&gt;
-        &lt;/header&gt;
-        &lt;main&gt;
-          $(cat -)
-        &lt;/main&gt;
-        &lt;footer&gt;
-          &lt;hr&gt;
-          &lt;p&gt;All content is MIT licensed, except where specified otherwise.&lt;/p&gt;
-        &lt;/footer&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-EOF
-}
-</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">shite_build_page()</span> <span class="kw">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> <span class="op">&lt;&lt;EOF</span></span>
+<span id="cb14-3"><a href="#cb14-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;!DOCTYPE html&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;html&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;head&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;!-- Some basic hygiene meta-data --&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;meta charset=&quot;utf-8&quot;&gt;</span></span>
+<span id="cb14-8"><a href="#cb14-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;title&gt;My Blog&lt;/title&gt;</span></span>
+<span id="cb14-9"><a href="#cb14-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;</span></span>
+<span id="cb14-10"><a href="#cb14-10" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/head&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;body&gt;</span></span>
+<span id="cb14-12"><a href="#cb14-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;header id=&quot;site-header&quot;&gt;</span></span>
+<span id="cb14-13"><a href="#cb14-13" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">          &lt;h1&gt;My Blog&lt;/h1&gt;</span></span>
+<span id="cb14-14"><a href="#cb14-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">          &lt;hr&gt;</span></span>
+<span id="cb14-15"><a href="#cb14-15" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;/header&gt;</span></span>
+<span id="cb14-16"><a href="#cb14-16" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;main&gt;</span></span>
+<span id="cb14-17"><a href="#cb14-17" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">          </span><span class="va">$(</span><span class="fu">cat</span> <span class="at">-</span><span class="va">)</span></span>
+<span id="cb14-18"><a href="#cb14-18" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;/main&gt;</span></span>
+<span id="cb14-19"><a href="#cb14-19" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;footer&gt;</span></span>
+<span id="cb14-20"><a href="#cb14-20" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">          &lt;hr&gt;</span></span>
+<span id="cb14-21"><a href="#cb14-21" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">          &lt;p&gt;All content is MIT licensed, except where specified otherwise.&lt;/p&gt;</span></span>
+<span id="cb14-22"><a href="#cb14-22" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;/footer&gt;</span></span>
+<span id="cb14-23"><a href="#cb14-23" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/body&gt;</span></span>
+<span id="cb14-24"><a href="#cb14-24" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/html&gt;</span></span>
+<span id="cb14-25"><a href="#cb14-25" target="_self" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span>
+<span id="cb14-26"><a href="#cb14-26" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Observe that <code>$(cat -)</code> blindly injects content in the <code>&lt;main&gt;&lt;/main&gt;</code> block, received via stdin of the <em>function</em> <code>shite_build_page</code>. Thus, for the same input it will always produce the same output, making it a pure function. This choice also makes the caller responsible for passing it HTML, because the output is HTML.</p>
 <p>Further, by the single responsibility principle, our function's job is simply to punch HTML content into an HTML wrapper and return the composite. So it is vital that this function <em>not know or care</em> how the HTML it receives is made.</p>
 <p>And here's the cherry… By making this design choice, we have in fact made a step function that we can <em>map</em> over many blog posts.</p>
-<pre class="shell"><code>gen_html_posts_from_md() {
-    while read blog_post_md_file
-    do local html_file_name=&quot;$(basename -s.md ${blog_post_md_file}).html&quot;
-       pandoc -f markdown -t html ${html_file_name} |
-           shite_build_page &gt; ./public/posts/${html_file_name}
-    done
-}
-</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">gen_html_posts_from_md()</span> <span class="kw">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">read</span> <span class="va">blog_post_md_file</span></span>
+<span id="cb15-3"><a href="#cb15-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span> <span class="bu">local</span> <span class="va">html_file_name</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">basename</span> <span class="at">-s.md</span> <span class="va">${blog_post_md_file})</span><span class="st">.html&quot;</span></span>
+<span id="cb15-4"><a href="#cb15-4" target="_self" aria-hidden="true" tabindex="-1"></a>       <span class="ex">pandoc</span> <span class="at">-f</span> markdown <span class="at">-t</span> html <span class="va">${html_file_name}</span> <span class="kw">|</span></span>
+<span id="cb15-5"><a href="#cb15-5" target="_self" aria-hidden="true" tabindex="-1"></a>           <span class="ex">shite_build_page</span> <span class="op">&gt;</span> ./public/posts/<span class="va">${html_file_name}</span></span>
+<span id="cb15-6"><a href="#cb15-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb15-7"><a href="#cb15-7" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Thus, if our blog posts are <code>markdown</code> files in some folder (let's say under a <code>content</code> directory). We can do this.</p>
-<pre class="shell"><code>find ./content/posts/ -type f -name *.md |
-    gen_html_posts_from_md
-</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> ./content/posts/ <span class="at">-type</span> f <span class="at">-name</span> <span class="pp">*</span>.md <span class="kw">|</span></span>
+<span id="cb16-2"><a href="#cb16-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">gen_html_posts_from_md</span></span></code></pre></div>
 <p>A reader may complain that our HTML posts generator function is too specific to the markdown format, and knows too much about how to transform markdown to HTML, as well as where to put it. Its job ought to be just to describe the transform process.</p>
 <p>The reader would be right, and may like to solve the problem at home <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> :)</p>
 <h1 id="program-design-with-functions">Program design with functions</h1>
@@ -439,92 +426,86 @@ EOF
 <h2 id="writing-pipeline-friendly-functions">Writing Pipeline-friendly Functions</h2>
 <p>Frequently, an imperative algorithm can also be expressed in data-flow terms. That is, instead of if-else-y code, think in terms of map/filter/reduce.</p>
 <p>Once again, recalling the git utility functions referenced above. Suppose you had to return a list of "stale" repositories from a given directory, you may be tempted to write something like this. (Here "stale" means "not worked on for the last N hours").</p>
-<pre class="shell"><code>get_stale_repos() {
-    local repos_root_dir=&quot;${1}&quot;
-    local stale_hrs=&quot;${2:-12}&quot;
-    local hrs_ago=$(( ($(date +%s)
-                       - $(stat -c %Y &quot;${repo_dir}/.git&quot;))
-                      / 3600 ))
-
-    for repo_dir in $(ls ${repos_root_dir}); do
-        if [[ $hrs_ago -le $stale_hrs ]]
-        then printf &quot;%s\n&quot; &quot;active: ${repo_dir}&quot;
-        else printf &quot;%s\n&quot; &quot;stale: ${repo_dir}&quot;
-        fi
-    done
-}
-</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">get_stale_repos()</span> <span class="kw">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repos_root_dir</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb17-3"><a href="#cb17-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">stale_hrs</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:-</span>12<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb17-4"><a href="#cb17-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">hrs_ago</span><span class="op">=</span><span class="va">$((</span> (<span class="va">$(</span><span class="fu">date</span> +%s<span class="va">)</span></span>
+<span id="cb17-5"><a href="#cb17-5" target="_self" aria-hidden="true" tabindex="-1"></a>                       <span class="op">-</span> <span class="va">$(</span><span class="fu">stat</span> <span class="at">-c</span> %Y <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">/.git&quot;</span><span class="va">)</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" target="_self" aria-hidden="true" tabindex="-1"></a>                      <span class="op">/</span> <span class="dv">3600</span> <span class="va">))</span></span>
+<span id="cb17-7"><a href="#cb17-7" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> repo_dir <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> <span class="va">${repos_root_dir})</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb17-9"><a href="#cb17-9" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">[[</span> <span class="va">$hrs_ago</span> <span class="ot">-le</span> <span class="va">$stale_hrs</span> <span class="kw">]]</span></span>
+<span id="cb17-10"><a href="#cb17-10" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">then</span> <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;active: </span><span class="va">${repo_dir}</span><span class="st">&quot;</span></span>
+<span id="cb17-11"><a href="#cb17-11" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;stale: </span><span class="va">${repo_dir}</span><span class="st">&quot;</span></span>
+<span id="cb17-12"><a href="#cb17-12" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb17-13"><a href="#cb17-13" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb17-14"><a href="#cb17-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>However this kind of implementation combines ("complects") many different things.</p>
 <p>Given the fact that functions respect <code>stdio</code>, we can pull apart our imperative attempt. The insight is to combine <code>while</code> and <code>read</code> as follows. I use this idiom a lot because it helps me drastically simplify my code.</p>
-<pre class="shell"><code>__is_repo_active() {
-    local repo_dir=&quot;${1}&quot;
-    local stale_hrs=&quot;${2:-12}&quot;
-    local hrs_ago=$(( ($(date +%s)
-                       - $(stat -c %Y &quot;${repo_dir}/.git&quot;))
-                      / 3600 ))
-    [[ $hrs_ago -le $stale_hrs ]]
-}
-
-take_stale() {
-    local repo_dir
-    while read repo_dir
-    do __is_repo_active &quot;${repo_dir}&quot; || printf &quot;%s\n&quot; &quot;${repo_dir}&quot;
-    done
-}
-</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">__is_repo_active()</span> <span class="kw">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1}</span><span class="st">&quot;</span></span>
+<span id="cb18-3"><a href="#cb18-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">stale_hrs</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:-</span>12<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb18-4"><a href="#cb18-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">hrs_ago</span><span class="op">=</span><span class="va">$((</span> (<span class="va">$(</span><span class="fu">date</span> +%s<span class="va">)</span></span>
+<span id="cb18-5"><a href="#cb18-5" target="_self" aria-hidden="true" tabindex="-1"></a>                       <span class="op">-</span> <span class="va">$(</span><span class="fu">stat</span> <span class="at">-c</span> %Y <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">/.git&quot;</span><span class="va">)</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" target="_self" aria-hidden="true" tabindex="-1"></a>                      <span class="op">/</span> <span class="dv">3600</span> <span class="va">))</span></span>
+<span id="cb18-7"><a href="#cb18-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="kw">[[</span> <span class="va">$hrs_ago</span> <span class="ot">-le</span> <span class="va">$stale_hrs</span> <span class="kw">]]</span></span>
+<span id="cb18-8"><a href="#cb18-8" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb18-9"><a href="#cb18-9" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">take_stale()</span> <span class="kw">{</span></span>
+<span id="cb18-11"><a href="#cb18-11" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span></span>
+<span id="cb18-12"><a href="#cb18-12" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">read</span> <span class="va">repo_dir</span></span>
+<span id="cb18-13"><a href="#cb18-13" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span> <span class="ex">__is_repo_active</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span></span>
+<span id="cb18-14"><a href="#cb18-14" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb18-15"><a href="#cb18-15" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Now we can do this:</p>
-<pre class="shell"><code>ls ~/src/github/adityaathalye |
-    take_stale
-</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> ~/src/github/adityaathalye <span class="kw">|</span></span>
+<span id="cb19-2"><a href="#cb19-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">take_stale</span></span></code></pre></div>
 <p>And we get bonus reuse, because we may also want to do the inverse.</p>
-<pre class="shell"><code>take_active() {
-    local repo_dir
-    while read repo_dir
-    do __is_repo_active &quot;${repo_dir}&quot; &amp;&amp; printf &quot;%s\n&quot; &quot;${repo_dir}&quot;
-    done
-}
-</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">take_active()</span> <span class="kw">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span></span>
+<span id="cb20-3"><a href="#cb20-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">read</span> <span class="va">repo_dir</span></span>
+<span id="cb20-4"><a href="#cb20-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span> <span class="ex">__is_repo_active</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span></span>
+<span id="cb20-5"><a href="#cb20-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb20-6"><a href="#cb20-6" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>With a little bit more thinking, we can pull apart this logic even further, usefully. Hint: these functions have a <code>filter</code> embedded inside them.</p>
 <p>As another fun example, one @rsms <a href="https://twitter.com/rsms/status/1508900257324666882">tweeted this</a> recently:</p>
 <blockquote>
 <p>Was curious about source code-line length so wrote a horribly hacky bash script that draws a histogram. <a href="https://gist.github.com/rsms/36bda3b5c8ab83d951e45ed788a184f4">https://gist.github.com/rsms/36bda3b5c8ab83d951e45ed788a184f4</a></p>
 </blockquote>
 <p>I saw the script and my habitual thought kicked in, "Well, why can't that be a pipeline?". A short while later, this emerged.</p>
-<pre class="shell"><code># get some lines of text
-man bash |
-    # remove blank lines (extensible to any non-code lines)
-    grep -v &#39;^$&#39; |
-    # count chars for each line
-    while read line; do echo ${line} | wc -c - | cut -d&#39; &#39; -f1; done |
-    # calculate the frequency distribution
-    sort -nr | uniq -c |
-    # add a histogram graph to the frequency distribution
-    while read lines cols;
-    do printf &quot;%s\t%s\t%s\n&quot; ${lines} ${cols} $(printf &quot;%0.s|&quot; $(seq 1 8 ${cols}));
-    done |
-    # add labels to the histogram
-    cat &lt;(printf &quot;%s\t%s\t%s\n&quot; &quot;LN&quot; &quot;COL&quot; &quot;HIST(|=8COL)&quot;) -
-</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co"># get some lines of text</span></span>
+<span id="cb21-2"><a href="#cb21-2" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> bash <span class="kw">|</span></span>
+<span id="cb21-3"><a href="#cb21-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remove blank lines (extensible to any non-code lines)</span></span>
+<span id="cb21-4"><a href="#cb21-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grep</span> <span class="at">-v</span> <span class="st">&#39;^$&#39;</span> <span class="kw">|</span></span>
+<span id="cb21-5"><a href="#cb21-5" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># count chars for each line</span></span>
+<span id="cb21-6"><a href="#cb21-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">read</span> <span class="va">line</span><span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="va">${line}</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-c</span> <span class="at">-</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="kw">;</span> <span class="cf">done</span> <span class="kw">|</span></span>
+<span id="cb21-7"><a href="#cb21-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the frequency distribution</span></span>
+<span id="cb21-8"><a href="#cb21-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sort</span> <span class="at">-nr</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span></span>
+<span id="cb21-9"><a href="#cb21-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add a histogram graph to the frequency distribution</span></span>
+<span id="cb21-10"><a href="#cb21-10" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">read</span> <span class="va">lines</span> <span class="va">cols</span><span class="kw">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span> <span class="bu">printf</span> <span class="st">&quot;%s\t%s\t%s\n&quot;</span> <span class="va">${lines}</span> <span class="va">${cols}</span> <span class="va">$(</span><span class="bu">printf</span> <span class="st">&quot;%0.s|&quot;</span> <span class="va">$(</span><span class="fu">seq</span> 1 8 <span class="va">${cols}))</span><span class="kw">;</span></span>
+<span id="cb21-12"><a href="#cb21-12" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span> <span class="kw">|</span></span>
+<span id="cb21-13"><a href="#cb21-13" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add labels to the histogram</span></span>
+<span id="cb21-14"><a href="#cb21-14" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> <span class="op">&lt;(</span><span class="bu">printf</span> <span class="st">&quot;%s\t%s\t%s\n&quot;</span> <span class="st">&quot;LN&quot;</span> <span class="st">&quot;COL&quot;</span> <span class="st">&quot;HIST(|=8COL)&quot;</span><span class="op">)</span> <span class="at">-</span></span></code></pre></div>
 <p>Note the similarities to McIlroy's pipeline from the last post. Also, like that program, mine too fits in a tweet and I wasn't even trying.</p>
 <h2 id="separating-return-values-and-non-values">Separating return values and non-values</h2>
 <p>"Don't be chatty" is an important design principle. This means don't pollute your stdout values with non-values. Sometimes though, we want to emit process information (like logs) <em>along</em> with emitting process output. For example, a structured process log becomes handy when we want to design idempotent jobs.</p>
 <p>Going back to my <a href="https://github.com/adityaathalye/bash-toolkit/blob/7cbac8bd6a7970481f6f62e5a2a604afcaf804ea/bulk-git-ops.sh#L49">bulk-git-ops example</a>, suppose I want to process a whole bunch of git repos. This may fail any time if my network flakes, or laptop battery dies, or some weird condition occurs. Sh*t happens when processes run for a long time <em>and</em> need networks. So I usually want to log each repo as it is being processed.</p>
-<pre class="shell"><code>identity() {
-    printf &quot;%s\n&quot; &quot;$@&quot;
-}
-
-proc_repos() {
-    # Apply any given operation on the given repos. Use in a pipeline.
-    # Presumably, the supplied function emits values expected by stdin
-    # of the downstream function.
-    local func=${1:-identity}
-    local repo_dir
-    while read repo_dir
-    do $func &quot;${repo_dir}&quot;
-       log_info &quot;Applied ${func} to ${repo_dir}&quot;
-    done
-}
-</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">identity()</span> <span class="kw">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">printf</span> <span class="st">&quot;%s\n&quot;</span> <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span></span>
+<span id="cb22-3"><a href="#cb22-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb22-4"><a href="#cb22-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">proc_repos()</span> <span class="kw">{</span></span>
+<span id="cb22-6"><a href="#cb22-6" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply any given operation on the given repos. Use in a pipeline.</span></span>
+<span id="cb22-7"><a href="#cb22-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Presumably, the supplied function emits values expected by stdin</span></span>
+<span id="cb22-8"><a href="#cb22-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of the downstream function.</span></span>
+<span id="cb22-9"><a href="#cb22-9" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">func</span><span class="op">=</span><span class="va">${1</span><span class="op">:-</span>identity<span class="va">}</span></span>
+<span id="cb22-10"><a href="#cb22-10" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">repo_dir</span></span>
+<span id="cb22-11"><a href="#cb22-11" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">read</span> <span class="va">repo_dir</span></span>
+<span id="cb22-12"><a href="#cb22-12" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span> <span class="va">$func</span> <span class="st">&quot;</span><span class="va">${repo_dir}</span><span class="st">&quot;</span></span>
+<span id="cb22-13"><a href="#cb22-13" target="_self" aria-hidden="true" tabindex="-1"></a>       <span class="ex">log_info</span> <span class="st">&quot;Applied </span><span class="va">${func}</span><span class="st"> to </span><span class="va">${repo_dir}</span><span class="st">&quot;</span></span>
+<span id="cb22-14"><a href="#cb22-14" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb22-15"><a href="#cb22-15" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>This way a downstream consumer can rely on always receiving a legal value at stdin, and <em>optionally</em> access non-values (like logs), if it wants to, via stderr <a href="#fn4" target="_self" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
 <p>I casually name-dropped <em>idempotence</em>. It needs its own blog post. Maybe the next one!</p>
 <h2 id="functions-to-delay-evaluation">Functions to delay evaluation</h2>
@@ -551,48 +532,43 @@ proc_repos() {
 <h1 id="naming-conventions">Naming conventions</h1>
 <p>Now the really hard part…</p>
 <p>I write all my function names as follows, because it is the most portable syntax. Bash accepts several ways to define functions, but POSIX sh strictly expects this syntax, and I prefer to maintain as much compatibility as I can. Also I find it is the neatest of the alternatives.</p>
-<pre class="shell"><code>namespace_func_name() {
-    statement 1
-    statement 2
-    statement 3
-}
-</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">namespace_func_name()</span> <span class="kw">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 1</span>
+<span id="cb23-3"><a href="#cb23-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 2</span>
+<span id="cb23-4"><a href="#cb23-4" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 3</span>
+<span id="cb23-5"><a href="#cb23-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Sometimes I write short one-liners as follows. The semicolon is essential for one-liners. So is the space between the braces and the statement.</p>
-<pre class="shell"><code>namespace_func_name() { statement ; }
-</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">namespace_func_name()</span> <span class="kw">{</span> <span class="ex">statement</span> <span class="kw">;</span> <span class="kw">}</span></span></code></pre></div>
 <p>There is no such thing as a "private" or locally-scoped function, so I resort to marking these "private" by convention with a <code>__</code> (double underscore) prefix.</p>
-<pre class="shell"><code>__namespace_private_func_name() {
-    statement1
-    statement2
-}
-</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">__namespace_private_func_name()</span> <span class="kw">{</span></span>
+<span id="cb25-2"><a href="#cb25-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement1</span></span>
+<span id="cb25-3"><a href="#cb25-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement2</span></span>
+<span id="cb25-4"><a href="#cb25-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>The following syntax is legal Bash, but I do not use it.</p>
-<pre class="shell"><code>function namespace_func_name {
-    statement1
-    statement2
-}
-
-function namespace_func_name() {
-    statement1
-    statement2
-}
-
-# OR one-liner variants
-function namespace_func_name { statement ; }
-function namespace_func_name() { statement ; }
-
-</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> namespace_func_name</span> <span class="kw">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement1</span></span>
+<span id="cb26-3"><a href="#cb26-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement2</span></span>
+<span id="cb26-4"><a href="#cb26-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb26-5"><a href="#cb26-5" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> namespace_func_name()</span> <span class="kw">{</span></span>
+<span id="cb26-7"><a href="#cb26-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement1</span></span>
+<span id="cb26-8"><a href="#cb26-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement2</span></span>
+<span id="cb26-9"><a href="#cb26-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb26-10"><a href="#cb26-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co"># OR one-liner variants</span></span>
+<span id="cb26-12"><a href="#cb26-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> namespace_func_name</span> <span class="kw">{</span> <span class="ex">statement</span> <span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb26-13"><a href="#cb26-13" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> namespace_func_name()</span> <span class="kw">{</span> <span class="ex">statement</span> <span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb26-14"><a href="#cb26-14" target="_self" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
 <p>Bash accepts <code>.</code> and <code>-</code> in function names, but that is also a no-no for me. A linter like Shellcheck will complain in strict mode.</p>
-<pre class="shell"><code>namespace.funcname() {
-    statement 1
-    statement 2
-}
-
-namespace-funcname() {
-    statement 1
-    statement 2
-}
-</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">namespace.funcname()</span> <span class="kw">{</span></span>
+<span id="cb27-2"><a href="#cb27-2" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 1</span>
+<span id="cb27-3"><a href="#cb27-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 2</span>
+<span id="cb27-4"><a href="#cb27-4" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb27-5"><a href="#cb27-5" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" target="_self" aria-hidden="true" tabindex="-1"></a><span class="fu">namespace-funcname()</span> <span class="kw">{</span></span>
+<span id="cb27-7"><a href="#cb27-7" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 1</span>
+<span id="cb27-8"><a href="#cb27-8" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="ex">statement</span> 2</span>
+<span id="cb27-9"><a href="#cb27-9" target="_self" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
 <p>Ok, we covered a lot of ground, so I'll stop for now. There are more aspects of FP in bash (idempotence, declarative programming etc.), for future posts. But even this much will elevate your shell-fu, and let you write nontrivial scripts incrementally, safely, and maintainably.</p>
 <p>Happy Bash-ing!</p>
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
@@ -621,7 +597,6 @@ namespace-funcname() {
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&t=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fshell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools%2Findex.html&title=Shell%20ain%27t%20a%20bad%20place%20to%20FP%3A%20part%202%2FN%3A%20Functions%20as%20Unix%20Tools" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
     <form class="footer cluster"
       action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
@@ -636,6 +611,7 @@ namespace-funcname() {
     <input type="hidden" name="tag" value="everyone" />
 <input type="hidden" name="tag" value="via-blog-post" />
   </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
 </form>
   </footer>
 </article>

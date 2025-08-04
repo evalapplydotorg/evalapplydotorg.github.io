@@ -8,10 +8,13 @@
 <meta name="author" content="Aditya Athalye">
 <meta name="description"
       content="On trying to mash up SQLite with ideas stolen from Accountants, Clojure, Datomic, XTDB, Rama, and Local-first-ers, to satisfy Henderson&apos;s Tenth Law. Viz., to make a sufficiently complicated data system containing an ad-hoc, informally-specified, bug-ridden, slow implementation of half of a bitemporal database. Because? Because laying about on a hammock, contemplating hopelessly complected objects like Current Databases isn&apos;t just for the Rich man.">
-<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure,B2B Micro SaaS">
+<meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
+<meta property="og:site_name" content="EvalApply.org">
 <meta property="og:title" content="Poor man&apos;s bitemporal data system in SQLite and Clojure">
 <meta property="og:description" content="On trying to mash up SQLite with ideas stolen from Accountants, Clojure, Datomic, XTDB, Rama, and Local-first-ers, to satisfy Henderson&apos;s Tenth Law. Viz., to make a sufficiently complicated data system containing an ad-hoc, informally-specified, bug-ridden, slow implementation of half of a bitemporal database. Because? Because laying about on a hammock, contemplating hopelessly complected objects like Current Databases isn&apos;t just for the Rich man.">
 <meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="en_IN">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.evalapply.org/posts/poor-mans-time-oriented-data-system/index.html">
     <!-- Preload logo as it is on all pages -->
@@ -29,7 +32,7 @@
 <link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
 <link href="https://www.evalapply.org/index.xml"
       rel="alternate" type="application/rss+xml"
-      title="Aditya Athalye writes and works here.">
+      title="Hi, I'm Aditya Athalye. I make, learn, teach here.">
 <link rel="canonical" href="https://www.evalapply.org/posts/poor-mans-time-oriented-data-system/index.html">
 <link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
     <base target="_blank">
@@ -40,10 +43,10 @@
   <div class="box invert stack">
     <div class="with-sidebar site-header">
       <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
-        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Aditya Athalye writes and works here." width="60" height="60">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Hi, I'm Aditya Athalye. I make, learn, teach here." width="60" height="60">
       </a>
       <div class="stack">
-        <h1 class="site-header title">Aditya Athalye writes and works here.</h1>
+        <h1 class="site-header title">Hi, I'm Aditya Athalye. I make, learn, teach here.</h1>
         
         <nav class="cluster site-header site-header:nav-items">
           <a href="https://www.evalapply.org/posts/index.html" target="_self">
@@ -125,7 +128,6 @@
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-time-oriented-data-system%2Findex.html&t=Poor%20man%27s%20bitemporal%20data%20system%20in%20SQLite%20and%20Clojure" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-time-oriented-data-system%2Findex.html&title=Poor%20man%27s%20bitemporal%20data%20system%20in%20SQLite%20and%20Clojure" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
       <p><hr></p>
       <form class="footer cluster"
@@ -141,6 +143,7 @@
     <input type="hidden" name="tag" value="everyone" />
 <input type="hidden" name="tag" value="via-blog-post" />
   </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
 </form>
       <p><hr></p>
       <nav class="cluster">
@@ -1638,7 +1641,6 @@ If you put water into a cup, it becomes the cup. You put water into a bottle and
         <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-time-oriented-data-system%2Findex.html&t=Poor%20man%27s%20bitemporal%20data%20system%20in%20SQLite%20and%20Clojure" target="_blank"> [HN]</a>
         <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
         <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fpoor-mans-time-oriented-data-system%2Findex.html&title=Poor%20man%27s%20bitemporal%20data%20system%20in%20SQLite%20and%20Clojure" target="_blank">[reddit]</a>
-        <a class="site-feed" href="https://www.evalapply.org/index.xml" target="_blank">feed</a>
       </nav>
     <form class="footer cluster"
       action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
@@ -1653,6 +1655,7 @@ If you put water into a cup, it becomes the cup. You put water into a bottle and
     <input type="hidden" name="tag" value="everyone" />
 <input type="hidden" name="tag" value="via-blog-post" />
   </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
 </form>
   </footer>
 </article>
