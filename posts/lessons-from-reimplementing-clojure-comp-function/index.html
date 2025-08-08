@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Understanding not just Clojure&apos;s comp function by re-implementing it</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago!">
+<meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
+<meta property="og:site_name" content="EvalApply.org">
+<meta property="og:title" content="Understanding not just Clojure&apos;s comp function by re-implementing it">
+<meta property="og:description" content="Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago!">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="en_IN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/lessons-from-reimplementing-clojure-comp-function/index.html">
+    <!-- Preload logo as it is on all pages -->
+<link rel="preload" href="https://www.evalapply.org/static/img/Lisp_logo.svg" as="image" type="image/svg+xml" />
+<!-- Preload font files and font styles, before layout styles to reduce layout shift -->
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Ng.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFN2-RHBgUK5fbjKxRpbBtJPyRpocKdT7HmqQ.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFL2-RHBgUK5fbjKxRpbBtJPyRpocKYf7M.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/ptsansnarrow/v18/BngRUXNadjH0qYEzV7ab-oWlsbCGwR0.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/fonts.css">
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Hi, I'm Aditya Athalye. I make, learn, teach here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/lessons-from-reimplementing-clojure-comp-function/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+        <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://www.evalapply.org/index.html" target="_self">
+        <img src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Hi, I'm Aditya Athalye. I make, learn, teach here." width="60" height="60">
+      </a>
+      <div class="stack">
+        <h1 class="site-header title">Hi, I'm Aditya Athalye. I make, learn, teach here.</h1>
+        
+        <nav class="cluster site-header site-header:nav-items">
+          <a href="https://www.evalapply.org/posts/index.html" target="_self">
+  &raquo; read
+</a>
+<a href="https://news.ycombinator.com/from?site=evalapply.org" target="_blank">
+  &nbsp;[Y]
+</a>
+<a href="https://lobste.rs/domains/evalapply.org" target="_blank">
+  &nbsp;[L]
+</a>
+<a href="https://www.evalapply.org/index.xml" target="_blank">
+  &rArr; feed
+</a>
+|
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
+</a>
+<a href="https://linkedin.com/in/adityaathalye">
+  &nbsp;[in]
+</a>
+|
+<a href="https://www.github.com/adityaathalye" target="_blank" target="_self">
+  &lambda; git
+</a>
+<a href="https://www.youtube.com/@evalapplydotorg/playlists" target="_blank" target="_self">
+  &#x23FF; YT
+</a>
+|
+<a href="https://www.evalapply.org/about.html" target="_self">
+  &#9753; self
+</a>
+<a href="https://www.evalapply.org/now.html" target="_self">
+  &asymp; now
+</a>
+        </nav>
+        <p class="footnotes">
+          <strong>2025 Q3 |&nbsp;
+            <a class="site-header site-header:nav-items"
+               href="https://www.linkedin.com/posts/adityaathalye_seeking-work-remote-ok-with-activity-7357385373867528194-bpiV">
+              For Hire</a>
+             &nbsp;&raquo;&nbsp;
+          </strong>
+          "<a href="https://www.evalapply.org/tags/systems/index.html" target="_self">Full-systems</a>"
+          <a href="https://www.evalapply.org/tags/web_development/index.html" target="_self">B2B SaaS</a>
+          <a href="https://www.evalapply.org/tags/architecture/index.html" target="_self">builder</a>
+          + <a href="https://www.evalapply.org/tags/functional_programming/index.html" target="_self">FP</a>
+            <a href="https://www.evalapply.org/about.html" target="_self">coach</a>.
+           <strong>&nbsp;|&nbsp;WIP public <em>β</em>&nbsp;&raquo&nbsp;</strong>Project
+          <a href="https://www.evalapply.org/index.html" target="_self">
+            "Writing for nerds"</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+  <main id="main">
+    <article id="blog-post" class="stack">
+  <header class="stack">
+      <p class="title">Understanding not just Clojure's comp function by re-implementing it</p>
+
+      <p class="cluster post-meta">
+        
+        <span class="date">Published: 2025-08-08</span>
+        <span class="date">Updated: 2025-08-08</span>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago!
+      </p>
+     <div class="post-meta"><hr></div>
+     <div class="post-meta">
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Understanding not just Clojure's comp function by re-implementing it" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Understanding%20not%20just%20Clojure%27s%20comp%20function%20by%20re-implementing%20it%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html&t=Understanding%20not%20just%20Clojure%27s%20comp%20function%20by%20re-implementing%20it" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html&title=Understanding%20not%20just%20Clojure%27s%20comp%20function%20by%20re-implementing%20it" target="_blank">[reddit]</a>
+      </nav>
+      <p><hr></p>
+      <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
+</form>
+      <p><hr></p>
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/clojure/index.html#main" target="_self">#clojure</a><a href="https://www.evalapply.org/tags/functional_programming/index.html#main" target="_self">#functional_programming</a><a href="https://www.evalapply.org/tags/howto/index.html#main" target="_self">#howto</a><a href="https://www.evalapply.org/tags/riff/index.html#main" target="_self">#riff</a>
+      </nav>
+    </div>
+  </header>
+  <hr>
+  <section class="stack">
+      <p>Someone working through the "<a href="https://www.braveclojure.com/functional-programming/"><em>Brave Clojure</em></a>" book asked <code>#beginners</code> in the Clojurians Zulip chat, for help about implementing <a href="https://clojuredocs.org/clojure.core/comp">comp</a> "in their own words". <a href="https://clojurians.zulipchat.com/#narrow/channel/151763-beginners/topic/Understanding.20comp.20by.20reimpleneting.20it">Useful help followed in the Zulip thread</a>, of course. I was late to the party. Of course. But when has that ever stopped anyone on the Internet from generating a wall of text?</p>
+<p>Having done so, I realised a bunch of ideas have to coalesce in the Clojure learner's mind to truly <em>See</em> the picture, and I certainly did not <em>See</em> it for a long time:</p>
+<ul>
+<li>Functions are first-class values at run-time, just like "normal" constants.
+<ul>
+<li><em>So</em> we can pass them around, and in Clojure, we can also put functions inside normal Clojure data structures (maps, lists, vectors, sets etc.).</li>
+</ul></li>
+<li>Pure functions, and the substitution principle of reducing functional expressions down to the smallest form.</li>
+<li>Recursive thinking / inductive reasoning (same thing)
+<ul>
+<li>Constructing base ("empty") case, unit case, two case, three-case, and using that to generalise to the n-case (of <code>n</code> arguments to a function).</li>
+</ul></li>
+<li>Familiarity with writing functions having variable arguments</li>
+<li>Familiarity with the stdlib (reduce and reductions, for example).</li>
+<li>How to use "code as data", for self-education, if nothing else.</li>
+</ul>
+<p>So… <code>comp</code>…</p>
+<p>The REPL says…</p>
+<pre class="text"><code>user=&gt; (clojure.repl/doc comp)
+-------------------------
+clojure.core/comp
+([] [f] [f g] [f g &amp; fs])
+Takes a set of functions and returns a fn that is the composition
+of those fns.  The returned fn takes a variable number of args,
+applies the rightmost of fns to the args, the next
+fn (right-to-left) to the result, etc.
+</code></pre>
+<p>This means:</p>
+<ul>
+<li><code>comp</code>'s type signature is <code>List[Function] -&gt; Function</code>.</li>
+<li>It accepts functions as arguments, ergo functions must be "normal" values.</li>
+<li>It <em>must</em> always return a function.</li>
+<li>By definition, the returned function must be of exactly one argument.</li>
+</ul>
+<p>We consult Clojure Docs for <a href="https://clojuredocs.org/clojure.core/comp">examples illustrating what comp does</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="kw">filter</span> (<span class="kw">comp</span> <span class="kw">not</span> <span class="kw">zero?</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" target="_self" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span> <span class="dv">1</span> <span class="dv">0</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">3</span> <span class="dv">0</span> <span class="dv">4</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;=&gt; (1 2 3 4)</span></span>
+<span id="cb2-4"><a href="#cb2-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> negative-quotient</span></span>
+<span id="cb2-7"><a href="#cb2-7" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">comp</span> <span class="kw">-</span> <span class="kw">/</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" target="_self" aria-hidden="true" tabindex="-1"></a>(negative-quotient <span class="dv">8</span> <span class="dv">3</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;=&gt; -8/3</span></span>
+<span id="cb2-11"><a href="#cb2-11" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">def</span><span class="fu"> concat-and-reverse</span></span>
+<span id="cb2-14"><a href="#cb2-14" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">comp</span> (<span class="kw">partial</span> <span class="kw">apply</span> <span class="kw">str</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="kw">reverse</span></span>
+<span id="cb2-16"><a href="#cb2-16" target="_self" aria-hidden="true" tabindex="-1"></a>        <span class="kw">str</span>))</span>
+<span id="cb2-17"><a href="#cb2-17" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" target="_self" aria-hidden="true" tabindex="-1"></a>(concat-and-reverse <span class="st">&quot;hello&quot;</span> <span class="st">&quot;clojuredocs&quot;</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;;=&gt; &quot;scoderujolcolleh&quot;</span></span>
+<span id="cb2-20"><a href="#cb2-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; etc...</span></span></code></pre></div>
+<p>Now, to rewrite it in one's on words.</p>
+<p>What might <code>comp</code> be doing?</p>
+<p><code>comp</code>'s argument list indicates it must handle several "arities" of arguments:</p>
+<ul>
+<li><em><strong>zero argument case</strong></em>: <code>comp</code> of nothing should "do nothing". But <code>comp</code> <u>must</u> return a function. So what is the function of one argument that does "nothing"? <code>identity</code>, as you identified it.</li>
+<li><em><strong>unit argument case</strong></em>: <code>comp</code> of <code>f</code> must return a function that "does <code>f</code>" to a single argument. Thus the return value must be <code>(fn [x] (f
+ x))</code>.</li>
+<li><em><strong>two argument case</strong></em>: <code>comp</code> of <code>f</code> and <code>g</code> must return a function that <u>first</u> "does <code>g</code> to a single argument", then "does <code>f</code>" to the return value of <code>(g x)</code>. This is <code>(fn [x] (f (g x)))</code>.</li>
+<li><em><strong>three case</strong></em>: <code>comp</code> of <code>f</code>, <code>g</code>, <code>h</code> must return <code>(fn [x] (f (g
+ (h x))))</code>. BUT this reduces to the two-case… <code>(fn [x] (f (g
+ x')))</code>, where <code>(h x)</code> returns some new value <code>x'</code> (pronounced "x prime").</li>
+<li><em><strong>n case</strong></em>: and so on… the 'n' case will follow the same (inductive) reasoning and collapse down to the two-case.</li>
+</ul>
+<p>So, we essentially need to handle zero, one, and two argument cases, and figure out how to use that solution to handle the fully general <code>n</code> argument case.</p>
+<p>And with this thought, if we know <code>reduce</code>, we can <a href="https://knowyourmeme.com/photos/572078-how-to-draw-an-owl">draw the rest of the Owl</a>…</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb3-1"><a href="#cb3-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp</span></span>
+<span id="cb3-2"><a href="#cb3-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
+<span id="cb3-3"><a href="#cb3-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [f g]</span>
+<span id="cb3-4"><a href="#cb3-4" target="_self" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">fn</span> [x]</span>
+<span id="cb3-5"><a href="#cb3-5" target="_self" aria-hidden="true" tabindex="-1"></a>              (f (g x))))</span>
+<span id="cb3-6"><a href="#cb3-6" target="_self" aria-hidden="true" tabindex="-1"></a>          <span class="kw">identity</span></span>
+<span id="cb3-7"><a href="#cb3-7" target="_self" aria-hidden="true" tabindex="-1"></a>          funcs))</span>
+<span id="cb3-8"><a href="#cb3-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">41</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">41</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;42&quot;</span></span>
+<span id="cb3-13"><a href="#cb3-13" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp <span class="kw">inc</span>) <span class="dv">41</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="dv">42</span></span>
+<span id="cb3-15"><a href="#cb3-15" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp) <span class="dv">41</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" target="_self" aria-hidden="true" tabindex="-1"></a><span class="dv">41</span></span></code></pre></div>
+<p>If this looks freaky, fear not… It took me a <em>long</em> time to figure out how to think like that "natually". And it still freaks me out that this kind of thing "just works". Give it time, it will come to you.</p>
+<p>In general, the technique used above is called the "substitution principle"… how we turned the three-case into the two-case.</p>
+<p>We can do it because there is no difference between a pure function <code>f</code> called on some <code>x</code>, and the return value arrived at… i.e. If <code>(f
+x)</code> returns <code>x'</code>, then you could just as well say <code>x'</code>, and the consumer of the return value can be none the wiser.</p>
+<p>Incidentally, <a href="https://en.wikipedia.org/wiki/Constant_folding">constant folding</a> in compilers is the same thing. If the compiler has all the information about what is calling what, then it can just say…</p>
+<blockquote>
+<p>"Weeeeell… Obviously the program does not need to keep doing the work again and again because it will always end up at the same value. So, here you go, the final return value as it is supposed to be, hard-coded into the compiled binary…"</p>
+</blockquote>
+<p>So I guess I'm saying that understanding <code>comp</code>, can help understand <code>compiler</code>. I'll show myself out… (:</p>
+<p>But that was typed well past midnight.</p>
+<p>This morning my brain realised that it's possible to directly show how the reduction process itself unfolds…</p>
+<p>First, let's rewrite the <code>reduce</code> body so that it only generates the fully-formed expression without evaluating anything. This is one of the little joys of being able to write our programs in terms of the data structures of the language ("homoiconicity").</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb4-1"><a href="#cb4-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-no-eval</span></span>
+<span id="cb4-2"><a href="#cb4-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
+<span id="cb4-3"><a href="#cb4-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [f g]</span>
+<span id="cb4-4"><a href="#cb4-4" target="_self" aria-hidden="true" tabindex="-1"></a>            `(<span class="kw">fn</span> [x]</span>
+<span id="cb4-5"><a href="#cb4-5" target="_self" aria-hidden="true" tabindex="-1"></a>               (<span class="at">~f</span> (<span class="at">~g</span> x))))</span>
+<span id="cb4-6"><a href="#cb4-6" target="_self" aria-hidden="true" tabindex="-1"></a>          <span class="kw">identity</span></span>
+<span id="cb4-7"><a href="#cb4-7" target="_self" aria-hidden="true" tabindex="-1"></a>              funcs))</span>
+<span id="cb4-8"><a href="#cb4-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; (my-comp-no-eval <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" target="_self" aria-hidden="true" tabindex="-1"></a>(clojure.core/fn [user/x]</span>
+<span id="cb4-11"><a href="#cb4-11" target="_self" aria-hidden="true" tabindex="-1"></a>  ((clojure.core/fn [user/x]</span>
+<span id="cb4-12"><a href="#cb4-12" target="_self" aria-hidden="true" tabindex="-1"></a>     ((clojure.core/fn [user/x]</span>
+<span id="cb4-13"><a href="#cb4-13" target="_self" aria-hidden="true" tabindex="-1"></a>        (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb4-14"><a href="#cb4-14" target="_self" aria-hidden="true" tabindex="-1"></a>         (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb4-15"><a href="#cb4-15" target="_self" aria-hidden="true" tabindex="-1"></a>      (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
+<span id="cb4-16"><a href="#cb4-16" target="_self" aria-hidden="true" tabindex="-1"></a>   (#object[clojure.core$inc <span class="bn">0x75b3673</span> <span class="st">&quot;clojure.core$inc@75b3673&quot;</span>] user/x)))</span></code></pre></div>
+<p>We can do one better, and directly visualise <em><strong>every step of the reduction process</strong></em>, using <code>reductions</code> instead of <code>reduce</code>.</p>
+<p>Read this doozy "bottom to top".</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-no-eval-show-steps</span></span>
+<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
+<span id="cb5-3"><a href="#cb5-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (reductions (<span class="kw">fn</span> [f g]</span>
+<span id="cb5-4"><a href="#cb5-4" target="_self" aria-hidden="true" tabindex="-1"></a>                `(<span class="kw">fn</span> [x]</span>
+<span id="cb5-5"><a href="#cb5-5" target="_self" aria-hidden="true" tabindex="-1"></a>                   (<span class="at">~f</span> (<span class="at">~g</span> x))))</span>
+<span id="cb5-6"><a href="#cb5-6" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="kw">identity</span></span>
+<span id="cb5-7"><a href="#cb5-7" target="_self" aria-hidden="true" tabindex="-1"></a>              funcs))</span>
+<span id="cb5-8"><a href="#cb5-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; (my-comp-no-eval-show-steps <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; FINAL REDUCTION...</span></span>
+<span id="cb5-12"><a href="#cb5-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Retuns identity of whatever value is computed.</span></span>
+<span id="cb5-13"><a href="#cb5-13" target="_self" aria-hidden="true" tabindex="-1"></a>(#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb5-14"><a href="#cb5-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; BEFORE THAT:</span></span>
+<span id="cb5-16"><a href="#cb5-16" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; The &#39;two arguments case&#39; is reduced to the &#39;one argument case&#39;.</span></span>
+<span id="cb5-17"><a href="#cb5-17" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
+<span id="cb5-18"><a href="#cb5-18" target="_self" aria-hidden="true" tabindex="-1"></a>   (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb5-19"><a href="#cb5-19" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb5-20"><a href="#cb5-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; BEFORE THAT:</span></span>
+<span id="cb5-22"><a href="#cb5-22" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; The &#39;three arguments case&#39; is reduced to the &#39;two argument case&#39;</span></span>
+<span id="cb5-23"><a href="#cb5-23" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
+<span id="cb5-24"><a href="#cb5-24" target="_self" aria-hidden="true" tabindex="-1"></a>   ((clojure.core/fn [user/x]</span>
+<span id="cb5-25"><a href="#cb5-25" target="_self" aria-hidden="true" tabindex="-1"></a>      (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb5-26"><a href="#cb5-26" target="_self" aria-hidden="true" tabindex="-1"></a>       (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb5-27"><a href="#cb5-27" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
+<span id="cb5-28"><a href="#cb5-28" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; THE VERY BEGINNING:</span></span>
+<span id="cb5-30"><a href="#cb5-30" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; Starting form of the computation, before the reduction process kicks off.</span></span>
+<span id="cb5-31"><a href="#cb5-31" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
+<span id="cb5-32"><a href="#cb5-32" target="_self" aria-hidden="true" tabindex="-1"></a>   ((clojure.core/fn [user/x]</span>
+<span id="cb5-33"><a href="#cb5-33" target="_self" aria-hidden="true" tabindex="-1"></a>      ((clojure.core/fn [user/x]</span>
+<span id="cb5-34"><a href="#cb5-34" target="_self" aria-hidden="true" tabindex="-1"></a>         (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb5-35"><a href="#cb5-35" target="_self" aria-hidden="true" tabindex="-1"></a>          (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb5-36"><a href="#cb5-36" target="_self" aria-hidden="true" tabindex="-1"></a>       (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
+<span id="cb5-37"><a href="#cb5-37" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$inc <span class="bn">0x75b3673</span> <span class="st">&quot;clojure.core$inc@75b3673&quot;</span>] user/x))))</span></code></pre></div>
+<p>That's it for now.</p>
+<p>If you like this, you may like to learn of the <a href="https://www.evalapply.org/posts/n-ways-to-fizzbuzz-in-clojure/index.html#main">n ways to fizzbuzz in Clojure</a>.</p>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <hr>
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
+    </nav>
+    <hr>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Understanding not just Clojure's comp function by re-implementing it" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Understanding%20not%20just%20Clojure%27s%20comp%20function%20by%20re-implementing%20it%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html&t=Understanding%20not%20just%20Clojure%27s%20comp%20function%20by%20re-implementing%20it" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Flessons-from-reimplementing-clojure-comp-function%2Findex.html&title=Understanding%20not%20just%20Clojure%27s%20comp%20function%20by%20re-implementing%20it" target="_blank">[reddit]</a>
+      </nav>
+    <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
+</form>
+  </footer>
+</article>
+  </main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p class="center">&copy; 2025,
+      <a href="https://www.linkedin.com/in/adityaathalye/" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+    </p>
+    <p class="center">
+      Built with
+      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>,
+      GNU <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>,
+      <a href="https://orgmode.org" target="_blank">org-mode</a>, and &#x1F5A4;.
+    </p>
+    <p class="center">
+      My
+      <a href="https://buttondown.com/evalapply" target="_blank">newsletter</a>
+      is powered by
+      <a href="https://buttondown.com/refer/evalapply" target="_blank">Buttondown</a>.
+    </p>
+    <div class="rc-scout-wrapper center">
+      <div class="rc-scout" data-scout-rendered="true">
+        <p class="rc-scout__text">
+          <i class="rc-scout__logo"></i>
+          Want to become a better programmer?
+          <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=40533398b8c93bb4f3323a170e032e91" target="_blank">Join the Recurse Center!</a>
+        </p>
+      </div>
+      <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: var(--color-dark); text-decoration: underline; text-underline-offset: var(--scale-xxxs); } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }
+      </style>
+    </div>
+  </div>
+</footer>
+    </div>
+  </body>
+</html>
