@@ -7,11 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Aditya Athalye">
 <meta name="description"
-      content="Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago!">
+      content="Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago! Feat. a salty footnote about the misdirected rancour popularly heaped upon CSS (yes, Cascading Style Sheets), triggered by that fact that &apos;comp&apos; is a combinator, and I think they should have called it Combinatory Styling System.">
 <meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
 <meta property="og:site_name" content="EvalApply.org">
 <meta property="og:title" content="Understanding not just Clojure&apos;s comp function by re-implementing it">
-<meta property="og:description" content="Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago!">
+<meta property="og:description" content="Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago! Feat. a salty footnote about the misdirected rancour popularly heaped upon CSS (yes, Cascading Style Sheets), triggered by that fact that &apos;comp&apos; is a combinator, and I think they should have called it Combinatory Styling System.">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="en_IN">
 <meta property="og:locale:alternate" content="en_US">
@@ -111,12 +111,12 @@
       <p class="cluster post-meta">
         
         <span class="date">Published: 2025-08-08</span>
-        <span class="date">Updated: 2025-08-09</span>
+        <span class="date">Updated: 2025-08-10</span>
         <span class="author">By: Aditya Athalye</span>
       </p>
 
       <p class="summary">
-        Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago!
+        Because I realised thinking like this is not obvious to Clojure newcomers, especially those having non-FP first languages. Because I was there too, all those moons ago! Feat. a salty footnote about the misdirected rancour popularly heaped upon CSS (yes, Cascading Style Sheets), triggered by that fact that 'comp' is a combinator, and I think they should have called it Combinatory Styling System.
       </p>
      <div class="post-meta"><hr></div>
      <div class="post-meta">
@@ -250,7 +250,7 @@ fn (right-to-left) to the result, etc.
 <span id="cb4-14"><a href="#cb4-14" target="_self" aria-hidden="true" tabindex="-1"></a><span class="dv">42</span></span>
 <span id="cb4-15"><a href="#cb4-15" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp) <span class="dv">41</span>)</span>
 <span id="cb4-16"><a href="#cb4-16" target="_self" aria-hidden="true" tabindex="-1"></a><span class="dv">41</span></span></code></pre></div>
-<p>If this looks freaky, fear not… It took me a <em>long</em> time to figure out how to think like that "natually". And it still freaks me out that this kind of thing "just works". Give it time, it will come to you.</p>
+<p>If this looks freaky, fear not… It took me a <em>long</em> time to figure out how to think like that "natually". And it still freaks me out that abstractions like <code>comp</code> and <code>apply</code>—<em>combinators</em> <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>—"just work". Give it time, it will come to you. (Aside: See the same footnote for my salty take on CSS, which is <em>so</em> much better with combinators.)</p>
 <p>In general, the technique used above is called the "substitution principle"… how we turned the three-case into the two-case.</p>
 <p>We can do it because there is no difference between a pure function <code>f</code> called on some <code>x</code>, and the return value arrived at… i.e. If <code>(f
 x)</code> returns <code>x'</code>, then you could just as well say <code>x'</code>, and the consumer of the return value can be none the wiser.</p>
@@ -262,95 +262,95 @@ x)</code> returns <code>x'</code>, then you could just as well say <code>x'</cod
 <p>But that was typed well past midnight.</p>
 <p>This morning my brain realised that it's possible to directly show how the reduction process itself unfolds…</p>
 <p>First, let's rewrite the <code>reduce</code> body so that it only generates the fully-formed expression without evaluating anything. This is one of the little joys of being able to write our programs in terms of the data structures of the language ("homoiconicity").</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-no-eval</span></span>
-<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
-<span id="cb5-3"><a href="#cb5-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [f g]</span>
-<span id="cb5-4"><a href="#cb5-4" target="_self" aria-hidden="true" tabindex="-1"></a>            `(<span class="kw">fn</span> [x]</span>
-<span id="cb5-5"><a href="#cb5-5" target="_self" aria-hidden="true" tabindex="-1"></a>               (<span class="at">~f</span> (<span class="at">~g</span> x))))</span>
-<span id="cb5-6"><a href="#cb5-6" target="_self" aria-hidden="true" tabindex="-1"></a>          <span class="kw">identity</span></span>
-<span id="cb5-7"><a href="#cb5-7" target="_self" aria-hidden="true" tabindex="-1"></a>              funcs))</span>
-<span id="cb5-8"><a href="#cb5-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; (my-comp-no-eval <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" target="_self" aria-hidden="true" tabindex="-1"></a>(clojure.core/fn [user/x]</span>
-<span id="cb5-11"><a href="#cb5-11" target="_self" aria-hidden="true" tabindex="-1"></a>  ((clojure.core/fn [user/x]</span>
-<span id="cb5-12"><a href="#cb5-12" target="_self" aria-hidden="true" tabindex="-1"></a>     ((clojure.core/fn [user/x]</span>
-<span id="cb5-13"><a href="#cb5-13" target="_self" aria-hidden="true" tabindex="-1"></a>        (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
-<span id="cb5-14"><a href="#cb5-14" target="_self" aria-hidden="true" tabindex="-1"></a>         (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
-<span id="cb5-15"><a href="#cb5-15" target="_self" aria-hidden="true" tabindex="-1"></a>      (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
-<span id="cb5-16"><a href="#cb5-16" target="_self" aria-hidden="true" tabindex="-1"></a>   (#object[clojure.core$inc <span class="bn">0x75b3673</span> <span class="st">&quot;clojure.core$inc@75b3673&quot;</span>] user/x)))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-no-eval</span></span>
+<span id="cb7-2"><a href="#cb7-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
+<span id="cb7-3"><a href="#cb7-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [f g]</span>
+<span id="cb7-4"><a href="#cb7-4" target="_self" aria-hidden="true" tabindex="-1"></a>            `(<span class="kw">fn</span> [x]</span>
+<span id="cb7-5"><a href="#cb7-5" target="_self" aria-hidden="true" tabindex="-1"></a>               (<span class="at">~f</span> (<span class="at">~g</span> x))))</span>
+<span id="cb7-6"><a href="#cb7-6" target="_self" aria-hidden="true" tabindex="-1"></a>          <span class="kw">identity</span></span>
+<span id="cb7-7"><a href="#cb7-7" target="_self" aria-hidden="true" tabindex="-1"></a>              funcs))</span>
+<span id="cb7-8"><a href="#cb7-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; (my-comp-no-eval <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" target="_self" aria-hidden="true" tabindex="-1"></a>(clojure.core/fn [user/x]</span>
+<span id="cb7-11"><a href="#cb7-11" target="_self" aria-hidden="true" tabindex="-1"></a>  ((clojure.core/fn [user/x]</span>
+<span id="cb7-12"><a href="#cb7-12" target="_self" aria-hidden="true" tabindex="-1"></a>     ((clojure.core/fn [user/x]</span>
+<span id="cb7-13"><a href="#cb7-13" target="_self" aria-hidden="true" tabindex="-1"></a>        (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb7-14"><a href="#cb7-14" target="_self" aria-hidden="true" tabindex="-1"></a>         (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb7-15"><a href="#cb7-15" target="_self" aria-hidden="true" tabindex="-1"></a>      (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
+<span id="cb7-16"><a href="#cb7-16" target="_self" aria-hidden="true" tabindex="-1"></a>   (#object[clojure.core$inc <span class="bn">0x75b3673</span> <span class="st">&quot;clojure.core$inc@75b3673&quot;</span>] user/x)))</span></code></pre></div>
 <p>We can do one better, and directly visualise <em><strong>every step of the reduction process</strong></em>, using <code>reductions</code> instead of <code>reduce</code>.</p>
 <p>Read this doozy "bottom to top".</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb6-1"><a href="#cb6-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-no-eval-show-steps</span></span>
-<span id="cb6-2"><a href="#cb6-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
-<span id="cb6-3"><a href="#cb6-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (reductions (<span class="kw">fn</span> [f g]</span>
-<span id="cb6-4"><a href="#cb6-4" target="_self" aria-hidden="true" tabindex="-1"></a>                `(<span class="kw">fn</span> [x]</span>
-<span id="cb6-5"><a href="#cb6-5" target="_self" aria-hidden="true" tabindex="-1"></a>                   (<span class="at">~f</span> (<span class="at">~g</span> x))))</span>
-<span id="cb6-6"><a href="#cb6-6" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="kw">identity</span></span>
-<span id="cb6-7"><a href="#cb6-7" target="_self" aria-hidden="true" tabindex="-1"></a>              funcs))</span>
-<span id="cb6-8"><a href="#cb6-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; (my-comp-no-eval-show-steps <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; FINAL REDUCTION...</span></span>
-<span id="cb6-12"><a href="#cb6-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Retuns identity of whatever value is computed.</span></span>
-<span id="cb6-13"><a href="#cb6-13" target="_self" aria-hidden="true" tabindex="-1"></a>(#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
-<span id="cb6-14"><a href="#cb6-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; BEFORE THAT:</span></span>
-<span id="cb6-16"><a href="#cb6-16" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; The &#39;two arguments case&#39; is reduced to the &#39;one argument case&#39;.</span></span>
-<span id="cb6-17"><a href="#cb6-17" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
-<span id="cb6-18"><a href="#cb6-18" target="_self" aria-hidden="true" tabindex="-1"></a>   (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
-<span id="cb6-19"><a href="#cb6-19" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
-<span id="cb6-20"><a href="#cb6-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; BEFORE THAT:</span></span>
-<span id="cb6-22"><a href="#cb6-22" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; The &#39;three arguments case&#39; is reduced to the &#39;two argument case&#39;</span></span>
-<span id="cb6-23"><a href="#cb6-23" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
-<span id="cb6-24"><a href="#cb6-24" target="_self" aria-hidden="true" tabindex="-1"></a>   ((clojure.core/fn [user/x]</span>
-<span id="cb6-25"><a href="#cb6-25" target="_self" aria-hidden="true" tabindex="-1"></a>      (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
-<span id="cb6-26"><a href="#cb6-26" target="_self" aria-hidden="true" tabindex="-1"></a>       (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
-<span id="cb6-27"><a href="#cb6-27" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
-<span id="cb6-28"><a href="#cb6-28" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; THE VERY BEGINNING:</span></span>
-<span id="cb6-30"><a href="#cb6-30" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; Starting form of the computation, before the reduction process kicks off.</span></span>
-<span id="cb6-31"><a href="#cb6-31" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
-<span id="cb6-32"><a href="#cb6-32" target="_self" aria-hidden="true" tabindex="-1"></a>   ((clojure.core/fn [user/x]</span>
-<span id="cb6-33"><a href="#cb6-33" target="_self" aria-hidden="true" tabindex="-1"></a>      ((clojure.core/fn [user/x]</span>
-<span id="cb6-34"><a href="#cb6-34" target="_self" aria-hidden="true" tabindex="-1"></a>         (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
-<span id="cb6-35"><a href="#cb6-35" target="_self" aria-hidden="true" tabindex="-1"></a>          (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
-<span id="cb6-36"><a href="#cb6-36" target="_self" aria-hidden="true" tabindex="-1"></a>       (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
-<span id="cb6-37"><a href="#cb6-37" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$inc <span class="bn">0x75b3673</span> <span class="st">&quot;clojure.core$inc@75b3673&quot;</span>] user/x))))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-no-eval-show-steps</span></span>
+<span id="cb8-2"><a href="#cb8-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
+<span id="cb8-3"><a href="#cb8-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (reductions (<span class="kw">fn</span> [f g]</span>
+<span id="cb8-4"><a href="#cb8-4" target="_self" aria-hidden="true" tabindex="-1"></a>                `(<span class="kw">fn</span> [x]</span>
+<span id="cb8-5"><a href="#cb8-5" target="_self" aria-hidden="true" tabindex="-1"></a>                   (<span class="at">~f</span> (<span class="at">~g</span> x))))</span>
+<span id="cb8-6"><a href="#cb8-6" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="kw">identity</span></span>
+<span id="cb8-7"><a href="#cb8-7" target="_self" aria-hidden="true" tabindex="-1"></a>              funcs))</span>
+<span id="cb8-8"><a href="#cb8-8" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; (my-comp-no-eval-show-steps <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; FINAL REDUCTION...</span></span>
+<span id="cb8-12"><a href="#cb8-12" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; Retuns identity of whatever value is computed.</span></span>
+<span id="cb8-13"><a href="#cb8-13" target="_self" aria-hidden="true" tabindex="-1"></a>(#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb8-14"><a href="#cb8-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; BEFORE THAT:</span></span>
+<span id="cb8-16"><a href="#cb8-16" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; The &#39;two arguments case&#39; is reduced to the &#39;one argument case&#39;.</span></span>
+<span id="cb8-17"><a href="#cb8-17" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
+<span id="cb8-18"><a href="#cb8-18" target="_self" aria-hidden="true" tabindex="-1"></a>   (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb8-19"><a href="#cb8-19" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb8-20"><a href="#cb8-20" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; BEFORE THAT:</span></span>
+<span id="cb8-22"><a href="#cb8-22" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; The &#39;three arguments case&#39; is reduced to the &#39;two argument case&#39;</span></span>
+<span id="cb8-23"><a href="#cb8-23" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
+<span id="cb8-24"><a href="#cb8-24" target="_self" aria-hidden="true" tabindex="-1"></a>   ((clojure.core/fn [user/x]</span>
+<span id="cb8-25"><a href="#cb8-25" target="_self" aria-hidden="true" tabindex="-1"></a>      (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb8-26"><a href="#cb8-26" target="_self" aria-hidden="true" tabindex="-1"></a>       (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb8-27"><a href="#cb8-27" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
+<span id="cb8-28"><a href="#cb8-28" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; THE VERY BEGINNING:</span></span>
+<span id="cb8-30"><a href="#cb8-30" target="_self" aria-hidden="true" tabindex="-1"></a> <span class="co">;; Starting form of the computation, before the reduction process kicks off.</span></span>
+<span id="cb8-31"><a href="#cb8-31" target="_self" aria-hidden="true" tabindex="-1"></a> (clojure.core/fn [user/x]</span>
+<span id="cb8-32"><a href="#cb8-32" target="_self" aria-hidden="true" tabindex="-1"></a>   ((clojure.core/fn [user/x]</span>
+<span id="cb8-33"><a href="#cb8-33" target="_self" aria-hidden="true" tabindex="-1"></a>      ((clojure.core/fn [user/x]</span>
+<span id="cb8-34"><a href="#cb8-34" target="_self" aria-hidden="true" tabindex="-1"></a>         (#object[clojure.core$identity <span class="bn">0x42c2f48c</span> <span class="st">&quot;clojure.core$identity@42c2f48c&quot;</span>]</span>
+<span id="cb8-35"><a href="#cb8-35" target="_self" aria-hidden="true" tabindex="-1"></a>          (#object[clojure.core$reverse <span class="bn">0x41aaedaa</span> <span class="st">&quot;clojure.core$reverse@41aaedaa&quot;</span>] user/x)))</span>
+<span id="cb8-36"><a href="#cb8-36" target="_self" aria-hidden="true" tabindex="-1"></a>       (#object[clojure.core$str <span class="bn">0x303a5119</span> <span class="st">&quot;clojure.core$str@303a5119&quot;</span>] user/x)))</span>
+<span id="cb8-37"><a href="#cb8-37" target="_self" aria-hidden="true" tabindex="-1"></a>    (#object[clojure.core$inc <span class="bn">0x75b3673</span> <span class="st">&quot;clojure.core$inc@75b3673&quot;</span>] user/x))))</span></code></pre></div>
 <p><em><strong>And finally, we have to undo our simplifying constraint…</strong></em></p>
 <ul>
 <li>Instead of saying <code>my-comp</code> always returns a function of one argument, we say <code>my-comp</code>, just like <code>comp</code> must return a function capable of handling <u>any</u> number of arguments.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb7-1"><a href="#cb7-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-with-var-args-support</span></span>
-<span id="cb7-2"><a href="#cb7-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
-<span id="cb7-3"><a href="#cb7-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [f g]</span>
-<span id="cb7-4"><a href="#cb7-4" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="co">;; &quot;wrap&quot; &#39;x&#39; into a variable-length collection</span></span>
-<span id="cb7-5"><a href="#cb7-5" target="_self" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">fn</span> [&amp; x]</span>
-<span id="cb7-6"><a href="#cb7-6" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="co">;; use apply to &quot;unwrap&quot; &#39;x&#39; and,</span></span>
-<span id="cb7-7"><a href="#cb7-7" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="co">;; call &#39;g&#39; with the unwrapped values</span></span>
-<span id="cb7-8"><a href="#cb7-8" target="_self" aria-hidden="true" tabindex="-1"></a>              (f (<span class="kw">apply</span> g x))))</span>
-<span id="cb7-9"><a href="#cb7-9" target="_self" aria-hidden="true" tabindex="-1"></a>          <span class="kw">identity</span></span>
-<span id="cb7-10"><a href="#cb7-10" target="_self" aria-hidden="true" tabindex="-1"></a>          funcs))</span>
-<span id="cb7-11"><a href="#cb7-11" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span> <span class="kw">+</span>) <span class="dv">20</span> <span class="dv">20</span> <span class="dv">1</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">20</span> <span class="dv">20</span> <span class="dv">1</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" target="_self" aria-hidden="true" tabindex="-1"></a>Execution error (ArityException) at user$my_comp_with_var_args_support$fn__134$fn__135/doInvoke (REPL<span class="at">:8</span>).</span>
-<span id="cb7-17"><a href="#cb7-17" target="_self" aria-hidden="true" tabindex="-1"></a>Wrong number of args (<span class="dv">3</span>) passed to: clojure.core/inc</span>
-<span id="cb7-18"><a href="#cb7-18" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">41</span>)</span>
-<span id="cb7-20"><a href="#cb7-20" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb9-1"><a href="#cb9-1" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="bu">defn</span><span class="fu"> my-comp-with-var-args-support</span></span>
+<span id="cb9-2"><a href="#cb9-2" target="_self" aria-hidden="true" tabindex="-1"></a>  [&amp; funcs]</span>
+<span id="cb9-3"><a href="#cb9-3" target="_self" aria-hidden="true" tabindex="-1"></a>  (<span class="kw">reduce</span> (<span class="kw">fn</span> [f g]</span>
+<span id="cb9-4"><a href="#cb9-4" target="_self" aria-hidden="true" tabindex="-1"></a>            <span class="co">;; &quot;wrap&quot; &#39;x&#39; into a variable-length collection</span></span>
+<span id="cb9-5"><a href="#cb9-5" target="_self" aria-hidden="true" tabindex="-1"></a>            (<span class="kw">fn</span> [&amp; x]</span>
+<span id="cb9-6"><a href="#cb9-6" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="co">;; use apply to &quot;unwrap&quot; &#39;x&#39; and,</span></span>
+<span id="cb9-7"><a href="#cb9-7" target="_self" aria-hidden="true" tabindex="-1"></a>              <span class="co">;; call &#39;g&#39; with the unwrapped values</span></span>
+<span id="cb9-8"><a href="#cb9-8" target="_self" aria-hidden="true" tabindex="-1"></a>              (f (<span class="kw">apply</span> g x))))</span>
+<span id="cb9-9"><a href="#cb9-9" target="_self" aria-hidden="true" tabindex="-1"></a>          <span class="kw">identity</span></span>
+<span id="cb9-10"><a href="#cb9-10" target="_self" aria-hidden="true" tabindex="-1"></a>          funcs))</span>
+<span id="cb9-11"><a href="#cb9-11" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span> <span class="kw">+</span>) <span class="dv">20</span> <span class="dv">20</span> <span class="dv">1</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">20</span> <span class="dv">20</span> <span class="dv">1</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" target="_self" aria-hidden="true" tabindex="-1"></a>Execution error (ArityException) at user$my_comp_with_var_args_support$fn__134$fn__135/doInvoke (REPL<span class="at">:8</span>).</span>
+<span id="cb9-17"><a href="#cb9-17" target="_self" aria-hidden="true" tabindex="-1"></a>Wrong number of args (<span class="dv">3</span>) passed to: clojure.core/inc</span>
+<span id="cb9-18"><a href="#cb9-18" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">41</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span></code></pre></div>
 <ul>
 <li>And we retain error parity with <code>comp</code>… The error condition of any function is are part of that function's contract with its caller.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb8-1"><a href="#cb8-1" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support) <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" target="_self" aria-hidden="true" tabindex="-1"></a>Execution error (ArityException) at user/eval139 (REPL<span class="at">:1</span>).</span>
-<span id="cb8-3"><a href="#cb8-3" target="_self" aria-hidden="true" tabindex="-1"></a>Wrong number of args (<span class="dv">5</span>) passed to: clojure.core/identity</span>
-<span id="cb8-4"><a href="#cb8-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((<span class="kw">comp</span>) <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" target="_self" aria-hidden="true" tabindex="-1"></a>Execution error (ArityException) at user/eval141 (REPL<span class="at">:1</span>).</span>
-<span id="cb8-7"><a href="#cb8-7" target="_self" aria-hidden="true" tabindex="-1"></a>Wrong number of args (<span class="dv">5</span>) passed to: clojure.core/identity</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb10-1"><a href="#cb10-1" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp-with-var-args-support) <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" target="_self" aria-hidden="true" tabindex="-1"></a>Execution error (ArityException) at user/eval139 (REPL<span class="at">:1</span>).</span>
+<span id="cb10-3"><a href="#cb10-3" target="_self" aria-hidden="true" tabindex="-1"></a>Wrong number of args (<span class="dv">5</span>) passed to: clojure.core/identity</span>
+<span id="cb10-4"><a href="#cb10-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((<span class="kw">comp</span>) <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">4</span> <span class="dv">5</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" target="_self" aria-hidden="true" tabindex="-1"></a>Execution error (ArityException) at user/eval141 (REPL<span class="at">:1</span>).</span>
+<span id="cb10-7"><a href="#cb10-7" target="_self" aria-hidden="true" tabindex="-1"></a>Wrong number of args (<span class="dv">5</span>) passed to: clojure.core/identity</span></code></pre></div>
 <p>That's it for now.</p>
 <p>If you like this, you may like to learn of the <a href="https://www.evalapply.org/posts/n-ways-to-fizzbuzz-in-clojure/index.html#main">n ways to fizzbuzz in Clojure</a>.</p>
 <h1 id="footnotes">Footnotes</h1>
@@ -373,6 +373,34 @@ x)</code> returns <code>x'</code>, then you could just as well say <code>x'</cod
 <span id="cb2-12"><a href="#cb2-12" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((<span class="kw">comp</span> <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span> <span class="kw">+</span>) <span class="dv">1</span> <span class="dv">20</span> <span class="dv">20</span>)</span>
 <span id="cb2-13"><a href="#cb2-13" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span></code></pre></div>
 <a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn2"><p>A post by Zach Smith <a href="https://blog.zdsmith.com/posts/combinatory-programming.html">motivating the use-case of various combinators</a>, which includes <code>comp</code> and <code>apply</code>. See also his other post(s) on <a href="https://blog.zdsmith.com/series/combinatory-programming.html">Combinatory Programming</a>.</p>
+<p>Speaking of combinatory programming…I would like to state for the record that I am <em>salty</em> about all those CSS (yes Cascading Style Sheets) "frameworks" and pre-processors and pseudo-compilers out there. Popular CSS instruction teaches people to <em>egregiously</em> abuse the 'C' of CSS.</p>
+<p>No. Just don't. Please. You and I can do a <em>lot better</em>, <strong>and</strong> a <em>lot more</em>, with a <em>lot less</em>.</p>
+<p>Like, look <a href="https://www.evalapply.org/static/css/style.css">at the stylesheet</a> of this here website. Just look at it. Do you <em>see</em> it?</p>
+<ul>
+<li><p><em>No</em> hard-coded pixel values.</p></li>
+<li><p>No "reset CSS".</p></li>
+<li><p>No media queries.</p></li>
+<li><p>The entire site and content within is <em><strong>structurally</strong></em> held together by only three generic CSS classes (<code>.stack</code>, <code>.center</code>, and <code>.box</code>). Like, literally, <em>every single page</em> is this…</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;the-very-top&quot;</span> <span class="er">class</span><span class="ot">=</span><span class="st">&quot;stack center box&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" target="_self" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- The whole website&#39;s content is here. --&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" target="_self" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span></code></pre></div></li>
+<li><p>Working together with a fully fluid grid layout system governed by only three variables.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1" target="_self" aria-hidden="true" tabindex="-1"></a>--measure<span class="in">: 84ch;    /* Max</span> character width of a line<span class="fu">.</span> <span class="op">*</span>/</span>
+<span id="cb6-2"><a href="#cb6-2" target="_self" aria-hidden="true" tabindex="-1"></a>--ratio<span class="in">: 1.3;       /* Proportion</span> for modular grid<span class="fu">.</span> <span class="op">*</span>/</span>
+<span id="cb6-3"><a href="#cb6-3" target="_self" aria-hidden="true" tabindex="-1"></a>--scale-base<span class="in">: 1rem; /* Set</span> baseline grid<span class="fu">.</span> <span class="op">*</span>/</span></code></pre></div></li>
+</ul>
+<p>Thank you <a href="https://every-layout.dev/">Every Layout</a> (no affiliation, other than being a super-fan).</p>
+<blockquote>
+<p>Learn to write better, resilient CSS</p>
+<p>If you find yourself wrestling with CSS layout, it’s likely you’re making decisions for browsers they should be making themselves.</p>
+<p>Through a series of simple, composable layouts, Every Layout will teach you how to better harness the built-in algorithms that power browsers and CSS.</p>
+<p>— <a href="https://every-layout.dev/">Every Layout</a>, by <a href="https://heydonworks.com/">Heydon Pickering</a> &amp; <a href="https://andy-bell.co.uk/">Andy Bell</a>.</p>
+</blockquote>
+<p>But we have what we have.</p>
+<p>For had the designers of CSS called it <em>Combinatory</em> Styling System, everybody's hair would still be catching fire (IS THAT… MATH??!! RUN!). And we would have collectively found some other "worse is better" way to micro-manage pixels about the fluid digital canvas, instead of <em>respectfully suggesting</em> layout constraints to the browser, and letting its incredibly sophisticated layout engine do all the combinatorial Math-ing for us.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </aside>
   </section>
