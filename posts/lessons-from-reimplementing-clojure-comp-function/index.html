@@ -111,7 +111,7 @@
       <p class="cluster post-meta">
         
         <span class="date">Published: 2025-08-08</span>
-        <span class="date">Updated: 2025-08-08</span>
+        <span class="date">Updated: 2025-08-09</span>
         <span class="author">By: Aditya Athalye</span>
       </p>
 
@@ -166,8 +166,8 @@
 <ul>
 <li>Constructing base ("empty") case, unit case, two case, three-case, and using that to generalise to the n-case (of <code>n</code> arguments to a function).</li>
 </ul></li>
-<li>Familiarity with writing functions having variable arguments</li>
-<li>Familiarity with the stdlib (reduce and reductions, for example).</li>
+<li>Familiarity with writing functions having variable arguments (and the utility of <code>apply</code> in that context).</li>
+<li>Familiarity with the Clojure standard library (<code>reduce</code>, and <code>reductions</code>, for example).</li>
 <li>How to use "code as data", for self-education, if nothing else.</li>
 </ul>
 <p>So… <code>comp</code>…</p>
@@ -360,7 +360,7 @@ x)</code> returns <code>x'</code>, then you could just as well say <code>x'</cod
 <li id="fn1"><p>Thanks to <a href="https://github.com/rafd">Rafal Dittwald</a> for the correction. I was so focused on explaining the mechanics that I got tunnel vision and forgot that the first function to be applied can indeed be "variadic".</p>
 <p>i.e. this <em>must</em> work with <code>my-comp</code>, as it does with <code>comp</code>…</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode clojure"><code class="sourceCode clojure"><span id="cb2-1"><a href="#cb2-1" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; WOW!</span></span>
-<span id="cb2-2"><a href="#cb2-2" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">1</span> <span class="dv">20</span> <span class="dv">20</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" target="_self" aria-hidden="true" tabindex="-1"></a>user=&gt; ((my-comp <span class="kw">reverse</span> <span class="kw">str</span> <span class="kw">inc</span>) <span class="dv">42</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" target="_self" aria-hidden="true" tabindex="-1"></a>(<span class="ch">\2</span> <span class="ch">\4</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" target="_self" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" target="_self" aria-hidden="true" tabindex="-1"></a><span class="co">;; LOL &#39;my-comp&#39; barfs if we pass multiple args</span></span>
