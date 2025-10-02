@@ -398,16 +398,14 @@ table > caption {
   background-color: var(--color-masthead);
 }
 
-.box.icon {
+.box.icon,
+.box.icon img {
     max-width: var(--scale-xxxl);
 }
 
-.box.icon\:smallnav {
-  max-width: var(--scale-l);
-}
-
+.box.icon\:smallnav,
 .box.icon\:smallnav img {
-    border-radius: var(--scale-xxxxxs);
+    max-width: var(--scale-l);
 }
 
 .site-header, .site-header *,
