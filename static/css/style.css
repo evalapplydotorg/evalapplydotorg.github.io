@@ -19,7 +19,7 @@
     /* --------------------------------------------------
      * MEASURE: Basis for all proportions.
      * -------------------------------------------------- */
-    --measure: 84ch;            /* Max character width of a line. */
+    --measure: 90ch;            /* Max character width of a line. */
 
     /* --------------------------------------------------
      * MODULAR SCALE: Measures for rows and columns.
@@ -43,7 +43,7 @@
     --scale-xxs: calc(var(--scale-xs) / var(--ratio));
     --scale-xs: calc(var(--scale-s) / var(--ratio));
     --scale-s: calc(var(--scale-base) / var(--ratio));
-    --scale-base: 1rem;         /* Set baseline grid. */
+    --scale-base: 1.05rem;         /* Set baseline grid. */
     --scale-l: calc(var(--scale-base) * var(--ratio));
     --scale-xl: calc(var(--scale-l) * var(--ratio));
     --scale-xxl: calc(var(--scale-xl) * var(--ratio));
@@ -272,6 +272,7 @@ h3 {
 }
 
 nav {
+  font-weight: bold;
   flex-wrap: wrap;
   gap: var(--space, var(--scale-base));
   justify-content: flex-start;
@@ -292,7 +293,8 @@ table {
   table-layout: fixed;
   border-collapse: collapse;
   text-align: left;
-  overflow-x: auto;
+  overflow: auto;
+  width: 100%;
 }
 
 thead {
@@ -392,15 +394,20 @@ table > caption {
 }
 
 .box.icon,
-.box.icon img {
-  color: var(--color-dark);
+.box.icon\:smallnav {
   background-color: var(--color-masthead);
-  max-width: var(--scale-xxxl);
 }
 
-.box.icon\:homepage {
-  color: var(--color-dark);
-  background-color: var(--color-masthead);
+.box.icon {
+    max-width: var(--scale-xxxl);
+}
+
+.box.icon\:smallnav {
+  max-width: var(--scale-l);
+}
+
+.box.icon\:smallnav img {
+    border-radius: var(--scale-xxxxxs);
 }
 
 .site-header, .site-header *,
