@@ -346,7 +346,7 @@ table > caption {
 .cluster {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space, var(--scale-xs));
+  gap: var(--space, var(--scale-xxs));
   justify-content: flex-start;
   align-items: center;
 }
@@ -414,11 +414,14 @@ table > caption {
   color: var(--color-dark);
 }
 
+.site-header, .site-header * {
+    font-size: var(--scale-s);
+    line-height: var(--scale-xs);
+}
+
 .site-header\:nav-items * {
   background-color: var(--color-masthead);
   padding: var(--scale-xxxxxxs);
-  font-size: var(--scale-s);
-  line-height: var(--scale-xs);
   text-align: center;
 }
 
