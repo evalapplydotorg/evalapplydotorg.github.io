@@ -272,7 +272,7 @@ h3 {
 }
 
 nav {
-  font-weight: bold;
+  font-weight: normal;
   flex-wrap: wrap;
   gap: var(--space, var(--scale-base));
   justify-content: flex-start;
