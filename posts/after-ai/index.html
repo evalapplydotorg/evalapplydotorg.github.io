@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>After &quot;AI&quot;: Anticipating a post-LLM science &amp; technology revolution</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="I, for one, welcome the coming age of the post-LLM-datacenter-overinvestment-bust-fueled backyard GPU supercomputer revolution.">
+<meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
+<meta property="og:site_name" content="EvalApply.org">
+<meta property="og:title" content="After &quot;AI&quot;: Anticipating a post-LLM science &amp; technology revolution">
+<meta property="og:description" content="I, for one, welcome the coming age of the post-LLM-datacenter-overinvestment-bust-fueled backyard GPU supercomputer revolution.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="en_IN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/after-ai/index.html">
+    <!-- Preload logo as it is on all pages -->
+<link rel="preload" href="https://www.evalapply.org/static/img/Lisp_logo.svg" as="image" type="image/svg+xml" />
+<!-- Preload font files and font styles, before layout styles to reduce layout shift -->
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Ng.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFN2-RHBgUK5fbjKxRpbBtJPyRpocKdT7HmqQ.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFL2-RHBgUK5fbjKxRpbBtJPyRpocKYf7M.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/ptsansnarrow/v18/BngRUXNadjH0qYEzV7ab-oWlsbCGwR0.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/fonts.css">
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Hi, I'm Aditya Athalye. I make, learn, teach here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/after-ai/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+      <div class="with-sidebar">
+    <a class="box icon:smallnav" href="https://www.evalapply.org/index.html" target="_self">
+        <img class="icon" src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Home: Hi, I'm Aditya Athalye. I make, learn, teach here." width="28" height="28">
+    </a>
+    <div class="stack site-header">
+        <nav class="cluster">
+            <span class="cluster site-header:nav-items">
+                <a href="https://www.evalapply.org/posts/index.html#main" target="_self">
+  &lambda; blog
+</a>
+<a href="https://news.ycombinator.com/from?site=evalapply.org">
+  &nbsp;HN
+</a>
+<a href="https://www.reddit.com/search/?q=site%3Aevalapply.org">
+  &nbsp;r/
+</a>
+<a href="https://lobste.rs/domains/evalapply.org">
+  &nbsp;lob
+</a>
+<a href="https://www.evalapply.org/index.xml">
+  &rArr; feed
+</a>
+|
+<a href="https://www.github.com/adityaathalye">
+  &nbsp;code
+</a>
+<a href="https://www.youtube.com/@evalapplydotorg/playlists">
+  &#x23FF; talks
+</a>
+|
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
+</a>
+<a href="https://www.evalapply.org/about.html#main" target="_self">
+  &asymp; me
+</a>
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
+</a>
+|
+<a href="https://drive.google.com/file/d/1QGPdmm5FJV9Kox3pliJvImQXb3fgJY14/view">
+  &#9753; cv
+</a>
+<a href="https://linkedin.com/in/adityaathalye">
+  &nbsp;[in]
+</a>
+            </span>
+        </nav>
+        <hr>
+        <p class="footnotes">
+    <strong>2025 Q3 |&nbsp;
+        <a class="site-header site-header:nav-items"
+           href="https://www.linkedin.com/posts/adityaathalye_seeking-work-remote-ok-with-activity-7357385373867528194-bpiV">
+            For Hire</a>
+        &nbsp;&raquo;&nbsp;
+    </strong>
+    "<a href="https://www.evalapply.org/tags/systems/index.html#main" target="_self">Full-systems</a>"
+    <a href="https://www.evalapply.org/tags/web_development/index.html#main" target="_self">B2B SaaS</a>
+    <a href="https://www.evalapply.org/tags/architecture/index.html#main" target="_self">builder</a>
+    + <a href="https://www.evalapply.org/tags/functional_programming/index.html#main" target="_self">FP</a>
+    <a href="https://www.evalapply.org/about.html#main" target="_self">coach</a>.
+    <strong>&nbsp;|&nbsp;WIP public <em>β</em>&nbsp;&raquo&nbsp;</strong>Project
+    <a href="https://www.evalapply.org/index.html#main" target="_self">
+        "Writing for nerds"</a>.
+</p>
+        <hr>
+    </div>
+</div>
+<main id="main">
+    <article id="blog-post" class="stack">
+  <header class="stack">
+      <p class="title">After "AI": Anticipating a post-LLM science & technology revolution</p>
+
+      <p class="cluster post-meta">
+        
+        <span class="date">Published: 2025-12-29</span>
+        <span class="date">Updated: 2025-12-29</span>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        I, for one, welcome the coming age of the post-LLM-datacenter-overinvestment-bust-fueled backyard GPU supercomputer revolution.
+      </p>
+     <div class="post-meta"><hr></div>
+     <div class="post-meta">
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN After 'AI': Anticipating a post-LLM science & technology revolution" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=After%20%22AI%22%3A%20Anticipating%20a%20post-LLM%20science%20%26%20technology%20revolution%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html&t=After%20%22AI%22%3A%20Anticipating%20a%20post-LLM%20science%20%26%20technology%20revolution" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html&title=After%20%22AI%22%3A%20Anticipating%20a%20post-LLM%20science%20%26%20technology%20revolution" target="_blank">[reddit]</a>
+      </nav>
+      <p><hr></p>
+      <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
+</form>
+      <p><hr></p>
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/meta/index.html#main" target="_self">#meta</a><a href="https://www.evalapply.org/tags/riff/index.html#main" target="_self">#riff</a><a href="https://www.evalapply.org/tags/ai/index.html#main" target="_self">#ai</a><a href="https://www.evalapply.org/tags/intelligence_augmentation/index.html#main" target="_self">#intelligence_augmentation</a><a href="https://www.evalapply.org/tags/tools_for_thought/index.html#main" target="_self">#tools_for_thought</a>
+      </nav>
+    </div>
+  </header>
+  <hr>
+  <section class="stack">
+      <figure>
+<img src="screenrant.com-star-trek-lower-decks-geordi-leah-brahms-tng-plus-log-growth-curve.jpg" />
+<figcaption>No expert can escape the logarithmic growth curve of expertise. Not Lt. Cdr. Geordi La Forge (foreground), not Dr. Leah Brahms (middle), and certainly not the Ship's Computer (background). Image source: <a href="https://screenrant.com/star-trek-lower-decks-geordi-leah-brahms-tng/">screenrant</a>, <a href="https://en.wikipedia.org/wiki/Logarithmic_growth#/media/File:Log.svg">wikipedia</a></figcaption>
+</figure>
+<p>(<em>Recently</em> <em><a href="https://www.linkedin.com/pulse/geordi-laforge-paradox-5-years-post-llm-science-technology-revolution-hjl4c/">riffed out in Linkedinese</a>, and somewhat revised below, for ownership and</em> <em>sanity's sake.</em>)</p>
+<h1 id="all-expertise-grows-logarithmically-not-exponentially">All expertise grows logarithmically, not exponentially</h1>
+<p>Lt. Cdr. Geordi La Forge of the Starship Enterprise (pictured above) is the archetypical Gen AI-using Engineer and Executive. He uses the Ship's antimatter-powered LLM all the time, not infrequently to solve novel one-off problems (sometimes under life-and-death pressure). However, he is such a successful user only because he can spot incredibly subtle errors and compensate/augment with his own elite training combined with years and years of hands-on field experience.</p>
+<p>Essentially, he has <em>hard-earned specialist tacit knowledge</em>, which is <em>entirely absent from any static data corpus</em>, no matter how detailed the corpus is. <em>Taste, judgement, and intuition</em> are not born, they are bred. Through diligent training, deliberate practice, and frequent feedback from violent contact with reality. Frequent violent contact.</p>
+<p><strong>However</strong>, Human and Computer expertise grows along <em><strong>logarithmic growth curves</strong></em>. Gains grow quickly in the beginning, for a short while, then slower but still perceptible for a bit more, and then, suddenly, imperceptibly. No amount of additional input produces any meaningful additional output.</p>
+<p>Said another way…</p>
+<p>Expert systems <strong>need</strong> expert users.</p>
+<p>I dub this <strong><em>The Geordi LaForge Paradox</em></strong>.</p>
+<p>The larger the language model, the more sophisticated the user's world model must be to. Only a trained radiologist's mental model can reasonably examine the computer model's classification. Only Geordi can challenge the opinions of both, the Ship's Computer, and Dr. Brahms's deeply informed opinions, because only Geordi LaForge has learned the hard things the only way there is to learn them; the long, hard way.</p>
+<p>And this <em>science fact</em> has far-reaching implications.</p>
+<h1 id="a-story-about-2030-and-beyond-is-happening-today">A story about "2030" and beyond is happening today</h1>
+<p><em>But it is not where people are looking for the proverbial keys</em>, viz. only under the white-hot lamp-post of nuclear-powered abstract LLM machines. Moths to a flame; locked in a self-created gravity well of sunk costs… both emotional/psychological attention and on-ground action.</p>
+<p>My <em>optimistic</em> #LLM tech bet is that…</p>
+<p>As of 2030-ish we will have accrued some non-trivial direct benefits (of transformer architecture, scaling + compression):</p>
+<ul>
+<li>Likely a bunch of commodity super-specialist pattern matching expert systems (astronomical / radiological imaging / computer vision / multi-media production tools etc.)</li>
+<li>And some commodity generalist language translation engines (literally the Babelfish from the Hitchiker's guide - Azmat Yusuf's <a href="https://talkmachine.com/">Talk Machine</a> and ilk).</li>
+</ul>
+<p>However, we stand to gain far greater indirect benefits, as and when GPU investments transmute into serving today's severely under-served but world-reforming science/industry application areas…</p>
+<p>Think <em>"on-campus GPU supercomputers too cheap to meter"</em>.</p>
+<h1 id="massive-gpu-infrastructure---industry-application-transmutations">Massive GPU Infrastructure -&gt; Industry application transmutations</h1>
+<p>I dearly hope we get a version of what happened after the boom years of railroads, telecoms, and/or cloud computing…</p>
+<ul>
+<li>Massive capital investments fuelling totally unexpected industrial and economic and socio-political phenomena, by way of infrastructure ownership re-allocations through write-offs, fire sales, and bankruptcy style M&amp;A.</li>
+<li>Perhaps (I hope) we get a disintermediation of datacenters. People ship out containers to private industry and universities and so forth — stacks of supercomputers in your backyard.</li>
+</ul>
+<p>A whole new breed of <a href="https://www.linkedin.com/company/oxidecomputer/">Oxide Computer Company</a> companies.</p>
+<h1 id="breakthrough-science-and-industrial-engineering-needs-cycle-time-acceleration">Breakthrough science and industrial engineering needs cycle time acceleration</h1>
+<p>Could a <em>"GPUs too cheap to meter"</em> phase—say, about a decade, up to 2040—<em>remarkably speed up cycle times of traditional deterministic modeling / simulation type workloads.</em></p>
+<p>Think:</p>
+<ul>
+<li>Commodity whole genome sequencing in seconds, and high-fidelity scans and imaging studies (think supercomputer powered MRI machines).</li>
+<li><em>n of one</em> precision medicine breakthroughs - collapse expert-led differential diagnosis into days or hours, instead of years and months</li>
+<li>Which in turn accelerate vaccine response to epidemics (hours to first trials, days to validation, because perhaps we don't need large pools of people and lots of time to make statistically significant observations)</li>
+<li><em>Whole</em> rocket system design/simulation/testing in computers (no more finding limits <em>primarily</em> from "unplanned mid-flight disassemblies").</li>
+<li>Full-brain (maybe even full-body) simulations for mouse models. Or at least nematode models.</li>
+<li>Multiphysics and material science innovation (with or without LLM assist).</li>
+<li>etc. etc. etc.</li>
+</ul>
+<p>Whatever is a stupid-expensive computing investment today.</p>
+<h1 id="what-have-we-been-actually-building">What have we been actually building?</h1>
+<p>Society has been building massively parallel compute hardware for… something… GPUs and Memory became commodity units, primarily through consumer applications (not the needs of heavy industry / defence etc.).</p>
+<ul>
+<li>First, in service of gaming and video streaming applications
+<ul>
+<li>-&gt; fed into classical ML/AI
+<ul>
+<li>-&gt; together fed into distributed ledgers
+<ul>
+<li>-&gt; now repurposed / commandeered into scaling-style AI</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Except, scaling-style AI is hitting the same energy and physics walls as crypto mining, only faster, and at orders-magnitude more capex and opex.</p>
+<p>In the words of <a href="https://www.linkedin.com/in/arvindkrishna">Arvind Krishna</a>, CEO of IBM, <a href="https://www.theverge.com/podcast/829868/ibm-arvind-krishna-watson-llms-ai-bubble-quantum-computing">in conversation with Nilay Patel, on the Decoder podcast</a>. (Emphasis mine).</p>
+<blockquote>
+<p>So, let’s ground this in today’s costs because anything in the future is speculative.</p>
+<p>It takes about $80 billion to fill up a one-gigawatt data center.</p>
+<p>That’s today’s number.</p>
+<p>If one company is going to commit 20-30 gigawatts, that’s $1.5 trillion of CapEx. To the point we just made, you’ve got to use it all in five years because at that point, you’ve got to throw it away and refill it.</p>
+<p>Then, if I look at the total commits in the world in this space, in chasing AGI, it seems to be like 100 gigawatts with these announcements. That’s $8 trillion of CapEx.</p>
+<p><strong>It’s my view that there’s no way you’re going to get a return on that</strong> <strong>because $8 trillion of CapEx means you need roughly $800 billion of profit just to pay for the interest.</strong></p>
+</blockquote>
+<p>LLM enthusiasts will easily presume IBM are salty about missing the boat. However, IBM have also been around longer than anybody else. Long enough to know a thing or two about <em>extremely</em> leveraged CapEx.</p>
+<p>Short of cheaper-than-solar fusion power plants, or financial engineering miracles—maybe there are great debt restructuring wizards out there, maybe quantitative easers will ease irrationality longer than I can remain solvent or salient—I bet the napkin math will sort itself out into…</p>
+<h1 id="a-post-llm-infra-over-investment-computing-glut-economy">A post-LLM-infra-over-investment computing glut economy</h1>
+<p>The Big Question is…</p>
+<p><em>Who is cultivating the option to snap up and repurpose vapourised</em> <em>datacenter investments at fire sale prices, soon as the "datacenter debt" cometh calling?</em></p>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <hr>
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
+    </nav>
+    <hr>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN After 'AI': Anticipating a post-LLM science & technology revolution" rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=After%20%22AI%22%3A%20Anticipating%20a%20post-LLM%20science%20%26%20technology%20revolution%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html&t=After%20%22AI%22%3A%20Anticipating%20a%20post-LLM%20science%20%26%20technology%20revolution" target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fafter-ai%2Findex.html&title=After%20%22AI%22%3A%20Anticipating%20a%20post-LLM%20science%20%26%20technology%20revolution" target="_blank">[reddit]</a>
+      </nav>
+    <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <input type="email" name="email" id="bd-email" autocomplete="on" />
+  <label for="bd-email" hidden>Email</label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
+</form>
+  </footer>
+</article>
+</main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p class="center">&copy; 2025,
+      <a href="https://www.linkedin.com/in/adityaathalye/" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+    </p>
+    <p class="center">
+      Built with
+      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>,
+      GNU <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>,
+      <a href="https://orgmode.org" target="_blank">org-mode</a>, and &#x1F5A4;.
+    </p>
+    <p class="center">
+      My
+      <a href="https://buttondown.com/evalapply" target="_blank">newsletter</a>
+      is powered by
+      <a href="https://buttondown.com/refer/evalapply" target="_blank">Buttondown</a>.
+    </p>
+    <div class="rc-scout-wrapper center">
+      <div class="rc-scout" data-scout-rendered="true">
+        <p class="rc-scout__text">
+          <i class="rc-scout__logo"></i>
+          Want to become a better programmer?
+          <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=40533398b8c93bb4f3323a170e032e91" target="_blank">Join the Recurse Center!</a>
+        </p>
+      </div>
+      <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: var(--color-dark); text-decoration: underline; text-underline-offset: var(--scale-xxxs); } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }
+      </style>
+    </div>
+  </div>
+</footer>
+    </div>
+  </body>
+</html>
