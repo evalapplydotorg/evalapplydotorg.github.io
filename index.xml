@@ -6,7 +6,7 @@
     <description>Welcome to evalapply.org. Out here, I strive to "learn generously". My software specialties include "Full-systems" B2B SaaS development, and Functional Programming (especially Clojure). I also help software nerds write for fun, and burnout-free career growth.</description>
     <generator>shite -- https://github.com/adityaathalye/shite</generator>
     <language>en-gb</language>
-    <lastBuildDate>Mon, 29 Dec 2025 17:03:53 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 16 Jan 2026 15:08:32 +0530</lastBuildDate>
     <atom:link href="https://www.evalapply.org/index.xml" rel="self" type="application/rss+xml"/>
     <image>
         <title>Aditya Athalye's Eval/Apply Blog</title>
@@ -16,6 +16,18 @@
         <height>128</height>
     </image>
     <item>
+  <title>A Consciousness is A Dedekind Cut</title>
+  <link>https://www.evalapply.org/posts/consciousness-lives-in-a-dedekind-cut/index.html</link>
+  <pubDate>Fri, 16 Jan 2026 00:00:00 +0000</pubDate>
+  <guid>https://www.evalapply.org/posts/consciousness-lives-in-a-dedekind-cut/</guid>
+  <description>Aiming for last place at the 2025 Berggruen Prize Open Essay Contest, on the theme of consciousness, intelligence, and the nature of mind in an age of advancing artificial systems.</description>
+  <category domain="https://www.evalapply.org/tags">meta</category>
+<category domain="https://www.evalapply.org/tags">writing</category>
+<category domain="https://www.evalapply.org/tags">ai</category>
+<category domain="https://www.evalapply.org/tags">intelligence_augmentation</category>
+<category domain="https://www.evalapply.org/tags">tools_for_thought</category>
+</item>
+<item>
   <title>After "AI": Anticipating a post-LLM science &amp; technology revolution</title>
   <link>https://www.evalapply.org/posts/after-ai/index.html</link>
   <pubDate>Mon, 29 Dec 2025 00:00:00 +0000</pubDate>
