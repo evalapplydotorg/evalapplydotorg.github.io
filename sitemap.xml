@@ -2,11 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.evalapply.org/</loc>
-    <lastmod>2026-02-19T00:21:01+05:30</lastmod>
+    <lastmod>2026-03-22T14:42:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-  <loc>https://www.evalapply.org/posts/consciousness-lives-in-a-dedekind-cut/</loc>
+  <loc>https://www.evalapply.org/posts/side-step-secretary-problem-hiring/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://www.evalapply.org/posts/consciousness-lives-in-a-dedekind-cut/</loc>
 <changefreq>yearly</changefreq>
 <priority>0.8</priority>
 <loc>https://www.evalapply.org/posts/after-ai/</loc>

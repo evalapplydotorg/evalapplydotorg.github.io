@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <!-- Some basic hygiene meta-data -->
+<title>Side-stepping the Secretary Problem, unwittingly.</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Aditya Athalye">
+<meta name="description"
+      content="Having played both parts in the kabuki play that is employee-employer matchmaking, I feel the way we play it is a zero-sum game. I wish it were not so. When this post started life in 2024, as a wall of text chat message, it was brutal out there, on both sides of the software industry interview table. The ZIRP had ended. As of 2026, post-ZIRP reality has properly set in and remains bad (&quot;AI&quot; is a Fig Leaf (Enterprise Edition) for structural damage they self-inflicted, and if you look at Hyperscaler GPU depreciation schedules, they are making it order-of-magnitude worse). Set to that backdrop, here is a hopefully hopeful hiring anecdote where I think we avoided the so-called &quot;Secretary Problem&quot;, framed within Optimal Stopping Theory. It can be done. Non-zero-sum hiring ought to be default-mode for any industry, AI or no AI.">
+<meta name="keywords" content="indie software,B2B Micro SaaS,systems thinking,technology leadership,architecture,software design,functional programming,clojure,devops,shell scripting,web development,databases,sqlite,writing,blogging,coaching">
+<meta property="og:site_name" content="EvalApply.org">
+<meta property="og:title" content="Side-stepping the Secretary Problem, unwittingly.">
+<meta property="og:description" content="Having played both parts in the kabuki play that is employee-employer matchmaking, I feel the way we play it is a zero-sum game. I wish it were not so. When this post started life in 2024, as a wall of text chat message, it was brutal out there, on both sides of the software industry interview table. The ZIRP had ended. As of 2026, post-ZIRP reality has properly set in and remains bad (&quot;AI&quot; is a Fig Leaf (Enterprise Edition) for structural damage they self-inflicted, and if you look at Hyperscaler GPU depreciation schedules, they are making it order-of-magnitude worse). Set to that backdrop, here is a hopefully hopeful hiring anecdote where I think we avoided the so-called &quot;Secretary Problem&quot;, framed within Optimal Stopping Theory. It can be done. Non-zero-sum hiring ought to be default-mode for any industry, AI or no AI.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="en_IN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.evalapply.org/posts/side-step-secretary-problem-hiring/index.html">
+    <!-- Preload logo as it is on all pages -->
+<link rel="preload" href="https://www.evalapply.org/static/img/Lisp_logo.svg" as="image" type="image/svg+xml" />
+<!-- Preload font files and font styles, before layout styles to reduce layout shift -->
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_D1sJVD7Ng.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFN2-RHBgUK5fbjKxRpbBtJPyRpocKdT7HmqQ.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/gentiumbookplus/v1/vEFL2-RHBgUK5fbjKxRpbBtJPyRpocKYf7M.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="preload" href="https://www.evalapply.org/static/fonts/google/ptsansnarrow/v18/BngRUXNadjH0qYEzV7ab-oWlsbCGwR0.woff2" as="font" type="font/woff2"
+      crossorigin>
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/fonts.css">
+<link rel="stylesheet preload" type="text/css" as="style" href="https://www.evalapply.org/static/css/style.css">
+<link href="https://www.evalapply.org/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Hi, I'm Aditya Athalye. I make, learn, teach here.">
+<link rel="canonical" href="https://www.evalapply.org/posts/side-step-secretary-problem-hiring/index.html">
+<link rel="icon" type="image/vnd.microsoft.icon" href="https://www.evalapply.org/static/img/favicon.ico">
+    <base target="_blank">
+</head>
+  <body>
+    <div id="the-very-top" class="stack center box">
+      <header id="site-header">
+  <div class="with-sidebar">
+    <a class="box icon:smallnav" href="https://www.evalapply.org/index.html" target="_self">
+      <img class="icon" src="https://www.evalapply.org/static/img/Lisp_logo.svg" alt="Home: Hi, I'm Aditya Athalye. I make, learn, teach here." width="28" height="28">
+    </a>
+    <div class="stack site-header">
+      <nav class="cluster">
+        <span class="cluster site-header:nav-items">
+          <a href="https://www.evalapply.org/posts/index.html#main" target="_self">
+  &lambda; blog
+</a>
+<a href="https://news.ycombinator.com/from?site=evalapply.org">
+  &nbsp;HN
+</a>
+<a href="https://www.reddit.com/search/?q=site%3Aevalapply.org">
+  &nbsp;r/
+</a>
+<a href="https://lobste.rs/domains/evalapply.org">
+  &nbsp;lob
+</a>
+<a href="https://www.evalapply.org/index.xml">
+  &rArr; feed
+</a>
+|
+<a href="https://www.github.com/adityaathalye">
+  &nbsp;code
+</a>
+<a href="https://www.youtube.com/@evalapplydotorg/playlists">
+  &#x23FF; talks
+</a>
+<a href="https://drive.google.com/file/d/1QGPdmm5FJV9Kox3pliJvImQXb3fgJY14/view">
+  &#9753; cv
+</a>
+<a href="https://linkedin.com/in/adityaathalye">
+  &nbsp;[in]
+</a>
+|
+<a href="https://www.evalapply.org/about.html#standing-invitation" target="_self">
+  &#x2709; mail
+</a>
+<a href="https://www.evalapply.org/about.html#main" target="_self">
+  &asymp; me
+</a>
+<a href="https://www.evalapply.org/now.html#main" target="_self">
+  &raquo; now
+</a>
+        </span>
+      </nav>
+      <hr>
+      <p class="footnotes">
+    <strong>WIP public <em>β</em>&nbsp;&raquo&nbsp;</strong>Project
+    <a href="https://www.evalapply.org/index.html#main" target="_self">
+        "Writing for nerds"</a>.
+</p>
+      <hr>
+    </div>
+  </div>
+</header>
+<main id="main">
+  <article id="blog-post" class="stack">
+  <header class="stack">
+      <p class="title">Side-stepping the Secretary Problem, unwittingly.</p>
+
+      <p class="cluster post-meta">
+        <span>[ &darr; <a href="#blog-post-toc" rel="bookmark" target=_self>toc</a> ]</span>
+        <span class="date">Published: 2026-03-20</span>
+        <span class="date">Updated: 2026-03-20</span>
+        <span class="author">By: Aditya Athalye</span>
+      </p>
+
+      <p class="summary">
+        Having played both parts in the kabuki play that is employee-employer matchmaking, I feel the way we play it is a zero-sum game. I wish it were not so. When this post started life in 2024, as a wall of text chat message, it was brutal out there, on both sides of the software industry interview table. The ZIRP had ended. As of 2026, post-ZIRP reality has properly set in and remains bad ("AI" is a Fig Leaf (Enterprise Edition) for structural damage they self-inflicted, and if you look at Hyperscaler GPU depreciation schedules, they are making it order-of-magnitude worse). Set to that backdrop, here is a hopefully hopeful hiring anecdote where I think we avoided the so-called "Secretary Problem", framed within Optimal Stopping Theory. It can be done. Non-zero-sum hiring ought to be default-mode for any industry, AI or no AI.
+      </p>
+     <div class="post-meta"><hr></div>
+     <div class="post-meta">
+            <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Side-stepping the Secretary Problem, unwittingly." rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Side-stepping%20the%20Secretary%20Problem%2C%20unwittingly.%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html&t=Side-stepping%20the%20Secretary%20Problem%2C%20unwittingly." target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html&title=Side-stepping%20the%20Secretary%20Problem%2C%20unwittingly." target="_blank">[reddit]</a>
+      </nav>
+      <p><hr></p>
+      <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <label>Email:
+    <input type="email" name="email" autocomplete="on" />
+  </label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
+</form>
+      <p><hr></p>
+      <nav class="cluster">
+        <span>Tags:</span>
+        <a href="https://www.evalapply.org/tags/riff/index.html#main" target="_self">#riff</a><a href="https://www.evalapply.org/tags/organisation_design/index.html#main" target="_self">#organisation_design</a><a href="https://www.evalapply.org/tags/hiring/index.html#main" target="_self">#hiring</a><a href="https://www.evalapply.org/tags/clojure/index.html#main" target="_self">#clojure</a><a href="https://www.evalapply.org/tags/culture/index.html#main" target="_self">#culture</a><a href="https://www.evalapply.org/tags/whyto/index.html#main" target="_self">#whyto</a><a href="https://www.evalapply.org/tags/meta/index.html#main" target="_self">#meta</a>
+      </nav>
+    </div>
+  </header>
+  <hr>
+  <section class="stack">
+      <div id="blog-post-toc" class="stack table-of-contents">
+  <details class="box invert stack" open>
+    <summary>
+      <strong>Contents</strong>
+    </summary>
+    <nav class="stack">
+      <a href="#the-secretary-problem" target="_self" class="toc-heading:h1">The Secretary Problem</a>
+<a href="#story-of-bypassing-the-secretary-problem" target="_self" class="toc-heading:h1">Story of bypassing the Secretary Problem</a>
+<a href="#immediate-and-five-year-outcomes" target="_self" class="toc-heading:h1">Immediate and five-year outcomes</a>
+<a href="#direct-outcomes" target="_self" class="toc-heading:h2">Direct outcomes</a>
+<a href="#indirect-outcomes" target="_self" class="toc-heading:h2">Indirect outcomes</a>
+<a href="#the-one-actually-several-weird-tricks" target="_self" class="toc-heading:h1">The One, actually Several, Weird Tricks</a>
+<a href="#getting-lucky" target="_self" class="toc-heading:h2">Getting Lucky</a>
+<a href="#refusing-to-copy-the-zero-sum-faang-hiring-loop-playbook" target="_self" class="toc-heading:h2">Refusing to copy the Zero-sum FAANG Hiring Loop Playbook</a>
+<a href="#running-a-tight-humane-hiring-loop-max-24-hour-sla.-always-be-kind." target="_self" class="toc-heading:h2">Running a tight, <em>humane</em> hiring loop: Max 24 hour SLA. Always Be Kind.</a>
+    </nav>
+  </details>
+</div>
+<hr>
+  <aside class="stack footer box invert">
+<details>
+<summary><em>Author's non-apology-cum-warning:</em> Various versions of this screed have befallen various people...</summary>
+<p>… since—gulp, where did time go?—about 2015. This current version befalling your XML/RSS feed is 2024 vintage, and has also befallen others via acts of copy-pasta into gist/slack/zulip/discord. Since nobody has boo'd it yet, and I'm not sorry (yet), it hereby gingerly enjoins the public discourse.</p>
+<p>Memory fades fast. So, take what is useful, discard the rest.</p>
+<p>And yes, I <em>love</em> em dashes. Deal.</p>
+</details>
+</aside>
+<h1 id="the-secretary-problem">The Secretary Problem</h1>
+<blockquote>
+<p>"How many applicants do you need before you find the right one? One? Five? The entire community, every time? :laughcry:"</p>
+<p>— A fellow slacker in the Clojurians Slack.</p>
+</blockquote>
+<p>The asker isn't joking. Any proposal to use unfamiliar technology, especially programming languages like <a href="../../tags/clojure/index.html#main">Clojure</a> inevitably triggers managerial hand-wringing about the hiring pool.</p>
+<p>And what could cause more Managerial Hand Wringing than than trying to hire in a niche of a niche… You see if you can go back to 2014 and find QA people, in Pune/India, willing to learn to read and write Clojure code, to help backend engineers test a rather large SaaS, written in Clojure?</p>
+<p>I got to know of the so-called <em><strong>"Secretary Problem"</strong></em> <a href="#fn1" target="_self" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in the ensuing discussion. The problem statement is used to study <em>Optimal Stopping Theory</em>. It sets up a recruiting scenario, and explores how to maximize the odds of selecting the best applicant. It has been a fun rabbit hole to explore.</p>
+<h1 id="story-of-bypassing-the-secretary-problem">Story of bypassing the Secretary Problem</h1>
+<p><strong>A key constraint</strong> of the secretary problem is <strong><em>Once rejected, an applicant cannot be recalled</em>.</strong></p>
+<p>Once upon a time, my colleague and I violated this unknown-to-us constraint, in our otherwise-conventional tech hiring loop by:</p>
+<ul>
+<li><em>Not only</em> explicitly keeping the door open for re-applications, after a cooling-off period.</li>
+<li><em>But also</em> offering to help people learn stuff we were interested in hiring for, on an opt-in basis. We would send people curriculum and make ourselves available for office hours on a fixed weekly schedule, to those who showed interest in learning.</li>
+</ul>
+<p>Over about late 2013 through 2014, him and I were hiring for programmers for our QA team (which was him and I :) at helpshift.com, a Clojure-happy startup. We wanted curiosity-driven people with enough technical proficiency that we could teach and train, because we were writing test tools and suites in Clojure. Not to mention all sorts of impractical to automate manual testing of our systems, which demanded some baseline capacity to wade through reams of technical manuals and documentation, and the desire and ability to learn and <em>use</em> our cli tools, scripts, and configurations, if not craft them.</p>
+<p>We knew the tester-programmer combo is a tough ask in the first place, especially in India, where the hiring pool is almost entirely filled with manual-only testers <a href="#fn2" target="_self" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. So we had braced ourselves for a noisy pipeline.</p>
+<p>In this context, I figured it would be crazy to lose anyone with potential. In my previous career, as a business manager, I had seen companies lose candidates with exactly the right life experiences, but the wrong degree or pedigree or test score. So I spitballed the idea to offer reapplication + opt-in support. My colleague loved the idea, and so it was.</p>
+<p>Luckily, the company culture was already about "nontraditional" hiring, looking for diamonds in the rough, so to speak <a href="#fn3" target="_self" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. And since we didn't have an HR function, the two of us were left to our own devices.</p>
+<p>In hindsight, having to go through HR, however supportive, would have been horrible because we would have <em>had to</em> compromise by saying something like "Oh so sorry this time, but you are part of our candidate pool and we <em>will</em> be in touch, pinky promise. Later. You can also try to reapply after six months".</p>
+<p>Having known such rejection emails, and the following perpetual silences as well as black holes of re-application, I read those types of rejection emails as garden-variety weasel-wordy ass-coverage. Benign self-deceptions, at best. Be real… <em>nobody</em> from your org is <em>ever</em> going to follow up on that. And if I have no signal about <em>why</em> someone would listen to me again after a mere six months, I, the hopeful candidate, will not waste time re-applying. So don't set up those expectations.</p>
+<h1 id="immediate-and-five-year-outcomes">Immediate and five-year outcomes</h1>
+<h2 id="direct-outcomes">Direct outcomes</h2>
+<p>Over the year or so that we ran our interview loop;</p>
+<ul>
+<li>We landed five hires out of about 300 inbound.</li>
+<li>Each person became productive quickly (about a month) in our corner of the little open plan office. Three lapped up Clojure, two moved to mobile SDKs (installed base of 2 Billion devices as of 2017).</li>
+<li>Each of them further grew way beyond our expectations and moved to other roles like back-end development and product management, when a company-wide re-org did away with a discrete QA function.</li>
+<li>A pretty good retention rate, for VC-funded high-growth startups… All of our people became tenured staff (four to ten years each).</li>
+</ul>
+<h2 id="indirect-outcomes">Indirect outcomes</h2>
+<p>Every single such hire further converted their input into fast-growth startup careers in-house, and elsewhere, as well as startups of their own.</p>
+<p><em><strong>Most of the credit for career growth and retention goes to the engineering culture built and nurtured by all of m'colleagues.</strong></em></p>
+<p>Hiring people with potential is critical, but it's only the beginning. All the work they did, actively helped these early hires acquire professional skills that helped them step out and do what they are doing.</p>
+<p>We also <em>indirectly</em> hired at least one kickass engineer (who also became tenured), because of the good word-of-mouth our approach earned (which we did not anticipate, but it happened). He was blown away by the learning support we offered his wife, whom we had screened, who opted into our office hours, and whom we didn't end up hiring.</p>
+<h1 id="the-one-actually-several-weird-tricks">The One, actually Several, Weird Tricks</h1>
+<h2 id="getting-lucky">Getting Lucky</h2>
+<p>With 20/20 hindsight, I wonder if our approach would run into some HR or legal quagmire (Like, would it creat an implied commitment to hire if &lt;criteria&gt; are met, and if we don't then would we run afoul of some arcane labour law?). Anyway, we just did it because we could, and I'm glad we took our chance. I wish this was the default way to hire.</p>
+<h2 id="refusing-to-copy-the-zero-sum-faang-hiring-loop-playbook">Refusing to copy the Zero-sum FAANG Hiring Loop Playbook</h2>
+<p>Common experience is that typical recruiting funnels yield one final offer/acceptance for every 10 applicants (in that ballpark). This suggests that in a global market, if everyone uses typical recruiting methods—"We have 5 rounds because &lt;insert FAANG&gt; has 5 rounds; which is proof that it is best practice."—the small fry will always lose to the big fish because you simply cannot allocate enough resources to absorb the damage of such an abysmally noisy pipeline.</p>
+<p>Said another way, the main problem of normal hiring practice seems to be that, we play it like a zero sum game <em>even though it is an adverserial game</em>.</p>
+<ul>
+<li>We have no objective standard to determine observed quality.</li>
+<li>We don't usually know the <code>n</code> a-prioiri… how many applicants should we assume constitute our applicant pool for a given role?</li>
+<li>The applicants do not reach us with uniform probability, and we cannot interview them with the.</li>
+</ul>
+<h2 id="running-a-tight-humane-hiring-loop-max-24-hour-sla.-always-be-kind.">Running a tight, <em>humane</em> hiring loop: Max 24 hour SLA. Always Be Kind.</h2>
+<p>This one choice, I will take credit for being firm about at the outset, having hired people before, and having been fully convinced of <em>speed</em> as a core value of hiring, by Kayak's erstwhile CEO, Paul English. His "SLA" is seven calendar days (not seven business days) from <em>getting to know about the existence of a candidate, to making a firm offer.</em></p>
+<p><em><strong>We got accustomed to receiving "Thank You" emails in response to</strong></em> <em><strong>"Regret" emails we sent out after people had passed through three of our four to five step filter pipeline.</strong></em> I attribute this mainly to our turn-around times, and clear communication. Any recruiter reading this, <em>please</em> meditate on this fact of life.</p>
+<p>Here is an assorted recollection of the collection of rules we cooked up and/or evolved over the year we ran our loop:</p>
+<ul>
+<li><strong>Set clear communication expectations with candidate:</strong> We promised a max 24 hours turn-around time to candidates. We explicitly asked them to ping us if they did not hear within 24 hours. (This never happened; we were both diligent about upholding our SLA—at every step of our pipeline for every single candidate.)</li>
+<li><strong>Never ghost anybody.</strong> We both <em>hate</em> being ghosted in any sort of communication, not just hiring. Hearing a quick "no" is much, much better than hearing a "yes, but" after three months of being strung along multiple interview stages.</li>
+<li><strong>Ruthlessly protect our own brain-cycles:</strong>
+<ul>
+<li>Context is King. Route <em>all</em> communication through the ATS. <em>Immediately</em> create a note of the "why" of our vote/decision at each stage for each candidate. Just like good commit message hygiene. If by-chance either one of us spoke with some candidate out-of-band, we would immediately drop a note in the ATS. A dedicated browser tab was always open on both our laptops.</li>
+<li>Synchronous calls and/or on-site interviews cost us heavily, by interrupting our own ongoing QA work. Ensure we always do these last, and always individually. This forced us to figure out early on <em>precisely</em> what to communicate, what our stage-by-stage checklist should be, what signals to look for, how to set up our templates and stages in the ATS, how to register votes etc.</li>
+<li>Run all individual phone calls by a playbook for that call. Terminate the call early if it is going badly. Have a practiced, clear, and kind way to end it. Having the "open door" policy helps. So does having a structured Q&amp;A + decision-rubric for each question.</li>
+<li>Keep tuning our workflow for maximally async communication and decision-making criteria. Our mutual, <em>written-down</em>, check-listed clarity helped us independently decide and act within seconds and minutes–vote / reject / move forward—of noticing some change in the ATS.</li>
+<li>Be diligent about our 24 hour communication SLA. Slow turn around times create piles of "candidate inventory" that force us to stop what we are doing and attend to the queue. In a fast-paced startup this never happens because everything is always on fire, and so candidates languish in ghosting-hell.</li>
+</ul></li>
+<li><strong>Protect <em>their</em> time:</strong>
+<ul>
+<li>Much of this candidate benefit falls out of protecting one's own brain cycles.</li>
+<li>Additionally, waiting for replies <em>sucks</em> for candidates. Therefore, <em>never</em> give out coding assignments that take candidates hours to do, because it is a burden on their time, and it also means <em>we</em> need hours of careful reading to review the code. Large coding assignments are horrible signal-to-noise ratio tools. Any coding assignment should be a fifteen-ish minute job <em>for the career level of the candidate</em>. Because as soon as they send it in, a reviewer will know in one look whether to issue a reject, or what to ask them next. By default, our immediate request would be to <em>refactor</em> the solution using a totally different design.</li>
+<li>Some copying was assumed. Being transparent and up-front about said copying was <em>demanded</em>. A clearly-stated deal-breaker and <em>firing</em> criterion, to the candidate—if we <em>ever</em> learned at any point that they copied stuff and didn't disclose it (yes, even after they were hired and working full-time).</li>
+<li>In practice, code review turn around time of <em>minutes</em> often let us make go/no-go decisions fully async <em>within the same day</em>. This is just concurrent programming 101.</li>
+<li>As you will see this also feeds back into "ruthlessly protecting our brain cycles". It's great when these two mechanisms feed-back positively into each other.</li>
+</ul></li>
+<li><strong>Prize written communication and reading comprehension:</strong>
+<ul>
+<li>All primary screening over email, including the coding assignment, Q&amp;A about the coding assignment, and refactoring of the solution.</li>
+<li>All emails would <em>require the person to think about something</em> relevant to that stage and provide us a short written answer.</li>
+<li>Our very first email would enumerate potential deal-breakers the candidate should consider for themselves. Such as, mandatory requirement to learn Clojure programming, potentially arriving a rung or two lower in a reporting hierarchy ("programmer" instead of "manager"), ballpark compensation budget, growth and promotion prospects, on-call expectations, strictness of per-commit code review culture etc… Little aspects of live culture that add up and have people say "no". (nb. We were not allowed to disclose salary band and compensation up-front, but I firmly believe disclosing this would be best practice. Promising candidates drop out at salary negotiation, which is an <em>incredibly</em> expensive place to lose them.)</li>
+</ul></li>
+<li><strong>Filter for initiative and curiosity:</strong>
+<ul>
+<li>Dig for legitimate self-driven study and project work, of any shape or form. Github portfolios and personal websites are <em>not</em> automatically-good signals. They are entry points to the digging.</li>
+<li>Try to understand the <em>"why"</em> of the candidate. What animates them? Craft interview questions appropriately.</li>
+<li>Offer "office hours" support to <em>all</em> maybe-yes candidates that we said "no" to.</li>
+</ul></li>
+<li><strong>Async decision-making protocol</strong>:
+<ul>
+<li>Only two "Yes" votes progresses to the next stage.</li>
+<li>One Yes, one No = Reject (Two nos = Obviously Reject).</li>
+<li>Both votes <em>must</em> be registered in the ATS within 24 hours.</li>
+<li>Immediately send +2's to the next stage. Whichever of us registered a <em>second</em> +1 immediately chose an email template we had crafted for the purpose, in the ATS. We also fixed templates on the fly and/or created alternate versions for subtly different responses needed at the given stage. No mutual permission necessary.</li>
+</ul></li>
+<li><strong>Err on the side of false negatives</strong>:
+<ul>
+<li>After our rounds, we would chat for a few minutes and pass on only those we felt "hell-yes" about, to the "CXO interview and offer stage".</li>
+<li>Our open-door policy let us say no safely, and quickly, to <em>"oooh, almost… aaalmost there"</em> candidates, because our approach respectfully held the door open to them to surprise us (and themselves) at any time thence.</li>
+<li>We would often use the first-contact phone call to <em>coach away</em> people. Make them really <em>think</em> about why they are changing roles. Not infrequently it is because they <em>had not even considered</em> trying to change their situation at the current job. Prompting people to exercise initiative is a good thing. We wanted people who would not be the silent suffering type, because that way lies stagnation and decay. We wanted to have a professionally satisfying workplace. That means deliberately overcoming friction, and discomfort. If they really tried, and it didn't work out, then they knew our door was always open to talk again. (This feeds back into protecting their time + brain cycles <em>and</em> ours.)</li>
+</ul></li>
+</ul>
+<p>This is all for now. I hope it helps someone out there. I'd love to discuss this, <a href="#site-header" target="_self">over email</a>.</p>
+<p><code>_\\// Live Long, and Prosper.</code></p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>To quote the <a href="https://en.wikipedia.org/wiki/Secretary_problem">wiki page for the Secretary Problem</a>:</p>
+<blockquote>
+<p>The secretary problem demonstrates a scenario involving optimal stopping theory that is studied extensively in the fields of applied probability, statistics, and decision theory. It is also known as the marriage problem, the sultan's dowry problem, the fussy suitor problem, the googol game, and the best choice problem. Its solution is also known as the 37% rule. … The question is about the optimal strategy (stopping rule) to maximize the probability of selecting the best applicant.</p>
+</blockquote>
+<a href="#fnref1" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn2"><p>As far as I can tell, most of the talent pool works at IT services companies, where they tend to gravitate toward managerial roles because that is the main way to succeed in IT services. This trend spills over into product-based companies too, because that is the de-facto industry norm. Sadly, testing jobs are low status here (which blows my mind; rant for later). "Technical" people run away from the "QA" or "Tester" label, and testers tend to actively avoid "technical" roles—it is legitimately too much work for too little payoff. Consequently, entry-level testers don't have career incentive to master programming, and experienced ones would rather be managers than hands on practitioners. This is not to ding anyone—one has to put food on the table, and a job is a job—it's just how things were, and probably still are.<a href="#fnref2" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>We had no choice, really. Pune city is full of IT service companies, but almost no software product culture. So, its hard to find people crazy enough to take large pay cuts, eighty hour weeks, and no prospects of managerial growth, in exchange for borderline-vapourware stock options. No, this is not a city of such <em>believers</em>.</p>
+<p>It was not in the 2010s, and not today. Bangalore (now, <em>Bengaluru</em>) was <em>the</em> place even back then. Now, more so; the kind of atmosphere that sustains regular monthly Rust meetups, despite the ongoing peak AI meetup frenzy. IYKYK.</p>
+<p><em>'ooru</em>, the kind of coffee culture where not a few months ago, in 2025, a junior barista at a pretty normal Starbucks breezed past my bar-stool perch, did a double-take and asked me if I was a DevOps person. My terminal screen was open, with some stacktrace. Under-caffeinated, I fumbled my answer and asked "Oh, are you a DevOps person too?". Too quickly, and with a bright smile, he answered "Oh no Sir, Data Science." The raw speed of his reply awoke me to my place in the pecking order.</p>
+<p><em>BLR</em>, the playground of SaaS (now AI) dreamers, where eavesdropping in popular coffee shop chains, surfaces hiring pitches, VC pitches, LP pitches, stand-ups, retrospectives, product sales pitches; doing so in the selfsame brand-name coffee shop chains in Pune routinely yields college homework discussions (it's a student town), middle-aged friends and family gossip, snoozefest dates, the occasional arranged marriage family meet and greet, and plenty of Multi-level Marketing pitches. Three-people-to-a-little-round-table configurations. Hapless victim being "Introduced" to an "entrepreneurship opportunity" that will save them from their dead-end service jobber life (yes, this sort of thing is actually the opening pitch). The Introducer a.k.a. leech-in-progress. Introducer's "boss" / uber-leech / authority figure.</p>
+<p>Although, not to dunk on my otherwise-cromulent home city too much… Since the ZIRP era came into its own, it has been really hard to tell the two species of snake-oil sales people apart. Almost everyone in both groups seems to be playing the rug-pull game… Who will be the poor sod left holding the bag at the end of the game? And, on more than one occasion the Pune-local eavesdropping paid off somewhat. I did end up referring a few smart, self-driven, ambitious undergrad programmers to m'colleagues at Pune-local startups, for internships. Of course, being smart, self-driven, and ambitious, they self-moved to Bangalore for full-time jobs afterwards. GenZ knows where the money at.<a href="#fnref3" target="_self" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
+  </section>
+  <footer id="blog-post-footer" class="footer stack">
+    <hr>
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post-toc" rel="bookmark" target="_self">toc</a></span>
+      <span>&uarr; <a href="#blog-post" rel="bookmark" target="_self">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark" target="_self">menu</a></span>
+    </nav>
+    <hr>
+          <nav class="cluster">
+        <a href="mailto:blog.comments@evalapply.org?subject=DELETE_ME_HUMAN Side-stepping the Secretary Problem, unwittingly." rel="bookmark">&#x2709; email me comments</a>
+        <span>&raquo; share &rarr;</span>
+        <a href="https://bsky.app/intent/compose?text=Side-stepping%20the%20Secretary%20Problem%2C%20unwittingly.%20https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html" target="_blank">[bsky]</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html" target="_blank">[in]</a>
+        <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html&t=Side-stepping%20the%20Secretary%20Problem%2C%20unwittingly." target="_blank"> [HN]</a>
+        <a href="https://lobste.rs/stories/new" target="_blank">[lobste.rs]</a>
+        <a href="http://www.reddit.com/submit?url=https%3A%2F%2Fwww.evalapply.org%2Fposts%2Fside-step-secretary-problem-hiring%2Findex.html&title=Side-stepping%20the%20Secretary%20Problem%2C%20unwittingly." target="_blank">[reddit]</a>
+      </nav>
+    <form class="footer cluster"
+      action="https://buttondown.com/api/emails/embed-subscribe/evalapply"
+      method="post"
+      target="popupwindow"
+      autocomplete="on"
+      onsubmit="window.open('https://buttondown.com/evalapply', 'popupwindow')">
+  <label>Email:
+    <input type="email" name="email" autocomplete="on" />
+  </label>
+  <span>
+    <input type="submit" value="Get posts by email" />
+    <input type="hidden" name="tag" value="everyone" />
+<input type="hidden" name="tag" value="via-blog-post" />
+  </span>
+  || <a class="site-feed" href=https://www.evalapply.org/index.xml target="_blank">Get RSS feed.</a>
+</form>
+  </footer>
+</article>
+</main>
+      <footer id="site-footer">
+  <hr>
+  <div class="box invert footer stack">
+    <p class="center">&copy; 2026,
+      <a href="https://www.linkedin.com/in/adityaathalye/" target="_blank">Aditya Athalye</a>.
+      <span>All content licensed
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+          CC BY-SA 4.0
+        </a>, except where noted otherwise.
+      </span>
+    </p>
+    <p class="center">
+      Built with
+      <a href="https://github.com/adityaathalye/shite" target="_blank">shite</a>,
+      GNU <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>,
+      <a href="https://orgmode.org" target="_blank">org-mode</a>, and &#x1F5A4;.
+    </p>
+    <p class="center">
+      My
+      <a href="https://buttondown.com/evalapply" target="_blank">newsletter</a>
+      is powered by
+      <a href="https://buttondown.com/refer/evalapply" target="_blank">Buttondown</a>.
+    </p>
+    <div class="rc-scout-wrapper center">
+      <div class="rc-scout" data-scout-rendered="true">
+        <p class="rc-scout__text">
+          <i class="rc-scout__logo"></i>
+          Want to become a better programmer?
+          <a class="rc-scout__link" href="https://www.recurse.com/scout/click?t=40533398b8c93bb4f3323a170e032e91" target="_blank">Join the Recurse Center!</a>
+        </p>
+      </div>
+      <style class="rc-scout__style" type="text/css">.rc-scout { display: block; padding: 0; border: 0; margin: 0; } .rc-scout__text { display: block; padding: 0; border: 0; margin: 0; height: 100%; font-size: 100%; } .rc-scout__logo { display: inline-block; padding: 0; border: 0; margin: 0; width: 0.85em; height: 0.85em; background: no-repeat center url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2012%2015%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2210%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%223%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%222%22%20height%3D%221%22%20fill%3D%22%233dc06c%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%229%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%221%22%20y%3D%2211%22%20width%3D%2210%22%20height%3D%224%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%220%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%223%22%20fill%3D%22%23000%22%3E%3C%2Frect%3E%3Crect%20x%3D%222%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%223%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%224%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%225%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%226%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%227%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%228%22%20y%3D%2213%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3Crect%20x%3D%229%22%20y%3D%2212%22%20width%3D%221%22%20height%3D%221%22%20fill%3D%22%23fff%22%3E%3C%2Frect%3E%3C%2Fsvg%3E'); } .rc-scout__link:link, .rc-scout__link:visited { color: var(--color-dark); text-decoration: underline; text-underline-offset: var(--scale-xxxs); } .rc-scout__link:hover, .rc-scout__link:active { color: #4e8b1d; }
+      </style>
+    </div>
+  </div>
+</footer>
+    </div>
+  </body>
+</html>
